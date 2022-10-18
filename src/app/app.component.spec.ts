@@ -1,11 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { SelectorComponent } from './selector/selector.component';
+import { MaterialModule } from './lib/material.module';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+      ],
       declarations: [
-        AppComponent
+        AppComponent,
+        SelectorComponent,
       ],
     }).compileComponents();
   });
@@ -22,10 +28,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('Laiks');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('Laiks app is running!');
-  });
+  /*   it('should render title', () => {
+      const fixture = TestBed.createComponent(AppComponent);
+      fixture.detectChanges();
+      const compiled = fixture.nativeElement as HTMLElement;
+      expect(compiled.querySelector('.content span')?.textContent).toContain('Laiks app is running!');
+    }); */
 });

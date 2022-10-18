@@ -1,0 +1,19 @@
+<div>
+    <button mat-fab color="primary" (click)="onButtonPress(1)" id="add" aria-label="Plus button">
+        <mat-icon>
+            add
+        </mat-icon>
+    </button>
+</div>
+
+<div class="number" aria-label="Selected value">
+    {{ value }}
+</div>
+
+<div>
+    <button mat-fab color="primary" (click)="onButtonPress(-1)" id="remove" aria-label="Minus button">
+        <mat-icon>
+            remove
+        </mat-icon>
+    </button>
+</div>

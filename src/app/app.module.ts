@@ -5,11 +5,13 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './lib/material.module';
+import { SelectorComponent } from './selector/selector.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SelectorComponent
   ],
   imports: [
     BrowserModule,
