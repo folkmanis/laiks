@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { SelectorComponent } from './selector/selector.component';
-import { MaterialModule } from './lib/material.module';
+import { SharedModule } from './lib/shared.module';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
+        SharedModule,
       ],
       declarations: [
         AppComponent,

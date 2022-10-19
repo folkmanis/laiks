@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/
 
 import { SelectorComponent } from './selector.component';
 
-import { MaterialModule } from '../lib/material.module';
+import { SharedModule } from '../lib/shared.module';
 
 describe('SelectorComponent', () => {
   let component: SelectorComponent;
@@ -11,7 +11,7 @@ describe('SelectorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SelectorComponent],
-      imports: [MaterialModule],
+      imports: [SharedModule],
       providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true },
       ]
