@@ -1,5 +1,5 @@
 <div class="container">
-  <laiks-selector></laiks-selector>
+  <laiks-selector [(value)]="timeOffset"></laiks-selector>
 
-  <laiks-clock-display></laiks-clock-display>
+  <laiks-clock-display [time]="timeWithOffset"></laiks-clock-display>
 </div>
