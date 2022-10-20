@@ -1,0 +1,18 @@
+.container {
+    text-align: center;
+    font-size: 300%;
+    line-height: normal;
+    margin: 24px 0;
+    letter-spacing: 0.1em;
+    font-weight: 800;
+}
+
+#separator {
+    animation: blinker 1s step-start infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}

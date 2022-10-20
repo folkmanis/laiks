@@ -3,6 +3,7 @@ import { AppComponent } from './app.component';
 import { SelectorComponent } from './selector/selector.component';
 import { SharedModule } from './lib/shared.module';
 import { NumberSignPipe } from './selector/number-sign.pipe';
+import { ClockDisplayComponent } from './clock-display/clock-display.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -14,6 +15,7 @@ describe('AppComponent', () => {
         AppComponent,
         SelectorComponent,
         NumberSignPipe,
+        ClockDisplayComponent,
       ],
     }).compileComponents();
   });

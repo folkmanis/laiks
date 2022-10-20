@@ -7,13 +7,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './lib/shared.module';
 import { SelectorComponent } from './selector/selector.component';
 import { NumberSignPipe } from './selector/number-sign.pipe';
+import { ClockDisplayComponent } from './clock-display/clock-display.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SelectorComponent,
-    NumberSignPipe
+    NumberSignPipe,
+    ClockDisplayComponent
   ],
   imports: [
     BrowserModule,
