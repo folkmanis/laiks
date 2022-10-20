@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { SelectorComponent } from './selector/selector.component';
 import { SharedModule } from './lib/shared.module';
+import { NumberSignPipe } from './selector/number-sign.pipe';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -12,6 +13,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         SelectorComponent,
+        NumberSignPipe,
       ],
     }).compileComponents();
   });
