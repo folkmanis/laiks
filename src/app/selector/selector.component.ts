@@ -19,17 +19,17 @@ export class SelectorComponent implements OnDestroy {
   }
 
   @Output()
-  valueChanges = new EventEmitter<number>();
+  valueChange = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnDestroy(): void {
-    this.valueChanges.complete();
+    this.valueChange.complete();
   }
 
   onButtonPress(val: number): void {
     this.value = this.value + val;
-    this.valueChanges.next(this.value);
+    this.valueChange.next(this.value);
   }
 
 }

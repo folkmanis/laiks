@@ -9,7 +9,7 @@ import { NumberSignPipe } from './number-sign.pipe';
 
 @Component({
   template: `
-    <laiks-selector [value]="initialValue" (valueChanges)="onValueChanges($event)">
+    <laiks-selector [value]="initialValue" (valueChange)="onValueChanges($event)">
     </laiks-selector>
   `
 })
