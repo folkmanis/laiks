@@ -13,11 +13,18 @@ export class AppComponent implements OnInit {
 
   currentTime$ = this.laiksService.minuteObserver();
 
+  initialOffset: number = 1;
+
   constructor(
     private laiksService: LaiksService,
   ) { }
 
   ngOnInit(): void {
+    this.initialOffset = this.laiksService.getSettings().offset;
+  }
+
+  onOffsetChange(offset: number) {
+    this.laiksService.setSettings({ offset });
   }
 
 }

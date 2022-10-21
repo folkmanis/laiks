@@ -61,4 +61,11 @@ describe('ClockOffsetComponent', () => {
     expect(component.currentTime).toBe(time);
   });
 
+  it('should emit offset changes', () => {
+    component.offsetChange.subscribe(offset => {
+      expect(offset).toBe(TEST_OFFSET);
+    });
+    component.offset = TEST_OFFSET;
+  });
+
 });
