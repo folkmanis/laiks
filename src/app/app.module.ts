@@ -8,6 +8,7 @@ import { SharedModule } from './lib/shared.module';
 import { SelectorComponent } from './selector/selector.component';
 import { NumberSignPipe } from './selector/number-sign.pipe';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
+import { ClockOffsetComponent } from './clock-offset/clock-offset.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ClockDisplayComponent } from './clock-display/clock-display.component';
     AppComponent,
     SelectorComponent,
     NumberSignPipe,
-    ClockDisplayComponent
+    ClockDisplayComponent,
+    ClockOffsetComponent
   ],
   imports: [
     BrowserModule,

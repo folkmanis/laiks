@@ -4,10 +4,7 @@ import { SelectorComponent } from './selector/selector.component';
 import { SharedModule } from './lib/shared.module';
 import { NumberSignPipe } from './selector/number-sign.pipe';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
-
-const TEST_TIME = new Date(2022, 10, 23, 21, 15, 0);
-const TEST_OFFSET = 3;
-const TEST_TIME_OFFSET = new Date(2022, 10, 24, 0, 15, 0);
+import { ClockOffsetComponent } from './clock-offset/clock-offset.component';
 
 describe('AppComponent', () => {
 
@@ -25,13 +22,13 @@ describe('AppComponent', () => {
         SelectorComponent,
         NumberSignPipe,
         ClockDisplayComponent,
+        ClockOffsetComponent,
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
 
-    component.currentTime = TEST_TIME;
 
     fixture.detectChanges();
   });
@@ -40,10 +37,5 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set time with offset', () => {
-    component.timeOffset = TEST_OFFSET;
-    fixture.detectChanges();
-    expect(component.timeWithOffset).toEqual(TEST_TIME_OFFSET);
-  });
 
 });

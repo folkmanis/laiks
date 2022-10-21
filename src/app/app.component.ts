@@ -9,25 +9,10 @@ import { addHours } from 'date-fns';
 })
 export class AppComponent implements OnInit {
 
-  timeWithOffset!: Date;
-
-  currentTime: Date = new Date();
-
-  private _timeOffset = 0;
-  get timeOffset() {
-    return this._timeOffset;
-  }
-  set timeOffset(value: number) {
-    this._timeOffset = value;
-    this.updateTime();
-  }
+  currentTime = new Date();
 
   ngOnInit(): void {
-    this.updateTime();
-  }
 
-  private updateTime() {
-    this.timeWithOffset = addHours(this.currentTime, this.timeOffset);
   }
 
 }
