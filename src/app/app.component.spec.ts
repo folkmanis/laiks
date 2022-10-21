@@ -5,6 +5,7 @@ import { SharedModule } from './lib/shared.module';
 import { NumberSignPipe } from './selector/number-sign.pipe';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { ClockOffsetComponent } from './clock-offset/clock-offset.component';
+import { LaiksService } from './lib/laiks.service';
 
 describe('AppComponent', () => {
 
@@ -24,6 +25,9 @@ describe('AppComponent', () => {
         ClockDisplayComponent,
         ClockOffsetComponent,
       ],
+      providers: [
+        LaiksService,
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);

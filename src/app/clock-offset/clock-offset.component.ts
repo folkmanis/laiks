@@ -10,19 +10,28 @@ import { addHours } from 'date-fns';
 export class ClockOffsetComponent implements OnInit {
 
 
+  private _currentTime = new Date();
   @Input()
-  currentTime: Date = new Date();
+  set currentTime(value: Date | null) {
+    if (value instanceof Date) {
+      this._currentTime = value;
+      this.updateTime();
+    }
+  }
+  get currentTime(): Date {
+    return this._currentTime;
+  }
 
   timeWithOffset!: Date;
 
   private _offset = 0;
   @Input()
-  set offset(value: number) {
-    this._offset = value;
+  set offset(value: number | null) {
+    this._offset = value || 0;
     this.updateTime();
     this.offsetChange.next(this.offset);
   }
-  get offset() {
+  get offset(): number {
     return this._offset;
   }
 
