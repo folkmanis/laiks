@@ -25,9 +25,6 @@ describe('AppComponent', () => {
         ClockDisplayComponent,
         ClockOffsetComponent,
       ],
-      providers: [
-        LaiksService,
-      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
