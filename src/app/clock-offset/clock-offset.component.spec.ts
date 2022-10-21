@@ -43,13 +43,13 @@ describe('ClockOffsetComponent', () => {
   });
 
   it('should set time with offset', () => {
-    component.offset = TEST_OFFSET;
+    component.onOffsetChange(TEST_OFFSET);
     fixture.detectChanges();
     expect(+component.timeWithOffset).toBe(+TEST_TIME_OFFSET);
   });
 
   it('should update time with current time updates', () => {
-    component.offset = TEST_OFFSET;
+    component.onOffsetChange(TEST_OFFSET);
     component.currentTime = addMinutes(TEST_TIME, 1);
     fixture.detectChanges();
     expect(+component.timeWithOffset).toBe(+addMinutes(TEST_TIME_OFFSET, 1));
@@ -65,7 +65,7 @@ describe('ClockOffsetComponent', () => {
     component.offsetChange.subscribe(offset => {
       expect(offset).toBe(TEST_OFFSET);
     });
-    component.offset = TEST_OFFSET;
+    component.onOffsetChange(TEST_OFFSET);
   });
 
 });

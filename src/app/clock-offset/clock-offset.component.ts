@@ -24,22 +24,18 @@ export class ClockOffsetComponent implements OnInit {
 
   timeWithOffset!: Date;
 
-  private _offset = 0;
-  @Input()
-  set offset(value: number | null) {
-    this._offset = value || 0;
-    this.updateTime();
-    this.offsetChange.next(this.offset);
-  }
-  get offset(): number {
-    return this._offset;
-  }
+  @Input() offset = 0;
 
-  @Output()
-  offsetChange = new EventEmitter<number>();
+  @Output() offsetChange = new EventEmitter<number>();
 
   ngOnInit(): void {
     this.updateTime();
+  }
+
+  onOffsetChange(value: number) {
+    this.offset = value;
+    this.updateTime();
+    this.offsetChange.next(this.offset);
   }
 
   private updateTime() {
