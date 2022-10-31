@@ -103,6 +103,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "laiks:build:production",
+            "firebaseProject": "laiks-e2d86",
+            "firebaseHostingSite": "laiks-e2d86"
+          }
         }
       }
     }
