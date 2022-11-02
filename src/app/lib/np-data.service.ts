@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, query, collectionGroup, where, getDocs, getDocsFromCache, getDocFromCache, getDoc, Timestamp, onSnapshot, DocumentData, Unsubscribe, docData, DocumentReference, DocumentSnapshot } from '@angular/fire/firestore';
+import { collection, collectionData, doc, DocumentData, DocumentSnapshot, Firestore, onSnapshot, Timestamp } from '@angular/fire/firestore';
+import { map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { from, Observable, map, tap, Subject, switchMap, of, shareReplay, share, asyncScheduler } from 'rxjs';
-import { startOfDay, subDays } from 'date-fns';
 
 const DB_NAME = environment.dbName;
 
@@ -46,10 +45,8 @@ export class NpDataService {
 
   npData$: Observable<NpData> = this.lastUpdateTime$.pipe(
     map(t => t.data()),
-    tap(t => console.log('lastUpdateTime', t)),
     map(ts => ts?.['lastUpdate'] instanceof Timestamp ? ts['lastUpdate'].toDate() : new Date(0)),
     switchMap(t => t > this.getStoredPrices().lastUpdate ? this.getNpData(t) : of(this.getStoredPrices())),
-    // map(d => d.prices),
   );
 
 

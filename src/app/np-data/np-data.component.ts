@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, Input, AfterViewInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
-import { Firestore, collection, collectionData, doc, query, collectionGroup, where, getDocs, getDocsFromCache, getDocFromCache, getDoc, Timestamp } from '@angular/fire/firestore';
-import { BehaviorSubject, switchMap, tap, map, combineLatest, Observable } from 'rxjs';
-import { startOfHour, isEqual, isWithinInterval, subHours, addHours } from 'date-fns';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { addHours, isWithinInterval, subHours } from 'date-fns';
 import { NpDataService, NpPrice } from '../lib/np-data.service';
 
 function inInterval(time: Date): (price: NpPrice) => boolean {
