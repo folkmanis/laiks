@@ -13,6 +13,7 @@ export const environment = {
     messagingSenderId: '548695761681',
     measurementId: 'G-JKQS2F6Y1T',
   },
+  dbName: 'laiks-test',
   production: false
 };
 
