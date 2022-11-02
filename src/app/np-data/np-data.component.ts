@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit, Input, AfterViewInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Firestore, collection, collectionData, doc, query, collectionGroup, where, getDocs, getDocsFromCache, getDocFromCache, getDoc, Timestamp } from '@angular/fire/firestore';
-import { BehaviorSubject, switchMap, tap, map, combineLatest } from 'rxjs';
+import { BehaviorSubject, switchMap, tap, map, combineLatest, Observable } from 'rxjs';
 import { startOfHour, isEqual, isWithinInterval, subHours, addHours } from 'date-fns';
 import { NpDataService, NpPrice } from '../lib/np-data.service';
 
+function inInterval(time: Date): (price: NpPrice) => boolean {
+  return ({ startTime, endTime }: NpPrice) => isWithinInterval(time, { start: subHours(startTime, 2), end: addHours(endTime, 1) });
+}
 
 @Component({
   selector: 'laiks-np-data',
@@ -11,33 +14,25 @@ import { NpDataService, NpPrice } from '../lib/np-data.service';
   styleUrls: ['./np-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NpDataComponent implements OnInit, OnDestroy, AfterViewInit {
+export class NpDataComponent implements OnInit, OnDestroy {
 
   private observer: (() => void) | null = null;
 
-  hour$ = new BehaviorSubject(new Date());
+  private _time = new Date();
   @Input() set time(value: Date) {
-    if (value instanceof Date && value.getHours() !== this.hour$.value.getHours())
-      this.hour$.next(value);
+    if (value instanceof Date) {
+      this._time = value;
+      this.updatePrices();
+    }
+  }
+  get time() {
+    return this._time;
   }
 
-  prices?: NpPrice[];
+  private npPrices: NpPrice[] = [];
 
+  prices: NpPrice[] = [];
 
-  price$ = combineLatest({
-    time: this.hour$,
-    npData: this.npDataService.npData$,
-  })
-    .pipe(
-      tap(({ time, npData: { prices } }) => console.log('time', time, prices)),
-      map(({ time, npData }) => npData.prices.filter(({ startTime, endTime }) => isWithinInterval(time, { start: subHours(startTime, 2), end: addHours(endTime, 1) }))),
-      map(data => data.map(d => ({
-        value: d.value,
-        startTime: d.startTime,
-        endTime: d.endTime,
-      }))),
-      // tap(() => this.chDetector.markForCheck()),
-    );
 
   constructor(
     private npDataService: NpDataService,
@@ -46,23 +41,26 @@ export class NpDataComponent implements OnInit, OnDestroy, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.price$.subscribe(p => {
-      this.zone.run(() => {
-        this.prices = p;
-        console.log(this.prices);
-        this.chDetector.markForCheck();
+    this.npDataService.npData$
+      .subscribe(data => {
+        this.zone.run(() => {
+          this.npPrices = data.prices;
+          this.updatePrices();
+        });
       });
-    });
+
     setTimeout(() => this.observer = this.npDataService.connectUpdateTime(), 1000);
-    // this.observer = this.npDataService.connectUpdateTime();
-  }
-  ngAfterViewInit(): void {
   }
 
   ngOnDestroy(): void {
     if (this.observer) {
       this.observer();
     }
+  }
+
+  private updatePrices() {
+    this.prices = this.npPrices.filter(inInterval(this.time));
+    this.chDetector.markForCheck();
   }
 
 }

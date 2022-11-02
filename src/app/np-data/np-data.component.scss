@@ -1,13 +1,20 @@
+:host {
+    height: 90px;
+    display: flex;
+}
+
+.container {
+    margin: 0 auto;
+}
+
 .active {
     font-weight: 900;
 }
 
-.active .cena,
-.active .time {
-    font-size: 150%;
+.price:not(.active) {
+    opacity: 50%;
 }
 
-
-.units {
-    opacity: 50%;
+.active .value {
+    font-size: 200%;
 }
