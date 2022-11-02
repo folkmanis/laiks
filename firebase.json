@@ -1,20 +1,6 @@
 {
   "hosting": [
     {
-      "public": "dist/laiks",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
       "target": "laiks",
       "public": "dist/laiks",
       "ignore": [
