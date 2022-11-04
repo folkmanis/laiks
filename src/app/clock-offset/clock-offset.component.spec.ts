@@ -6,10 +6,19 @@ import { ClockDisplayComponent } from '../clock-display/clock-display.component'
 import { SelectorComponent } from '../selector/selector.component';
 import { NumberSignPipe } from '../selector/number-sign.pipe';
 import { addMinutes } from 'date-fns';
+import { BehaviorSubject } from 'rxjs';
+import { NpDataService } from '../lib/np-data.service';
+import { NpDataComponent } from '../np-data/np-data.component';
+
 
 const TEST_TIME = new Date(2022, 10, 23, 21, 15, 0);
 const TEST_OFFSET = 3;
 const TEST_TIME_OFFSET = new Date(2022, 10, 24, 0, 15, 0);
+
+class TestNpService {
+  npData$ = new BehaviorSubject([]);
+}
+
 
 
 describe('ClockOffsetComponent', () => {
@@ -26,6 +35,13 @@ describe('ClockOffsetComponent', () => {
         SelectorComponent,
         NumberSignPipe,
         ClockDisplayComponent,
+        NpDataComponent,
+      ],
+      providers: [
+        {
+          provide: NpDataService,
+          useClass: TestNpService,
+        }
       ]
     })
       .compileComponents();

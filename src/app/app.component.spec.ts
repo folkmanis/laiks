@@ -6,6 +6,15 @@ import { NumberSignPipe } from './selector/number-sign.pipe';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { ClockOffsetComponent } from './clock-offset/clock-offset.component';
 import { LaiksService } from './lib/laiks.service';
+import { NpDataService } from './lib/np-data.service';
+import { BehaviorSubject } from 'rxjs';
+import { NpDataComponent } from './np-data/np-data.component';
+
+class TestNpService {
+  npData$ = new BehaviorSubject([]);
+}
+
+
 
 describe('AppComponent', () => {
 
@@ -24,7 +33,14 @@ describe('AppComponent', () => {
         NumberSignPipe,
         ClockDisplayComponent,
         ClockOffsetComponent,
+        NpDataComponent,
       ],
+      providers: [
+        {
+          provide: NpDataService,
+          useClass: TestNpService,
+        }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);

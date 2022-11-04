@@ -1,6 +1,18 @@
 <div class="container">
+    <div *ngIf="washerConsumption" class="active">
+        <span>
+            Veļasmašīnas patēriņš&nbsp;
+        </span>
+        <span class="value">
+            {{ washerConsumption * 100 | number:'1.2-2' }}
+        </span>
+        <span class="units">
+            centi
+        </span>
+    </div>
 
-    <div *ngFor="let price of prices" class="price" [class.active]="price.startTime.getHours() === time.getHours()">
+    <div *ngFor="let price of pricesFiltered" class="price"
+        [class.active]="price.startTime.getHours() === time.getHours()">
         <span class="date">{{ price.startTime | date:'d. MMM' }}&nbsp;</span>
         <span class="time">{{ price.startTime | date:'HH' }}&nbsp;-&nbsp;{{ price.endTime | date:'HH'
             }}&nbsp;</span>
