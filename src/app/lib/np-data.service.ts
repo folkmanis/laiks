@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, doc, DocumentData, DocumentSnapshot, Firestore, onSnapshot, Timestamp } from '@angular/fire/firestore';
+import { collection, collectionData, doc, DocumentData, DocumentSnapshot, Firestore, onSnapshot, Timestamp, query, where } from '@angular/fire/firestore';
 import { map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { startOfDay, subDays } from 'date-fns';
 
 const DB_NAME = environment.dbName;
 
@@ -60,8 +61,9 @@ export class NpDataService {
 
 
   private getNpData(timestamp: Date): Observable<NpData> {
-    const npDoc = collection(this.firestore, DB_NAME, 'np-data', 'prices');
-    return collectionData(npDoc).pipe(
+    const npColl = collection(this.firestore, DB_NAME, 'np-data', 'prices');
+    const latestPrices = query(npColl, where('startTime', '>=', subDays(startOfDay(new Date), 2)));
+    return collectionData(latestPrices).pipe(
       map((d) => this.docToNpData(d, timestamp)),
       tap(p => this.storePrices(p)),
     );

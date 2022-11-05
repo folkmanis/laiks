@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { addHours, isWithinInterval, subHours } from 'date-fns';
-import { NpDataService, NpPrice } from '../lib/np-data.service';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { addHours, isDate, isWithinInterval, subHours } from 'date-fns';
+import { NpPrice } from '../lib/np-data.service';
+import { washer } from '../lib/power-appliances';
+import { PriceCalculatorService } from '../lib/price-calculator.service';
+
 
 function inInterval(time: Date): (price: NpPrice) => boolean {
   return ({ startTime, endTime }: NpPrice) => isWithinInterval(time, { start: subHours(startTime, 2), end: addHours(endTime, 1) });
@@ -12,53 +15,52 @@ function inInterval(time: Date): (price: NpPrice) => boolean {
   styleUrls: ['./np-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NpDataComponent implements OnInit, OnDestroy {
+export class NpDataComponent implements OnInit {
 
-  private observer: (() => void) | null = null;
 
-  private _time = new Date();
+  private _time = new Date(0);
   @Input() set time(value: Date) {
-    if (value instanceof Date) {
+    if (isDate(value)) {
       this._time = value;
-      this.updatePrices();
+      this.filterPrices();
     }
-  }
+  };
   get time() {
     return this._time;
   }
 
-  private npPrices: NpPrice[] = [];
+  private _npPrices: NpPrice[] = [];
+  @Input() set npPrices(value: NpPrice[]) {
+    if (Array.isArray(value)) {
+      this._npPrices = value;
+      this.filterPrices();
+    }
+  }
+  get npPrices() {
+    return this._npPrices;
+  }
 
-  prices: NpPrice[] = [];
+  washerConsumption: number | null = null;
+  bestWasher: { offset: number, price: number; } | null = null;
+
+  pricesFiltered: NpPrice[] = [];
 
 
   constructor(
-    private npDataService: NpDataService,
-    private zone: NgZone,
-    private chDetector: ChangeDetectorRef,
+    private calculator: PriceCalculatorService,
   ) { }
 
   ngOnInit(): void {
-    this.npDataService.npData$
-      .subscribe(data => {
-        this.zone.run(() => {
-          this.npPrices = data.prices;
-          this.updatePrices();
-        });
-      });
-
-    setTimeout(() => this.observer = this.npDataService.connectUpdateTime(), 1000);
   }
 
-  ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer();
-    }
+  private filterPrices() {
+
+    this.pricesFiltered = this.npPrices.filter(inInterval(this.time));
+    this.washerConsumption = this.calculator.priceTime(this.npPrices, this.time, washer);
+
+    this.bestWasher = this.calculator.bestOffset(this.npPrices, new Date(), washer);
+
   }
 
-  private updatePrices() {
-    this.prices = this.npPrices.filter(inInterval(this.time));
-    this.chDetector.markForCheck();
-  }
 
 }

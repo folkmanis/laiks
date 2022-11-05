@@ -2,15 +2,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NpDataComponent } from './np-data.component';
 
+
 describe('NpDataComponent', () => {
   let component: NpDataComponent;
   let fixture: ComponentFixture<NpDataComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NpDataComponent ]
+      declarations: [NpDataComponent],
+      providers: [
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(NpDataComponent);
     component = fixture.componentInstance;

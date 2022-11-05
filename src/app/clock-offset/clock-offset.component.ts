@@ -1,5 +1,8 @@
-import { Output, ChangeDetectionStrategy, Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 import { addHours } from 'date-fns';
+import { NpDataService, NpPrice } from '../lib/np-data.service';
+
+
 
 @Component({
   selector: 'laiks-clock-offset',
@@ -7,8 +10,11 @@ import { addHours } from 'date-fns';
   styleUrls: ['./clock-offset.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClockOffsetComponent implements OnInit {
+export class ClockOffsetComponent implements OnInit, OnDestroy {
 
+  private observer: (() => void) | null = null;
+
+  @Input() npPrices: NpPrice[] = [];
 
   private _currentTime = new Date();
   @Input()
@@ -28,9 +34,33 @@ export class ClockOffsetComponent implements OnInit {
 
   @Output() offsetChange = new EventEmitter<number>();
 
+  constructor(
+    private npDataService: NpDataService,
+    private zone: NgZone,
+    private chDetector: ChangeDetectorRef,
+  ) { }
+
   ngOnInit(): void {
     this.updateTime();
+
+    this.npDataService.npData$
+      .subscribe(data => {
+        this.zone.run(() => {
+          this.npPrices = data.prices;
+          this.chDetector.markForCheck();
+        });
+      });
+
+    setTimeout(() => this.observer = this.npDataService.connectUpdateTime(), 1000);
+
   }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer();
+    }
+  }
+
 
   onOffsetChange(value: number) {
     this.offset = value;
