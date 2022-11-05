@@ -1,5 +1,5 @@
 :host {
-    height: 90px;
+    height: 160px;
     display: flex;
 }
 
@@ -17,4 +17,5 @@
 
 .active .value {
     font-size: 200%;
+    line-height: 110%;
 }

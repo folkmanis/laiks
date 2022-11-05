@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { addHours, isWithinInterval, subHours, isDate } from 'date-fns';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { addHours, isDate, isWithinInterval, subHours } from 'date-fns';
 import { NpPrice } from '../lib/np-data.service';
+import { washer } from '../lib/power-appliances';
 import { PriceCalculatorService } from '../lib/price-calculator.service';
+
 
 function inInterval(time: Date): (price: NpPrice) => boolean {
   return ({ startTime, endTime }: NpPrice) => isWithinInterval(time, { start: subHours(startTime, 2), end: addHours(endTime, 1) });
 }
-
-
 
 @Component({
   selector: 'laiks-np-data',
@@ -40,7 +40,8 @@ export class NpDataComponent implements OnInit {
     return this._npPrices;
   }
 
-  washerConsumption: number | undefined;
+  washerConsumption: number | null = null;
+  bestWasher: { offset: number, price: number; } | null = null;
 
   pricesFiltered: NpPrice[] = [];
 
@@ -53,9 +54,12 @@ export class NpDataComponent implements OnInit {
   }
 
   private filterPrices() {
+
     this.pricesFiltered = this.npPrices.filter(inInterval(this.time));
-    this.washerConsumption = this.calculator.priceTime(this.pricesFiltered, this.time);
-    console.log(this.washerConsumption);
+    this.washerConsumption = this.calculator.priceTime(this.npPrices, this.time, washer);
+
+    this.bestWasher = this.calculator.bestOffset(this.npPrices, new Date(), washer);
+
   }
 
 
