@@ -1,2 +1,11 @@
-<laiks-clock-offset [currentTime]="currentTime$ | async" [offset]="initialOffset"
-  (offsetChange)="onOffsetChange($event)"></laiks-clock-offset>
+<mat-toolbar color="primary">
+
+    <span class="spacer"></span>
+
+    <laiks-user [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()"></laiks-user>
+
+</mat-toolbar>
+
+<laiks-main [currentTime]="currentTime$ | async" [offset]="initialOffset" (offsetChange)="onOffsetChange($event)"
+    [npAllowed]="npAllowed$ | async">
+</laiks-main>

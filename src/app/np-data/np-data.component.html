@@ -1,32 +1,8 @@
-<div class="container">
-    <div *ngIf="washerConsumption !== null" class="active">
-        <span>
-            Veļasmašīnas patēriņš&nbsp;
-        </span>
-        <span class="value">
-            {{ washerConsumption * 100 * 1.21 | number:'1.2-2' }}
-        </span>
-        <span class="units">
-            centi
-        </span>
-    </div>
-    <div *ngIf="bestWasher" class="active">
-        <span>
-            Labākais veļasmašīnai
-        </span>
-        <span class="value">
-            {{ bestWasher.offset | numberSign }}
-        </span>
-        <span class="units"> ({{ bestWasher.price * 100 * 1.21 | number:'1.2-2' }} centi)</span>
-    </div>
+<laiks-appliance-consumption *ngIf="npPrices?.length" [time]="time" [npPrices]="npPrices" [appliance]="washer">
+    Veļasmašīna
+</laiks-appliance-consumption>
+<laiks-appliance-consumption *ngIf="npPrices?.length" [time]="time" [npPrices]="npPrices" [appliance]="dishwasher">
+    Trauku mašīna
+</laiks-appliance-consumption>
 
-    <div *ngFor="let price of pricesFiltered" class="price"
-        [class.active]="price.startTime.getHours() === time.getHours()">
-        <span class="date">{{ price.startTime | date:'d. MMM' }}&nbsp;</span>
-        <span class="time">{{ price.startTime | date:'HH' }}&nbsp;-&nbsp;{{ price.endTime | date:'HH'
-            }}&nbsp;</span>
-        <span class="value">{{ price.value * 1.21 / 10 | number:'1.2-2' }}&nbsp;</span>
-        <span class="units">centi/kWh</span>
-    </div>
-
-</div>
+<laiks-np-prices [time]="time" [npPrices]="npPrices"></laiks-np-prices>

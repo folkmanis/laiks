@@ -1,0 +1,20 @@
+:host {
+    display: flex;
+}
+
+.container {
+    margin: 0 auto;
+}
+
+.price:not(.active) {
+    opacity: 50%;
+}
+
+.value {
+    font-size: 200%;
+    // line-height: 110%;
+}
+
+.active .value {
+    font-weight: 900;
+}

@@ -5,14 +5,17 @@ import { registerLocaleData } from '@angular/common';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SharedModule } from './lib/shared.module';
+import { SharedModule } from './shared/shared.module';
 import { SelectorComponent } from './selector/selector.component';
-import { NumberSignPipe } from './selector/number-sign.pipe';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
-import { ClockOffsetComponent } from './clock-offset/clock-offset.component';
+import { MainComponent } from './main/main.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { NpDataComponent } from './np-data/np-data.component';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+
+import { NpDataModule } from './np-data/np-data.module';
+import { UserComponent } from './user/user.component';
+
 import localeLv from '@angular/common/locales/lv';
 registerLocaleData(localeLv);
 
@@ -24,16 +27,17 @@ import { environment } from '../environments/environment';
   declarations: [
     AppComponent,
     SelectorComponent,
-    NumberSignPipe,
     ClockDisplayComponent,
-    ClockOffsetComponent,
-    NpDataComponent
+    MainComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
+    NpDataModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
