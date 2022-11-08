@@ -6,5 +6,6 @@
 
 </mat-toolbar>
 
-<laiks-main [currentTime]="currentTime$ | async" [offset]="initialOffset" (offsetChange)="onOffsetChange($event)">
+<laiks-main [currentTime]="currentTime$ | async" [offset]="initialOffset" (offsetChange)="onOffsetChange($event)"
+    [npAllowed]="npAllowed$ | async">
 </laiks-main>

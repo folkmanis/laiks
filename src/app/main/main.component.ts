@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from '@angular/fire/auth';
 import { addHours } from 'date-fns';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 
 
@@ -29,7 +29,14 @@ export class MainComponent implements OnInit {
 
   @Input() offset = 0;
 
-  @Input() user: User | null = null;
+  private _npAllowed: boolean = false;
+  @Input()
+  set npAllowed(value: unknown) {
+    this._npAllowed = coerceBooleanProperty(value);
+  }
+  get npAllowed() {
+    return this._npAllowed;
+  }
 
   @Output() offsetChange = new EventEmitter<number>();
 
