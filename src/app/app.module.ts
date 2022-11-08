@@ -13,10 +13,12 @@ import { MainComponent } from './main/main.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
 import { NpDataComponent } from './np-data/np-data.component';
 import { ApplianceConsumptionComponent } from './appliance-consumption/appliance-consumption.component';
 
 import localeLv from '@angular/common/locales/lv';
+import { UserComponent } from './user/user.component';
 registerLocaleData(localeLv);
 
 
@@ -29,13 +31,15 @@ registerLocaleData(localeLv);
     ClockDisplayComponent,
     MainComponent,
     NpDataComponent,
-    ApplianceConsumptionComponent
+    ApplianceConsumptionComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
   providers: [

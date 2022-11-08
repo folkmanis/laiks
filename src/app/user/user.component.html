@@ -1,0 +1,44 @@
+<span *ngIf="user; else noUser">
+
+    <button mat-button [matMenuTriggerFor]='userMenu'>
+        <span *ngIf="user.photoURL; else noPhoto" class="avatar" style="background-image:url({{user.photoURL}})">
+        </span>
+
+        <ng-template #noPhoto>
+            <mat-icon>account_circle</mat-icon>
+        </ng-template>
+
+        <mat-icon>
+            arrow_drop_down
+        </mat-icon>
+    </button>
+
+    <mat-menu #userMenu>
+
+        <span mat-menu-item>
+            {{ user.displayName }}
+        </span>
+
+        <button mat-menu-item (click)="onLogout()">
+            Atslēgties
+        </button>
+    </mat-menu>
+
+
+</span>
+
+<ng-template #noUser>
+
+    <span>
+        <button mat-icon-button [matMenuTriggerFor]="noUserMenu">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+    </span>
+
+    <mat-menu #noUserMenu>
+        <button mat-menu-item (click)="onLogin()">
+            Pieslēgties ar Google
+        </button>
+    </mat-menu>
+
+</ng-template>

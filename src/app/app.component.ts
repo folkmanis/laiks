@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 import { LaiksService } from './lib/laiks.service';
+
 
 @Component({
   selector: 'app-root',
@@ -13,8 +16,11 @@ export class AppComponent implements OnInit {
 
   initialOffset: number = 1;
 
+  user$: Observable<User | null> = authState(this.auth);
+
   constructor(
     private laiksService: LaiksService,
+    private auth: Auth,
   ) { }
 
   ngOnInit(): void {
@@ -23,6 +29,14 @@ export class AppComponent implements OnInit {
 
   onOffsetChange(offset: number) {
     this.laiksService.setSettings({ offset });
+  }
+
+  onLogin() {
+    signInWithPopup(this.auth, new GoogleAuthProvider());
+  }
+
+  onLogout() {
+    signOut(this.auth);
   }
 
 }

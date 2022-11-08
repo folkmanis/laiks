@@ -1,0 +1,13 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+laiks-main {
+    margin: auto 0;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
