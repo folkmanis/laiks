@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SharedModule } from '../lib/shared.module';
-import { ClockOffsetComponent } from './clock-offset.component';
+import { MainComponent } from './main.component';
 import { ClockDisplayComponent } from '../clock-display/clock-display.component';
 import { SelectorComponent } from '../selector/selector.component';
 import { NumberSignPipe } from '../selector/number-sign.pipe';
@@ -21,9 +21,9 @@ class TestNpService {
 
 
 
-describe('ClockOffsetComponent', () => {
-  let component: ClockOffsetComponent;
-  let fixture: ComponentFixture<ClockOffsetComponent>;
+describe('MainComponent', () => {
+  let component: MainComponent;
+  let fixture: ComponentFixture<MainComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,7 +31,7 @@ describe('ClockOffsetComponent', () => {
         SharedModule,
       ],
       declarations: [
-        ClockOffsetComponent,
+        MainComponent,
         SelectorComponent,
         NumberSignPipe,
         ClockDisplayComponent,
@@ -46,7 +46,7 @@ describe('ClockOffsetComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(ClockOffsetComponent);
+    fixture = TestBed.createComponent(MainComponent);
     component = fixture.componentInstance;
 
     component.currentTime = TEST_TIME;

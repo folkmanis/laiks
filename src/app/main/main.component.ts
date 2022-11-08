@@ -6,12 +6,12 @@ import { washer, dishwasher } from '../lib/power-appliances';
 
 
 @Component({
-  selector: 'laiks-clock-offset',
-  templateUrl: './clock-offset.component.html',
-  styleUrls: ['./clock-offset.component.scss'],
+  selector: 'laiks-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClockOffsetComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit, OnDestroy {
 
   private observer: (() => void) | null = null;
 

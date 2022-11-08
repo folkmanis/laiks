@@ -1,6 +1,4 @@
-import { OnInit, Component, ChangeDetectionStrategy } from '@angular/core';
-import { addHours } from 'date-fns';
-import { Observable, take } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LaiksService } from './lib/laiks.service';
 
 @Component({
@@ -11,9 +9,7 @@ import { LaiksService } from './lib/laiks.service';
 })
 export class AppComponent implements OnInit {
 
-  currentTime$ = this.laiksService.minuteObserver().pipe(
-    // take(2),
-  );
+  currentTime$ = this.laiksService.minuteObserver();
 
   initialOffset: number = 1;
 

@@ -9,7 +9,7 @@ import { SharedModule } from './lib/shared.module';
 import { SelectorComponent } from './selector/selector.component';
 import { NumberSignPipe } from './selector/number-sign.pipe';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
-import { ClockOffsetComponent } from './clock-offset/clock-offset.component';
+import { MainComponent } from './main/main.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
@@ -27,7 +27,7 @@ registerLocaleData(localeLv);
     SelectorComponent,
     NumberSignPipe,
     ClockDisplayComponent,
-    ClockOffsetComponent,
+    MainComponent,
     NpDataComponent,
     ApplianceConsumptionComponent
   ],
