@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { NumberSignPipe } from './number-sign.pipe';
 
 
 @NgModule({
@@ -13,11 +13,15 @@ import { MatMenuModule } from '@angular/material/menu';
     MatToolbarModule,
     MatMenuModule,
   ],
+  declarations: [
+    NumberSignPipe,
+  ],
   exports: [
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
     MatMenuModule,
+    NumberSignPipe,
   ]
 })
 export class SharedModule { }

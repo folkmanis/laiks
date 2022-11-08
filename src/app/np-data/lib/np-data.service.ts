@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { collection, collectionData, doc, DocumentData, DocumentSnapshot, Firestore, onSnapshot, Timestamp, query, where } from '@angular/fire/firestore';
 import { map, Observable, of, Subject, switchMap, tap } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { startOfDay, subDays } from 'date-fns';
 
 const DB_NAME = environment.dbName;

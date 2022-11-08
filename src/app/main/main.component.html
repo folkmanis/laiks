@@ -1,13 +1,6 @@
 <div class="container">
 
-    <laiks-appliance-consumption [time]="timeWithOffset" [npPrices]="npPrices" [appliance]="washer">
-        Veļasmašīna
-    </laiks-appliance-consumption>
-    <laiks-appliance-consumption [time]="timeWithOffset" [npPrices]="npPrices" [appliance]="dishwasher">
-        Trauku mašīna
-    </laiks-appliance-consumption>
-
-    <laiks-np-data [time]="timeWithOffset" [npPrices]="npPrices"></laiks-np-data>
+    <laiks-np-data [time]="timeWithOffset"></laiks-np-data>
 
     <laiks-selector [value]="offset" (valueChange)="onOffsetChange($event)"></laiks-selector>
 

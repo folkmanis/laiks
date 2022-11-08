@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { User } from '@angular/fire/auth';
 import { addHours } from 'date-fns';
-import { NpDataService, NpPrice } from '../lib/np-data.service';
-import { washer, dishwasher } from '../lib/power-appliances';
 
 
 
@@ -11,11 +10,8 @@ import { washer, dishwasher } from '../lib/power-appliances';
   styleUrls: ['./main.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit {
 
-  private observer: (() => void) | null = null;
-
-  @Input() npPrices: NpPrice[] = [];
 
   private _currentTime = new Date();
   @Input()
@@ -31,38 +27,17 @@ export class MainComponent implements OnInit, OnDestroy {
 
   timeWithOffset!: Date;
 
-  washer = washer;
-  dishwasher = dishwasher;
-
   @Input() offset = 0;
+
+  @Input() user: User | null = null;
 
   @Output() offsetChange = new EventEmitter<number>();
 
   constructor(
-    private npDataService: NpDataService,
-    private zone: NgZone,
-    private chDetector: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
     this.updateTime();
-
-    this.npDataService.npData$
-      .subscribe(data => {
-        this.zone.run(() => {
-          this.npPrices = data.prices;
-          this.chDetector.markForCheck();
-        });
-      });
-
-    setTimeout(() => this.observer = this.npDataService.connectUpdateTime(), 500);
-
-  }
-
-  ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer();
-    }
   }
 
 

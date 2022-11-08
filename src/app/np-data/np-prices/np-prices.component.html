@@ -1,0 +1,7 @@
+<div *ngFor="let price of pricesFiltered" class="price" [class.active]="price.startTime.getHours() === time.getHours()">
+    <span class="date">{{ price.startTime | date:'d. MMM' }}&nbsp;</span>
+    <span class="time">{{ price.startTime | date:'HH' }}&nbsp;-&nbsp;{{ price.endTime | date:'HH'
+        }}&nbsp;</span>
+    <span class="value">{{ price.value * 1.21 / 10 | number:'1.2-2' }}&nbsp;</span>
+    <span class="units">centi/kWh</span>
+</div>

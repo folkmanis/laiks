@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
-import { LaiksService } from './lib/laiks.service';
+import { LaiksService } from './shared/laiks.service';
 
 
 @Component({

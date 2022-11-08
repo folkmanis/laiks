@@ -3,7 +3,7 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/
 
 import { SelectorComponent } from './selector.component';
 
-import { SharedModule } from '../lib/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { NumberSignPipe } from './number-sign.pipe';
 
 

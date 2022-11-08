@@ -1,0 +1,16 @@
+:host {
+    margin: 0px auto;
+}
+
+.active {
+    font-weight: 900;
+}
+
+.price:not(.active) {
+    opacity: 50%;
+}
+
+.active .value {
+    font-size: 200%;
+    line-height: 110%;
+}

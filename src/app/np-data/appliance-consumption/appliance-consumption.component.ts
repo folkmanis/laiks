@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { differenceInHours, isDate } from 'date-fns';
+import { NpPrice } from '../lib/np-data.service';
 import { PowerAppliance } from '../lib/power-appliances';
 import { PriceCalculatorService } from '../lib/price-calculator.service';
-import { addHours, isDate, isWithinInterval, subHours, differenceInHours } from 'date-fns';
-import { NpPrice } from '../lib/np-data.service';
 
 @Component({
   selector: 'laiks-appliance-consumption',

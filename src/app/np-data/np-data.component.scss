@@ -1,21 +1,7 @@
 :host {
-    height: 110px;
-    display: flex;
-}
-
-.container {
+    height: 180px;
     margin: 0 auto;
-}
-
-.active {
-    font-weight: 900;
-}
-
-.price:not(.active) {
-    opacity: 50%;
-}
-
-.active .value {
-    font-size: 200%;
-    line-height: 110%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
 }

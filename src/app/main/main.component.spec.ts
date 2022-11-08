@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SharedModule } from '../lib/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { MainComponent } from './main.component';
 import { ClockDisplayComponent } from '../clock-display/clock-display.component';
 import { SelectorComponent } from '../selector/selector.component';
 import { NumberSignPipe } from '../selector/number-sign.pipe';
 import { addMinutes } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
-import { NpDataService } from '../lib/np-data.service';
+import { NpDataService } from '../shared/np-data.service';
 import { NpDataComponent } from '../np-data/np-data.component';
 
 

@@ -5,20 +5,19 @@ import { registerLocaleData } from '@angular/common';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SharedModule } from './lib/shared.module';
+import { SharedModule } from './shared/shared.module';
 import { SelectorComponent } from './selector/selector.component';
-import { NumberSignPipe } from './selector/number-sign.pipe';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { MainComponent } from './main/main.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
-import { NpDataComponent } from './np-data/np-data.component';
-import { ApplianceConsumptionComponent } from './appliance-consumption/appliance-consumption.component';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+
+import { NpDataModule } from './np-data/np-data.module';
+import { UserComponent } from './user/user.component';
 
 import localeLv from '@angular/common/locales/lv';
-import { UserComponent } from './user/user.component';
 registerLocaleData(localeLv);
 
 
@@ -27,17 +26,15 @@ registerLocaleData(localeLv);
   declarations: [
     AppComponent,
     SelectorComponent,
-    NumberSignPipe,
     ClockDisplayComponent,
     MainComponent,
-    NpDataComponent,
-    ApplianceConsumptionComponent,
-    UserComponent
+    UserComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
+    NpDataModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
