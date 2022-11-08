@@ -1,0 +1,22 @@
+<div class="container">
+    <span>
+        <ng-content> </ng-content>:&nbsp;
+    </span>
+    <span *ngIf="consumption !== null">
+        <span class="value">
+            {{ consumption * 100 * 1.21 | number:'1.2-2' }}
+        </span>
+        <span class="units">
+            centi.
+        </span>
+    </span>
+    <span *ngIf="best" class="active">
+        <span>
+            Labākais:
+        </span>
+        <span class="value">
+            {{ best.offset | numberSign }}
+        </span>
+        <span class="units"> ({{ best.price * 100 * 1.21 | number:'1.2-2' }} centi)</span>
+    </span>
+</div>

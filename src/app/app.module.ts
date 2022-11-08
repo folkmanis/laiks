@@ -14,6 +14,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { NpDataComponent } from './np-data/np-data.component';
+import { ApplianceConsumptionComponent } from './appliance-consumption/appliance-consumption.component';
+
 import localeLv from '@angular/common/locales/lv';
 registerLocaleData(localeLv);
 
@@ -26,7 +28,8 @@ registerLocaleData(localeLv);
     NumberSignPipe,
     ClockDisplayComponent,
     ClockOffsetComponent,
-    NpDataComponent
+    NpDataComponent,
+    ApplianceConsumptionComponent
   ],
   imports: [
     BrowserModule,

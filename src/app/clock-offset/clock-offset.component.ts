@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 import { addHours } from 'date-fns';
 import { NpDataService, NpPrice } from '../lib/np-data.service';
+import { washer, dishwasher } from '../lib/power-appliances';
 
 
 
@@ -30,6 +31,9 @@ export class ClockOffsetComponent implements OnInit, OnDestroy {
 
   timeWithOffset!: Date;
 
+  washer = washer;
+  dishwasher = dishwasher;
+
   @Input() offset = 0;
 
   @Output() offsetChange = new EventEmitter<number>();
@@ -51,7 +55,7 @@ export class ClockOffsetComponent implements OnInit, OnDestroy {
         });
       });
 
-    setTimeout(() => this.observer = this.npDataService.connectUpdateTime(), 1000);
+    setTimeout(() => this.observer = this.npDataService.connectUpdateTime(), 500);
 
   }
 
