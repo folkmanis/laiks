@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container" *ngIf="appliance">
     <span>
-        <ng-content></ng-content>
+        {{ appliance.name }}
     </span>
     <span *ngIf="best" class="active">
         <span class="value">

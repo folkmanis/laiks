@@ -1,8 +1,8 @@
-<laiks-appliance-consumption *ngIf="npPrices?.length" [time]="time" [npPrices]="npPrices" [appliance]="washer">
-    Veļasmašīna
-</laiks-appliance-consumption>
-<laiks-appliance-consumption *ngIf="npPrices?.length" [time]="time" [npPrices]="npPrices" [appliance]="dishwasher">
-    Trauku mašīna
-</laiks-appliance-consumption>
+<div *ngIf="npPrices?.length">
+
+    <laiks-appliance-consumption *ngFor="let appliance of appliances$ | async" [time]="time" [npPrices]="npPrices"
+        [appliance]="appliance"></laiks-appliance-consumption>
+
+</div>
 
 <laiks-np-prices [time]="time" [npPrices]="npPrices"></laiks-np-prices>
