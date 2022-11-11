@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { LaiksService } from './shared/laiks.service';
-import { collection, collectionData, doc, DocumentData, DocumentSnapshot, Firestore, onSnapshot, Timestamp, query, where, docData } from '@angular/fire/firestore';
+import { UserService } from './shared/user.service';
 
 
 @Component({
@@ -17,16 +17,13 @@ export class AppComponent implements OnInit {
 
   initialOffset: number = 1;
 
-  user$: Observable<User | null> = authState(this.auth);
+  user$: Observable<User | null> = this.userService.getUser();
 
-  npAllowed$ = authState(this.auth).pipe(
-    switchMap(usr => this.isNpAllowed(usr))
-  );
+  npAllowed$ = this.userService.isNpAllowed();
 
   constructor(
     private laiksService: LaiksService,
-    private auth: Auth,
-    private firestore: Firestore,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
@@ -38,24 +35,11 @@ export class AppComponent implements OnInit {
   }
 
   onLogin() {
-    signInWithPopup(this.auth, new GoogleAuthProvider());
+    this.userService.login();
   }
 
   onLogout() {
-    signOut(this.auth);
-  }
-
-  private isNpAllowed(usr: User | null): Observable<boolean> {
-    if (!usr || !usr.email) {
-      return of(false);
-    }
-
-    const docRef = doc(this.firestore, 'users', usr.email);
-
-    return docData(docRef).pipe(
-      map(d => d && d['npAllowed'] === true)
-    );
-
+    this.userService.logout();
   }
 
 }

@@ -15,9 +15,9 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 
 import { NpDataModule } from './np-data/np-data.module';
-import { UserComponent } from './user/user.component';
 
 import localeLv from '@angular/common/locales/lv';
+import { UserMenuComponent } from './user-menu/user-menu.component';
 registerLocaleData(localeLv);
 
 
@@ -28,7 +28,7 @@ registerLocaleData(localeLv);
     SelectorComponent,
     ClockDisplayComponent,
     MainComponent,
-    UserComponent,
+    UserMenuComponent,
   ],
   imports: [
     BrowserModule,
