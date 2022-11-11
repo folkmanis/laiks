@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { differenceInHours, isDate } from 'date-fns';
 import { NpPrice } from '../lib/np-data.service';
-import { PowerAppliance } from '../lib/power-appliances';
+import { PowerAppliance } from '../lib/power-appliance.interface';
 import { PriceCalculatorService } from '../lib/price-calculator.service';
 
 @Component({
@@ -36,6 +36,9 @@ export class ApplianceConsumptionComponent implements OnInit, OnChanges {
 
       this.best = this.calculator.bestOffset(this.npPrices, new Date(), this.appliance);
 
+    } else {
+      this.consumption = null;
+      this.best = null;
     }
   }
 

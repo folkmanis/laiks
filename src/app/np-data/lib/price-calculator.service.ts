@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { addHours, isAfter, isBefore, subMilliseconds } from 'date-fns';
 import { NpPrice } from './np-data.service';
-import { PowerAppliance, PowerConsumptionCycle } from './power-appliances';
+import { PowerAppliance, PowerConsumptionCycle } from './power-appliance.interface';
 
 const msWtoMWh = (msWh: number): number => msWh / 1000 / 1000 / 60 / 60 / 1000;
 

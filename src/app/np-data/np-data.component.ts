@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
-import { addHours, isDate, isWithinInterval, subHours } from 'date-fns';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { isDate } from 'date-fns';
+import { Observable } from 'rxjs';
 import { NpDataService, NpPrice } from './lib/np-data.service';
-import { dishwasher, washer } from './lib/power-appliances';
+import { PowerAppliance } from './lib/power-appliance.interface';
+import { PowerAppliancesService } from './lib/power-appliances.service';
 
 
 @Component({
@@ -35,16 +37,13 @@ export class NpDataComponent implements OnInit, OnDestroy {
     return this._npPrices;
   }
 
-
-  washer = washer;
-  dishwasher = dishwasher;
-
-
+  appliances$!: Observable<PowerAppliance[]>;
 
   constructor(
     private npDataService: NpDataService,
     private zone: NgZone,
     private chDetector: ChangeDetectorRef,
+    private appliancesService: PowerAppliancesService,
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +57,8 @@ export class NpDataComponent implements OnInit, OnDestroy {
       });
 
     setTimeout(() => this.observer = this.npDataService.connectUpdateTime(), 500);
+
+    this.appliances$ = this.appliancesService.getPowerAppliances();
 
   }
 

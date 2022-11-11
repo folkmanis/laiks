@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { NumberSignPipe } from './number-sign.pipe';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { NumberSignPipe } from './number-sign.pipe';
     MatIconModule,
     MatToolbarModule,
     MatMenuModule,
+    MatSnackBarModule,
   ],
   declarations: [
     NumberSignPipe,
@@ -22,6 +24,7 @@ import { NumberSignPipe } from './number-sign.pipe';
     MatToolbarModule,
     MatMenuModule,
     NumberSignPipe,
+    MatSnackBarModule,
   ]
 })
 export class SharedModule { }
