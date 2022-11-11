@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { User } from '@angular/fire/auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 import { LaiksService } from './shared/laiks.service';
-import { UserService } from './shared/user.service';
+import { LoginResponseType, UserService } from './shared/user.service';
 
 
 @Component({
@@ -19,11 +20,12 @@ export class AppComponent implements OnInit {
 
   user$: Observable<User | null> = this.userService.getUser();
 
-  npAllowed$ = this.userService.isNpAllowed();
+  npAllowed$ = this.userService.isNpAllowed(this.user$);
 
   constructor(
     private laiksService: LaiksService,
     private userService: UserService,
+    private snack: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +37,20 @@ export class AppComponent implements OnInit {
   }
 
   onLogin() {
-    this.userService.login();
+    this.userService.login().subscribe({
+      error: (err) => {
+        this.snack.open(`Neizdevās pieslēgties. ${err}`, 'OK');
+        this.userService.logout();
+      },
+      next: (resp) => {
+        if (resp.type === LoginResponseType.CREATED) {
+          this.snack.open(`Izveidots jauns lietotājs ${resp.laiksUser.email}`, 'OK');
+        }
+        if (resp.type === LoginResponseType.EXISTING) {
+          this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
+        }
+      }
+    });
   }
 
   onLogout() {
