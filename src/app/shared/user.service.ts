@@ -43,8 +43,8 @@ export class UserService {
     signOut(this.auth);
   }
 
-  isNpAllowed(user$: Observable<User | null>): Observable<boolean> {
-    return user$.pipe(
+  isNpAllowed(): Observable<boolean> {
+    return this.getUser().pipe(
       switchMap(usr => this.npAllowed(usr))
     );
   }

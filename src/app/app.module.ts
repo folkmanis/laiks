@@ -15,6 +15,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 
 import { NpDataModule } from './np-data/np-data.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import localeLv from '@angular/common/locales/lv';
 import { UserMenuComponent } from './user-menu/user-menu.component';
@@ -38,6 +39,7 @@ registerLocaleData(localeLv);
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    AppRoutingModule,
   ],
   providers: [
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },

@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { addHours } from 'date-fns';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { UserService } from '../shared/user.service';
+import { LaiksService } from '../shared/laiks.service';
+import { map, Observable, Subject, merge, combineLatest, of } from 'rxjs';
 
 
 
@@ -12,50 +15,36 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 })
 export class MainComponent implements OnInit {
 
+  npAllowed$ = this.userService.isNpAllowed();
 
-  private _currentTime = new Date();
-  @Input()
-  set currentTime(value: Date | null) {
-    if (value instanceof Date) {
-      this._currentTime = value;
-      this.updateTime();
-    }
-  }
-  get currentTime(): Date {
-    return this._currentTime;
-  }
+  initialOffset = this.laiksService.getSettings().offset;
 
-  timeWithOffset!: Date;
+  offsetChange$ = new Subject<number>();
 
-  @Input() offset = 0;
+  currentTime$ = this.laiksService.minuteObserver();
 
-  private _npAllowed: boolean = false;
-  @Input()
-  set npAllowed(value: unknown) {
-    this._npAllowed = coerceBooleanProperty(value);
-  }
-  get npAllowed() {
-    return this._npAllowed;
-  }
+  timeWithOffset$: Observable<Date> = combineLatest({
+    time: this.currentTime$,
+    offset: merge(of(this.initialOffset), this.offsetChange$)
+  }).pipe(
+    map(({ time, offset }) => addHours(time, offset)),
+  );
 
-  @Output() offsetChange = new EventEmitter<number>();
 
   constructor(
+    private userService: UserService,
+    private laiksService: LaiksService,
   ) { }
 
   ngOnInit(): void {
-    this.updateTime();
   }
 
 
   onOffsetChange(value: number) {
-    this.offset = value;
-    this.updateTime();
-    this.offsetChange.next(this.offset);
-  }
 
-  private updateTime() {
-    this.timeWithOffset = addHours(this.currentTime, this.offset);
+    this.offsetChange$.next(value);
+    this.laiksService.setSettings({ offset: value });
+
   }
 
 
