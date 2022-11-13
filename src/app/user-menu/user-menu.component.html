@@ -19,9 +19,20 @@
             {{ user.displayName }}
         </span>
 
+        <button mat-menu-item [mat-menu-trigger-for]="adminMenu" *ngIf="laiksUser?.isAdmin">
+            Iestatījumi
+        </button>
+
         <button mat-menu-item (click)="onLogout()">
             Atslēgties
         </button>
+
+    </mat-menu>
+
+    <mat-menu #adminMenu>
+        <a mat-menu-item routerLink="/admin/appliances">
+            Elektroiekārtas
+        </a>
     </mat-menu>
 
 

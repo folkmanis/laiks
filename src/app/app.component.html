@@ -1,8 +1,17 @@
 <mat-toolbar color="primary">
 
+    <span>
+        <a mat-icon-button routerLink="/">
+            <mat-icon>
+                home
+            </mat-icon>
+        </a>
+    </span>
+
     <span class="spacer"></span>
 
-    <laiks-user-menu [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()"></laiks-user-menu>
+    <laiks-user-menu [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()" [laiksUser]="laiksUser$ | async">
+    </laiks-user-menu>
 
 </mat-toolbar>
 

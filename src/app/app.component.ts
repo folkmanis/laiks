@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
@@ -16,10 +17,13 @@ export class AppComponent {
 
   user$: Observable<User | null> = this.userService.getUser();
 
+  laiksUser$ = this.userService.laiksUser();
+
 
   constructor(
     private userService: UserService,
     private snack: MatSnackBar,
+    private router: Router,
   ) { }
 
   onLogin() {
@@ -41,6 +45,7 @@ export class AppComponent {
 
   onLogout() {
     this.userService.logout();
+    this.router.navigateByUrl('/');
   }
 
 }
