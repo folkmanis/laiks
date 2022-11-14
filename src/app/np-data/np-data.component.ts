@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { isDate } from 'date-fns';
-import { Observable } from 'rxjs';
-import { NpDataService, NpPrice } from './lib/np-data.service';
+import { map, Observable, share } from 'rxjs';
+import { NpDataService } from './lib/np-data.service';
+import { NpPrice } from './lib/np-price.interface';
 import { PowerAppliance } from './lib/power-appliance.interface';
 import { PowerAppliancesService } from './lib/power-appliances.service';
 
@@ -12,9 +13,7 @@ import { PowerAppliancesService } from './lib/power-appliances.service';
   styleUrls: ['./np-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NpDataComponent implements OnInit, OnDestroy {
-
-  private observer: (() => void) | null = null;
+export class NpDataComponent {
 
 
   private _time = new Date(0);
@@ -23,50 +22,22 @@ export class NpDataComponent implements OnInit, OnDestroy {
       this._time = value;
     }
   };
-  get time() {
+  get time(): Date {
     return this._time;
   }
 
-  private _npPrices: NpPrice[] = [];
-  @Input() set npPrices(value: NpPrice[]) {
-    if (Array.isArray(value)) {
-      this._npPrices = value;
-    }
-  }
-  get npPrices() {
-    return this._npPrices;
-  }
+  npPrices$: Observable<NpPrice[]> = this.npDataService.npData$.pipe(
+    map(data => data.prices),
+    share(),
+  );
 
-  appliances$!: Observable<PowerAppliance[]>;
+  appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances();
 
   constructor(
     private npDataService: NpDataService,
-    private zone: NgZone,
-    private chDetector: ChangeDetectorRef,
     private appliancesService: PowerAppliancesService,
   ) { }
 
-  ngOnInit(): void {
-
-    this.npDataService.npData$
-      .subscribe(data => {
-        this.zone.run(() => {
-          this.npPrices = data.prices;
-          this.chDetector.markForCheck();
-        });
-      });
-
-    setTimeout(() => this.observer = this.npDataService.connectUpdateTime(), 500);
-
-    this.appliances$ = this.appliancesService.getPowerAppliances();
-
-  }
-
-  ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer();
-    }
-  }
 
 
 

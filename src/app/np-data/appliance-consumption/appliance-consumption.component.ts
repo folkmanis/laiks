@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { differenceInHours, isDate } from 'date-fns';
-import { NpPrice } from '../lib/np-data.service';
+import { NpPrice } from '../lib/np-price.interface';
 import { PowerAppliance } from '../lib/power-appliance.interface';
 import { PriceCalculatorService } from '../lib/price-calculator.service';
 
