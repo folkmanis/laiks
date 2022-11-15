@@ -5,6 +5,7 @@ import { registerLocaleData } from '@angular/common';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 import { SharedModule } from './shared/shared.module';
 import { SelectorComponent } from './selector/selector.component';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
@@ -20,6 +21,8 @@ import { AppRoutingModule } from './app-routing.module';
 import localeLv from '@angular/common/locales/lv';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 registerLocaleData(localeLv);
+
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 
 
@@ -43,7 +46,9 @@ registerLocaleData(localeLv);
   ],
   providers: [
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
-    { provide: LOCALE_ID, useValue: 'lv' }
+    { provide: LOCALE_ID, useValue: 'lv' },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } }
+
   ],
   bootstrap: [AppComponent]
 })

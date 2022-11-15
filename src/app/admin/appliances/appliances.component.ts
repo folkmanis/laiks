@@ -1,4 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { PowerAppliancesService } from '../../np-data/lib/power-appliances.service';
+import { PowerAppliance } from '../../np-data/lib/power-appliance.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'laiks-appliances',
@@ -8,7 +11,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class AppliancesComponent implements OnInit {
 
-  constructor() { }
+  displayColumns = ['name'];
+
+  appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances();
+
+  constructor(
+    private appliancesService: PowerAppliancesService,
+  ) { }
 
   ngOnInit(): void {
   }
