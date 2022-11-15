@@ -31,7 +31,9 @@ export class NpDataComponent {
     share(),
   );
 
-  appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances();
+  appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances().pipe(
+    map(appliances => appliances.filter(appl => appl.enabled)),
+  );
 
   constructor(
     private npDataService: NpDataService,

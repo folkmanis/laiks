@@ -9,5 +9,6 @@ export interface PowerAppliance {
     cycles: PowerConsumptionCycle[];
     minimumDelay: number; // hours
     name: string;
+    enabled: boolean;
 }
 

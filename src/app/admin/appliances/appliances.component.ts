@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { PowerAppliancesService } from '../../np-data/lib/power-appliances.service';
 import { PowerAppliance } from '../../np-data/lib/power-appliance.interface';
 import { Observable } from 'rxjs';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'laiks-appliances',
@@ -11,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class AppliancesComponent implements OnInit {
 
-  displayColumns = ['name'];
+  displayColumns = ['enabled', 'name'];
 
   appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances();
 
@@ -20,6 +21,11 @@ export class AppliancesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  }
+
+  onEnable(event: MatCheckboxChange, id: string) {
+    this.appliancesService.updateAppliance(id, { enabled: event.checked })
+      .subscribe();
   }
 
 }

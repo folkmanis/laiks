@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Route, Router } from '@angular/router';
-import { filter, map, Observable, switchMap, Subscription, take, of, tap, mergeMap, EMPTY } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EMPTY, map, mergeMap, Observable, of, Subscription, switchMap, take } from 'rxjs';
 import { PowerAppliance, PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
-import { FormGroup, FormControl, Validators, AsyncValidatorFn, AbstractControl, NonNullableFormBuilder } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
 import { throwIfNull } from 'src/app/shared/throw-if-null';
 
 
@@ -32,6 +32,7 @@ export class ApplianceEditComponent implements OnInit, OnDestroy {
       0,
       [Validators.min(0), Validators.required],
     ],
+    enabled: [false],
     cycles: this.nnfb.control<PowerConsumptionCycle[]>([]),
   });
 
@@ -125,7 +126,6 @@ export class ApplianceEditComponent implements OnInit, OnDestroy {
     return this.dialog.open(this.discardDialog).afterClosed().pipe(
       map(resp => !!resp)
     );
-
 
   }
 

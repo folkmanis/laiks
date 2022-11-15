@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MinutesToHoursPipe } from './minutes-to-hours.pipe';
 
 
@@ -30,6 +31,7 @@ import { MinutesToHoursPipe } from './minutes-to-hours.pipe';
     MatRadioModule,
     MatDividerModule,
     MatDialogModule,
+    MatCheckboxModule,
   ],
   declarations: [
     NumberSignPipe,
@@ -49,6 +51,7 @@ import { MinutesToHoursPipe } from './minutes-to-hours.pipe';
     MatRadioModule,
     MatDividerModule,
     MatDialogModule,
+    MatCheckboxModule,
     NumberSignPipe,
     MinutesToHoursPipe,
   ]
