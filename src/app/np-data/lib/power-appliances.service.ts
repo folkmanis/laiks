@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { collection, deleteDoc, collectionData, doc, DocumentData, DocumentSnapshot, Firestore, Timestamp, query, where, DocumentReference, getDoc, docData, CollectionReference, addDoc, updateDoc } from '@angular/fire/firestore';
-import { Observable, from, map, MonoTypeOperatorFunction, OperatorFunction } from 'rxjs';
-import { PowerAppliance } from './power-appliance.interface';
-import { WithId } from 'src/app/shared/with-id';
+import { addDoc, collection, collectionData, CollectionReference, deleteDoc, doc, DocumentReference, Firestore, getDoc, query, updateDoc, where } from '@angular/fire/firestore';
+import { from, map, Observable } from 'rxjs';
 import { throwIfNull } from 'src/app/shared/throw-if-null';
+import { WithId } from 'src/app/shared/with-id';
+import { PowerAppliance } from './power-appliance.interface';
 
 const APPLIANCES_COLL = 'powerAppliances';
 @Injectable({
