@@ -1,6 +1,6 @@
 import { addHours, isDate, isWithinInterval, subHours } from 'date-fns';
 import { Input, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NpPrice } from '../lib/np-data.service';
+import { NpPrice } from '../lib/np-price.interface';
 
 function inInterval(time: Date): (price: NpPrice) => boolean {
   return ({ startTime, endTime }: NpPrice) => isWithinInterval(time, { start: subHours(startTime, 2), end: addHours(endTime, 1) });
@@ -13,18 +13,18 @@ function inInterval(time: Date): (price: NpPrice) => boolean {
   styleUrls: ['./np-prices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NpPricesComponent implements OnInit {
+export class NpPricesComponent {
 
   pricesFiltered: NpPrice[] = [];
 
   private _npPrices: NpPrice[] = [];
-  @Input() set npPrices(value: NpPrice[]) {
+  @Input() set npPrices(value: NpPrice[] | null) {
     if (Array.isArray(value)) {
       this._npPrices = value;
       this.filterPrices();
     }
   }
-  get npPrices() {
+  get npPrices(): NpPrice[] {
     return this._npPrices;
   }
 
@@ -40,11 +40,6 @@ export class NpPricesComponent implements OnInit {
   }
 
 
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   private filterPrices() {
 

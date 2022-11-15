@@ -30,7 +30,7 @@ export class UserService {
 
   login(): Observable<LoginResponse> {
     return from(signInWithPopup(this.auth, new GoogleAuthProvider())).pipe(
-      switchMap(({ user }) => this.getLaiksUser(user).pipe(
+      switchMap(({ user }) => this.getLaiksUserSnapshot(user).pipe(
         mergeMap(laiksUser => laiksUser ? of({ type: LoginResponseType.EXISTING, laiksUser }) : this.createLaiksUser(user).pipe(
           map(u => ({ type: LoginResponseType.CREATED, laiksUser: u }))
         )),
@@ -43,9 +43,22 @@ export class UserService {
     signOut(this.auth);
   }
 
-  isNpAllowed(user$: Observable<User | null>): Observable<boolean> {
-    return user$.pipe(
+  isNpAllowed(): Observable<boolean> {
+    return this.getUser().pipe(
       switchMap(usr => this.npAllowed(usr))
+    );
+  }
+
+  laiksUser(): Observable<LaiksUser | null> {
+    return authState(this.auth).pipe(
+      switchMap(user => {
+        if (!user) {
+          return of(null);
+        } else {
+          const docRef = doc(this.firestore, 'users', user.uid) as DocumentReference<LaiksUser>;
+          return docData(docRef);
+        }
+      }),
     );
   }
 
@@ -63,7 +76,7 @@ export class UserService {
 
   }
 
-  private getLaiksUser(user: User): Observable<LaiksUser | undefined> {
+  private getLaiksUserSnapshot(user: User): Observable<LaiksUser | undefined> {
 
     const docRef = doc(this.firestore, 'users', user.uid) as DocumentReference<LaiksUser>;
 

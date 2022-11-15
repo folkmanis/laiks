@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { LaiksService } from './shared/laiks.service';
 import { LoginResponseType, UserService } from './shared/user.service';
 
 
@@ -12,29 +12,19 @@ import { LoginResponseType, UserService } from './shared/user.service';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  currentTime$ = this.laiksService.minuteObserver();
-
-  initialOffset: number = 1;
 
   user$: Observable<User | null> = this.userService.getUser();
 
-  npAllowed$ = this.userService.isNpAllowed(this.user$);
+  laiksUser$ = this.userService.laiksUser();
+
 
   constructor(
-    private laiksService: LaiksService,
     private userService: UserService,
     private snack: MatSnackBar,
+    private router: Router,
   ) { }
-
-  ngOnInit(): void {
-    this.initialOffset = this.laiksService.getSettings().offset;
-  }
-
-  onOffsetChange(offset: number) {
-    this.laiksService.setSettings({ offset });
-  }
 
   onLogin() {
     this.userService.login().subscribe({
@@ -55,6 +45,7 @@ export class AppComponent implements OnInit {
 
   onLogout() {
     this.userService.logout();
+    this.router.navigateByUrl('/');
   }
 
 }

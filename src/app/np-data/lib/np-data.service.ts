@@ -1,36 +1,12 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, doc, DocumentData, DocumentSnapshot, Firestore, onSnapshot, Timestamp, query, where } from '@angular/fire/firestore';
-import { map, Observable, of, Subject, switchMap, tap } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { collection, collectionData, doc, docData, DocumentData, DocumentReference, Firestore, query, Timestamp, where } from '@angular/fire/firestore';
 import { startOfDay, subDays } from 'date-fns';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { NpData, NpPriceCollectionData, StoredNpData } from './np-price.interface';
 
 const DB_NAME = environment.dbName;
 
-export interface NpPrice {
-  startTime: Date,
-  endTime: Date,
-  value: number,
-}
-
-interface NpData {
-  prices: NpPrice[],
-  lastUpdate: Date,
-}
-
-interface NpPriceCollectionData {
-  startTime: Timestamp,
-  endTime: Timestamp,
-  value: number,
-}
-
-interface StoredNpData {
-  prices: {
-    startTime: string,
-    endTime: string,
-    value: number,
-  }[],
-  lastUpdate: string,
-}
 
 
 @Injectable({
@@ -42,11 +18,10 @@ export class NpDataService {
 
   private npCache: NpData | null = null;
 
-  private lastUpdateTime$ = new Subject<DocumentSnapshot<DocumentData>>();
+  private readonly lastUpdateRef = doc(this.firestore, DB_NAME, 'np-data') as DocumentReference<{ lastUpdate: Timestamp; }>;
 
-  npData$: Observable<NpData> = this.lastUpdateTime$.pipe(
-    map(t => t.data()),
-    map(ts => ts?.['lastUpdate'] instanceof Timestamp ? ts['lastUpdate'].toDate() : new Date(0)),
+  npData$: Observable<NpData> = docData(this.lastUpdateRef).pipe(
+    map(ts => ts?.lastUpdate instanceof Timestamp ? ts.lastUpdate.toDate() : new Date(0)),
     switchMap(t => t > this.getStoredPrices().lastUpdate ? this.getNpData(t) : of(this.getStoredPrices())),
   );
 
@@ -54,10 +29,6 @@ export class NpDataService {
   constructor(
     private firestore: Firestore,
   ) { }
-
-  connectUpdateTime() {
-    return onSnapshot(doc(this.firestore, DB_NAME, 'np-data'), this.lastUpdateTime$);
-  }
 
 
   private getNpData(timestamp: Date): Observable<NpData> {

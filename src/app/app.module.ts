@@ -5,6 +5,7 @@ import { registerLocaleData } from '@angular/common';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 import { SharedModule } from './shared/shared.module';
 import { SelectorComponent } from './selector/selector.component';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
@@ -14,10 +15,13 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 
 import { NpDataModule } from './np-data/np-data.module';
+import { AppRoutingModule } from './app-routing.module';
 
 import localeLv from '@angular/common/locales/lv';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 registerLocaleData(localeLv);
+
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -39,6 +43,7 @@ import { environment } from '../environments/environment';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
@@ -48,7 +53,9 @@ import { environment } from '../environments/environment';
   ],
   providers: [
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
-    { provide: LOCALE_ID, useValue: 'lv' }
+    { provide: LOCALE_ID, useValue: 'lv' },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } }
+
   ],
   bootstrap: [AppComponent]
 })
