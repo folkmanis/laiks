@@ -18,6 +18,8 @@ export class ApplianceConsumptionComponent implements OnInit, OnChanges {
 
   @Input() npPrices: NpPrice[] = [];
 
+  @Input() timeOffset: number = 0;;
+
   consumption: number | null = null;
   best: { offset: number, price: number; } | null = null;
 
@@ -28,7 +30,7 @@ export class ApplianceConsumptionComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.appliance && isDate(this.time) && Array.isArray(this.npPrices)) {
 
-      if (differenceInHours(this.time, new Date()) >= this.appliance.minimumDelay) {
+      if (this.timeOffset >= this.appliance.minimumDelay) {
         this.consumption = this.calculator.priceTime(this.npPrices, this.time, this.appliance);
       } else {
         this.consumption = null;

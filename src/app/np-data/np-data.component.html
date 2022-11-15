@@ -2,7 +2,7 @@
 
     <div>
         <laiks-appliance-consumption *ngFor="let appliance of appliances$ | async" [time]="time" [npPrices]="npPrices"
-            [appliance]="appliance"></laiks-appliance-consumption>
+            [appliance]="appliance" [timeOffset]="timeOffset"></laiks-appliance-consumption>
     </div>
 
     <laiks-np-prices [time]="time" [npPrices]="npPrices"></laiks-np-prices>

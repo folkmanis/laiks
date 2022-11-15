@@ -26,6 +26,8 @@ export class NpDataComponent {
     return this._time;
   }
 
+  @Input() timeOffset: number = 0;
+
   npPrices$: Observable<NpPrice[]> = this.npDataService.npData$.pipe(
     map(data => data.prices),
     share(),

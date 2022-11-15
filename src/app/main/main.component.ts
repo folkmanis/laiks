@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { addHours } from 'date-fns';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { UserService } from '../shared/user.service';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { LaiksService } from '../shared/laiks.service';
-import { map, Observable, Subject, merge, combineLatest, of } from 'rxjs';
+import { UserService } from '../shared/user.service';
 
 
 
@@ -19,13 +18,13 @@ export class MainComponent implements OnInit {
 
   initialOffset = this.laiksService.getSettings().offset;
 
-  offsetChange$ = new Subject<number>();
+  offsetChange$ = new BehaviorSubject<number>(this.initialOffset);
 
   currentTime$ = this.laiksService.minuteObserver();
 
   timeWithOffset$: Observable<Date> = combineLatest({
     time: this.currentTime$,
-    offset: merge(of(this.initialOffset), this.offsetChange$)
+    offset: this.offsetChange$,
   }).pipe(
     map(({ time, offset }) => addHours(time, offset)),
   );
