@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppliancesComponent } from './appliances/appliances.component';
+import { AppliancesListComponent } from './appliances/appliances-list/appliances-list.component';
 import { ApplianceEditComponent } from './appliances/appliance-edit/appliance-edit.component';
-import { ApplianceGuard } from './lib/appliance.guard';
 import { ApplianceResolverService } from './lib/appliance-resolver.service';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserResolverService } from './lib/user-resolver.service';
@@ -18,12 +17,12 @@ const routes: Routes = [
         children: [
           {
             path: 'list',
-            component: AppliancesComponent,
+            component: AppliancesListComponent,
           },
           {
             path: ':id',
             component: ApplianceEditComponent,
-            canDeactivate: [ApplianceGuard],
+            canDeactivate: [CanDeactivateGuard],
             resolve: {
               appliance: ApplianceResolverService,
             }

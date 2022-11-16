@@ -6,6 +6,7 @@ import { EMPTY, map, mergeMap, Observer, of, take } from 'rxjs';
 import { PowerAppliance, PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
+import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
   styleUrls: ['./appliance-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ApplianceEditComponent implements OnInit {
+export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
 
   applianceForm = this.nnfb.group({
     name: [

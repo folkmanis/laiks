@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { PowerAppliancesService } from '../../np-data/lib/power-appliances.service';
-import { PowerAppliance } from '../../np-data/lib/power-appliance.interface';
+import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
+import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
 import { Observable } from 'rxjs';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
-  selector: 'laiks-appliances',
-  templateUrl: './appliances.component.html',
-  styleUrls: ['./appliances.component.scss'],
+  selector: 'laiks-appliances-list',
+  templateUrl: './appliances-list.component.html',
+  styleUrls: ['./appliances-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppliancesComponent implements OnInit {
+export class AppliancesListComponent implements OnInit {
 
   displayColumns = ['enabled', 'name'];
 
