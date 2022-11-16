@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Firestore, DocumentReference, doc, collection, collectionData, CollectionReference, query, orderBy } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { getDoc, Firestore, DocumentReference, doc, collection, collectionData, CollectionReference, query, orderBy, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { from, map, Observable } from 'rxjs';
 import { LaiksUser } from 'src/app/shared/laiks-user';
 
 import { WithId } from 'src/app/shared/with-id';
+import { throwIfNull } from 'src/app/shared/throw-if-null';
 
 const USERS_COLL = 'users';
 
@@ -11,6 +12,8 @@ const USERS_COLL = 'users';
   providedIn: 'root'
 })
 export class UsersService {
+
+  private docRef = (id: string) => doc(this.firestore, USERS_COLL, id) as DocumentReference<LaiksUser>;
 
   constructor(
     private firestore: Firestore,
@@ -22,6 +25,21 @@ export class UsersService {
       query(collRef, orderBy('email')),
       { idField: 'id' }
     );
+  }
+
+  getUserById(id: string): Observable<LaiksUser> {
+    return from(getDoc(this.docRef(id))).pipe(
+      map(doc => doc.data()),
+      throwIfNull(id),
+    );
+  }
+
+  updateUser(id: string, update: Partial<LaiksUser>): Observable<void> {
+    return from(updateDoc(this.docRef(id), update));
+  }
+
+  deleteUser(id: string): Observable<void> {
+    return from(deleteDoc(this.docRef(id)));
   }
 
 }

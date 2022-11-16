@@ -1,0 +1,47 @@
+<form [formGroup]="userForm" (submit)="onSave()">
+
+    <h2>
+        <span *ngIf="laiksUser$ | async as laiksUser;">
+            {{ laiksUser.email }}
+        </span>
+    </h2>
+
+    <mat-form-field class="full-width">
+        <mat-label>Vārds</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+
+    <section>
+        <ul>
+            <li>
+                <mat-checkbox formControlName="npAllowed">
+                    Pieeja elektrības cenām
+                </mat-checkbox>
+            </li>
+
+            <li>
+                <mat-checkbox formControlName="isAdmin">
+                    Administratora tiesības
+                </mat-checkbox>
+            </li>
+        </ul>
+
+    </section>
+
+    <mat-divider> </mat-divider>
+
+    <button mat-raised-button type="submit"
+        [disabled]="userForm.value.verified === true && (!userForm.valid || userForm.pristine)">
+        SAGLABĀT
+    </button>
+
+    <button mat-button type="button" color="warn" (click)="onDelete()">
+        DZĒST
+    </button>
+
+    <a mat-button routerLink="../">
+        ATCELT
+    </a>
+
+
+</form>

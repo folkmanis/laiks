@@ -7,6 +7,7 @@ import { AppliancesComponent } from './appliances/appliances.component';
 import { ApplianceEditComponent } from './appliances/appliance-edit/appliance-edit.component';
 import { PowerCyclesComponent } from './appliances/appliance-edit/power-cycles/power-cycles.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { UsersListComponent } from './users/users-list/users-list.component';
     ApplianceEditComponent,
     PowerCyclesComponent,
     UsersListComponent,
+    UserEditComponent,
   ],
   imports: [
     CommonModule,

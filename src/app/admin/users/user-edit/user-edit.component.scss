@@ -1,0 +1,25 @@
+:host {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+form {
+    padding: 16px;
+}
+
+form>* {
+    margin-top: 16px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-top: 8px;
+}
