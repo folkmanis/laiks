@@ -1,9 +1,7 @@
 <form [formGroup]="userForm" (submit)="onSave()">
 
     <h2>
-        <span *ngIf="laiksUser$ | async as laiksUser;">
-            {{ laiksUser.email }}
-        </span>
+        {{ initialData.email }}
     </h2>
 
     <mat-form-field class="full-width">
@@ -20,7 +18,7 @@
             </li>
 
             <li>
-                <mat-checkbox formControlName="isAdmin">
+                <mat-checkbox formControlName="isAdmin" (change)="onIsAdmin($event.checked)">
                     Administratora tiesības
                 </mat-checkbox>
             </li>
@@ -31,15 +29,15 @@
     <mat-divider> </mat-divider>
 
     <button mat-raised-button type="submit"
-        [disabled]="userForm.value.verified === true && (!userForm.valid || userForm.pristine)">
+        [disabled]="busy || userForm.value.verified === true && (!userForm.valid || userForm.pristine)">
         SAGLABĀT
     </button>
 
-    <button mat-button type="button" color="warn" (click)="onDelete()">
+    <button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="busy">
         DZĒST
     </button>
 
-    <a mat-button routerLink="../">
+    <a mat-button routerLink="../" [disabled]="busy">
         ATCELT
     </a>
 

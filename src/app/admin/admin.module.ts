@@ -8,6 +8,7 @@ import { ApplianceEditComponent } from './appliances/appliance-edit/appliance-ed
 import { PowerCyclesComponent } from './appliances/appliance-edit/power-cycles/power-cycles.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { AdminRemoveConfirmationComponent } from './users/admin-remove-confirmation/admin-remove-confirmation.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
     PowerCyclesComponent,
     UsersListComponent,
     UserEditComponent,
+    AdminRemoveConfirmationComponent,
   ],
   imports: [
     CommonModule,

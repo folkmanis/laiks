@@ -7,6 +7,7 @@ import { ApplianceResolverService } from './lib/appliance-resolver.service';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserResolverService } from './lib/user-resolver.service';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { CanDeactivateGuard } from 'src/app/shared/can-deactivate.guard';
 
 const routes: Routes = [
   {
@@ -46,7 +47,8 @@ const routes: Routes = [
             component: UserEditComponent,
             resolve: {
               user: UserResolverService,
-            }
+            },
+            canDeactivate: [CanDeactivateGuard],
           },
           {
             path: '',
