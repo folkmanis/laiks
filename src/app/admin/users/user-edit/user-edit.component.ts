@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, mergeMap, Observer } from 'rxjs';
+import { BehaviorSubject, EMPTY, mergeMap, Observer } from 'rxjs';
 import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { LaiksUser } from 'src/app/shared/laiks-user';
@@ -28,7 +28,7 @@ export class UserEditComponent implements OnInit, CanComponentDeactivate {
 
   initialData!: LaiksUser;
 
-  busy = false;
+  busy$ = new BehaviorSubject(false);
 
   canDeactivate = () => this.userForm.pristine ? true : this.confirm.cancelEdit();
 
@@ -38,7 +38,7 @@ export class UserEditComponent implements OnInit, CanComponentDeactivate {
       this.router.navigate(['..'], { relativeTo: this.route });
     },
     error: err => this.snack.open(`Neizdevās. ${err}`, 'OK'),
-    complete: () => { this.busy = false; },
+    complete: () => { this.busy$.next(false); },
   };
 
   private id!: string;
@@ -67,7 +67,7 @@ export class UserEditComponent implements OnInit, CanComponentDeactivate {
       return;
     }
 
-    this.busy = true;
+    this.busy$.next(true);
 
     this.userForm.patchValue({ verified: true }, { emitEvent: false });
 
@@ -78,7 +78,7 @@ export class UserEditComponent implements OnInit, CanComponentDeactivate {
 
   onDelete() {
 
-    this.busy = true;
+    this.busy$.next(true);
     this.confirm.delete().pipe(
       mergeMap(resp => resp ? this.usersService.deleteUser(this.id) : EMPTY),
     )

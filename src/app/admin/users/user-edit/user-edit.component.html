@@ -29,15 +29,15 @@
     <mat-divider> </mat-divider>
 
     <button mat-raised-button type="submit"
-        [disabled]="busy || userForm.value.verified === true && (!userForm.valid || userForm.pristine)">
+        [disabled]="(busy$ | async) || userForm.value.verified === true && (!userForm.valid || userForm.pristine)">
         SAGLABĀT
     </button>
 
-    <button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="busy">
+    <button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="busy$ | async">
         DZĒST
     </button>
 
-    <a mat-button routerLink="../" [disabled]="busy">
+    <a mat-button routerLink="../" [disabled]="busy$ | async">
         ATCELT
     </a>
 

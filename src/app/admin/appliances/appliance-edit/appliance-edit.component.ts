@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, map, mergeMap, Observer, of, take } from 'rxjs';
+import { EMPTY, map, mergeMap, Observer, of, take, BehaviorSubject } from 'rxjs';
 import { PowerAppliance, PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
@@ -34,6 +34,8 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
 
   id: string | null = null;
 
+  busy$ = new BehaviorSubject(false);
+
   canDeactivate = () => this.applianceForm.pristine ? of(true) : this.confirmation.cancelEdit();
 
 
@@ -48,7 +50,7 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
     error: (err) => {
       this.snack.open(`Neizdevās saglabāt. ${err}`, 'OK');
     },
-    complete: () => { }
+    complete: () => { this.busy$.next(false); }
   };
 
 
@@ -77,6 +79,8 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
     if (!this.applianceForm.valid) {
       return;
     }
+
+    this.busy$.next(true);
     const value = this.applianceForm.getRawValue();
 
     if (this.id) {
@@ -91,6 +95,8 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
 
   onDelete(id: string) {
 
+    this.busy$.next(true);
+
     this.confirmation.delete().pipe(
       mergeMap(resp => resp ? this.appliancesService.deleteAppliance(id) : EMPTY),
     ).subscribe({
@@ -102,6 +108,7 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
       error: (err) => {
         this.snack.open(`Neizdevās izdzēst. ${err}`, 'OK');
       },
+      complete: () => { this.busy$.next(false); }
     });
   }
 
