@@ -49,11 +49,11 @@
     <mat-divider></mat-divider>
 
     <div>
-        <ng-container *ngIf="id$ | async; else createButton">
+        <ng-container *ngIf="id; else createButton">
             <button mat-raised-button [disabled]="applianceForm.pristine === true || applianceForm.valid === false">
                 SAGLABĀT
             </button>
-            <button mat-button color="warn" type="button" (click)="onDelete()">
+            <button mat-button color="warn" type="button" (click)="onDelete(id)">
                 DZĒST
             </button>
         </ng-container>
