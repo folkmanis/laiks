@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
-import { CancelEditConfirmationComponent } from './cancel-edit-confirmation/cancel-edit-confirmation.component';
-import { Observable, map, tap } from 'rxjs';
 import { ComponentType } from '@angular/cdk/portal';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { map, Observable } from 'rxjs';
+import { CancelEditConfirmationComponent } from './cancel-edit-confirmation/cancel-edit-confirmation.component';
+import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,6 @@ export class ConfirmationDialogService {
     return dialorgRef.afterClosed().pipe(
       map(resp => !!resp),
     );
-
   }
 
 }
