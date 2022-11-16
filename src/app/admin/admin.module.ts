@@ -6,6 +6,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AppliancesComponent } from './appliances/appliances.component';
 import { ApplianceEditComponent } from './appliances/appliance-edit/appliance-edit.component';
 import { PowerCyclesComponent } from './appliances/appliance-edit/power-cycles/power-cycles.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { PowerCyclesComponent } from './appliances/appliance-edit/power-cycles/p
     AppliancesComponent,
     ApplianceEditComponent,
     PowerCyclesComponent,
+    UsersListComponent,
   ],
   imports: [
     CommonModule,
