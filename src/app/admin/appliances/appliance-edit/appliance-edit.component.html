@@ -68,36 +68,3 @@
     </div>
 
 </form>
-
-<ng-template #deleteConfirmation>
-    <h2 mat-dialog-title>
-        Tiešām izdzēst?
-    </h2>
-    <mat-dialog-content>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-        <button mat-button mat-dialog-close>
-            ATCELT
-        </button>
-        <button mat-raised-button color="warn" [mat-dialog-close]="true">
-            DZĒST
-        </button>
-    </mat-dialog-actions>
-</ng-template>
-
-<ng-template #discardConfirmation>
-    <h2 mat-dialog-title>
-        Nesaglabāt?
-    </h2>
-    <mat-dialog-content>
-        Izmaiņas netiks saglabātas.
-    </mat-dialog-content>
-    <mat-dialog-actions>
-        <button mat-button mat-dialog-close>
-            TURPINĀT
-        </button>
-        <button mat-raised-button [mat-dialog-close]="true">
-            NESAGLABĀT
-        </button>
-    </mat-dialog-actions>
-</ng-template>

@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, map, mergeMap, Observable, of, Subscription, switchMap, take } from 'rxjs';
 import { PowerAppliance, PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
+import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { throwIfNull } from 'src/app/shared/throw-if-null';
 
 
@@ -16,10 +16,6 @@ import { throwIfNull } from 'src/app/shared/throw-if-null';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ApplianceEditComponent implements OnInit, OnDestroy {
-
-  @ViewChild('deleteConfirmation') private deleteDialog!: TemplateRef<any>;
-
-  @ViewChild('discardConfirmation') private discardDialog?: TemplateRef<any>;
 
   applianceForm = this.nnfb.group({
     name: [
@@ -56,7 +52,7 @@ export class ApplianceEditComponent implements OnInit, OnDestroy {
     private appliancesService: PowerAppliancesService,
     private snack: MatSnackBar,
     private nnfb: NonNullableFormBuilder,
-    private dialog: MatDialog,
+    private confirmation: ConfirmationDialogService,
   ) { }
 
   ngOnInit(): void {
@@ -102,7 +98,7 @@ export class ApplianceEditComponent implements OnInit, OnDestroy {
     this.id$.pipe(
       take(1),
       throwIfNull(),
-      mergeMap(id => this.dialog.open(this.deleteDialog).afterClosed().pipe(
+      mergeMap(id => this.confirmation.delete().pipe(
         mergeMap(resp => resp ? this.appliancesService.deleteAppliance(id) : EMPTY),
       ))
     ).subscribe({
@@ -119,13 +115,11 @@ export class ApplianceEditComponent implements OnInit, OnDestroy {
 
   canDeactivate(): Observable<boolean> {
 
-    if (this.applianceForm.pristine || !this.discardDialog) {
+    if (this.applianceForm.pristine) {
       return of(true);
     }
 
-    return this.dialog.open(this.discardDialog).afterClosed().pipe(
-      map(resp => !!resp)
-    );
+    return this.confirmation.cancelEdit();
 
   }
 
