@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, map, mergeMap, Observable, of, Subscription, switchMap, take } from 'rxjs';
+import { EMPTY, map, mergeMap, Observer, of, take, BehaviorSubject } from 'rxjs';
 import { PowerAppliance, PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
-import { throwIfNull } from 'src/app/shared/throw-if-null';
+import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
+import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
 
 
 @Component({
@@ -15,11 +15,7 @@ import { throwIfNull } from 'src/app/shared/throw-if-null';
   styleUrls: ['./appliance-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ApplianceEditComponent implements OnInit, OnDestroy {
-
-  @ViewChild('deleteConfirmation') private deleteDialog!: TemplateRef<any>;
-
-  @ViewChild('discardConfirmation') private discardDialog?: TemplateRef<any>;
+export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
 
   applianceForm = this.nnfb.group({
     name: [
@@ -36,19 +32,27 @@ export class ApplianceEditComponent implements OnInit, OnDestroy {
     cycles: this.nnfb.control<PowerConsumptionCycle[]>([]),
   });
 
+  id: string | null = null;
 
-  id$: Observable<string | null> = this.route.paramMap.pipe(
-    map(params => params.get('id')),
-    map(id => id === 'new' ? null : id),
-  );
+  busy$ = new BehaviorSubject(false);
 
-  appliance$: Observable<PowerAppliance | undefined> = this.id$.pipe(
-    switchMap(id => id ? this.appliancesService.getAppliance(id) : of(undefined)),
-  );
+  canDeactivate = () => this.applianceForm.pristine ? of(true) : this.confirmation.cancelEdit();
 
-  private initialValue?: PowerAppliance;
 
-  private subs?: Subscription;
+  private initialValue: PowerAppliance | null = null;
+
+  private saveObserver: Observer<void | string> = {
+    next: () => {
+      this.snack.open('Izmaiņas saglabātas', 'OK', { duration: 3000 });
+      this.applianceForm.reset();
+      this.router.navigate(['..'], { relativeTo: this.route });
+    },
+    error: (err) => {
+      this.snack.open(`Neizdevās saglabāt. ${err}`, 'OK');
+    },
+    complete: () => { this.busy$.next(false); }
+  };
+
 
   constructor(
     private route: ActivatedRoute,
@@ -56,55 +60,45 @@ export class ApplianceEditComponent implements OnInit, OnDestroy {
     private appliancesService: PowerAppliancesService,
     private snack: MatSnackBar,
     private nnfb: NonNullableFormBuilder,
-    private dialog: MatDialog,
+    private confirmation: ConfirmationDialogService,
   ) { }
 
   ngOnInit(): void {
-    this.subs = this.appliance$.subscribe({
-      next: ap => {
-        this.initialValue = ap;
-        this.applianceForm.reset(ap);
-      },
-      error: (err) => {
-        console.log(err);
-        this.router.navigate(['..'], { relativeTo: this.route });
-      }
+
+    this.initialValue = this.route.snapshot.data['appliance'];
+
+    if (this.initialValue) {
+      this.id = this.route.snapshot.paramMap.get('id') as string;
+      this.applianceForm.reset(this.initialValue);
     }
-    );
+
   }
 
-  ngOnDestroy(): void {
-    this.subs && this.subs.unsubscribe();
-  }
 
   onSubmit() {
     if (!this.applianceForm.valid) {
       return;
     }
+
+    this.busy$.next(true);
     const value = this.applianceForm.getRawValue();
-    this.id$.pipe(
-      take(1),
-      mergeMap(id => id ? this.appliancesService.updateAppliance(id, value) : this.appliancesService.createAppliance(value)),
-    )
-      .subscribe({
-        next: () => {
-          this.snack.open('Izmaiņas saglabātas', 'OK', { duration: 3000 });
-          this.applianceForm.reset();
-          this.router.navigate(['..'], { relativeTo: this.route });
-        },
-        error: (err) => {
-          this.snack.open(`Neizdevās saglabāt. ${err}`, 'OK');
-        },
-      });
+
+    if (this.id) {
+      this.appliancesService.updateAppliance(this.id, value)
+        .subscribe(this.saveObserver);
+    } else {
+      this.appliancesService.createAppliance(value)
+        .subscribe(this.saveObserver);
+    }
+
   }
 
-  onDelete() {
-    this.id$.pipe(
-      take(1),
-      throwIfNull(),
-      mergeMap(id => this.dialog.open(this.deleteDialog).afterClosed().pipe(
-        mergeMap(resp => resp ? this.appliancesService.deleteAppliance(id) : EMPTY),
-      ))
+  onDelete(id: string) {
+
+    this.busy$.next(true);
+
+    this.confirmation.delete().pipe(
+      mergeMap(resp => resp ? this.appliancesService.deleteAppliance(id) : EMPTY),
     ).subscribe({
       next: () => {
         this.snack.open('Izdzēsts!', 'OK', { duration: 3000 });
@@ -114,20 +108,10 @@ export class ApplianceEditComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.snack.open(`Neizdevās izdzēst. ${err}`, 'OK');
       },
+      complete: () => { this.busy$.next(false); }
     });
   }
 
-  canDeactivate(): Observable<boolean> {
-
-    if (this.applianceForm.pristine || !this.discardDialog) {
-      return of(true);
-    }
-
-    return this.dialog.open(this.discardDialog).afterClosed().pipe(
-      map(resp => !!resp)
-    );
-
-  }
 
   private nameAsyncValidator(): AsyncValidatorFn {
     return (control: AbstractControl<string>) => {
