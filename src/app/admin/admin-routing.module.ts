@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppliancesComponent } from './appliances/appliances.component';
 import { ApplianceEditComponent } from './appliances/appliance-edit/appliance-edit.component';
 import { ApplianceGuard } from './lib/appliance.guard';
+import { ApplianceResolverService } from './lib/appliance-resolver.service';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserResolverService } from './lib/user-resolver.service';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
@@ -21,7 +22,31 @@ const routes: Routes = [
           {
             path: ':id',
             component: ApplianceEditComponent,
-            canDeactivate: [ApplianceGuard]
+            canDeactivate: [ApplianceGuard],
+            resolve: {
+              appliance: ApplianceResolverService,
+            }
+          },
+          {
+            path: '',
+            redirectTo: 'list',
+            pathMatch: 'full',
+          }
+        ]
+      },
+      {
+        path: 'users',
+        children: [
+          {
+            path: 'list',
+            component: UsersListComponent,
+          },
+          {
+            path: ':id',
+            component: UserEditComponent,
+            resolve: {
+              user: UserResolverService,
+            }
           },
           {
             path: '',
