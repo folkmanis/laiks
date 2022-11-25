@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
 import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
 import { Observable } from 'rxjs';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 
 @Component({
   selector: 'laiks-appliances-list',

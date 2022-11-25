@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Inject, Component, OnInit, Optional } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { LaiksUser } from 'src/app/shared/laiks-user';
 
 interface DialogData {

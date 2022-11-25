@@ -1,7 +1,7 @@
 import { ViewChild, ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ControlValueAccessor, Validator, NG_VALUE_ACCESSOR, NG_VALIDATORS, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
-import { MatTable } from '@angular/material/table';
+import { MatLegacyTable as MatTable } from '@angular/material/legacy-table';
 import { map, merge, of, share, Subscription } from 'rxjs';
 
 type PowerCycleForm = FormGroup<{
