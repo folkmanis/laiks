@@ -23,6 +23,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 registerLocaleData(localeLv);
 
 import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/legacy-form-field';
+import { PricesComponent } from './prices/prices.component';
 
 
 
@@ -33,6 +34,7 @@ import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS
     ClockDisplayComponent,
     MainComponent,
     UserMenuComponent,
+    PricesComponent,
   ],
   imports: [
     BrowserModule,

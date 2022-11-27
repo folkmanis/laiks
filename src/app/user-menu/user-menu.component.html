@@ -19,6 +19,10 @@
             {{ user.displayName }}
         </span>
 
+        <a mat-menu-item>
+            Cenas
+        </a>
+
         <button mat-menu-item [mat-menu-trigger-for]="adminMenu" *ngIf="laiksUser?.isAdmin">
             Iestatījumi
         </button>
