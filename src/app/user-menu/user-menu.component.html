@@ -1,16 +1,13 @@
 <span *ngIf="user; else noUser">
 
-    <button mat-button [matMenuTriggerFor]='userMenu'>
-        <span *ngIf="user.photoURL; else noPhoto" class="avatar" style="background-image:url({{user.photoURL}})">
-        </span>
-
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+        <span *ngIf="user.photoURL as photo; else noPhoto;" class="avatar"
+            style="background-image:url({{photo}})"></span>
         <ng-template #noPhoto>
-            <mat-icon>account_circle</mat-icon>
+            <mat-icon>
+                account_circle
+            </mat-icon>
         </ng-template>
-
-        <mat-icon>
-            arrow_drop_down
-        </mat-icon>
     </button>
 
     <mat-menu #userMenu>
