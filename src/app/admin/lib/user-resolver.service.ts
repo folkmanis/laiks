@@ -3,7 +3,7 @@ import { Router, ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@a
 import { Observable, catchError, EMPTY } from 'rxjs';
 import { LaiksUser } from 'src/app/shared/laiks-user';
 import { UsersService } from './users.service';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'

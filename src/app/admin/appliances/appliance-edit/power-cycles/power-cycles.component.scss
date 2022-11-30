@@ -1,4 +1,4 @@
-.mat-table {
+.mat-mdc-table {
     width: 100%;
 }
 
@@ -12,7 +12,12 @@
 
 .mat-column-length,
 .mat-column-consumption {
-    & .mat-form-field {
+    & .mat-mdc-form-field {
         max-width: 120px;
     }
+}
+
+.mat-mdc-cell {
+    padding-left: 4px;
+    padding-right: 4px;
 }
