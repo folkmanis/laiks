@@ -1,8 +1,9 @@
 <span *ngIf="user; else noUser">
 
     <button mat-icon-button [matMenuTriggerFor]="userMenu">
-        <span *ngIf="user.photoURL as photo; else noPhoto;" class="avatar"
-            style="background-image:url({{photo}})"></span>
+        <img *ngIf="user.photoURL as photo; else noPhoto;" [src]="photo">
+        <!-- <span *ngIf="user.photoURL as photo; else noPhoto;" class="avatar"
+            style="background-image:url({{photo}})"></span> -->
         <ng-template #noPhoto>
             <mat-icon>
                 account_circle

@@ -14,12 +14,12 @@
 
     <ng-container matColumnDef="length">
         <th mat-header-cell *matHeaderCellDef>
-            Ilgums
+            Ilgums (minūtes)
         </th>
         <td mat-cell *matCellDef="let control;">
-            <mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
                 <input matInput type="number" [formControl]="control.controls.length">
-                <span matSuffix>min</span>
+                <span matTextSuffix>min</span>
             </mat-form-field>
         </td>
         <td mat-footer-cell *matFooterCellDef>
@@ -34,9 +34,9 @@
             Patēriņš
         </th>
         <td mat-cell *matCellDef="let control;">
-            <mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
                 <input matInput type="number" [formControl]="control.controls.consumption">
-                <span matSuffix>W</span>
+                <span matTextSuffix>W</span>
             </mat-form-field>
         </td>
         <td mat-footer-cell *matFooterCellDef>
