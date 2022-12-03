@@ -16,6 +16,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MinutesToHoursPipe } from './minutes-to-hours.pipe';
 import { ConfirmationDialogModule } from './confirmation-dialog';
 import { InputDirective } from './input.directive';
+import { NullToZeroDirective } from './null-to-zero.directive';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { InputDirective } from './input.directive';
     NumberSignPipe,
     MinutesToHoursPipe,
     InputDirective,
+    NullToZeroDirective,
   ],
   exports: [
     FormsModule,
@@ -59,6 +61,7 @@ import { InputDirective } from './input.directive';
     NumberSignPipe,
     MinutesToHoursPipe,
     ConfirmationDialogModule,
+    NullToZeroDirective,
   ]
 })
 export class SharedModule { }
