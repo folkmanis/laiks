@@ -18,16 +18,17 @@
     <div>
         <mat-form-field id="minimum-delay">
             <mat-label>
-                Mazākais laiks, ko var atlikt
+                Mazākais laiks
             </mat-label>
-            <input matInput type="number" formControlName="minimumDelay">
-            <span matSuffix>stundas</span>
+            <input matInput type="number" formControlName="minimumDelay" class="right-align">
+            <span matTextSuffix>&nbsp;stundas</span>
             <mat-error *ngIf="applianceForm.controls.minimumDelay.hasError('min')">
                 Jābūt lielākam par nulli
             </mat-error>
             <mat-error *ngIf="applianceForm.controls.minimumDelay.hasError('required')">
                 Jānorāda obligāti
             </mat-error>
+            <mat-hint align="end">Mazākais laiks, ko var atlikt</mat-hint>
         </mat-form-field>
     </div>
 
