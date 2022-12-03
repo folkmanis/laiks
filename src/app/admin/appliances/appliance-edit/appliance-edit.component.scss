@@ -16,7 +16,11 @@ form>* {
     width: 100%;
 }
 
-.mat-radio-group {
+.mat-mdc-radio-group {
     display: flex;
     gap: 16px;
+}
+
+.right-align {
+    text-align: right;
 }

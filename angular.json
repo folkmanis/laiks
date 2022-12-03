@@ -29,7 +29,7 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
+              "src/app/shared/styles/laiks.scss",
               "src/styles.scss"
             ],
             "scripts": []

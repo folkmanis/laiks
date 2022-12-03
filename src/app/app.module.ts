@@ -22,7 +22,6 @@ import localeLv from '@angular/common/locales/lv';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 registerLocaleData(localeLv);
 
-import { MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS as MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/legacy-form-field';
 import { PricesComponent } from './prices/prices.component';
 
 
@@ -49,7 +48,6 @@ import { PricesComponent } from './prices/prices.component';
   providers: [
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
     { provide: LOCALE_ID, useValue: 'lv' },
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'standard' } }
 
   ],
   bootstrap: [AppComponent]

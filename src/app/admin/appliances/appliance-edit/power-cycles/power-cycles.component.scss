@@ -1,18 +1,22 @@
-.mat-table {
+.mat-mdc-table {
     width: 100%;
 }
 
 .mat-column-index {
-    min-width: 2rem;
-}
-
-.mat-column-length {
-    padding-right: 16px;
+    max-width: 2.5rem;
+    text-align: center;
 }
 
 .mat-column-length,
 .mat-column-consumption {
-    & .mat-form-field {
-        max-width: 120px;
+    & input {
+        max-width: 80px;
     }
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell,
+.mat-mdc-footer-cell {
+    padding-left: 4px;
+    padding-right: 4px;
 }
