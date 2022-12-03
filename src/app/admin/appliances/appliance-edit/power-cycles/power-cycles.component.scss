@@ -7,16 +7,10 @@
     text-align: center;
 }
 
-.mat-column-length {
-    padding-right: 4px;
-}
-
 .mat-column-length,
 .mat-column-consumption {
     & input {
         max-width: 80px;
-
-
     }
 }
 

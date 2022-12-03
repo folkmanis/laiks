@@ -17,6 +17,7 @@ import { MinutesToHoursPipe } from './minutes-to-hours.pipe';
 import { ConfirmationDialogModule } from './confirmation-dialog';
 import { InputDirective } from './input.directive';
 import { NullToZeroDirective } from './null-to-zero.directive';
+import { LayoutModule } from '@angular/cdk/layout';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { NullToZeroDirective } from './null-to-zero.directive';
     MatDividerModule,
     MatDialogModule,
     MatCheckboxModule,
+    LayoutModule,
     ConfirmationDialogModule,
   ],
   declarations: [
@@ -58,6 +60,7 @@ import { NullToZeroDirective } from './null-to-zero.directive';
     MatDividerModule,
     MatDialogModule,
     MatCheckboxModule,
+    LayoutModule,
     NumberSignPipe,
     MinutesToHoursPipe,
     ConfirmationDialogModule,

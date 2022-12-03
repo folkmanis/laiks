@@ -2,7 +2,8 @@ import { ViewChild, ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRe
 import { FormArray, FormControl, FormGroup, ControlValueAccessor, Validator, NG_VALUE_ACCESSOR, NG_VALIDATORS, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
 import { MatTable } from '@angular/material/table';
-import { map, merge, of, share, Subscription } from 'rxjs';
+import { map, merge, Observable, of, share, Subscription, shareReplay } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 type PowerCycleForm = FormGroup<{
   [key in keyof PowerConsumptionCycle]: FormControl<PowerConsumptionCycle[key]>
@@ -36,8 +37,15 @@ export class PowerCyclesComponent implements OnInit, OnDestroy, ControlValueAcce
 
   private subscription: Subscription | undefined;
 
+  isLarge$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.HandsetPortrait)
+    .pipe(
+      map(state => !state.matches),
+      shareReplay(1),
+    );
+
   constructor(
-    private chDetector: ChangeDetectorRef,
+    private breakpointObserver: BreakpointObserver,
   ) { }
 
   writeValue(obj: PowerCyclesComponent): void {
