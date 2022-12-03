@@ -17,10 +17,7 @@
             Ilgums (minūtes)
         </th>
         <td mat-cell *matCellDef="let control;">
-            <mat-form-field subscriptSizing="dynamic">
-                <input matInput type="number" [formControl]="control.controls.length">
-                <span matTextSuffix>min</span>
-            </mat-form-field>
+            <input matInput laiksInput type="number" [formControl]="control.controls.length">
         </td>
         <td mat-footer-cell *matFooterCellDef>
             <ng-container *ngIf="powerCycles.valid">
@@ -31,13 +28,10 @@
 
     <ng-container matColumnDef="consumption">
         <th mat-header-cell *matHeaderCellDef>
-            Patēriņš
+            Patēriņš (W)
         </th>
         <td mat-cell *matCellDef="let control;">
-            <mat-form-field subscriptSizing="dynamic">
-                <input matInput type="number" [formControl]="control.controls.consumption">
-                <span matTextSuffix>W</span>
-            </mat-form-field>
+            <input matInput laiksInput type="number" [formControl]="control.controls.consumption">
         </td>
         <td mat-footer-cell *matFooterCellDef>
             <ng-container *ngIf="powerCycles.valid">

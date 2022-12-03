@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MinutesToHoursPipe } from './minutes-to-hours.pipe';
 import { ConfirmationDialogModule } from './confirmation-dialog';
+import { InputDirective } from './input.directive';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { ConfirmationDialogModule } from './confirmation-dialog';
   declarations: [
     NumberSignPipe,
     MinutesToHoursPipe,
+    InputDirective,
   ],
   exports: [
     FormsModule,

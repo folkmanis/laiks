@@ -3,7 +3,7 @@
 }
 
 .mat-column-index {
-    width: 1rem;
+    max-width: 2.5rem;
     text-align: center;
 }
 
@@ -13,12 +13,16 @@
 
 .mat-column-length,
 .mat-column-consumption {
-    & .mat-mdc-form-field {
-        max-width: 120px;
+    & input {
+        max-width: 80px;
+
+
     }
 }
 
-.mat-mdc-cell {
+.mat-mdc-cell,
+.mat-mdc-header-cell,
+.mat-mdc-footer-cell {
     padding-left: 4px;
     padding-right: 4px;
 }
