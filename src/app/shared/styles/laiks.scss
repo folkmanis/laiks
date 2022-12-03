@@ -11,8 +11,7 @@ $warn: mat.define-palette(mat.$red-palette);
 
 $theme: mat.define-dark-theme((color: (primary: $primary,
                 accent: $accent,
-                // warn: $warn
-            ),
+                warn: $warn ),
             typography: mat.define-typography-config(),
             density: 0,
         ));
@@ -22,4 +21,3 @@ $theme: mat.define-dark-theme((color: (primary: $primary,
 
 
 @include laiks-input.theme($theme);
-@include laiks-input.appearance();
