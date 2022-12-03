@@ -1,9 +1,9 @@
-import { ViewChild, ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ControlValueAccessor, Validator, NG_VALUE_ACCESSOR, NG_VALIDATORS, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
-import { MatTable } from '@angular/material/table';
-import { map, merge, Observable, of, share, Subscription, shareReplay } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { MatTable } from '@angular/material/table';
+import { map, Observable, shareReplay, Subscription } from 'rxjs';
+import { PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
 
 type PowerCycleForm = FormGroup<{
   [key in keyof PowerConsumptionCycle]: FormControl<PowerConsumptionCycle[key]>
@@ -33,16 +33,16 @@ export class PowerCyclesComponent implements OnInit, OnDestroy, ControlValueAcce
 
   displayedColumns = ['index', 'length', 'consumption', 'actions'];
 
-  private touchFn = () => { };
-
-  private subscription: Subscription | undefined;
-
   isLarge$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.HandsetPortrait)
     .pipe(
       map(state => !state.matches),
       shareReplay(1),
     );
+
+  private touchFn = () => { };
+
+  private subscription: Subscription | undefined;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -102,6 +102,17 @@ export class PowerCyclesComponent implements OnInit, OnDestroy, ControlValueAcce
     this.table?.renderRows();
   }
 
+  getTotalConsumption(cycles: Partial<PowerConsumptionCycle>[]): number { // kWh
+    return cycles
+      .map(cycle => (cycle.length || 0) * (cycle.consumption || 0))
+      .map(cons => cons / 60 / 1000)
+      .reduce((acc, curr) => acc + curr, 0);
+  }
+
+  getTotalLength(cycles: Partial<PowerConsumptionCycle>[]): number {
+    return cycles.reduce((acc, curr) => acc + (curr.length || 0), 0);
+  }
+
   private setCycles(cycles: PowerConsumptionCycle[]): void {
     this.powerCycles.clear({ emitEvent: false });
     for (const cycle of cycles) {
@@ -120,17 +131,6 @@ export class PowerCyclesComponent implements OnInit, OnDestroy, ControlValueAcce
         nonNullable: true,
       })
     });
-  }
-
-  getTotals(cycles: Partial<PowerConsumptionCycle>[]): PowerConsumptionCycle {
-    return cycles.map(cycle => ({ length: cycle.length || 0, consumption: cycle.consumption || 0 }))
-      .reduce(
-        (acc, curr) => ({
-          length: acc.length + curr.length,
-          consumption: acc.consumption + curr.consumption * curr.length / 60,
-        }),
-        { length: 0, consumption: 0 }
-      );
   }
 
 }

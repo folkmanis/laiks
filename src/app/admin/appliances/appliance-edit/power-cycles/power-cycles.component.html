@@ -23,7 +23,7 @@
         </td>
         <td mat-footer-cell *matFooterCellDef>
             <ng-container *ngIf="powerCycles.valid">
-                {{ getTotals(powerCycles.value).length | minutesToHours }}
+                {{ getTotalLength(powerCycles.value) | minutesToHours }}
             </ng-container>
         </td>
     </ng-container>
@@ -38,7 +38,7 @@
         </td>
         <td mat-footer-cell *matFooterCellDef>
             <ng-container *ngIf="powerCycles.valid">
-                {{ getTotals(powerCycles.value).consumption / 1000 | number : '1.1-1' }} kWh
+                {{ getTotalConsumption(powerCycles.value) | number : '1.1-1' }} kWh
             </ng-container>
         </td>
     </ng-container>
