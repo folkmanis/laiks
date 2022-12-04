@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use './variables';
 @use './input-theme' as laiks-input;
 
 @include mat.core();
@@ -19,5 +20,6 @@ $theme: mat.define-dark-theme((color: (primary: $primary,
 @include mat.all-component-themes($theme);
 @include mat.typography-hierarchy($theme);
 
+@include variables.theme($theme);
 
 @include laiks-input.theme($theme);

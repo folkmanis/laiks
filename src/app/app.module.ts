@@ -23,6 +23,9 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
 registerLocaleData(localeLv);
 
 import { PricesComponent } from './prices/prices.component';
+import { PricesTableComponent } from './prices/prices-table/prices-table.component';
+import { PriceRowDirective } from './prices/prices-table/price-row.directive';
+import { PriceTimeComponent } from './prices/prices-table/price-time/price-time.component';
 
 
 
@@ -34,6 +37,9 @@ import { PricesComponent } from './prices/prices.component';
     MainComponent,
     UserMenuComponent,
     PricesComponent,
+    PricesTableComponent,
+    PriceRowDirective,
+    PriceTimeComponent,
   ],
   imports: [
     BrowserModule,

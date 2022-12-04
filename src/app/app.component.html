@@ -8,6 +8,12 @@
         </a>
     </span>
 
+    <span *ngIf="laiksUser$ | async as laiksUser">
+        <a mat-button routerLink="/prices" *ngIf="laiksUser.npAllowed">
+            CENAS
+        </a>
+    </span>
+
     <span class="spacer"></span>
 
     <laiks-user-menu [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()" [laiksUser]="laiksUser$ | async">
@@ -15,4 +21,8 @@
 
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<div class="container" cdkScrollable>
+
+    <router-outlet></router-outlet>
+
+</div>

@@ -1,0 +1,20 @@
+.past {
+    opacity: .5;
+}
+
+.mat-column-difference>span {
+    font-size: 150%;
+}
+
+.mat-column-date {
+    width: 68px;
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+    padding: 0 8px;
+}
+
+.current .mat-mdc-cell {
+    background-color: var(--accent-darker);
+}

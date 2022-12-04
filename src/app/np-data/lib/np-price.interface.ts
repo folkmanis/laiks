@@ -6,6 +6,9 @@ export interface NpPrice {
     value: number,
 }
 
+export type NpPriceOffset = NpPrice & {
+    difference: number,
+};
 export interface NpData {
     prices: NpPrice[],
     lastUpdate: Date,

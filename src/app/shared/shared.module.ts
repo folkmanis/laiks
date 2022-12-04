@@ -18,6 +18,7 @@ import { ConfirmationDialogModule } from './confirmation-dialog';
 import { InputDirective } from './input.directive';
 import { NullToZeroDirective } from './null-to-zero.directive';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatDialogModule,
     MatCheckboxModule,
     LayoutModule,
+    ScrollingModule,
     ConfirmationDialogModule,
   ],
   declarations: [
@@ -60,6 +62,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatDividerModule,
     MatDialogModule,
     MatCheckboxModule,
+    ScrollingModule,
     LayoutModule,
     NumberSignPipe,
     MinutesToHoursPipe,
