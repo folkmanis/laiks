@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, map, mergeMap, Observer, of, take, BehaviorSubject } from 'rxjs';
@@ -7,6 +7,10 @@ import { PowerAppliance, PowerConsumptionCycle } from 'src/app/np-data/lib/power
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
+
+type ApplianceFormType = {
+  [k in keyof PowerAppliance]: FormControl<PowerAppliance[k]>
+};
 
 
 @Component({
@@ -28,9 +32,10 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
       0,
       [Validators.min(0), Validators.required],
     ],
-    enabled: [false],
+    enabled: [true],
+    color: '#303030',
     cycles: this.nnfb.control<PowerConsumptionCycle[]>([]),
-  });
+  }) as FormGroup<ApplianceFormType>;
 
   id: string | null = null;
 
