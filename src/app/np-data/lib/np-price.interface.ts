@@ -7,6 +7,7 @@ export interface NpPrice {
 }
 
 export type NpPriceOffset = NpPrice & {
+    dateNow: Date,
     difference: number,
 };
 export interface NpData {

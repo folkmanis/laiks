@@ -2,8 +2,13 @@
     opacity: .5;
 }
 
-.mat-column-difference>span {
-    font-size: 150%;
+.mat-column-difference {
+
+    width: 60px;
+
+    &>span {
+        font-size: 150%;
+    }
 }
 
 .mat-column-date {

@@ -19,6 +19,7 @@ import { InputDirective } from './input.directive';
 import { NullToZeroDirective } from './null-to-zero.directive';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatCheckboxModule,
     LayoutModule,
     ScrollingModule,
+    MatChipsModule,
     ConfirmationDialogModule,
   ],
   declarations: [
@@ -68,6 +70,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MinutesToHoursPipe,
     ConfirmationDialogModule,
     NullToZeroDirective,
+    MatChipsModule,
   ]
 })
 export class SharedModule { }

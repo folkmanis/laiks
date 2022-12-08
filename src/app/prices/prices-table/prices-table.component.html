@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="npPrices$">
+<table mat-table [dataSource]="npPrices$" [trackBy]="trackByFn">
 
     <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef></th>
@@ -21,7 +21,7 @@
 
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let price">
-            <span *ngIf="price.difference > 0">
+            <span *ngIf="price.difference >= 0">
                 {{ price.difference | numberSign }}
             </span>
         </td>
@@ -32,6 +32,13 @@
         <th mat-header-cell *matHeaderCellDef>c/kWh</th>
         <td mat-cell *matCellDef="let price" class="mat-body-strong">
             {{ price.value * 1.21 / 10 | number:'1.2-2' }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="appliance">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let price">
+            <laiks-appliance-price [price]="price" [appliances]="appliances"></laiks-appliance-price>
         </td>
     </ng-container>
 
