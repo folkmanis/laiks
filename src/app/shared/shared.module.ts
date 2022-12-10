@@ -20,6 +20,7 @@ import { NullToZeroDirective } from './null-to-zero.directive';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { MatChipsModule } from '@angular/material/chips';
     ScrollingModule,
     MatChipsModule,
     ConfirmationDialogModule,
+    MatListModule,
   ],
   declarations: [
     NumberSignPipe,
@@ -71,6 +73,7 @@ import { MatChipsModule } from '@angular/material/chips';
     ConfirmationDialogModule,
     NullToZeroDirective,
     MatChipsModule,
+    MatListModule,
   ]
 })
 export class SharedModule { }

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NpPrice, NpPriceOffset } from 'src/app/np-data/lib/np-price.interface';
-import { NpDataService } from 'src/app/np-data/lib/np-data.service';
-import { map, Observable, combineLatest, mergeMap, toArray, from, shareReplay } from 'rxjs';
-import { LaiksService } from 'src/app/shared/laiks.service';
 import { differenceInHours, isDate } from 'date-fns';
-import { PowerAppliance, PowerApplianceWithBestOffset } from 'src/app/np-data/lib/power-appliance.interface';
+import { combineLatest, from, map, mergeMap, Observable, shareReplay, toArray } from 'rxjs';
+import { NpDataService } from 'src/app/np-data/lib/np-data.service';
+import { NpPrice, NpPriceOffset } from 'src/app/np-data/lib/np-price.interface';
+import { PowerApplianceWithBestOffset } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
 import { PriceCalculatorService } from 'src/app/np-data/lib/price-calculator.service';
+import { LaiksService } from 'src/app/shared/laiks.service';
 
 
 

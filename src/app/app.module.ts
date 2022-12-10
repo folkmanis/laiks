@@ -27,6 +27,7 @@ import { PricesTableComponent } from './prices/prices-table/prices-table.compone
 import { PriceRowDirective } from './prices/prices-table/price-row.directive';
 import { PriceTimeComponent } from './prices/prices-table/price-time/price-time.component';
 import { AppliancePriceComponent } from './prices/prices-table/appliance-price/appliance-price.component';
+import { HourDetailsDirective } from './prices/prices-table/hour-details.directive';
 
 
 
@@ -42,6 +43,7 @@ import { AppliancePriceComponent } from './prices/prices-table/appliance-price/a
     PriceRowDirective,
     PriceTimeComponent,
     AppliancePriceComponent,
+    HourDetailsDirective,
   ],
   imports: [
     BrowserModule,

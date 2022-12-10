@@ -17,9 +17,33 @@
 
 .mat-mdc-cell,
 .mat-mdc-header-cell {
-    padding: 0 8px;
+    padding: 0 4px;
+
+    &:first-of-type {
+        padding-left: 8px;
+    }
 }
 
-.current .mat-mdc-cell {
-    background-color: var(--accent-darker);
+.current {
+    & .mat-mdc-cell {
+        background-color: var(--accent-darker);
+    }
+
+    & .mat-column-price {
+        font-size: 150%;
+    }
+}
+
+.expanded .mat-mdc-cell {
+    border-bottom: none;
+}
+
+.mat-column-expanded-costs {
+    border-bottom: 0px;
+
+    &>.mat-mdc-list {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
 }

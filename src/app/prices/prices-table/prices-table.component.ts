@@ -9,15 +9,17 @@ import { PowerAppliance, PowerApplianceWithBestOffset } from 'src/app/np-data/li
   selector: 'laiks-prices-table',
   templateUrl: './prices-table.component.html',
   styleUrls: ['./prices-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PricesTableComponent implements AfterViewInit {
 
   @ViewChildren(PriceRowDirective) private priceRows?: QueryList<PriceRowDirective>;
 
-  displayedColumns = ['difference', 'date', 'time', 'price', 'appliance'];
+  displayedColumns = ['difference', 'date', 'time', 'price', 'appliance', 'expand'];
 
   npPrices$ = new BehaviorSubject<NpPriceOffset[]>([]);
+
+  expanded: number | null = null;
 
   trackByFn: (index: number, item: NpPriceOffset) => any = (_, item) => item.startTime.valueOf();
 
@@ -40,5 +42,6 @@ export class PricesTableComponent implements AfterViewInit {
       current && current.scrollIn();
     }, 1000);
   }
+
 
 }

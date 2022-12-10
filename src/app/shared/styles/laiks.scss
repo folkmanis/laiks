@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @use './variables';
 @use './input-theme' as laiks-input;
+@use './hour-details-theme' as hour-details;
 
 @include mat.core();
 
@@ -23,3 +24,5 @@ $theme: mat.define-dark-theme((color: (primary: $primary,
 @include variables.theme($theme);
 
 @include laiks-input.theme($theme);
+
+@include hour-details.theme($theme);
