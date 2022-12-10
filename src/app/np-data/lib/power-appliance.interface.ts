@@ -10,5 +10,10 @@ export interface PowerAppliance {
     minimumDelay: number; // hours
     name: string;
     enabled: boolean;
+    color: string | null;
+}
+
+export type PowerApplianceWithBestOffset = PowerAppliance & {
+    bestOffset: { offset: number, price: number; } | null;
 }
 

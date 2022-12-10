@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { differenceInHours, isDate } from 'date-fns';
-import { NpPrice } from '../lib/np-price.interface';
+import { differenceInHours, isDate, addHours } from 'date-fns';
+import { NpPrice, NpPriceOffset } from '../lib/np-price.interface';
 import { PowerAppliance } from '../lib/power-appliance.interface';
 import { PriceCalculatorService } from '../lib/price-calculator.service';
 
@@ -14,33 +14,31 @@ export class ApplianceConsumptionComponent implements OnInit, OnChanges {
 
   @Input() appliance: PowerAppliance | undefined;
 
-  @Input() time: Date = new Date(0);
+  @Input() npPrices: NpPriceOffset[] | null = null;
 
-  @Input() npPrices: NpPrice[] = [];
+  @Input() timeOffset: number | null = 0;
 
-  @Input() timeOffset: number = 0;;
-
+  timeNow?: Date;
   consumption: number | null = null;
-  best: { offset: number, price: number; } | null = null;
 
   constructor(
     private calculator: PriceCalculatorService,
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.appliance && isDate(this.time) && Array.isArray(this.npPrices)) {
 
-      if (this.timeOffset >= this.appliance.minimumDelay) {
-        this.consumption = this.calculator.priceTime(this.npPrices, this.time, this.appliance);
-      } else {
-        this.consumption = null;
-      }
+    this.timeNow = this.npPrices?.find(pr => pr.dateNow)?.dateNow;
 
-      this.best = this.calculator.bestOffset(this.npPrices, new Date(), this.appliance);
+    if (this.appliance && this.timeNow && Array.isArray(this.npPrices) && typeof this.timeOffset === 'number') {
 
-    } else {
+
+      this.consumption = this.calculator.priceTime(
+        this.npPrices,
+        addHours(this.timeNow, this.timeOffset),
+        this.appliance);
+    }
+    else {
       this.consumption = null;
-      this.best = null;
     }
   }
 

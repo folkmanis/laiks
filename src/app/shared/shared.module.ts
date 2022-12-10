@@ -18,6 +18,9 @@ import { ConfirmationDialogModule } from './confirmation-dialog';
 import { InputDirective } from './input.directive';
 import { NullToZeroDirective } from './null-to-zero.directive';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -37,7 +40,10 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatDialogModule,
     MatCheckboxModule,
     LayoutModule,
+    ScrollingModule,
+    MatChipsModule,
     ConfirmationDialogModule,
+    MatListModule,
   ],
   declarations: [
     NumberSignPipe,
@@ -60,11 +66,14 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatDividerModule,
     MatDialogModule,
     MatCheckboxModule,
+    ScrollingModule,
     LayoutModule,
     NumberSignPipe,
     MinutesToHoursPipe,
     ConfirmationDialogModule,
     NullToZeroDirective,
+    MatChipsModule,
+    MatListModule,
   ]
 })
 export class SharedModule { }

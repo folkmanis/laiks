@@ -12,7 +12,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class AppliancesListComponent implements OnInit {
 
-  displayColumns = ['enabled', 'name'];
+  displayColumns = ['color', 'enabled', 'name'];
 
   appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances();
 

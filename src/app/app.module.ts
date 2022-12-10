@@ -21,6 +21,20 @@ import localeLv from '@angular/common/locales/lv';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 registerLocaleData(localeLv);
 
+import { PricesComponent } from './prices/prices.component';
+import { PricesTableComponent } from './prices/prices-table/prices-table.component';
+import { PriceRowDirective } from './prices/prices-table/price-row.directive';
+import { PriceTimeComponent } from './prices/prices-table/price-time/price-time.component';
+import { AppliancePriceComponent } from './prices/prices-table/appliance-price/appliance-price.component';
+import { HourDetailsDirective } from './prices/prices-table/hour-details.directive';
+
+import { PricesComponent } from './prices/prices.component';
+import { PricesTableComponent } from './prices/prices-table/prices-table.component';
+import { PriceRowDirective } from './prices/prices-table/price-row.directive';
+import { PriceTimeComponent } from './prices/prices-table/price-time/price-time.component';
+import { AppliancePriceComponent } from './prices/prices-table/appliance-price/appliance-price.component';
+import { HourDetailsDirective } from './prices/prices-table/hour-details.directive';
+
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -32,6 +46,12 @@ import { environment } from '../environments/environment';
     ClockDisplayComponent,
     MainComponent,
     UserMenuComponent,
+    PricesComponent,
+    PricesTableComponent,
+    PriceRowDirective,
+    PriceTimeComponent,
+    AppliancePriceComponent,
+    HourDetailsDirective,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,42 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($color-config) {
+
+    $primary-palette: map.get($color-config, 'primary');
+    $accent-palette: map.get($color-config, 'accent');
+    $warn-palette: map.get($color-config, 'warn');
+
+    :root {
+
+        --primary-color: #{mat.get-color-from-palette($primary-palette)};
+        --primary-lighter: #{mat.get-color-from-palette($primary-palette, 'lighter')};
+        --primary-darker: #{mat.get-color-from-palette($primary-palette, 'darker')};
+        --primary-text: #{mat.get-color-from-palette($primary-palette, 'text')};
+
+        --accent-color: #{mat.get-color-from-palette($accent-palette)};
+        --accent-lighter: #{mat.get-color-from-palette($accent-palette, 'lighter')};
+        --accent-darker: #{mat.get-color-from-palette($accent-palette, 'darker')};
+        --accent-text: #{mat.get-color-from-palette($accent-palette, 'text')};
+
+        --warn-color: #{mat.get-color-from-palette($warn-palette)};
+        --warn-lighter: #{mat.get-color-from-palette($warn-palette, 'lighter')};
+        --warn-darker: #{mat.get-color-from-palette($warn-palette, 'darker')};
+        --warn-text: #{mat.get-color-from-palette($warn-palette, 'text')};
+
+    }
+
+}
+
+
+@mixin theme($theme) {
+
+
+    $color-config: mat.get-color-config($theme);
+
+    @if $color-config !=null {
+        @include color($color-config);
+    }
+
+
+}

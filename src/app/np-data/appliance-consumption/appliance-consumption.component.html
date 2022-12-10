@@ -1,16 +1,6 @@
-<div class="container" *ngIf="appliance">
-    <span>
-        {{ appliance.name }}
-    </span>
-    <span *ngIf="best" class="active">
-        <span class="value">
-            &nbsp;{{ best.offset | numberSign }}
-        </span>
-        <span class="units"> {{ best.price * 100 * 1.21 | number:'1.2-2' }}</span>
-    </span>
-    <span *ngIf="consumption !== null">
-        <span class="units">
-            ({{ consumption * 100 * 1.21 | number:'1.2-2' }}) centi.
-        </span>
-    </span>
-</div>
+{{ appliance?.name }}&nbsp;
+<span *ngIf="consumption !== null else noValue;">
+    {{ consumption * 100 * 1.21 | number:'1.2-2' }} centi.
+</span>
+
+<ng-template #noValue>---</ng-template>

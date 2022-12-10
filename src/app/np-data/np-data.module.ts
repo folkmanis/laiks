@@ -19,6 +19,7 @@ import { ApplianceConsumptionComponent } from './appliance-consumption/appliance
   ],
   exports: [
     NpDataComponent,
+    ApplianceConsumptionComponent,
   ]
 })
 export class NpDataModule { }
