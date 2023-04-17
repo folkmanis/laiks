@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PriceCalculatorService } from './price-calculator.service';
-import { NpPrice } from './np-data.service';
-
-import { washer } from './power-appliances';
+import { NpPrice } from './np-price.interface';
+import { PowerAppliance } from './power-appliance.interface';
 
 const testPrices: NpPrice[] = [
   {
@@ -22,6 +21,21 @@ const testPrices: NpPrice[] = [
     value: 150,
   },
 ];
+
+const washer: PowerAppliance = {
+  delay: 'start',
+  cycles: [
+    {
+      consumption: 100,
+      length: 300000
+    },
+  ],
+  minimumDelay: 3, // hours
+  name: "Veļasmašīna",
+  enabled: true,
+  color: "#ff00ff",
+
+};
 
 
 
