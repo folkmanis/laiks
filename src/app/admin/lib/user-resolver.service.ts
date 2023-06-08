@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, catchError, EMPTY } from 'rxjs';
 import { LaiksUser } from 'src/app/shared/laiks-user';
 import { UsersService } from './users.service';
@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable({
   providedIn: 'root'
 })
-export class UserResolverService implements Resolve<LaiksUser> {
+export class UserResolverService  {
 
   constructor(
     private usersService: UsersService,

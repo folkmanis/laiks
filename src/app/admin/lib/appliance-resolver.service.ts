@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { catchError, EMPTY, Observable } from 'rxjs';
 import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
@@ -8,7 +8,7 @@ import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.ser
 @Injectable({
   providedIn: 'root'
 })
-export class ApplianceResolverService implements Resolve<PowerAppliance | null> {
+export class ApplianceResolverService  {
 
   constructor(
     private appliancesService: PowerAppliancesService,

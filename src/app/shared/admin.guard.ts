@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
+import { Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
 import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanLoad {
+export class AdminGuard  {
 
   constructor(
     private userService: UserService,
