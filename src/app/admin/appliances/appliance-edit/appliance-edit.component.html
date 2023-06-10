@@ -62,21 +62,19 @@
 
     <div>
         <ng-container *ngIf="id; else createButton">
-            <button mat-raised-button
-                [disabled]="(busy$ |async) || applianceForm.pristine === true || applianceForm.valid === false">
+            <button mat-raised-button [disabled]="actionsDisabled() || applianceForm.pristine === true">
                 SAGLABĀT
             </button>
-            <button mat-button color="warn" type="button" (click)="onDelete(id)" [disabled]="busy$ |async">
+            <button mat-button color="warn" type="button" (click)="onDelete(id)" [disabled]="busy()">
                 DZĒST
             </button>
         </ng-container>
         <ng-template #createButton>
-            <button mat-raised-button
-                [disabled]="(busy$ |async) || applianceForm.pristine === true || applianceForm.valid === false">
+            <button mat-raised-button [disabled]="actionsDisabled() || applianceForm.pristine === true">
                 IZVEIDOT
             </button>
         </ng-template>
-        <a mat-button routerLink=".." [disabled]="busy$ |async">
+        <a mat-button routerLink=".." [disabled]="busy()">
             ATCELT
         </a>
     </div>

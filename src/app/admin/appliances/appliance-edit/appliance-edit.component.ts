@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, computed, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, NonNullableFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -20,36 +21,54 @@ type ApplianceFormType = {
   [k in keyof PowerAppliance]: FormControl<PowerAppliance[k]>
 };
 
+export const INITIAL_APPLIANCE: PowerAppliance = {
+  name: '',
+  delay: 'start',
+  minimumDelay: 0,
+  enabled: true,
+  color: '#303030',
+  cycles: [],
+};
+
 
 @Component({
-    selector: 'laiks-appliance-edit',
-    templateUrl: './appliance-edit.component.html',
-    styleUrls: ['./appliance-edit.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf, MatRadioModule, MatCheckboxModule, PowerCyclesComponent, MatDividerModule, MatButtonModule, RouterLink, AsyncPipe]
+  selector: 'laiks-appliance-edit',
+  templateUrl: './appliance-edit.component.html',
+  styleUrls: ['./appliance-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf, MatRadioModule, MatCheckboxModule, PowerCyclesComponent, MatDividerModule, MatButtonModule, RouterLink, AsyncPipe]
 })
-export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
+export class ApplianceEditComponent implements CanComponentDeactivate {
 
-  applianceForm = this.nnfb.group({
+  @Input() set appliance(value: PowerAppliance) {
+    this.initialValue = value;
+    this.applianceForm.reset(this.initialValue);
+  }
+
+  @Input() id: string | null = null;
+
+  applianceForm: FormGroup<ApplianceFormType> = this.nnfb.group({
     name: [
-      '',
+      INITIAL_APPLIANCE.name,
       [Validators.required],
       [this.nameAsyncValidator()]
     ],
-    delay: this.nnfb.control<'start' | 'end'>('start'),
+    delay: [INITIAL_APPLIANCE.delay],
     minimumDelay: [
-      0,
+      INITIAL_APPLIANCE.minimumDelay,
       [Validators.min(0), Validators.required],
     ],
-    enabled: [true],
-    color: '#303030',
-    cycles: this.nnfb.control<PowerConsumptionCycle[]>([]),
-  }) as FormGroup<ApplianceFormType>;
+    enabled: [INITIAL_APPLIANCE.enabled],
+    color: [INITIAL_APPLIANCE.color],
+    cycles: [INITIAL_APPLIANCE.cycles],
+  });
 
-  id: string | null = null;
 
-  busy$ = new BehaviorSubject(false);
+  busy = signal(false);
+
+  formStatus = toSignal(this.applianceForm.statusChanges, { initialValue: 'PENDING' });
+  actionsDisabled = computed(() => this.busy() || this.formStatus() !== 'VALID');
 
   canDeactivate = () => this.applianceForm.pristine ? of(true) : this.confirmation.cancelEdit();
 
@@ -65,7 +84,7 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
     error: (err) => {
       this.snack.open(`Neizdevās saglabāt. ${err}`, 'OK');
     },
-    complete: () => { this.busy$.next(false); }
+    complete: () => { this.busy.set(false); }
   };
 
 
@@ -78,24 +97,13 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
     private confirmation: ConfirmationDialogService,
   ) { }
 
-  ngOnInit(): void {
-
-    this.initialValue = this.route.snapshot.data['appliance'];
-
-    if (this.initialValue) {
-      this.id = this.route.snapshot.paramMap.get('id') as string;
-      this.applianceForm.reset(this.initialValue);
-    }
-
-  }
-
 
   onSubmit() {
     if (!this.applianceForm.valid) {
       return;
     }
 
-    this.busy$.next(true);
+    this.busy.set(true);
     const value = this.applianceForm.getRawValue();
 
     if (this.id) {
@@ -110,7 +118,7 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
 
   onDelete(id: string) {
 
-    this.busy$.next(true);
+    this.busy.set(true);
 
     this.confirmation.delete().pipe(
       mergeMap(resp => resp ? this.appliancesService.deleteAppliance(id) : EMPTY),
@@ -123,7 +131,7 @@ export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
       error: (err) => {
         this.snack.open(`Neizdevās izdzēst. ${err}`, 'OK');
       },
-      complete: () => { this.busy$.next(false); }
+      complete: () => { this.busy.set(false); }
     });
   }
 

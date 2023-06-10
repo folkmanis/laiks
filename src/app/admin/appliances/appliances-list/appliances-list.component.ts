@@ -1,22 +1,28 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
-import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
+import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
+import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
 
 @Component({
-    selector: 'laiks-appliances-list',
-    templateUrl: './appliances-list.component.html',
-    styleUrls: ['./appliances-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [MatTableModule, MatButtonModule, RouterLink, MatCheckboxModule, MatIconModule]
+  selector: 'laiks-appliances-list',
+  templateUrl: './appliances-list.component.html',
+  styleUrls: ['./appliances-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatTableModule,
+    MatButtonModule,
+    RouterLink,
+    MatCheckboxModule,
+    MatIconModule
+  ],
 })
-export class AppliancesListComponent implements OnInit {
+export class AppliancesListComponent {
 
   displayColumns = ['color', 'enabled', 'name'];
 
@@ -25,9 +31,6 @@ export class AppliancesListComponent implements OnInit {
   constructor(
     private appliancesService: PowerAppliancesService,
   ) { }
-
-  ngOnInit(): void {
-  }
 
   onEnable(event: MatCheckboxChange, id: string) {
     this.appliancesService.updateAppliance(id, { enabled: event.checked })
