@@ -2,12 +2,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { minutesToHours } from 'date-fns';
 
 @Pipe({
-    name: 'minutesToHours',
-    standalone: true
+  name: 'minutesToHours',
+  standalone: true
 })
 export class MinutesToHoursPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): string | any {
+  transform(value: unknown): string | any {
     if (typeof value === 'number') {
       const hours = minutesToHours(value);
       const minutes = value % 60;

@@ -1,17 +1,17 @@
-import { Input, ChangeDetectionStrategy, Component, OnChanges, SimpleChanges } from '@angular/core';
-import { NpPrice, NpPriceOffset } from 'src/app/np-data/lib/np-price.interface';
-import { PowerAppliance, PowerApplianceWithBestOffset } from 'src/app/np-data/lib/power-appliance.interface';
+import { NgFor, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { NgIf, NgFor } from '@angular/common';
+import { NpPriceOffset } from 'src/app/np-data/lib/np-price.interface';
+import { PowerApplianceWithBestOffset } from 'src/app/np-data/lib/power-appliance.interface';
 
 
 @Component({
-    selector: 'laiks-appliance-price',
-    templateUrl: './appliance-price.component.html',
-    styleUrls: ['./appliance-price.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, MatChipsModule, NgFor]
+  selector: 'laiks-appliance-price',
+  templateUrl: './appliance-price.component.html',
+  styleUrls: ['./appliance-price.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, MatChipsModule, NgFor]
 })
 export class AppliancePriceComponent implements OnChanges {
 
@@ -21,7 +21,7 @@ export class AppliancePriceComponent implements OnChanges {
 
   bestAppliances: PowerApplianceWithBestOffset[] | null = null;
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
 
     if (!this.price || !Array.isArray(this.appliances)) {
       this.bestAppliances = null;

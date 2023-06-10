@@ -16,27 +16,27 @@ import { MatTableModule } from '@angular/material/table';
 
 
 @Component({
-    selector: 'laiks-prices-table',
-    templateUrl: './prices-table.component.html',
-    styleUrls: ['./prices-table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatTableModule,
-        PriceTimeComponent,
-        NgIf,
-        AppliancePriceComponent,
-        MatButtonModule,
-        HourDetailsDirective,
-        MatIconModule,
-        PriceRowDirective,
-        MatListModule,
-        NgFor,
-        ApplianceConsumptionComponent,
-        DecimalPipe,
-        DatePipe,
-        NumberSignPipe,
-    ],
+  selector: 'laiks-prices-table',
+  templateUrl: './prices-table.component.html',
+  styleUrls: ['./prices-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    MatTableModule,
+    PriceTimeComponent,
+    NgIf,
+    AppliancePriceComponent,
+    MatButtonModule,
+    HourDetailsDirective,
+    MatIconModule,
+    PriceRowDirective,
+    MatListModule,
+    NgFor,
+    ApplianceConsumptionComponent,
+    DecimalPipe,
+    DatePipe,
+    NumberSignPipe,
+  ],
 })
 export class PricesTableComponent implements AfterViewInit {
 
@@ -66,6 +66,7 @@ export class PricesTableComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       const current = this.priceRows?.find(row => row.current);
+      console.log(current);
       current && current.scrollIn();
     }, 1000);
   }

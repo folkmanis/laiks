@@ -9,6 +9,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginResponseType, UserService } from './shared/user.service';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     AsyncPipe,
     UserMenuComponent,
     RouterLink,
+    CdkScrollableModule,
   ]
 })
 export class AppComponent {
