@@ -27,23 +27,21 @@ describe('MainComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         SharedModule,
-      ],
-      declarations: [
         MainComponent,
         SelectorComponent,
         NumberSignPipe,
         ClockDisplayComponent,
         NpDataComponent,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: NpDataService,
-          useClass: TestNpService,
+            provide: NpDataService,
+            useClass: TestNpService,
         }
-      ]
-    })
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(MainComponent);

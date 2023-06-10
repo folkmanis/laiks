@@ -1,7 +1,8 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[laiksInput]'
+    selector: '[laiksInput]',
+    standalone: true
 })
 export class InputDirective {
 

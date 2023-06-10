@@ -9,10 +9,9 @@ describe('NpDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NpDataComponent],
-      providers: [
-      ]
-    })
+    imports: [NpDataComponent],
+    providers: []
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(NpDataComponent);

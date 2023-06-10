@@ -8,8 +8,8 @@ describe('AdminRemoveConfirmationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminRemoveConfirmationComponent ]
-    })
+    imports: [AdminRemoveConfirmationComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(AdminRemoveConfirmationComponent);

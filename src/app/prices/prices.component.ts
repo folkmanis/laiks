@@ -7,14 +7,18 @@ import { PowerApplianceWithBestOffset } from 'src/app/np-data/lib/power-applianc
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
 import { PriceCalculatorService } from 'src/app/np-data/lib/price-calculator.service';
 import { LaiksService } from 'src/app/shared/laiks.service';
+import { AsyncPipe } from '@angular/common';
+import { PricesTableComponent } from './prices-table/prices-table.component';
 
 
 
 @Component({
-  selector: 'laiks-prices',
-  templateUrl: './prices.component.html',
-  styleUrls: ['./prices.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'laiks-prices',
+    templateUrl: './prices.component.html',
+    styleUrls: ['./prices.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [PricesTableComponent, AsyncPipe]
 })
 export class PricesComponent {
 

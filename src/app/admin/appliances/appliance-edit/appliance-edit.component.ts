@@ -1,12 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, NonNullableFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { EMPTY, map, mergeMap, Observer, of, take, BehaviorSubject } from 'rxjs';
 import { PowerAppliance, PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { PowerCyclesComponent } from './power-cycles/power-cycles.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 type ApplianceFormType = {
   [k in keyof PowerAppliance]: FormControl<PowerAppliance[k]>
@@ -14,10 +22,12 @@ type ApplianceFormType = {
 
 
 @Component({
-  selector: 'laiks-appliance-edit',
-  templateUrl: './appliance-edit.component.html',
-  styleUrls: ['./appliance-edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'laiks-appliance-edit',
+    templateUrl: './appliance-edit.component.html',
+    styleUrls: ['./appliance-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf, MatRadioModule, MatCheckboxModule, PowerCyclesComponent, MatDividerModule, MatButtonModule, RouterLink, AsyncPipe]
 })
 export class ApplianceEditComponent implements OnInit, CanComponentDeactivate {
 

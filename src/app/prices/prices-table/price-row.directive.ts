@@ -4,7 +4,8 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 
 
 @Directive({
-  selector: 'tr[laiksPriceRow]'
+    selector: 'tr[laiksPriceRow]',
+    standalone: true
 })
 export class PriceRowDirective {
 

@@ -1,6 +1,7 @@
 import { addHours, isDate, isWithinInterval, subHours } from 'date-fns';
 import { Input, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NpPrice } from '../lib/np-price.interface';
+import { NgFor, DecimalPipe, DatePipe } from '@angular/common';
 
 function inInterval(time: Date): (price: NpPrice) => boolean {
   return ({ startTime, endTime }: NpPrice) => isWithinInterval(time, { start: subHours(startTime, 2), end: addHours(endTime, 1) });
@@ -8,10 +9,12 @@ function inInterval(time: Date): (price: NpPrice) => boolean {
 
 
 @Component({
-  selector: 'laiks-np-prices',
-  templateUrl: './np-prices.component.html',
-  styleUrls: ['./np-prices.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'laiks-np-prices',
+    templateUrl: './np-prices.component.html',
+    styleUrls: ['./np-prices.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgFor, DecimalPipe, DatePipe]
 })
 export class NpPricesComponent {
 

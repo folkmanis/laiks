@@ -11,8 +11,8 @@ describe('ClockDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ClockDisplayComponent]
-    })
+    imports: [ClockDisplayComponent]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(ClockDisplayComponent);

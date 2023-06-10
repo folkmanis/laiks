@@ -5,13 +5,17 @@ import { NpDataService } from './lib/np-data.service';
 import { NpPrice } from './lib/np-price.interface';
 import { PowerAppliance } from './lib/power-appliance.interface';
 import { PowerAppliancesService } from './lib/power-appliances.service';
+import { NpPricesComponent } from './np-prices/np-prices.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 
 @Component({
-  selector: 'laiks-np-data',
-  templateUrl: './np-data.component.html',
-  styleUrls: ['./np-data.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'laiks-np-data',
+    templateUrl: './np-data.component.html',
+    styleUrls: ['./np-data.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, NpPricesComponent, AsyncPipe]
 })
 export class NpDataComponent {
 

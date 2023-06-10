@@ -1,9 +1,16 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { MatTable } from '@angular/material/table';
+import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTable, MatTableModule } from '@angular/material/table';
 import { map, Observable, shareReplay, Subscription } from 'rxjs';
 import { PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
+import { MinutesToHoursPipe } from '../../../../shared/minutes-to-hours.pipe';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf, AsyncPipe, DecimalPipe } from '@angular/common';
+import { NullToZeroDirective } from '../../../../shared/null-to-zero.directive';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 type PowerCycleForm = FormGroup<{
   [key in keyof PowerConsumptionCycle]: FormControl<PowerConsumptionCycle[key]>
@@ -16,14 +23,16 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
 
 
 @Component({
-  selector: 'laiks-power-cycles',
-  templateUrl: './power-cycles.component.html',
-  styleUrls: ['./power-cycles.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: PowerCyclesComponent, multi: true },
-    { provide: NG_VALIDATORS, useExisting: PowerCyclesComponent, multi: true },
-  ]
+    selector: 'laiks-power-cycles',
+    templateUrl: './power-cycles.component.html',
+    styleUrls: ['./power-cycles.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        { provide: NG_VALUE_ACCESSOR, useExisting: PowerCyclesComponent, multi: true },
+        { provide: NG_VALIDATORS, useExisting: PowerCyclesComponent, multi: true },
+    ],
+    standalone: true,
+    imports: [MatTableModule, MatIconModule, MatInputModule, FormsModule, NullToZeroDirective, ReactiveFormsModule, NgIf, MatButtonModule, MatMenuModule, AsyncPipe, DecimalPipe, MinutesToHoursPipe]
 })
 export class PowerCyclesComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
 

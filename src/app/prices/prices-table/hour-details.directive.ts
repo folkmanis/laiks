@@ -9,8 +9,9 @@ interface HourDetailsData {
 }
 
 @Directive({
-  selector: 'button[laiksHourDetails]',
-  exportAs: 'hourDetails',
+    selector: 'button[laiksHourDetails]',
+    exportAs: 'hourDetails',
+    standalone: true,
 })
 export class HourDetailsDirective extends CdkOverlayOrigin implements OnInit, OnDestroy {
 

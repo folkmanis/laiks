@@ -24,24 +24,22 @@ describe('AppComponent', () => {
   beforeEach(async () => {
 
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         SharedModule,
-      ],
-      declarations: [
-        AppComponent,
         SelectorComponent,
         NumberSignPipe,
         ClockDisplayComponent,
         ClockOffsetComponent,
         NpDataComponent,
-      ],
-      providers: [
+    ],
+    declarations: [AppComponent],
+    providers: [
         {
-          provide: NpDataService,
-          useClass: TestNpService,
+            provide: NpDataService,
+            useClass: TestNpService,
         }
-      ]
-    }).compileComponents();
+    ]
+}).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;

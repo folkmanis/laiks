@@ -3,12 +3,15 @@ import { differenceInHours, isDate, addHours } from 'date-fns';
 import { NpPrice, NpPriceOffset } from '../lib/np-price.interface';
 import { PowerAppliance } from '../lib/power-appliance.interface';
 import { PriceCalculatorService } from '../lib/price-calculator.service';
+import { NgIf, DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'laiks-appliance-consumption',
-  templateUrl: './appliance-consumption.component.html',
-  styleUrls: ['./appliance-consumption.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'laiks-appliance-consumption',
+    templateUrl: './appliance-consumption.component.html',
+    styleUrls: ['./appliance-consumption.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, DecimalPipe]
 })
 export class ApplianceConsumptionComponent implements OnInit, OnChanges {
 

@@ -8,10 +8,12 @@ import { NumberSignPipe } from './number-sign.pipe';
 
 
 @Component({
-  template: `
+    template: `
     <laiks-selector [value]="initialValue" (valueChange)="onValueChanges($event)">
     </laiks-selector>
-  `
+  `,
+    standalone: true,
+    imports: [SharedModule]
 })
 class SelectorTestComponent {
   initialValue: any = '2';
@@ -28,16 +30,13 @@ describe('SelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        SelectorComponent,
+    imports: [SharedModule, SelectorComponent,
         NumberSignPipe,
-        SelectorTestComponent,
-      ],
-      imports: [SharedModule],
-      providers: [
+        SelectorTestComponent],
+    providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true },
-      ]
-    })
+    ]
+})
       .compileComponents();
 
     fixture = TestBed.createComponent(SelectorTestComponent);

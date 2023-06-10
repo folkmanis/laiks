@@ -2,7 +2,8 @@ import { Directive, HostListener } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
-  selector: 'input[formControl][laiksNullToZero],input[formControlName][laiksNullToZero]'
+    selector: 'input[formControl][laiksNullToZero],input[formControlName][laiksNullToZero]',
+    standalone: true
 })
 export class NullToZeroDirective {
 

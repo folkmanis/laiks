@@ -1,13 +1,17 @@
 import { Input, ChangeDetectionStrategy, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { NpPrice, NpPriceOffset } from 'src/app/np-data/lib/np-price.interface';
 import { PowerAppliance, PowerApplianceWithBestOffset } from 'src/app/np-data/lib/power-appliance.interface';
+import { MatChipsModule } from '@angular/material/chips';
+import { NgIf, NgFor } from '@angular/common';
 
 
 @Component({
-  selector: 'laiks-appliance-price',
-  templateUrl: './appliance-price.component.html',
-  styleUrls: ['./appliance-price.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'laiks-appliance-price',
+    templateUrl: './appliance-price.component.html',
+    styleUrls: ['./appliance-price.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgIf, MatChipsModule, NgFor]
 })
 export class AppliancePriceComponent implements OnChanges {
 

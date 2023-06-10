@@ -8,14 +8,12 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [
-    DeleteConfirmationComponent,
-    CancelEditConfirmationComponent
-  ],
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule,
-  ]
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        MatButtonModule,
+        DeleteConfirmationComponent,
+        CancelEditConfirmationComponent,
+    ]
 })
 export class ConfirmationDialogModule { }

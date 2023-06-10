@@ -8,8 +8,8 @@ describe('NpPricesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NpPricesComponent ]
-    })
+    imports: [NpPricesComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(NpPricesComponent);
