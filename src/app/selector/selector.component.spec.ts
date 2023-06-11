@@ -2,18 +2,17 @@ import { Component } from '@angular/core';
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 
 import { SelectorComponent } from './selector.component';
-
-import { SharedModule } from '../shared/shared.module';
-import { NumberSignPipe } from './number-sign.pipe';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { NumberSignPipe } from '../shared/number-sign.pipe';
 
 
 @Component({
-    template: `
+  template: `
     <laiks-selector [value]="initialValue" (valueChange)="onValueChanges($event)">
-    </laiks-selector>
-  `,
-    standalone: true,
-    imports: [SharedModule]
+    </laiks-selector>  `,
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule, NumberSignPipe]
 })
 class SelectorTestComponent {
   initialValue: any = '2';
@@ -30,13 +29,15 @@ describe('SelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [SharedModule, SelectorComponent,
+      imports: [
+        SelectorComponent,
         NumberSignPipe,
-        SelectorTestComponent],
-    providers: [
+        SelectorTestComponent
+      ],
+      providers: [
         { provide: ComponentFixtureAutoDetect, useValue: true },
-    ]
-})
+      ]
+    })
       .compileComponents();
 
     fixture = TestBed.createComponent(SelectorTestComponent);

@@ -19,14 +19,14 @@ describe('SettingsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return default settings', () => {
-    const settings = service.getSettings();
-    expect(settings).toEqual(DEFAULT_SETTINGS);
+  it('should return default offset', () => {
+    const offset = service.offset;
+    expect(offset()).toEqual(DEFAULT_SETTINGS.offset);
   });
 
   it('should update and read settings', () => {
-    service.setSettings(TEST_SETTINGS);
-    expect(service.getSettings()).toEqual(TEST_SETTINGS);
+    service.setOffset(TEST_SETTINGS.offset);
+    expect(service.offset()).toEqual(TEST_SETTINGS.offset);
   });
 
 

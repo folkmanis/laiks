@@ -1,11 +1,11 @@
-import { ElementRef, Directive, Input, HostBinding, Optional } from '@angular/core';
+import { ElementRef, Directive, Input, HostBinding, Optional, Component } from '@angular/core';
 import { NpPriceOffset } from '../../np-data/lib/np-price.interface';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 
 
 @Directive({
-    selector: 'tr[laiksPriceRow]',
-    standalone: true
+  selector: 'tr[laiksPriceRow]',
+  standalone: true
 })
 export class PriceRowDirective {
 
