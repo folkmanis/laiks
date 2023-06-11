@@ -13,19 +13,13 @@ export type NpPriceOffset = NpPrice & {
 export interface NpData {
     prices: NpPrice[],
     lastUpdate: Date,
+    average: number,
+    averageDays: number,
+    stDev: number,
 }
 
 export interface NpPriceCollectionData {
     startTime: Timestamp,
     endTime: Timestamp,
     value: number,
-}
-
-export interface StoredNpData {
-    prices: {
-        startTime: string,
-        endTime: string,
-        value: number,
-    }[],
-    lastUpdate: string,
 }

@@ -22,7 +22,7 @@ import { PricesTableComponent } from './prices-table/prices-table.component';
 export class PricesComponent {
 
   private npData = toSignal(
-    inject(NpDataService).npData$.pipe(map(data => data.prices)),
+    inject(NpDataService).getNpPrices(),
     { initialValue: [] as NpPrice[] }
   );
 

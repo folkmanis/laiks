@@ -1,6 +1,6 @@
 <div class="container">
 
-    <laiks-np-data *ngIf="npAllowed()" [time]="timeWithOffset()" [timeOffset]="offset()">
+    <laiks-np-data *ngIf="npAllowed()" [time]="timeWithOffset()">
     </laiks-np-data>
 
     <laiks-selector [value]="offset()" (valueChange)="onSetOffset($event)"></laiks-selector>
