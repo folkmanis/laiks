@@ -1,31 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UsersService } from '../../lib/users.service';
-import { LaiksUser } from 'src/app/shared/laiks-user';
-import { WithId } from 'src/app/shared/with-id';
-import { Observable } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { RouterLink } from '@angular/router';
+import { UsersService } from '../../lib/users.service';
 
 @Component({
-    selector: 'laiks-users-list',
-    templateUrl: './users-list.component.html',
-    styleUrls: ['./users-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [MatTableModule, MatButtonModule, RouterLink]
+  selector: 'laiks-users-list',
+  templateUrl: './users-list.component.html',
+  styleUrls: ['./users-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatTableModule, MatButtonModule, RouterLink]
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent {
 
-  dataSource$: Observable<WithId<LaiksUser>[]> = this.usersService.getUsers();
+  dataSource$ = inject(UsersService).getUsers();
 
   displayedColumns = ['email'];
-
-  constructor(
-    private usersService: UsersService,
-  ) { }
-
-  ngOnInit(): void {
-  }
 
 }

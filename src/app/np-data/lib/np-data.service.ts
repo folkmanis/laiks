@@ -25,6 +25,7 @@ export class NpDataService {
     switchMap(t => t > this.getStoredPrices().lastUpdate ? this.getNpData(t) : of(this.getStoredPrices())),
   );
 
+  npPrices$ = this.npData$.pipe();
 
   constructor(
     private firestore: Firestore,

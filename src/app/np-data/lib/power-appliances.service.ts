@@ -15,9 +15,16 @@ export class PowerAppliancesService {
     private firestore: Firestore,
   ) { }
 
-  getPowerAppliances(): Observable<WithId<PowerAppliance>[]> {
+  getPowerAppliances(options: { enabledOnly?: boolean; } = {}): Observable<WithId<PowerAppliance>[]> {
     const collRef = collection(this.firestore, APPLIANCES_COLL) as CollectionReference<PowerAppliance>;
-    return collectionData(collRef, { idField: 'id' }) as Observable<WithId<PowerAppliance>[]>;
+    if (options.enabledOnly) {
+      return collectionData(
+        query(collRef, where('enabled', '==', true)),
+        { idField: 'id' }
+      ) as Observable<WithId<PowerAppliance>[]>;
+    } else {
+      return collectionData(collRef, { idField: 'id' }) as Observable<WithId<PowerAppliance>[]>;
+    }
   }
 
   getAppliance(id: string): Observable<PowerAppliance> {

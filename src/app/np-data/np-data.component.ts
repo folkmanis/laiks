@@ -10,12 +10,12 @@ import { NgIf, AsyncPipe } from '@angular/common';
 
 
 @Component({
-    selector: 'laiks-np-data',
-    templateUrl: './np-data.component.html',
-    styleUrls: ['./np-data.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, NpPricesComponent, AsyncPipe]
+  selector: 'laiks-np-data',
+  templateUrl: './np-data.component.html',
+  styleUrls: ['./np-data.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, NpPricesComponent, AsyncPipe]
 })
 export class NpDataComponent {
 
@@ -40,6 +40,8 @@ export class NpDataComponent {
   appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances().pipe(
     map(appliances => appliances.filter(appl => appl.enabled)),
   );
+
+  vat = 1.21;
 
   constructor(
     private npDataService: NpDataService,

@@ -1,21 +1,21 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, computed, signal } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, computed, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, NonNullableFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { EMPTY, map, mergeMap, Observer, of, take, BehaviorSubject } from 'rxjs';
-import { PowerAppliance, PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
+import { EMPTY, Observer, map, mergeMap, of, take } from 'rxjs';
+import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
 import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
-import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
+import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { PowerCyclesComponent } from './power-cycles/power-cycles.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 type ApplianceFormType = {
   [k in keyof PowerAppliance]: FormControl<PowerAppliance[k]>
@@ -37,7 +37,19 @@ export const INITIAL_APPLIANCE: PowerAppliance = {
   styleUrls: ['./appliance-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf, MatRadioModule, MatCheckboxModule, PowerCyclesComponent, MatDividerModule, MatButtonModule, RouterLink, AsyncPipe]
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgIf,
+    MatRadioModule,
+    MatCheckboxModule,
+    PowerCyclesComponent,
+    MatDividerModule,
+    MatButtonModule,
+    RouterLink,
+  ]
 })
 export class ApplianceEditComponent implements CanComponentDeactivate {
 

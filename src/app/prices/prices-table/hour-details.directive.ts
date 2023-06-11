@@ -9,9 +9,9 @@ interface HourDetailsData {
 }
 
 @Directive({
-    selector: 'button[laiksHourDetails]',
-    exportAs: 'hourDetails',
-    standalone: true,
+  selector: 'button[laiksHourDetails]',
+  exportAs: 'hourDetails',
+  standalone: true,
 })
 export class HourDetailsDirective extends CdkOverlayOrigin implements OnInit, OnDestroy {
 
@@ -70,7 +70,6 @@ export class HourDetailsDirective extends CdkOverlayOrigin implements OnInit, On
     const injector = Injector.create({
       providers: [{ provide: OverlayRef, useValue: this.overlayRef }]
     });
-    console.log(this.offset);
     const portal = new TemplatePortal(this.template, this.viewCpntainerRef, { offset: this.offset }, injector);
     this.overlayRef.attach(portal);
     this.subscription = this.overlayRef.backdropClick()
