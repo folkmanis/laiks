@@ -37,11 +37,9 @@ export class PriceCalculatorService {
 
   }
 
-  bestOffset(npPrices: NpPrice[], startTime: Date, appliance: PowerAppliance): { offset: number, price: number; } | null {
-
+  allOffsetCosts(npPrices: NpPrice[], startTime: Date, appliance: PowerAppliance): Map<number, number> {
     const { delay, minimumDelay } = appliance;
-
-    const prices: { offset: number, price: number; }[] = [];
+    const prices = new Map<number, number>();
 
     if (delay === 'end') {
       startTime = addHours(startTime, minimumDelay);
@@ -57,18 +55,24 @@ export class PriceCalculatorService {
       const price = this.priceTime(npPrices, time, appliance);
 
       if (price !== null) {
-        prices.push({ offset, price });
+        prices.set(offset, price);
       }
 
       offset++;
       time = addHours(time, 1);
     }
 
+    return prices;
+  }
+
+  // Map< offset_hours , cost >
+  bestOffset(allCosts: Map<number, number>): { offset: number, price: number; } | null {
+
     let bestOffset: { offset: number, price: number; } | null = null;
 
-    for (const offset of prices) {
-      if (bestOffset === null || offset.price < bestOffset.price) {
-        bestOffset = offset;
+    for (const [offset, price] of allCosts) {
+      if (bestOffset === null || price < bestOffset.price) {
+        bestOffset = { offset, price };
       }
     }
 

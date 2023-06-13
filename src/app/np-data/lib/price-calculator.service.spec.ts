@@ -61,6 +61,17 @@ const washer: PowerAppliance = {
 
 };
 
+const dishWasherCosts = [
+  0.0195,
+  0.00975,
+  17070000 / 1000.0 / 1000.0 / 60.0 / 60.0, // Ws to MWh
+  7500000 / 1000.0 / 1000.0 / 60.0 / 60.0, // Ws to MWh
+];
+const washerCosts = [
+  19140000 / 1000.0 / 1000.0 / 60.0 / 60.0, // Ws to MWh
+  7845000 / 1000.0 / 1000.0 / 60.0 / 60.0, // Ws to MWh
+];
+
 const after30min = addMinutes(pricesStart, 30);
 const after4h = addHours(pricesStart, 4);
 
@@ -94,17 +105,35 @@ describe('PriceCalculatorService', () => {
     expect(cost).toBeCloseTo(expected, 2);
   });
 
-  /*   
-  it('should NOT calculate best offset', () => {
-    const testTime = new Date(1.5 * 60 * 60 * 1000); // start time
-    expect(service.bestOffset([], testTime, washer)).toBeNull();
+  it('should calculate dishwasher costs', () => {
+    const costs = service.allOffsetCosts(testPrices, after30min, dishWasher);
+    expect(costs.get(0)).toBeCloseTo(dishWasherCosts[0], 3);
+    expect(costs.get(1)).toBeCloseTo(dishWasherCosts[1], 3);
+    expect(costs.get(2)).toBeCloseTo(dishWasherCosts[2], 3);
+    expect(costs.get(3)).toBeCloseTo(dishWasherCosts[3], 3);
   });
 
-  it('should calculate best offset', () => {
-    const testTime = new Date(1.5 * 60 * 60 * 1000 + 80 * 60 * 1000); // cycle end for washer
-    expect(service.bestOffset(testPrices, testTime, washer)?.offset).toEqual(2);
-    expect(service.bestOffset(testPrices, testTime, washer)?.price).toBeCloseTo(0.126, 3);
+  it('should calculate dishwasher best offset', () => {
+    const costs = service.allOffsetCosts(testPrices, after30min, dishWasher);
+    const { offset } = service.bestOffset(costs)!;
+    expect(offset).toBe(3);
   });
+
+  it('should NOT calculate dishwasher best offset', () => {
+    const costs = service.allOffsetCosts(testPrices, after4h, dishWasher);
+    expect(costs.size).toBe(0);
+    expect(service.bestOffset(costs)).toBeNull();
+  });
+
+  it('should calculate washer costs', () => {
+    const costs = service.allOffsetCosts(testPrices, after30min, washer);
+    expect(costs.get(3)).toBeCloseTo(washerCosts[0], 3);
+    expect(costs.get(4)).toBeCloseTo(washerCosts[1], 3);
+    const { offset } = service.bestOffset(costs)!;
+    expect(offset).toBe(4);
+  });
+
+  /*   
 
     it('should calculate best offset', () => {
       const testTime = new Date(2 * 60 * 60 * 1000);

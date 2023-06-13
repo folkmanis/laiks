@@ -43,7 +43,9 @@ export class PricesComponent {
     const prices = this.npPrices();
     return this.powerAppliances().map(appliance => ({
       ...appliance,
-      bestOffset: this.calculator.bestOffset(prices, getDateNow(prices), appliance)
+      bestOffset: this.calculator.bestOffset(
+        this.calculator.allOffsetCosts(prices, getDateNow(prices), appliance)
+      ),
     }));
   });
 
