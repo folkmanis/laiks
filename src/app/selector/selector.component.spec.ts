@@ -10,17 +10,12 @@ describe('SelectorComponent', () => {
   let fixture: ComponentFixture<SelectorComponent>;
 
   beforeEach(async () => {
-    fixture = TestBed.configureTestingModule({
-      imports: [
-        // SelectorComponent,
-        SelectorComponent,
-        NumberSignPipe,
-      ],
-      providers: [
-        { provide: ComponentFixtureAutoDetect, useValue: true },
-      ]
+    await TestBed.configureTestingModule({
+      imports: [SelectorComponent],
     })
-      .createComponent(SelectorComponent);
+      .compileComponents();
+
+    fixture = TestBed.createComponent(SelectorComponent);
     component = fixture.componentInstance;
     component.value = 2;
     fixture.detectChanges();
@@ -45,9 +40,15 @@ describe('SelectorComponent', () => {
     expect(numberBlock).toBeTruthy();
   });
 
+  it('should display initial value', () => {
+    const { textContent } = fixture.nativeElement.querySelector('div.number') as HTMLDivElement;
+    expect(textContent).toContain('+2');
+  });
+
   it('should add value on plus button press', () => {
     const button = fixture.nativeElement.querySelector('button#add') as HTMLButtonElement;
     button.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
     const { textContent } = fixture.nativeElement.querySelector('div.number') as HTMLDivElement;
     expect(textContent).toContain('+3');
   });
@@ -57,6 +58,7 @@ describe('SelectorComponent', () => {
     button.dispatchEvent(new Event('click'));
     button.dispatchEvent(new Event('click'));
     button.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
     const { textContent } = fixture.nativeElement.querySelector('div.number') as HTMLDivElement;
     expect(textContent).toContain('-1');
   });
