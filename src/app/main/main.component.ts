@@ -8,6 +8,7 @@ import { SelectorComponent } from '../selector/selector.component';
 import { LaiksService } from '../shared/laiks.service';
 import { SettingsService } from '../shared/settings.service';
 import { UserService } from '../shared/user.service';
+import { NpDataService } from '../np-data/lib/np-data.service';
 
 
 @Component({
@@ -35,11 +36,16 @@ export class MainComponent {
     () => addHours(this.currentTime(), this.offset())
   );
 
+  npPrices = toSignal(
+    this.npService.getNpPrices(),
+    { initialValue: [] }
+  );
 
   constructor(
     private userService: UserService,
     private laiksService: LaiksService,
     private settingsService: SettingsService,
+    private npService: NpDataService,
   ) { }
 
   onSetOffset(value: number) {

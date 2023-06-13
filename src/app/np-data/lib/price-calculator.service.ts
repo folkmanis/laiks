@@ -10,8 +10,6 @@ const msWtoMWh = (msWh: number): number => msWh / 1000 / 1000 / 60 / 60 / 1000;
 })
 export class PriceCalculatorService {
 
-  constructor() { }
-
   priceTime(prices: NpPrice[], time: Date, appliance: PowerAppliance): number | null {
     const { delay, cycles } = appliance;
 
@@ -78,7 +76,7 @@ export class PriceCalculatorService {
 
   }
 
-  private cycleConsumption(cycle: PowerConsumptionCycle, npPrices: NpPrice[], start: number): number | null {
+  cycleConsumption(cycle: PowerConsumptionCycle, npPrices: NpPrice[], start: number): number | null {
 
     const end = start + cycle.length;
 
@@ -103,7 +101,7 @@ export class PriceCalculatorService {
 
   }
 
-  private cycleLength(cycles: PowerConsumptionCycle[]): number {
+  cycleLength(cycles: PowerConsumptionCycle[]): number {
     return cycles.reduce((acc, curr) => acc + curr.length, 0);
   }
 

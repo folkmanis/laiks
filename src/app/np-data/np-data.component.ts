@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NpDataService } from './lib/np-data.service';
 import { NpPricesComponent } from './np-prices/np-prices.component';
+import { NpPrice } from './lib/np-price.interface';
 
 
 @Component({
@@ -16,12 +17,11 @@ import { NpPricesComponent } from './np-prices/np-prices.component';
 export class NpDataComponent {
 
 
-  @Input() time: Date = new Date();
+  @Input()
+  time: Date = new Date();
 
-  npPrices = toSignal(
-    inject(NpDataService).getNpPrices(),
-    { initialValue: [] }
-  );
+  @Input()
+  npPrices: NpPrice[] = [];
 
   vat = 1.21;
 

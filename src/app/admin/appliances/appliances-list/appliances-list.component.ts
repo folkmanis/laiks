@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,11 +26,9 @@ export class AppliancesListComponent {
 
   displayColumns = ['color', 'enabled', 'name'];
 
-  appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances();
+  private appliancesService = inject(PowerAppliancesService);
 
-  constructor(
-    private appliancesService: PowerAppliancesService,
-  ) { }
+  appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances();
 
   onEnable(event: MatCheckboxChange, id: string) {
     this.appliancesService.updateAppliance(id, { enabled: event.checked })

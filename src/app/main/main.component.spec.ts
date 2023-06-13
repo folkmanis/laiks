@@ -11,16 +11,11 @@ import { NpDataService } from '../np-data/lib/np-data.service';
 import { LaiksService } from '../shared/laiks.service';
 import { effect } from '@angular/core';
 import { UserService } from '../shared/user.service';
+import { SettingsService } from '../shared/settings.service';
 
 const TEST_TIME = new Date(2022, 10, 23, 21, 15, 0);
 const TEST_OFFSET = 3;
 const TEST_TIME_OFFSET = new Date(2022, 10, 24, 0, 15, 0);
-
-class TestNpService {
-  getNpPrices() {
-    return [];
-  }
-}
 
 class TestLaiksService {
   minuteObserver(): Observable<Date> {
@@ -30,7 +25,13 @@ class TestLaiksService {
 
 class TestUserService {
   isNpAllowed() {
-    new BehaviorSubject(true);
+    return new BehaviorSubject(true);
+  }
+}
+
+class TestNpService {
+  getNpPrices() {
+    return of([]);
   }
 }
 
@@ -39,7 +40,7 @@ describe('MainComponent', () => {
   let fixture: ComponentFixture<MainComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
+    fixture = TestBed.configureTestingModule({
       imports: [
         MainComponent,
         SelectorComponent,
@@ -48,14 +49,14 @@ describe('MainComponent', () => {
         NpDataComponent,
       ],
       providers: [
-        { provide: NpDataService, useClass: TestNpService },
         { provide: LaiksService, useClass: TestLaiksService },
         { provide: UserService, useClass: TestUserService },
+        { provide: SettingsService, useClass: SettingsService },
+        { provide: NpDataService, useClass: TestNpService }
       ]
     })
-      .compileComponents();
+      .createComponent(MainComponent);
 
-    fixture = TestBed.createComponent(MainComponent);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
