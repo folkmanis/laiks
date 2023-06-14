@@ -16,7 +16,8 @@
 
     <span class="spacer"></span>
 
-    <laiks-user-menu [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()" [laiksUser]="laiksUser$ | async">
+    <laiks-user-menu [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()" [laiksUser]="laiksUser$ | async"
+        [isAdmin]="isAdmin$ | async">
     </laiks-user-menu>
 
 </mat-toolbar>

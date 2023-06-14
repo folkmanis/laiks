@@ -8,18 +8,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'laiks-user-menu',
-    templateUrl: './user-menu.component.html',
-    styleUrls: ['./user-menu.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, MatButtonModule, MatMenuModule, MatIconModule, RouterLink]
+  selector: 'laiks-user-menu',
+  templateUrl: './user-menu.component.html',
+  styleUrls: ['./user-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, MatButtonModule, MatMenuModule, MatIconModule, RouterLink]
 })
 export class UserMenuComponent {
 
   @Input() user: User | null = null;
 
   @Input() laiksUser: LaiksUser | null = null;
+
+  @Input() isAdmin: boolean | null = false;
 
   @Output() login = new EventEmitter<void>();
 

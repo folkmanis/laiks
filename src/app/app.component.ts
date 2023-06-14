@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { LoginResponseType, UserService } from './shared/user.service';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ export class AppComponent {
 
   laiksUser$ = this.userService.laiksUser();
 
+  isAdmin$ = this.userService.isAdmin();
 
   constructor(
     private userService: UserService,

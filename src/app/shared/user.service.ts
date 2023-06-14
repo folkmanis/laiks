@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
-import { doc, docData, DocumentReference, Firestore, getDoc, setDoc, collectionData, updateDoc, addDoc, deleteDoc } from '@angular/fire/firestore';
-import { filter, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { doc, docData, DocumentReference, Firestore, getDoc, setDoc, collectionData, updateDoc, addDoc, deleteDoc, docSnapshots } from '@angular/fire/firestore';
+import { catchError, EMPTY, filter, from, map, mergeMap, Observable, of, switchMap, tap } from 'rxjs';
 import { LaiksUser } from './laiks-user';
 import { PowerAppliance } from '../np-data/lib/power-appliance.interface';
-import { collection, CollectionReference } from 'firebase/firestore';
+import { collection, CollectionReference, query, where } from 'firebase/firestore';
 import { throwIfNull } from './throw-if-null';
 
 export enum LoginResponseType {
@@ -19,6 +19,7 @@ export interface LoginResponse {
 
 const APPLIANCES = 'appliances';
 const USERS = 'users';
+const ADMINS = 'admins';
 
 
 @Injectable({
@@ -53,6 +54,15 @@ export class UserService {
   isNpAllowed(): Observable<boolean> {
     return this.getUser().pipe(
       switchMap(usr => this.npAllowed(usr))
+    );
+  }
+
+  isAdmin(): Observable<boolean> {
+    return this.getUser().pipe(
+      switchMap(user => user ? of(user) : EMPTY),
+      map(user => doc(this.firestore, ADMINS, user.uid)),
+      switchMap(docRef => docSnapshots(docRef)),
+      map(adminDoc => adminDoc.exists()),
     );
   }
 
