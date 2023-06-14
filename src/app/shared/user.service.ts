@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
-import { doc, docData, DocumentReference, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
-import { from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { doc, docData, DocumentReference, Firestore, getDoc, setDoc, collectionData, updateDoc, addDoc, deleteDoc } from '@angular/fire/firestore';
+import { filter, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { LaiksUser } from './laiks-user';
+import { PowerAppliance } from '../np-data/lib/power-appliance.interface';
+import { collection, CollectionReference } from 'firebase/firestore';
+import { throwIfNull } from './throw-if-null';
 
 export enum LoginResponseType {
   CREATED,
@@ -13,6 +16,10 @@ export interface LoginResponse {
   type: LoginResponseType,
   laiksUser: LaiksUser,
 }
+
+const APPLIANCES = 'appliances';
+const USERS = 'users';
+
 
 @Injectable({
   providedIn: 'root'
@@ -55,10 +62,51 @@ export class UserService {
         if (!user) {
           return of(null);
         } else {
-          const docRef = doc(this.firestore, 'users', user.uid) as DocumentReference<LaiksUser>;
+          const docRef = doc(this.firestore, USERS, user.uid) as DocumentReference<LaiksUser>;
           return docData(docRef);
         }
       }),
+    );
+  }
+
+  userAppliances(): Observable<PowerAppliance[]> {
+    return this.getUser().pipe(
+      throwIfNull(),
+      map(user => collection(this.firestore, USERS, user.uid, APPLIANCES) as CollectionReference<PowerAppliance>),
+      switchMap(collRef => collectionData(collRef))
+    );
+  }
+
+  getUserAppliance(id: string): Observable<PowerAppliance> {
+    return this.getUser().pipe(
+      throwIfNull(),
+      map(user => doc(this.firestore, USERS, user.uid, APPLIANCES, id) as DocumentReference<PowerAppliance>),
+      switchMap(docRef => docData(docRef)),
+    );
+  }
+
+  updateUserAppliance(id: string, appliance: PowerAppliance): Observable<void> {
+    return this.getUser().pipe(
+      throwIfNull(),
+      map(user => doc(this.firestore, USERS, user.uid, APPLIANCES, id) as DocumentReference<PowerAppliance>),
+      mergeMap(docRef => updateDoc(docRef, appliance))
+    );
+  }
+
+  insertUserAppliance(appliance: PowerAppliance): Observable<string> {
+    return this.getUser().pipe(
+      throwIfNull(),
+      map(user => collection(this.firestore, USERS, user.uid, APPLIANCES) as CollectionReference<PowerAppliance>),
+      mergeMap(collRef => addDoc(collRef, appliance)),
+      map(doc => doc.id),
+    );
+  }
+
+  deleteUserAppliance(id: string): Observable<void> {
+    return this.getUser().pipe(
+      throwIfNull(),
+      map(user => doc(this.firestore, USERS, user.uid, APPLIANCES, id) as DocumentReference<PowerAppliance>),
+      mergeMap(docRef => deleteDoc(docRef))
     );
   }
 
@@ -68,7 +116,7 @@ export class UserService {
       return of(false);
     }
 
-    const docRef = doc(this.firestore, 'users', usr.uid);
+    const docRef = doc(this.firestore, USERS, usr.uid);
 
     return docData(docRef).pipe(
       map(d => d && d['npAllowed'] === true)
@@ -78,7 +126,7 @@ export class UserService {
 
   private getLaiksUserSnapshot(user: User): Observable<LaiksUser | undefined> {
 
-    const docRef = doc(this.firestore, 'users', user.uid) as DocumentReference<LaiksUser>;
+    const docRef = doc(this.firestore, USERS, user.uid) as DocumentReference<LaiksUser>;
 
     return from(getDoc(docRef)).pipe(
       map(snapshot => snapshot.data()),
@@ -91,7 +139,7 @@ export class UserService {
       throw new Error('Missing email or name');
     }
 
-    const docRef = doc(this.firestore, 'users', user.uid) as DocumentReference<LaiksUser>;
+    const docRef = doc(this.firestore, USERS, user.uid) as DocumentReference<LaiksUser>;
 
     const laiksUser: LaiksUser = {
       email: user.email,

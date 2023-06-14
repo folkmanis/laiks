@@ -5,9 +5,9 @@ import { NpPrice } from './np-price.interface';
 import { PowerAppliance } from './power-appliance.interface';
 import { addHours, addMinutes } from 'date-fns';
 
-const pricesStart = new Date(2022, 0, 1, 12, 0, 0);
+export const pricesStart = new Date(2022, 0, 1, 12, 0, 0);
 
-const testPrices: NpPrice[] = [
+export const testPrices: NpPrice[] = [
   {
     startTime: pricesStart,
     endTime: addHours(pricesStart, 1),
@@ -31,7 +31,7 @@ const testPrices: NpPrice[] = [
   },
 ];
 
-const dishWasher: PowerAppliance = {
+export const dishWasher: PowerAppliance = {
   cycles: [
     {
       consumption: 100,
@@ -53,7 +53,7 @@ const dishWasher: PowerAppliance = {
   color: "#ff00ff",
 };
 
-const washer: PowerAppliance = {
+export const washer: PowerAppliance = {
   ...dishWasher,
   delay: "end",
   minimumDelay: 3,
