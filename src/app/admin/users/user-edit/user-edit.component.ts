@@ -8,12 +8,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { EMPTY, Observer, mergeMap } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observer, filter, map, mergeMap, switchMap } from 'rxjs';
 import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { LaiksUser } from 'src/app/shared/laiks-user';
 import { UsersService } from '../../lib/users.service';
 import { AdminRemoveConfirmationComponent } from '../admin-remove-confirmation/admin-remove-confirmation.component';
+import { PermissionsAdminService } from '../../lib/permissions-admin.service';
+import { Permissions, DEFAULT_PERMISSIONS } from 'src/app/shared/permissions';
+import { PermissionsService } from 'src/app/shared/permissions.service';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'laiks-user-edit',
@@ -22,47 +26,29 @@ import { AdminRemoveConfirmationComponent } from '../admin-remove-confirmation/a
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatCheckboxModule,
-    MatDividerModule,
     MatButtonModule,
     RouterLink,
   ]
 })
-export class UserEditComponent implements CanComponentDeactivate {
+export class UserEditComponent {
 
-  userForm = this.nnfb.group({
-    email: [{ value: '', disabled: true }],
-    npAllowed: false,
-    verified: false,
-    name: '',
-    isAdmin: false,
-  });
+  id = signal('');
 
-  initialData!: LaiksUser;
+  @Input('id') set idSet(value: string) {
+    this.id.set(value);
+  }
+
+  @Input() user?: LaiksUser;
 
   busy = signal(false);
 
-  canDeactivate = () => this.userForm.pristine ? true : this.confirm.cancelEdit();
+  permissions$ = toObservable(this.id).pipe(
+    switchMap(id => id ? this.permissionsAdminService.getUserPermissions(id) : EMPTY),
+  );
 
-  private voidObserver: Observer<void> = {
-    next: () => {
-      this.userForm.reset();
-      this.router.navigate(['..'], { relativeTo: this.route });
-    },
-    error: err => this.snack.open(`Neizdevās. ${err}`, 'OK'),
-    complete: () => { this.busy.set(false); },
-  };
+  permissions = toSignal(this.permissions$, { initialValue: DEFAULT_PERMISSIONS });
 
-  @Input() id!: string;
-
-  @Input() set user(value: LaiksUser) {
-    this.initialData = value;
-    this.userForm.reset(this.initialData);
-  }
 
   constructor(
     private usersService: UsersService,
@@ -70,40 +56,31 @@ export class UserEditComponent implements CanComponentDeactivate {
     private router: Router,
     private snack: MatSnackBar,
     private confirm: ConfirmationDialogService,
-    private dialog: MatDialog,
-    private nnfb: NonNullableFormBuilder,
+    private permissionsAdminService: PermissionsAdminService,
   ) { }
 
-
-  onSave() {
-    if (!this.userForm.valid) {
-      return;
-    }
-
-    this.busy.set(true);
-
-    this.userForm.patchValue({ verified: true }, { emitEvent: false });
-
-    this.usersService.updateUser(this.id, this.userForm.value)
-      .subscribe(this.voidObserver);
-
-  }
-
   onDelete() {
-
     this.busy.set(true);
     this.confirm.delete().pipe(
-      mergeMap(resp => resp ? this.usersService.deleteUser(this.id) : EMPTY),
+      mergeMap(resp => resp ? this.usersService.deleteUser(this.id()) : EMPTY),
     )
-      .subscribe(this.voidObserver);
+      .subscribe({
+        next: () => this.router.navigate(['..'], { relativeTo: this.route }),
+        error: err => this.snack.open(`Neizdevās. ${err}`, 'OK'),
+        complete: () => this.busy.set(false),
+      });
   }
 
-  onIsAdmin(checked: boolean) {
-    if (this.initialData.isAdmin === true && checked === false) {
-      this.dialog.open(AdminRemoveConfirmationComponent, { data: { laiksUser: this.initialData }, maxWidth: '350px' })
-        .afterClosed()
-        .subscribe(resp => resp || this.userForm.controls.isAdmin.reset(true));
-    }
+  onSetAdmin(value: boolean) {
+    this.busy.set(true);
+    this.permissionsAdminService.setAdmin(this.id(), value)
+      .subscribe(() => this.busy.set(false));
+  }
+
+  onSetNpUser(value: boolean) {
+    this.busy.set(true);
+    this.permissionsAdminService.setNpUser(this.id(), value)
+      .subscribe(() => this.busy.set(false));
   }
 
 }

@@ -1,45 +1,31 @@
-<form [formGroup]="userForm" (submit)="onSave()">
+<h2>
+    {{ user?.name }}
+</h2>
+<h3>
+    {{ user?.email }}
+</h3>
 
-    <h2>
-        {{ initialData.email }}
-    </h2>
+<section>
+    <ul>
+        <li>
+            <mat-checkbox [checked]="permissions().npUser" (change)="onSetNpUser( $event.checked)" [disabled]="busy()">
+                Pieeja elektrības cenām
+            </mat-checkbox>
+        </li>
 
-    <mat-form-field class="full-width">
-        <mat-label>Vārds</mat-label>
-        <input matInput formControlName="name">
-    </mat-form-field>
+        <li>
+            <mat-checkbox [checked]="permissions().admin" (change)="onSetAdmin($event.checked)" [disabled]="busy()">
+                Administratora tiesības
+            </mat-checkbox>
+        </li>
+    </ul>
 
-    <section>
-        <ul>
-            <li>
-                <mat-checkbox formControlName="npAllowed">
-                    Pieeja elektrības cenām
-                </mat-checkbox>
-            </li>
+</section>
 
-            <li>
-                <mat-checkbox formControlName="isAdmin" (change)="onIsAdmin($event.checked)">
-                    Administratora tiesības
-                </mat-checkbox>
-            </li>
-        </ul>
+<button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="busy()">
+    DZĒST
+</button>
 
-    </section>
-
-    <mat-divider> </mat-divider>
-
-    <button mat-raised-button type="submit"
-        [disabled]="busy() || userForm.value.verified === true && (!userForm.valid || userForm.pristine)">
-        SAGLABĀT
-    </button>
-
-    <button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="busy()">
-        DZĒST
-    </button>
-
-    <a mat-button routerLink="../" [disabled]="busy()">
-        ATCELT
-    </a>
-
-
-</form>
+<a mat-button routerLink="../" [disabled]="busy()">
+    ATPAKAĻ
+</a>

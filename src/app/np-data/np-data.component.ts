@@ -20,8 +20,15 @@ export class NpDataComponent {
   @Input()
   time: Date = new Date();
 
-  @Input()
-  npPrices: NpPrice[] = [];
+  private _npPrices: NpPrice[] = [];
+  @Input() set npPrices(value: NpPrice[] | null) {
+    if (Array.isArray(value)) {
+      this._npPrices = value;
+    }
+  }
+  get npPrices(): NpPrice[] {
+    return this._npPrices;
+  }
 
   vat = 1.21;
 

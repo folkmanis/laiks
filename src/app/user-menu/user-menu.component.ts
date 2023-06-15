@@ -23,6 +23,8 @@ export class UserMenuComponent {
 
   @Input() isAdmin: boolean | null = false;
 
+  @Input() npAllowed: boolean | null = false;
+
   @Output() login = new EventEmitter<void>();
 
   @Output() logout = new EventEmitter<void>();

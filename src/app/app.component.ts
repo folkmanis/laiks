@@ -6,10 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { LoginResponseType, UserService } from './shared/user.service';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
+import { PermissionsService } from './shared/permissions.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -37,12 +38,13 @@ export class AppComponent {
 
   laiksUser$ = this.userService.laiksUser();
 
-  isAdmin$ = this.userService.isAdmin();
+  permissions$ = this.permissionsService.getPermissions();
 
   constructor(
     private userService: UserService,
     private snack: MatSnackBar,
     private router: Router,
+    private permissionsService: PermissionsService,
   ) { }
 
   onLogin() {

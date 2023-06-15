@@ -15,9 +15,7 @@ class TestUsersService {
 
 const testUser: LaiksUser = {
   email: 'user@user.com',
-  npAllowed: true,
   verified: true,
-  isAdmin: true,
   name: 'User User',
 };
 
@@ -49,7 +47,7 @@ describe('UserEditComponent', () => {
     fixture = TestBed.createComponent(UserEditComponent);
     component = fixture.componentInstance;
     component.user = testUser;
-    component.id = '4ace';
+    component.id.set('4ace');
     fixture.detectChanges();
   });
 

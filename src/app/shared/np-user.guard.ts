@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { CanMatchFn } from '@angular/router';
 import { map, take } from 'rxjs';
-import { UserService } from './user.service';
+import { PermissionsService } from './permissions.service';
 
 export const canMatchNpUser: CanMatchFn = () =>
-  inject(UserService).laiksUser().pipe(
+  inject(PermissionsService).getPermissions().pipe(
     take(1),
-    map(user => !!user?.npAllowed),
+    map(data => data.npUser),
   );

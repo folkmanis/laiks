@@ -39,10 +39,6 @@ export default [
         path: 'users',
         children: [
             {
-                path: 'list',
-                component: UsersListComponent,
-            },
-            {
                 path: ':id',
                 component: UserEditComponent,
                 resolve: {
@@ -52,7 +48,7 @@ export default [
             },
             {
                 path: '',
-                redirectTo: 'list',
+                component: UsersListComponent,
                 pathMatch: 'full',
             }
         ]

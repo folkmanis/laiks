@@ -13,6 +13,7 @@ describe('SettingsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(SettingsService);
+    window.localStorage.clear();
   });
 
   it('should be created', () => {

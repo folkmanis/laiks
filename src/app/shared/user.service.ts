@@ -19,7 +19,6 @@ export interface LoginResponse {
 
 const APPLIANCES = 'appliances';
 const USERS = 'users';
-const ADMINS = 'admins';
 
 
 @Injectable({
@@ -49,21 +48,6 @@ export class UserService {
 
   logout() {
     signOut(this.auth);
-  }
-
-  isNpAllowed(): Observable<boolean> {
-    return this.getUser().pipe(
-      switchMap(usr => this.npAllowed(usr))
-    );
-  }
-
-  isAdmin(): Observable<boolean> {
-    return this.getUser().pipe(
-      switchMap(user => user ? of(user) : EMPTY),
-      map(user => doc(this.firestore, ADMINS, user.uid)),
-      switchMap(docRef => docSnapshots(docRef)),
-      map(adminDoc => adminDoc.exists()),
-    );
   }
 
   laiksUser(): Observable<LaiksUser | null> {
@@ -120,20 +104,6 @@ export class UserService {
     );
   }
 
-  private npAllowed(usr: User | null): Observable<boolean> {
-
-    if (!usr || !usr.uid) {
-      return of(false);
-    }
-
-    const docRef = doc(this.firestore, USERS, usr.uid);
-
-    return docData(docRef).pipe(
-      map(d => d && d['npAllowed'] === true)
-    );
-
-  }
-
   private getLaiksUserSnapshot(user: User): Observable<LaiksUser | undefined> {
 
     const docRef = doc(this.firestore, USERS, user.uid) as DocumentReference<LaiksUser>;
@@ -153,10 +123,8 @@ export class UserService {
 
     const laiksUser: LaiksUser = {
       email: user.email,
-      npAllowed: false,
       verified: false,
       name: user.displayName,
-      isAdmin: false,
     };
 
     return from(setDoc(docRef, laiksUser)).pipe(
