@@ -11,7 +11,7 @@ const USERS_COLL = 'users';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UsersAdminService {
 
   private docRef = (id: string) => doc(this.firestore, USERS_COLL, id) as DocumentReference<LaiksUser>;
 
@@ -40,6 +40,10 @@ export class UsersService {
 
   deleteUser(id: string): Observable<void> {
     return from(deleteDoc(this.docRef(id)));
+  }
+
+  setVerified(id: string) {
+    return this.updateUser(id, { verified: true });
   }
 
 }

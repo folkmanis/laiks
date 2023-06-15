@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" *ngIf="permissions$ | async as permissions;">
+<mat-toolbar color="primary">
 
     <span>
         <a mat-icon-button routerLink="/">
@@ -8,16 +8,14 @@
         </a>
     </span>
 
-    <span *ngIf="laiksUser$ | async as laiksUser">
-        <a mat-button routerLink="/prices" *ngIf="permissions.npUser">
+    <span *ngIf="permissions().npUser">
+        <a mat-button routerLink="/prices">
             CENAS
         </a>
     </span>
 
-    <span class="spacer"></span>
-
     <laiks-user-menu [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()" [laiksUser]="laiksUser$ | async"
-        [isAdmin]="permissions.admin" [npAllowed]="permissions.npUser">
+        [permissions]="permissions()">
     </laiks-user-menu>
 
 </mat-toolbar>

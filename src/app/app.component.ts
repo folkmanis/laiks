@@ -1,17 +1,18 @@
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { User } from '@angular/fire/auth';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable } from 'rxjs';
+import { DEFAULT_PERMISSIONS } from './shared/permissions';
+import { PermissionsService } from './shared/permissions.service';
 import { LoginResponseType, UserService } from './shared/user.service';
 import { UserMenuComponent } from './user-menu/user-menu.component';
-import { CdkScrollableModule } from '@angular/cdk/scrolling';
-import { PermissionsService } from './shared/permissions.service';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +39,10 @@ export class AppComponent {
 
   laiksUser$ = this.userService.laiksUser();
 
-  permissions$ = this.permissionsService.getPermissions();
+  permissions = toSignal(
+    this.permissionsService.getPermissions(),
+    { initialValue: DEFAULT_PERMISSIONS }
+  );
 
   constructor(
     private userService: UserService,

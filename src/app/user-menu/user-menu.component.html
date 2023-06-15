@@ -17,11 +17,11 @@
             {{ user.displayName }}
         </span>
 
-        <a mat-menu-item *ngIf="npAllowed" routerLink="/prices">
+        <a mat-menu-item *ngIf="permissions.npUser" routerLink="/prices">
             Cenas
         </a>
 
-        <button mat-menu-item [mat-menu-trigger-for]="adminMenu" *ngIf="isAdmin">
+        <button mat-menu-item [mat-menu-trigger-for]="adminMenu" *ngIf="permissions.admin">
             Iestatījumi
         </button>
 

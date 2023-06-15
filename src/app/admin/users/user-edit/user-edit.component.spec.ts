@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserEditComponent } from './user-edit.component';
-import { UsersService } from '../../lib/users.service';
+import { UsersAdminService } from '../../lib/users-admin.service';
 import { provideRouter } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
@@ -32,7 +32,7 @@ describe('UserEditComponent', () => {
         NoopAnimationsModule,
       ],
       providers: [
-        { provide: UsersService, useClass: TestUsersService },
+        { provide: UsersAdminService, useClass: TestUsersService },
         provideRouter([
           {
             path: 'users/:id',

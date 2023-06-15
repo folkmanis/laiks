@@ -7,6 +7,7 @@ import { resolveUser } from './lib/resolve-user';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { INITIAL_APPLIANCE } from 'src/app/shared/appliance-form/appliance-form.component';
+import { resolveActiveUserId } from '../shared/resolve-active-user-id';
 
 export default [
     {
@@ -43,6 +44,7 @@ export default [
                 component: UserEditComponent,
                 resolve: {
                     user: resolveUser,
+                    activeUserId: resolveActiveUserId,
                 },
                 canDeactivate: [canDeactivateGuard],
             },
@@ -50,6 +52,9 @@ export default [
                 path: '',
                 component: UsersListComponent,
                 pathMatch: 'full',
+                resolve: {
+                    activeUserId: resolveActiveUserId
+                }
             }
         ]
     },

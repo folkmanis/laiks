@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
+import { DEFAULT_PERMISSIONS, Permissions } from '../shared/permissions';
 
 @Component({
   selector: 'laiks-user-menu',
@@ -21,9 +22,7 @@ export class UserMenuComponent {
 
   @Input() laiksUser: LaiksUser | null = null;
 
-  @Input() isAdmin: boolean | null = false;
-
-  @Input() npAllowed: boolean | null = false;
+  @Input() permissions: Permissions = DEFAULT_PERMISSIONS;
 
   @Output() login = new EventEmitter<void>();
 

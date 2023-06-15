@@ -14,7 +14,8 @@
         </li>
 
         <li>
-            <mat-checkbox [checked]="permissions().admin" (change)="onSetAdmin($event.checked)" [disabled]="busy()">
+            <mat-checkbox [checked]="permissions().admin" (change)="onSetAdmin($event.checked)"
+                [disabled]="busy() || id() === activeUserId">
                 Administratora tiesības
             </mat-checkbox>
         </li>

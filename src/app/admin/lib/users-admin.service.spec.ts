@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UsersService } from './users.service';
+import { UsersAdminService } from './users-admin.service';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 
 describe('UsersService', () => {
-  let service: UsersService;
+  let service: UsersAdminService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,7 +17,7 @@ describe('UsersService', () => {
         provideFirestore(() => getFirestore())
       ]
     });
-    service = TestBed.inject(UsersService);
+    service = TestBed.inject(UsersAdminService);
   });
 
   it('should be created', () => {

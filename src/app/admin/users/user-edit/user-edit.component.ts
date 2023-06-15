@@ -1,23 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input, signal } from '@angular/core';
-import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { BehaviorSubject, EMPTY, Observer, filter, map, mergeMap, switchMap } from 'rxjs';
-import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
+import { EMPTY, mergeMap, switchMap } from 'rxjs';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { LaiksUser } from 'src/app/shared/laiks-user';
-import { UsersService } from '../../lib/users.service';
-import { AdminRemoveConfirmationComponent } from '../admin-remove-confirmation/admin-remove-confirmation.component';
+import { DEFAULT_PERMISSIONS } from 'src/app/shared/permissions';
 import { PermissionsAdminService } from '../../lib/permissions-admin.service';
-import { Permissions, DEFAULT_PERMISSIONS } from 'src/app/shared/permissions';
-import { PermissionsService } from 'src/app/shared/permissions.service';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { UsersAdminService } from '../../lib/users-admin.service';
 
 @Component({
   selector: 'laiks-user-edit',
@@ -33,8 +25,9 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 })
 export class UserEditComponent {
 
-  id = signal('');
+  @Input() activeUserId: string | undefined;
 
+  id = signal('');
   @Input('id') set idSet(value: string) {
     this.id.set(value);
   }
@@ -51,7 +44,7 @@ export class UserEditComponent {
 
 
   constructor(
-    private usersService: UsersService,
+    private usersService: UsersAdminService,
     private route: ActivatedRoute,
     private router: Router,
     private snack: MatSnackBar,
