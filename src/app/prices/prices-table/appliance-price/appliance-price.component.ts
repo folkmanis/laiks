@@ -1,8 +1,8 @@
 import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { NpPriceOffset } from 'src/app/np-data/lib/np-price.interface';
-import { PowerApplianceWithBestOffset } from 'src/app/np-data/lib/power-appliance.interface';
+import { NpPriceOffset } from 'src/app/shared/np-price.interface';
+import { PowerApplianceWithBestOffset } from 'src/app/shared/power-appliance.interface';
 
 
 @Component({

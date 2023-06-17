@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { first, of } from 'rxjs';
-import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
+import { PowerAppliance } from 'src/app/shared/power-appliance.interface';
 import { dishWasher, washer } from '../../np-data/lib/price-calculator.service.spec';
 import { ApplianceFormComponent, APPLIANCES_BY_NAME } from './appliance-form.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';

@@ -1,17 +1,21 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { differenceInHours, isDate, addHours } from 'date-fns';
-import { NpPrice, NpPriceOffset } from '../lib/np-price.interface';
-import { PowerAppliance } from '../lib/power-appliance.interface';
-import { PriceCalculatorService } from '../lib/price-calculator.service';
+import { NpPrice, NpPriceOffset } from 'src/app/shared/np-price.interface';
+import { PowerAppliance } from 'src/app/shared/power-appliance.interface';
+import { PriceCalculatorService } from 'src/app/shared/price-calculator.service';
 import { NgIf, DecimalPipe } from '@angular/common';
 
+
 @Component({
-    selector: 'laiks-appliance-consumption',
-    templateUrl: './appliance-consumption.component.html',
-    styleUrls: ['./appliance-consumption.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgIf, DecimalPipe]
+  selector: 'laiks-appliance-consumption',
+  templateUrl: './appliance-consumption.component.html',
+  styleUrls: ['./appliance-consumption.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    DecimalPipe
+  ]
 })
 export class ApplianceConsumptionComponent implements OnInit, OnChanges {
 

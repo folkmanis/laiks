@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from
 import { ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { map, Observable, shareReplay, Subscription } from 'rxjs';
-import { PowerConsumptionCycle } from 'src/app/np-data/lib/power-appliance.interface';
+import { PowerConsumptionCycle } from 'src/app/shared/power-appliance.interface';
 import { MinutesToHoursPipe } from '../../minutes-to-hours.pipe';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppliancesListComponent } from './appliances-list.component';
-import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
+import { PowerAppliancesService } from 'src/app/shared/power-appliances.service';
 import { of } from 'rxjs';
 import { provideRouter } from '@angular/router';
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NpPrice } from './lib/np-price.interface';
+import { NpPrice } from 'src/app/shared/np-price.interface';
 import { NpPricesComponent } from './np-prices/np-prices.component';
 
 

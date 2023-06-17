@@ -21,8 +21,12 @@
             Cenas
         </a>
 
+        <a mat-menu-item routerLink="user-settings">
+            Mani iestatījumi
+        </a>
+
         <button mat-menu-item [mat-menu-trigger-for]="adminMenu" *ngIf="permissions.admin">
-            Iestatījumi
+            Sistēmas Iestatījumi
         </button>
 
         <button mat-menu-item (click)="onLogout()">

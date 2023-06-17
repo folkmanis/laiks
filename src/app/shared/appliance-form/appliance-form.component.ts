@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { Observable, filter, map, of, take, finalize } from 'rxjs';
-import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
+import { PowerAppliance } from 'src/app/shared/power-appliance.interface';
 import { ConfirmationDialogService } from '../confirmation-dialog';
 import { PowerCyclesComponent } from './power-cycles/power-cycles.component';
 

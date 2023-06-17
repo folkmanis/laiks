@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PricesComponent } from './prices.component';
 import { of } from 'rxjs';
-import { NpDataService } from '../np-data/lib/np-data.service';
+import { NpDataService } from '../shared/np-data.service';
 import { LaiksService } from '../shared/laiks.service';
 import { PowerAppliancesService } from '../np-data/lib/power-appliances.service';
 import { PriceCalculatorService } from '../np-data/lib/price-calculator.service';

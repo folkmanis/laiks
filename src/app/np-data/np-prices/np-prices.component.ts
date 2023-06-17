@@ -1,6 +1,6 @@
 import { addHours, isDate, isWithinInterval, subHours } from 'date-fns';
 import { Input, ChangeDetectionStrategy, Component, OnInit, signal, computed } from '@angular/core';
-import { NpPrice } from '../lib/np-price.interface';
+import { NpPrice } from 'src/app/shared/np-price.interface';
 import { NgFor, DecimalPipe, DatePipe } from '@angular/common';
 
 

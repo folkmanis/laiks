@@ -1,6 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { PriceRowDirective } from './price-row.directive';
-import { NpPriceOffset } from 'src/app/np-data/lib/np-price.interface';
+import { NpPriceOffset } from 'src/app/shared/np-price.interface';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 

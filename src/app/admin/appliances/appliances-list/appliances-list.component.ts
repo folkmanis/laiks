@@ -5,8 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
-import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
+import { PowerAppliance } from 'src/app/shared/power-appliance.interface';
+import { PowerAppliancesService } from 'src/app/shared/power-appliances.service';
 
 @Component({
   selector: 'laiks-appliances-list',

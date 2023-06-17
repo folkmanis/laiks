@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { addHours } from 'date-fns';
 import { ClockDisplayComponent } from '../clock-display/clock-display.component';
-import { NpDataService } from '../np-data/lib/np-data.service';
+import { NpDataService } from '../shared/np-data.service';
 import { NpDataComponent } from '../np-data/np-data.component';
 import { SelectorComponent } from '../selector/selector.component';
 import { LaiksService } from '../shared/laiks.service';

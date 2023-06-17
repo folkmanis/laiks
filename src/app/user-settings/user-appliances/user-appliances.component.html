@@ -1,0 +1,15 @@
+<div class="container" *ngIf="activeAppliances$ | async as activeAppliances">
+    <div *ngFor="let appliance of activeAppliancesWithData$ | async" class="appliance">
+        {{ appliance.data.name }}
+    </div>
+
+
+    <div class="add-button">
+        <button mat-fab [disabled]="busy()" (click)="onAppendAppliance(activeAppliances)">
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
+    </div>
+
+</div>

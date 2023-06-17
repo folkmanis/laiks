@@ -1,0 +1,7 @@
+.select-appliance>:not(:first-child) {
+    margin-left: 16px;
+}
+
+.select-appliance>mat-form-field {
+    width: 240px;
+}

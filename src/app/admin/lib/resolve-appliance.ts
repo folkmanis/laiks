@@ -2,8 +2,8 @@ import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ResolveFn } from '@angular/router';
 import { EMPTY, catchError } from 'rxjs';
-import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
-import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
+import { PowerAppliance } from 'src/app/shared/power-appliance.interface';
+import { PowerAppliancesService } from 'src/app/shared/power-appliances.service';
 
 export const resolveAppliance: ResolveFn<PowerAppliance> = (route) => {
     const snack = inject(MatSnackBar);

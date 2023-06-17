@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>
+    Izvēlieties aparātu:
+</h2>
+
+<mat-dialog-content>
+
+    <div *ngIf="data.system.length > 0" class="select-appliance">
+        <mat-form-field>
+            <mat-label>
+                Izvēlēties no gatavajiem
+            </mat-label>
+            <mat-select #systemAppliance>
+                <mat-option *ngFor="let appliance of data.system" [value]="appliance.id">
+                    {{ appliance.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button [mat-dialog-close]="response('system', systemAppliance.value)"
+            [disabled]="!systemAppliance.value">
+            PIEVIENOT
+        </button>
+    </div>
+
+    <div *ngIf="data.user.length > 0" class="select-appliance">
+        <mat-form-field>
+            <mat-label>
+                Izvēlēties no savējiem
+            </mat-label>
+            <mat-select #userAppliance>
+                <mat-option *ngFor="let appliance of data.user" [value]="appliance.id">
+                    {{ appliance.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button [mat-dialog-close]="response('user', userAppliance.value)"
+            [disabled]="!userAppliance.value">
+            PIEVIENOT
+        </button>
+    </div>
+
+</mat-dialog-content>
+<mat-divider></mat-divider>
+
+<mat-dialog-actions>
+    <button mat-raised-button [mat-dialog-close]="response('new')">
+        IZVEIDOT JAUNU
+    </button>
+    <button mat-raised-button [mat-dialog-close]="null">
+        ATCELT
+    </button>
+</mat-dialog-actions>

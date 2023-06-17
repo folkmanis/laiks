@@ -1,5 +1,5 @@
 import { ElementRef, Directive, Input, HostBinding, Optional, Component } from '@angular/core';
-import { NpPriceOffset } from '../../np-data/lib/np-price.interface';
+import { NpPriceOffset } from 'src/app/shared/np-price.interface';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 
 

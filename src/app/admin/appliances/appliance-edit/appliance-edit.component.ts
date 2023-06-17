@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, Input, ViewChild, inject } from '@a
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observer, mergeMap, of } from 'rxjs';
-import { PowerAppliance } from 'src/app/np-data/lib/power-appliance.interface';
-import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
+import { PowerAppliance } from 'src/app/shared/power-appliance.interface';
+import { PowerAppliancesService } from 'src/app/shared/power-appliances.service';
 import { APPLIANCES_BY_NAME, ApplianceFormComponent } from 'src/app/shared/appliance-form/appliance-form.component';
 import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
 

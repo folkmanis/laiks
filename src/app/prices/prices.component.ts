@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { differenceInHours, isDate } from 'date-fns';
-import { NpDataService } from 'src/app/np-data/lib/np-data.service';
-import { NpPrice, NpPriceOffset } from 'src/app/np-data/lib/np-price.interface';
-import { PowerAppliancesService } from 'src/app/np-data/lib/power-appliances.service';
-import { PriceCalculatorService } from 'src/app/np-data/lib/price-calculator.service';
+import { NpDataService } from 'src/app/shared/np-data.service';
+import { NpPrice, NpPriceOffset } from 'src/app/shared/np-price.interface';
+import { PowerAppliancesService } from 'src/app/shared/power-appliances.service';
+import { PriceCalculatorService } from 'src/app/shared/price-calculator.service';
 import { LaiksService } from 'src/app/shared/laiks.service';
 import { PricesTableComponent } from './prices-table/prices-table.component';
 

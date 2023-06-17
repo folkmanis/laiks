@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
-import { doc, docData, DocumentReference, Firestore, getDoc, setDoc, collectionData, updateDoc, addDoc, deleteDoc, docSnapshots } from '@angular/fire/firestore';
-import { catchError, EMPTY, filter, from, map, mergeMap, Observable, of, switchMap, tap } from 'rxjs';
-import { LaiksUser } from './laiks-user';
-import { PowerAppliance } from '../np-data/lib/power-appliance.interface';
-import { collection, CollectionReference, query, where } from 'firebase/firestore';
+import { addDoc, collectionData, deleteDoc, doc, docData, DocumentReference, Firestore, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { collection, CollectionReference } from 'firebase/firestore';
+import { first, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { defaultUser, LaiksUser } from './laiks-user';
+import { PowerAppliance } from './power-appliance.interface';
 import { throwIfNull } from './throw-if-null';
+import { WithId } from './with-id';
 
 export enum LoginResponseType {
   CREATED,
@@ -25,6 +26,9 @@ const USERS = 'users';
   providedIn: 'root'
 })
 export class UserService {
+
+  isLogin = (): Observable<boolean> => this.getUser()
+    .pipe(map(user => !!user));
 
   constructor(
     private auth: Auth,
@@ -63,11 +67,20 @@ export class UserService {
     );
   }
 
-  userAppliances(): Observable<PowerAppliance[]> {
+  updateLaiksUser(update: Partial<LaiksUser>) {
+    return this.getUser().pipe(
+      first(),
+      throwIfNull(),
+      map(user => doc(this.firestore, USERS, user.uid)),
+      mergeMap(docRef => updateDoc(docRef, update))
+    );
+  }
+
+  userAppliances(): Observable<WithId<PowerAppliance>[]> {
     return this.getUser().pipe(
       throwIfNull(),
-      map(user => collection(this.firestore, USERS, user.uid, APPLIANCES) as CollectionReference<PowerAppliance>),
-      switchMap(collRef => collectionData(collRef))
+      map(user => collection(this.firestore, USERS, user.uid, APPLIANCES) as CollectionReference<WithId<PowerAppliance>>),
+      switchMap(collRef => collectionData(collRef, { idField: 'id' }))
     );
   }
 
@@ -121,11 +134,7 @@ export class UserService {
 
     const docRef = doc(this.firestore, USERS, user.uid) as DocumentReference<LaiksUser>;
 
-    const laiksUser: LaiksUser = {
-      email: user.email,
-      verified: false,
-      name: user.displayName,
-    };
+    const laiksUser = defaultUser(user.email, user.displayName);
 
     return from(setDoc(docRef, laiksUser)).pipe(
       map(() => laiksUser),
