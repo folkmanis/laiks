@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
-import { addDoc, collectionData, deleteDoc, doc, docData, DocumentReference, Firestore, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
-import { collection, CollectionReference } from 'firebase/firestore';
+import { doc, docData, DocumentReference, Firestore, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { first, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
-import { PowerAppliance } from './power-appliance.interface';
 import { throwIfNull } from './throw-if-null';
 import { WithId } from './with-id';
 
@@ -18,7 +16,6 @@ export interface LoginResponse {
   laiksUser: LaiksUser,
 }
 
-const APPLIANCES = 'appliances';
 const USERS = 'users';
 
 
@@ -54,14 +51,14 @@ export class UserService {
     signOut(this.auth);
   }
 
-  laiksUser(): Observable<LaiksUser | null> {
+  laiksUser(): Observable<WithId<LaiksUser> | null> {
     return authState(this.auth).pipe(
       switchMap(user => {
         if (!user) {
           return of(null);
         } else {
-          const docRef = doc(this.firestore, USERS, user.uid) as DocumentReference<LaiksUser>;
-          return docData(docRef);
+          const docRef = doc(this.firestore, USERS, user.uid) as DocumentReference<WithId<LaiksUser>>;
+          return docData(docRef, { idField: 'id' });
         }
       }),
     );
@@ -73,47 +70,6 @@ export class UserService {
       throwIfNull(),
       map(user => doc(this.firestore, USERS, user.uid)),
       mergeMap(docRef => updateDoc(docRef, update))
-    );
-  }
-
-  userAppliances(): Observable<WithId<PowerAppliance>[]> {
-    return this.getUser().pipe(
-      throwIfNull(),
-      map(user => collection(this.firestore, USERS, user.uid, APPLIANCES) as CollectionReference<WithId<PowerAppliance>>),
-      switchMap(collRef => collectionData(collRef, { idField: 'id' }))
-    );
-  }
-
-  getUserAppliance(id: string): Observable<PowerAppliance> {
-    return this.getUser().pipe(
-      throwIfNull(),
-      map(user => doc(this.firestore, USERS, user.uid, APPLIANCES, id) as DocumentReference<PowerAppliance>),
-      switchMap(docRef => docData(docRef)),
-    );
-  }
-
-  updateUserAppliance(id: string, appliance: PowerAppliance): Observable<void> {
-    return this.getUser().pipe(
-      throwIfNull(),
-      map(user => doc(this.firestore, USERS, user.uid, APPLIANCES, id) as DocumentReference<PowerAppliance>),
-      mergeMap(docRef => updateDoc(docRef, appliance))
-    );
-  }
-
-  insertUserAppliance(appliance: PowerAppliance): Observable<string> {
-    return this.getUser().pipe(
-      throwIfNull(),
-      map(user => collection(this.firestore, USERS, user.uid, APPLIANCES) as CollectionReference<PowerAppliance>),
-      mergeMap(collRef => addDoc(collRef, appliance)),
-      map(doc => doc.id),
-    );
-  }
-
-  deleteUserAppliance(id: string): Observable<void> {
-    return this.getUser().pipe(
-      throwIfNull(),
-      map(user => doc(this.firestore, USERS, user.uid, APPLIANCES, id) as DocumentReference<PowerAppliance>),
-      mergeMap(docRef => deleteDoc(docRef))
     );
   }
 

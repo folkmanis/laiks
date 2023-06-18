@@ -1,6 +1,12 @@
-<div class="container" *ngIf="activeAppliances$ | async as activeAppliances">
-    <div *ngFor="let appliance of activeAppliancesWithData$ | async" class="appliance">
+<div class="container" *ngIf="activeAppliancesWithData$ | async as activeAppliances">
+
+    <div *ngFor="let appliance of activeAppliances; index as idx" class="appliance">
         {{ appliance.data.name }}
+        <button mat-icon-button (click)="onRemoveAppliance(idx, activeAppliances)">
+            <mat-icon>
+                delete
+            </mat-icon>
+        </button>
     </div>
 
 
