@@ -1,5 +1,5 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, TrackByFunction } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,7 @@ import {
 import { UserService } from 'src/app/shared/user.service';
 import { AddApplianceDialogComponent } from './add-appliance-dialog/add-appliance-dialog.component';
 import { ApplianceDialogData, ApplianceResponse } from './add-appliance-dialog/appliance-dialog-data.interface';
-import { MatDividerModule } from '@angular/material/divider';
+import { CdkDrag, CdkDragHandle, CdkDropList, DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 
 @Component({
@@ -30,6 +30,9 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    CdkDropList,
+    CdkDrag,
+    CdkDragHandle,
   ],
 })
 export class UserAppliancesComponent {
@@ -37,6 +40,8 @@ export class UserAppliancesComponent {
   private userAppliancesService = inject(UserAppliancesService);
   private userService = inject(UserService);
   private dialog = inject(MatDialog);
+
+  trackByFn: TrackByFunction<ApplianceRecordWithData> = (_, rec) => rec.type + rec.applianceId;
 
   activeAppliancesWithData$ = this.userService.laiksUser().pipe(
     throwIfNull(),
@@ -67,6 +72,16 @@ export class UserAppliancesComponent {
       .map(data => pick(data, 'type', 'applianceId'))
       .filter((_, i) => i !== idx);
 
+    this.userService.updateLaiksUser({ appliances: update }).pipe(
+      finalize(() => this.busy.set(false)),
+    ).subscribe();
+  }
+
+  onMoveAppliance(event: CdkDragDrop<ApplianceRecordWithData[]>) {
+    this.busy.set(true);
+    moveItemInArray<ApplianceRecordWithData>(event.container.data, event.previousIndex, event.currentIndex);
+    const update = event.container.data
+      .map(data => pick(data, 'type', 'applianceId'));
     this.userService.updateLaiksUser({ appliances: update }).pipe(
       finalize(() => this.busy.set(false)),
     ).subscribe();

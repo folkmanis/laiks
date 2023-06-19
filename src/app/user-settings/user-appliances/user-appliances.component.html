@@ -1,19 +1,30 @@
 <div class="container" *ngIf="activeAppliancesWithData$ | async as activeAppliances">
 
-    <div *ngFor="let appliance of activeAppliances; index as idx" class="appliance">
-        <div class="color-tag">
-            <div [style.background-color]="appliance.data.color"></div>
-        </div>
-        <div class="name">
-            {{ appliance.data.name }}
-        </div>
-        <div>
-            <button mat-icon-button (click)="onRemoveAppliance(idx, activeAppliances)">
+    <div cdkDropList (cdkDropListDropped)="onMoveAppliance($event)" [cdkDropListData]="activeAppliances"
+        [cdkDropListDisabled]="busy()">
+
+        <div cdkDrag *ngFor="let appliance of activeAppliances; index as idx; trackBy: trackByFn" class="appliance"
+            cdkDragBoundary=".cdk-drop-list">
+            <div cdkDragHandle>
                 <mat-icon>
-                    delete
+                    drag_indicator
                 </mat-icon>
-            </button>
+            </div>
+            <div class="color-tag">
+                <div [style.background-color]="appliance.data.color"></div>
+            </div>
+            <div class="name">
+                {{ appliance.data.name }}
+            </div>
+            <div>
+                <button mat-icon-button (click)="onRemoveAppliance(idx, activeAppliances)">
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+                </button>
+            </div>
         </div>
+
     </div>
 
     <div class="add-button">
