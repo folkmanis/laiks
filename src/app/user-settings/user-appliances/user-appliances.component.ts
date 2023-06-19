@@ -14,6 +14,7 @@ import {
 import { UserService } from 'src/app/shared/user.service';
 import { AddApplianceDialogComponent } from './add-appliance-dialog/add-appliance-dialog.component';
 import { ApplianceDialogData, ApplianceResponse } from './add-appliance-dialog/appliance-dialog-data.interface';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @Component({

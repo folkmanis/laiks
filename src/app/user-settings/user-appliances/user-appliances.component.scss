@@ -5,6 +5,34 @@
     margin: 16px auto;
 }
 
+.appliance {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+
+    &>* {
+        padding: 0 8px;
+    }
+
+    &>:last-child {
+        margin-left: auto;
+    }
+
+    .name {
+        font-weight: 500;
+        font-size: 14pt;
+    }
+}
+
+.color-tag>div {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
 .add-button {
     position: absolute;
     bottom: 40px;
