@@ -15,6 +15,7 @@ import { UserService } from 'src/app/shared/user.service';
 import { AddApplianceDialogComponent } from './add-appliance-dialog/add-appliance-dialog.component';
 import { ApplianceDialogData, ApplianceResponse } from './add-appliance-dialog/appliance-dialog-data.interface';
 import { CdkDrag, CdkDragHandle, CdkDropList, DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 
 @Component({
@@ -33,6 +34,7 @@ import { CdkDrag, CdkDragHandle, CdkDropList, DragDropModule, CdkDragDrop, moveI
     CdkDropList,
     CdkDrag,
     CdkDragHandle,
+    RouterLink,
   ],
 })
 export class UserAppliancesComponent {
@@ -40,6 +42,8 @@ export class UserAppliancesComponent {
   private userAppliancesService = inject(UserAppliancesService);
   private userService = inject(UserService);
   private dialog = inject(MatDialog);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   trackByFn: TrackByFunction<ApplianceRecordWithData> = (_, rec) => rec.type + rec.applianceId;
 
@@ -92,6 +96,11 @@ export class UserAppliancesComponent {
     existingAppliances: ApplianceRecordWithData[]
   ): Observable<void> {
     if (!resp) {
+      return EMPTY;
+    }
+
+    if (resp.type === 'new') {
+      this.router.navigate(['new'], { relativeTo: this.route });
       return EMPTY;
     }
 

@@ -1,10 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { CollectionReference, DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, updateDoc } from '@angular/fire/firestore';
-import { EMPTY, Observable, first, forkJoin, from, map, of } from 'rxjs';
+import { CollectionReference, DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
+import { EMPTY, Observable, first, forkJoin, from, map, of, tap } from 'rxjs';
 import { ApplianceRecord, ApplianceType } from './laiks-user';
 import { PowerAppliance } from './power-appliance.interface';
 import { PowerAppliancesService } from './power-appliances.service';
 import { WithId } from './with-id';
+import { getDoc } from 'firebase/firestore';
+import { throwIfNull } from './throw-if-null';
 
 
 export type ApplianceRecordWithData = ApplianceRecord & {
@@ -52,9 +54,19 @@ export class UserAppliancesService {
     return collectionData(collRef, { idField: 'id' });
   }
 
+  userAppliancesByName(userId: string, name: string): Observable<PowerAppliance[]> {
+    const collRef =
+      collection(this.firestore, USERS, userId, APPLIANCES) as CollectionReference<WithId<PowerAppliance>>;
+    return collectionData(query(collRef, where('name', '==', name)));
+  }
+
+
   getUserAppliance(userId: string, id: string): Observable<PowerAppliance> {
     const docRef = doc(this.firestore, USERS, userId, APPLIANCES, id) as DocumentReference<PowerAppliance>;
-    return docData(docRef);
+    return from(getDoc(docRef)).pipe(
+      map(doc => doc.data()),
+      throwIfNull(id),
+    );
   }
 
   updateUserAppliance(userId: string, id: string, appliance: PowerAppliance): Observable<void> {

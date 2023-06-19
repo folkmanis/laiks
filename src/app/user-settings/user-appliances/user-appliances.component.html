@@ -16,7 +16,12 @@
             <div class="name">
                 {{ appliance.data.name }}
             </div>
-            <div>
+            <div class="buttons">
+                <a mat-icon-button *ngIf="appliance.type===1" [routerLink]="[appliance.applianceId]">
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                </a>
                 <button mat-icon-button (click)="onRemoveAppliance(idx, activeAppliances)">
                     <mat-icon>
                         delete
