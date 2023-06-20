@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { CollectionReference, DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
-import { EMPTY, Observable, first, forkJoin, from, map, of, tap } from 'rxjs';
+import { CollectionReference, DocumentReference, Firestore, addDoc, collection, collectionData, deleteDoc, doc, query, updateDoc, where } from '@angular/fire/firestore';
+import { getDoc } from 'firebase/firestore';
+import { EMPTY, Observable, first, forkJoin, from, map, of } from 'rxjs';
 import { ApplianceRecord, ApplianceType } from './laiks-user';
 import { PowerAppliance } from './power-appliance.interface';
 import { PowerAppliancesService } from './power-appliances.service';
-import { WithId } from './with-id';
-import { getDoc } from 'firebase/firestore';
 import { throwIfNull } from './throw-if-null';
+import { WithId } from './with-id';
 
 
 export type ApplianceRecordWithData = ApplianceRecord & {
