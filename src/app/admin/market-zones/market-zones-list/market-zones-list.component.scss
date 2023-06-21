@@ -1,0 +1,36 @@
+:host {
+    display: block;
+    max-width: 480px;
+    margin: 16px auto;
+}
+
+.container {
+    margin: 16px 0;
+}
+
+.zone-item {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    border-bottom: 2px solid rgba($color: white, $alpha: 0.12);
+    padding: 0 8px;
+
+    & .actions {
+        margin-left: auto;
+    }
+}
+
+div.zone-item>div.actions {
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+}
+
+div.zone-item:hover>div.actions {
+    opacity: 1;
+}
+
+.add-button {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+}

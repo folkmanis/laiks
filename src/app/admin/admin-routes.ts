@@ -8,6 +8,7 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { INITIAL_APPLIANCE } from 'src/app/shared/appliance-form/appliance-form.component';
 import { resolveActiveUserId } from '../shared/resolve-active-user-id';
+import { MarketZonesListComponent } from './market-zones/market-zones-list/market-zones-list.component';
 
 export default [
     {
@@ -58,4 +59,8 @@ export default [
             }
         ]
     },
+    {
+        path: 'market-zones',
+        loadChildren: () => import('./market-zones/market-zones-routes'),
+    }
 ] as Route[];

@@ -1,0 +1,28 @@
+<div class="container">
+
+    <div *ngFor="let zone of zones$ | async" class="zone-item">
+        <div class="name">
+            <a mat-button [routerLink]="zone.id">
+                {{ zone.id }} - {{ zone.description }}
+            </a>
+        </div>
+
+        <div class="actions">
+            <button mat-icon-button (click)="onDelete(zone.id)">
+                <mat-icon>
+                    delete
+                </mat-icon>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="add-button">
+    <a mat-fab [disabled]="busy()" routerLink="new">
+        <mat-icon>
+            add
+        </mat-icon>
+    </a>
+</div>

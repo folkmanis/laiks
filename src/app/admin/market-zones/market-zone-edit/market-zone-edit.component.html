@@ -1,0 +1,69 @@
+<div [formGroup]="form">
+
+    <h2 *ngIf="id; else idInput">
+        {{ id }}
+    </h2>
+
+    <ng-template #idInput>
+
+        <section>
+            <mat-form-field class="full-width">
+                <mat-label> Kods </mat-label>
+                <input matInput [formControl]="idControl" laiksUpperCase>
+            </mat-form-field>
+        </section>
+
+    </ng-template>
+
+    <section>
+
+        <mat-form-field class="full-width">
+            <mat-label> Nosaukums </mat-label>
+            <input matInput formControlName="description">
+        </mat-form-field>
+
+    </section>
+
+    <section>
+
+        <mat-form-field class="full-width">
+            <mat-label> Valoda </mat-label>
+            <mat-select formControlName="locale">
+                <mat-option *ngFor="let loc of locales()" [value]="loc.id">
+                    {{ loc.id }} - {{ loc.language }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </section>
+
+    <section>
+        <mat-form-field>
+            <mat-label>Nodoklis</mat-label>
+            <input matInput formControlName="tax" type="number">
+            <mat-hint>Kopā = x + x * nodoklis</mat-hint>
+        </mat-form-field>
+    </section>
+
+    <section>
+
+        <mat-form-field class="full-width">
+            <mat-label> url </mat-label>
+            <textarea matInput formControlName="url"></textarea>
+        </mat-form-field>
+
+    </section>
+
+</div>
+
+<mat-divider></mat-divider>
+
+<section>
+    <button mat-raised-button (click)="onSave()" [disabled]="isInvalid() || this.form.pristine">
+        {{ id ? 'SAGLABĀT' : 'IZVEIDOT' }}
+    </button>
+
+    <a mat-button routerLink="..">
+        ATCELT
+    </a>
+</section>

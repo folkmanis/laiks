@@ -13,6 +13,7 @@ export interface LaiksUser {
     verified: boolean;
     name: string;
     appliances: ApplianceRecord[];
+    pricesWithTax: boolean;
 }
 
 export const defaultUser = (
@@ -22,6 +23,7 @@ export const defaultUser = (
     email,
     name,
     verified: false,
+    pricesWithTax: true,
     appliances: [
         {
             type: ApplianceType.SYSTEM,
