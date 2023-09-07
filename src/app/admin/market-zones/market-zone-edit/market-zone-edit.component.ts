@@ -55,6 +55,7 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
     locale: ['', Validators.required],
     url: ['', Validators.required],
     tax: [0, Validators.required],
+    dbName: ['', Validators.required],
   });
 
   idControl = new FormControl<string>('', {

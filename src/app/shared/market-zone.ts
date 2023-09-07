@@ -3,4 +3,5 @@ export interface MarketZone {
     locale: string,
     url: string,
     tax: number,
+    dbName: string,
 }

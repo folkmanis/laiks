@@ -14,6 +14,7 @@ export interface LaiksUser {
     name: string;
     appliances: ApplianceRecord[];
     pricesWithTax: boolean;
+    marketZone: string,
 }
 
 export const defaultUser = (
@@ -24,6 +25,7 @@ export const defaultUser = (
     name,
     verified: false,
     pricesWithTax: true,
+    marketZone: 'LV',
     appliances: [
         {
             type: ApplianceType.SYSTEM,
