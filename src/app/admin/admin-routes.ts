@@ -13,4 +13,8 @@ export default [
     path: 'market-zones',
     loadChildren: () => import('./market-zones/market-zones-routes'),
   },
+  {
+    path: '**',
+    redirectTo: '/',
+  },
 ] as Route[];

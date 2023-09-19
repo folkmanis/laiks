@@ -72,6 +72,6 @@ export default [
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: '/',
   },
 ] as Route[];
