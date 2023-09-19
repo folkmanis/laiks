@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { DEFAULT_SETTINGS, SettingsService } from './settings.service';
-import { Settings } from './settings';
+import { Settings } from './types/settings';
 
 const TEST_SETTINGS: Settings = {
-  offset: 10
+  offset: 10,
 };
 
 describe('SettingsService', () => {
@@ -29,6 +29,4 @@ describe('SettingsService', () => {
     service.setOffset(TEST_SETTINGS.offset);
     expect(service.offset()).toEqual(TEST_SETTINGS.offset);
   });
-
-
 });

@@ -1,0 +1,48 @@
+<mat-table [dataSource]="npPrices()" [trackBy]="trackByFn" multiTemplateDataRows>
+
+    <ng-container matColumnDef="difference">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let price">
+            <span *ngIf="price.difference >= 0">
+                {{ price.difference | numberSign }}
+            </span>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="time">
+        <mat-header-cell *matHeaderCellDef>Laiks</mat-header-cell>
+        <mat-cell *matCellDef="let price">
+            <laiks-time-interval [from]="price.startTime" [to]="price.endTime"></laiks-time-interval>
+        </mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>centi</mat-header-cell>
+        <mat-cell *matCellDef="let price" class="mat-body-strong">
+            <laiks-price-colored [value]="price.value" [average]="average" [stDev]="stDev"></laiks-price-colored>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="appliances">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let price">
+            <ng-container *ngIf="price.difference >= 0 && appliances">
+                <laiks-appliances-costs [price]="price" [appliances]="appliances"></laiks-appliances-costs>
+            </ng-container>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let price">
+            {{ price.startTime | date:'d. MMMM' }}
+        </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let price; columns: ['date']; when: showDateHeaderFn"></mat-row>
+    <mat-row *matRowDef="let price; columns: displayedColumns" [laiksPriceRow]="price"></mat-row>
+
+</mat-table>

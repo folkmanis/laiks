@@ -1,0 +1,46 @@
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+    padding: 0 4px;
+
+    &:first-of-type {
+        padding-left: 8px;
+    }
+
+    &:last-of-type {
+        padding-right: 8px;
+    }
+}
+
+.mat-column-difference {
+    flex: 0 0 3rem;
+    font-size: 150%;
+}
+
+.mat-column-time {
+    flex: 0 0 6rem;
+}
+
+.mat-column-price {
+    flex: 0 0 5rem;
+    justify-content: end;
+    font-size: 150%;
+}
+
+mat-header-cell.mat-column-price {
+    font-size: inherit;
+}
+
+.mat-column-date {
+    font-size: 14px;
+    background-color: var(--primary-color);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.past {
+    opacity: .5;
+}
+
+.current {
+    background-color: var(--accent-darker);
+}

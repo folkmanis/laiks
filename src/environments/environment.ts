@@ -4,16 +4,15 @@
 
 export const environment = {
   firebase: {
-    apiKey: "AIzaSyBaO0VSrzz2z2VAxLhTn0bMI5dF8-OvYSM",
-    authDomain: "laiks-test.firebaseapp.com",
-    projectId: "laiks-test",
-    storageBucket: "laiks-test.appspot.com",
-    messagingSenderId: "892541170996",
-    appId: "1:892541170996:web:063f0ecee81d7ea277a161",
-    measurementId: "G-N433WCVQ32",
+    apiKey: 'AIzaSyBaO0VSrzz2z2VAxLhTn0bMI5dF8-OvYSM',
+    authDomain: 'laiks-test.firebaseapp.com',
+    projectId: 'laiks-test',
+    storageBucket: 'laiks-test.appspot.com',
+    messagingSenderId: '892541170996',
+    appId: '1:892541170996:web:063f0ecee81d7ea277a161',
+    measurementId: 'G-N433WCVQ32',
   },
-  dbName: 'laiks',
-  production: false
+  production: false,
 };
 
 /*

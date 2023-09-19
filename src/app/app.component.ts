@@ -1,6 +1,6 @@
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { User } from '@angular/fire/auth';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,10 +8,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { Observable } from 'rxjs';
-import { DEFAULT_PERMISSIONS } from './shared/permissions';
-import { PermissionsService } from './shared/permissions.service';
-import { LoginResponseType, UserService } from './shared/user.service';
+import {
+  DEFAULT_PERMISSIONS,
+  LoginResponseType,
+  LoginService,
+  PermissionsService,
+  MarketZonesService,
+} from '@shared';
+import { Observable, map, of, switchMap } from 'rxjs';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
 @Component({
@@ -26,51 +30,63 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     MatToolbarModule,
     MatButtonModule,
     NgIf,
-    AsyncPipe,
     UserMenuComponent,
     RouterLink,
     CdkScrollableModule,
-  ]
+  ],
 })
 export class AppComponent {
+  private zonesService = inject(MarketZonesService);
+  private laiksUser$ = this.loginService.laiksUser();
 
+  user = toSignal(this.loginService.getUser(), { initialValue: null });
 
-  user$: Observable<User | null> = this.userService.getUser();
+  laiksUser = toSignal(this.laiksUser$, { initialValue: null });
 
-  laiksUser$ = this.userService.laiksUser();
+  isAdmin = toSignal(this.loginService.isAdmin());
 
-  permissions = toSignal(
-    this.permissionsService.getPermissions(),
-    { initialValue: DEFAULT_PERMISSIONS }
+  isNpAllowed = toSignal(this.loginService.isNpAllowed());
+
+  private marketZone$ = this.laiksUser$.pipe(
+    map((user) => user?.marketZoneId),
+    switchMap((id) =>
+      id
+        ? this.zonesService
+            .getZoneFlow(id)
+            .pipe(map((zone) => ({ ...zone, id })))
+        : of(null)
+    )
   );
+  marketZone = toSignal(this.marketZone$, { initialValue: null });
 
   constructor(
-    private userService: UserService,
+    private loginService: LoginService,
     private snack: MatSnackBar,
-    private router: Router,
-    private permissionsService: PermissionsService,
-  ) { }
+    private router: Router
+  ) {}
 
   onLogin() {
-    this.userService.login().subscribe({
+    this.loginService.login().subscribe({
       error: (err) => {
         this.snack.open(`Neizdevās pieslēgties. ${err}`, 'OK');
-        this.userService.logout();
+        this.loginService.logout();
       },
       next: (resp) => {
         if (resp.type === LoginResponseType.CREATED) {
-          this.snack.open(`Izveidots jauns lietotājs ${resp.laiksUser.email}`, 'OK');
+          this.snack.open(
+            `Izveidots jauns lietotājs ${resp.laiksUser.email}`,
+            'OK'
+          );
         }
         if (resp.type === LoginResponseType.EXISTING) {
           this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
         }
-      }
+      },
     });
   }
 
   onLogout() {
-    this.userService.logout();
+    this.loginService.logout();
     this.router.navigateByUrl('/');
   }
-
 }

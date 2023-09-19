@@ -6,13 +6,10 @@ import { CancelEditConfirmationComponent } from './cancel-edit-confirmation/canc
 import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfirmationDialogService {
-
-  constructor(
-    private dialog: MatDialog,
-  ) { }
+  constructor(private dialog: MatDialog) {}
 
   delete(): Observable<boolean> {
     return this.openComponent(DeleteConfirmationComponent);
@@ -24,9 +21,6 @@ export class ConfirmationDialogService {
 
   private openComponent<T>(component: ComponentType<T>): Observable<boolean> {
     const dialorgRef = this.dialog.open(component);
-    return dialorgRef.afterClosed().pipe(
-      map(resp => !!resp),
-    );
+    return dialorgRef.afterClosed().pipe(map((resp) => !!resp));
   }
-
 }

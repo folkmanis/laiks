@@ -1,22 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserEditComponent } from './user-edit.component';
-import { UsersAdminService } from '../../lib/users-admin.service';
+import { UsersService } from '../../../shared/users/users.service';
 import { provideRouter } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { MatDialogModule } from '@angular/material/dialog';
-import { LaiksUser } from 'src/app/shared/laiks-user';
+import { LaiksUser } from 'src/app/shared/users/laiks-user';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-class TestUsersService {
-
-}
+class TestUsersService {}
 
 const testUser: LaiksUser = {
   email: 'user@user.com',
   verified: true,
   name: 'User User',
+  includeVat: true,
+  vatAmount: 0.21,
+  appliances: [],
+  marketZoneId: 'LV',
+  locale: 'lv',
 };
 
 describe('UserEditComponent', () => {
@@ -32,17 +35,16 @@ describe('UserEditComponent', () => {
         NoopAnimationsModule,
       ],
       providers: [
-        { provide: UsersAdminService, useClass: TestUsersService },
+        { provide: UsersService, useClass: TestUsersService },
         provideRouter([
           {
             path: 'users/:id',
             component: UserEditComponent,
-          }
+          },
         ]),
         ConfirmationDialogService,
-      ]
-    })
-      .compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserEditComponent);
     component = fixture.componentInstance;

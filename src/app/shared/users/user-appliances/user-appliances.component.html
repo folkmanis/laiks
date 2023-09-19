@@ -1,0 +1,45 @@
+<div class="container" *ngIf="user$ | async as user">
+
+    <div cdkDropList (cdkDropListDropped)="onMoveAppliance($event,user)" [cdkDropListData]="user.appliances"
+        [cdkDropListDisabled]="busy()">
+
+        <div cdkDrag *ngFor="let appliance of user.appliances; index as idx; trackBy: trackByFn" class="appliance"
+            cdkDragBoundary=".cdk-drop-list">
+            <div cdkDragHandle>
+                <mat-icon>
+                    drag_indicator
+                </mat-icon>
+            </div>
+            <div class="color-tag">
+                <div [style.background-color]="appliance.color"></div>
+            </div>
+            <div class="name">
+                <a mat-button [disabled]="busy()" [routerLink]="['/','prices','appliance',idx]">
+                    {{ appliance.name }}
+                </a>
+            </div>
+            <div class="buttons">
+                <a mat-icon-button [disabled]="busy()" [routerLink]="[idx]">
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+                </a>
+                <button mat-icon-button [disabled]="busy()" (click)="onRemoveAppliance(idx, user)">
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="add-button">
+        <a mat-fab [disabled]="busy()" routerLink="new">
+            <mat-icon>
+                add
+            </mat-icon>
+        </a>
+    </div>
+
+</div>

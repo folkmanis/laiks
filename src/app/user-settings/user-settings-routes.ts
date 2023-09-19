@@ -1,43 +1,59 @@
 import { Route } from '@angular/router';
-import { UserAppliancesComponent } from './user-appliances/user-appliances.component';
-import { UserSettingsComponent } from './user-settings.component';
-import { canMatchNpUser } from 'src/app/shared/np-user.guard';
-import { EditUserApplianceComponent } from './user-appliances/edit-user-appliance/edit-user-appliance.component';
-import { canDeactivateGuard } from '../shared/can-deactivate.guard';
+import {
+  UserSettingsComponent,
+  UserAppliancesComponent,
+  EditUserApplianceComponent,
+  resolveActiveUserId,
+  resolveActiveUser,
+  canDeactivateGuard,
+  canMatchNpUser,
+} from '@shared';
+
+// /
+// /appliances
+// /appliances/new
+// /appliances/:idx
 
 export default [
-    {
+  {
+    path: '',
+    pathMatch: 'full',
+    component: UserSettingsComponent,
+    resolve: {
+      id: resolveActiveUserId,
+      user: resolveActiveUser,
+    },
+    canDeactivate: [canDeactivateGuard],
+  },
+  {
+    path: 'appliances',
+    canMatch: [canMatchNpUser],
+    resolve: {
+      id: resolveActiveUserId,
+    },
+    children: [
+      {
         path: '',
-        component: UserSettingsComponent,
-        canActivate: [canMatchNpUser],
-        pathMatch: 'full,'
-    },
-    {
-        path: 'appliances',
-        canActivateChild: [canMatchNpUser],
-        children: [
-            {
-                path: '',
-                component: UserAppliancesComponent,
-                pathMatch: 'full',
-            },
-            {
-                path: 'new',
-                component: EditUserApplianceComponent,
-                canDeactivate: [canDeactivateGuard],
-                data: {
-                    id: null,
-                },
-            },
-            {
-                path: ':id',
-                component: EditUserApplianceComponent,
-                canDeactivate: [canDeactivateGuard],
-            },
-        ]
-    },
-    {
-        path: '**',
-        redirectTo: '',
-    }
+        pathMatch: 'full',
+        component: UserAppliancesComponent,
+      },
+      {
+        path: 'new',
+        component: EditUserApplianceComponent,
+        canDeactivate: [canDeactivateGuard],
+        data: {
+          idx: null,
+        },
+      },
+      {
+        path: ':idx',
+        component: EditUserApplianceComponent,
+        canDeactivate: [canDeactivateGuard],
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ] as Route[];

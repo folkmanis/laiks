@@ -1,25 +1,37 @@
-import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
-import { AsyncPipe, CommonModule, NgFor, NgIf } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { CanComponentDeactivate } from 'src/app/shared/can-deactivate.guard';
-import { MarketZone } from 'src/app/shared/market-zone';
-import { MarketZonesService } from 'src/app/shared/market-zones.service';
-import { LocalesService } from 'src/app/shared/locales.service';
-import { Observable, of } from 'rxjs';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
+import { NgFor, NgIf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
-import { isEqual, pickBy } from 'lodash-es';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
-import { UpperCaseDirective } from 'src/app/shared/upper-case.directive';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { of } from 'rxjs';
+import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
+import { LocalesService } from 'src/app/shared/locales.service';
+import { MarketZone } from 'src/app/shared/np-data/market-zone';
+import { MarketZonesService } from 'src/app/shared/np-data/market-zones.service';
+import { CanComponentDeactivate } from 'src/app/shared/utils/can-deactivate.guard';
+import { UpperCaseDirective } from 'src/app/shared/utils/upper-case.directive';
 
 type MarketZoneGroup = FormGroup<{
-  [key in keyof MarketZone]: FormControl<MarketZone[key]>
+  [key in keyof MarketZone]: FormControl<MarketZone[key]>;
 }>;
 
 @Component({
@@ -44,7 +56,6 @@ type MarketZoneGroup = FormGroup<{
   ],
 })
 export class MarketZoneEditComponent implements CanComponentDeactivate {
-
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private marketZoneService = inject(MarketZonesService);
@@ -60,7 +71,7 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
 
   idControl = new FormControl<string>('', {
     validators: [Validators.required],
-    nonNullable: true
+    nonNullable: true,
   });
 
   @Input() id?: string;
@@ -78,15 +89,18 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
 
   busy = signal(false);
 
-  canDeactivate = () => this.form.pristine ? of(true) : this.confirmation.cancelEdit();
+  canDeactivate = () =>
+    this.form.pristine ? of(true) : this.confirmation.cancelEdit();
 
   onSave() {
     this.busy.set(true);
     if (this.id) {
-      this.marketZoneService.updateZone(this.id, this.form.value)
+      this.marketZoneService
+        .updateZone(this.id, this.form.value)
         .subscribe(() => this.returnToList());
     } else {
-      this.marketZoneService.setZone(this.idControl.value, this.form.getRawValue())
+      this.marketZoneService
+        .setZone(this.idControl.value, this.form.getRawValue())
         .subscribe(() => this.returnToList());
     }
   }
@@ -100,5 +114,4 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
     this.form.markAsPristine();
     this.router.navigate(['..'], { relativeTo: this.route });
   }
-
 }

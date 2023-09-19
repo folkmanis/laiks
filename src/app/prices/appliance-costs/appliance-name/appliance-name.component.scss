@@ -1,0 +1,14 @@
+:host {
+    height: 56px;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+.name {
+    padding: 0 8px;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid rgba($color: #000000, $alpha: 0.12);
+    text-transform: uppercase;
+}

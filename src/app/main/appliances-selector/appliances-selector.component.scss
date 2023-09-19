@@ -1,0 +1,20 @@
+:host {
+    align-self: center;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    text-align: center;
+}
+
+li:not(:first-of-type) {
+    margin-top: 8px;
+}
+
+a[mat-raised-button] {
+    text-transform: uppercase;
+}

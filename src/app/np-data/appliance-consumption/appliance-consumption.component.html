@@ -1,6 +1,0 @@
-{{ appliance?.name }}&nbsp;
-<span *ngIf="consumption !== null else noValue;">
-    {{ consumption * 100 * 1.21 | number:'1.2-2' }} centi.
-</span>
-
-<ng-template #noValue>---</ng-template>

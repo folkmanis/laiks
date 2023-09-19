@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>
+    Izvēlieties aparātu:
+</h2>
+
+<mat-dialog-content>
+
+    <mat-action-list>
+        <button mat-list-item *ngFor="let appliance of appliances()" [laiksSelectAppliance]="appliance"
+            [locale]="locale">
+            {{ appliance | localizedApplianceName:locale }}
+        </button>
+    </mat-action-list>
+
+
+</mat-dialog-content>
+<mat-divider></mat-divider>
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>
+        ATCELT
+    </button>
+</mat-dialog-actions>

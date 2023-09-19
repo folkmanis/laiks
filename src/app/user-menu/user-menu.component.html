@@ -17,7 +17,7 @@
             {{ user.displayName }}
         </span>
 
-        <a mat-menu-item *ngIf="permissions.npUser" routerLink="/prices">
+        <a mat-menu-item *ngIf="isNpAllowed" routerLink="/prices">
             Cenas
         </a>
 
@@ -25,7 +25,11 @@
             Mani iestatījumi
         </a>
 
-        <button mat-menu-item [mat-menu-trigger-for]="adminMenu" *ngIf="permissions.admin">
+        <a mat-menu-item *ngIf="isNpAllowed" [routerLink]="['user-settings', 'appliances', laiksUser?.id]">
+            Mani aparāti
+        </a>
+
+        <button mat-menu-item [mat-menu-trigger-for]="adminMenu" *ngIf="isAdmin">
             Sistēmas Iestatījumi
         </button>
 

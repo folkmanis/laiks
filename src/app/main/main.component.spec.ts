@@ -5,10 +5,10 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ClockDisplayComponent } from '../clock-display/clock-display.component';
+import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { NpDataComponent } from '../np-data/np-data.component';
-import { SelectorComponent } from '../selector/selector.component';
-import { LaiksService } from '../shared/laiks.service';
+import { SelectorComponent } from './selector/selector.component';
+import { TimeObserverService } from '../shared/utils/time-observer.service';
 import { NumberSignPipe } from '../shared/number-sign.pipe';
 import { SettingsService } from '../shared/settings.service';
 import { MainComponent } from './main.component';
@@ -22,7 +22,6 @@ class TestLaiksService {
     return of(TEST_TIME);
   }
 }
-
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -42,10 +41,9 @@ describe('MainComponent', () => {
       ],
       providers: [
         SettingsService,
-        { provide: LaiksService, useClass: TestLaiksService },
-      ]
-    })
-      .compileComponents();
+        { provide: TimeObserverService, useClass: TestLaiksService },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MainComponent);
 
@@ -63,6 +61,4 @@ describe('MainComponent', () => {
     fixture.detectChanges();
     expect(+component.timeWithOffset()).toBe(+TEST_TIME_OFFSET);
   });
-
-
 });

@@ -1,0 +1,16 @@
+:host {
+    display: block;
+    max-width: 480px;
+    margin: auto;
+}
+
+section {
+    margin: 16px 0px;
+    padding: 0 16px;
+}
+
+.buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}

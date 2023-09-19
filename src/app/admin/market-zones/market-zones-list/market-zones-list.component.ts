@@ -1,11 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { AsyncPipe, CommonModule, NgFor } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { MarketZonesService } from 'src/app/shared/market-zones.service';
+import { AsyncPipe, NgFor } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
+import { ConfirmationDialogService, MarketZonesService } from '@shared';
 import { EMPTY, finalize, mergeMap } from 'rxjs';
-import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'laiks-market-zones-list',
@@ -13,16 +17,9 @@ import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog/co
   templateUrl: './market-zones-list.component.html',
   styleUrls: ['./market-zones-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLink,
-    NgFor,
-    AsyncPipe,
-    MatButtonModule,
-    MatIconModule,
-  ],
+  imports: [RouterLink, NgFor, AsyncPipe, MatButtonModule, MatIconModule],
 })
 export class MarketZonesListComponent {
-
   private readonly zonesService = inject(MarketZonesService);
   private confirmation = inject(ConfirmationDialogService);
 
@@ -31,15 +28,14 @@ export class MarketZonesListComponent {
   busy = signal(false);
 
   onDelete(id: string) {
-
     this.busy.set(true);
 
-    this.confirmation.delete().pipe(
-      mergeMap(resp => resp ? this.zonesService.deleteZone(id) : EMPTY),
-      finalize(() => this.busy.set(false))
-    ).subscribe();
-
+    this.confirmation
+      .delete()
+      .pipe(
+        mergeMap((resp) => (resp ? this.zonesService.deleteZone(id) : EMPTY)),
+        finalize(() => this.busy.set(false))
+      )
+      .subscribe();
   }
-
-
 }

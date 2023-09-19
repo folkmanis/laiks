@@ -2,6 +2,7 @@
 @use './variables';
 @use './input-theme' as laiks-input;
 @use './hour-details-theme' as hour-details;
+@use './vertical-container';
 
 @include mat.core();
 
@@ -26,3 +27,5 @@ $theme: mat.define-dark-theme((color: (primary: $primary,
 @include laiks-input.theme($theme);
 
 @include hour-details.theme($theme);
+
+@include vertical-container.theme($theme);

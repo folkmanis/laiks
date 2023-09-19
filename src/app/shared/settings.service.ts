@@ -1,15 +1,14 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
-import { Settings } from './settings';
+import { Settings } from './types/settings';
 
 export const DEFAULT_SETTINGS: Settings = {
   offset: 0,
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SettingsService {
-
   private storage = window.localStorage;
 
   private _settings = signal(this.getSettings());
@@ -25,7 +24,7 @@ export class SettingsService {
   }
 
   setOffset(offset: number) {
-    this._settings.mutate(value => value.offset = offset);
+    this._settings.mutate((value) => (value.offset = offset));
   }
 
   resetSettings() {
@@ -33,12 +32,12 @@ export class SettingsService {
   }
 
   private getSettings(): Settings {
-    const stored = JSON.parse(this.storage.getItem('settings') || '{}') as Partial<Settings>;
+    const stored = JSON.parse(
+      this.storage.getItem('settings') || '{}'
+    ) as Partial<Settings>;
     return {
       ...DEFAULT_SETTINGS,
       ...stored,
     };
   }
-
-
 }

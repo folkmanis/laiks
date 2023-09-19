@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
+import {
+  MatCheckboxChange,
+  MatCheckboxModule,
+} from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
+import { PowerAppliance, SystemAppliancesService } from '@shared';
 import { Observable } from 'rxjs';
-import { PowerAppliance } from 'src/app/shared/power-appliance.interface';
-import { PowerAppliancesService } from 'src/app/shared/power-appliances.service';
 
 @Component({
   selector: 'laiks-appliances-list',
@@ -19,20 +21,20 @@ import { PowerAppliancesService } from 'src/app/shared/power-appliances.service'
     MatButtonModule,
     RouterLink,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
   ],
 })
 export class AppliancesListComponent {
-
   displayColumns = ['color', 'enabled', 'name'];
 
-  private appliancesService = inject(PowerAppliancesService);
+  private appliancesService = inject(SystemAppliancesService);
 
-  appliances$: Observable<PowerAppliance[]> = this.appliancesService.getPowerAppliances();
+  appliances$: Observable<PowerAppliance[]> =
+    this.appliancesService.getPowerAppliances();
 
   onEnable(event: MatCheckboxChange, id: string) {
-    this.appliancesService.updateAppliance(id, { enabled: event.checked })
+    this.appliancesService
+      .updateAppliance(id, { enabled: event.checked })
       .subscribe();
   }
-
 }

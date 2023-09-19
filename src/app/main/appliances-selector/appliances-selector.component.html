@@ -1,0 +1,6 @@
+<ul>
+    <li *ngFor="let appliance of firstAppliances; index as idx;">
+        <a mat-raised-button [laiksSelectorColor]="appliance.color"
+            [routerLink]="['/prices/appliance', idx]">{{appliance.name}}</a>
+    </li>
+</ul>

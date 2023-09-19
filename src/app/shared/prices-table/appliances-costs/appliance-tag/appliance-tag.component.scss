@@ -1,0 +1,18 @@
+:host {
+    display: flex;
+    border-radius: 8px;
+    padding: 0px 4px;
+    font-size: 0.7em;
+    overflow: hidden;
+}
+
+.name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.cost {
+    white-space: nowrap;
+    margin-left: 4px;
+}

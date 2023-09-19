@@ -1,0 +1,23 @@
+<laiks-appliance-form [formControl]="applianceForm" [existingAppliances]="existingAppliances$ | async">
+
+    <div class="buttons">
+        <button *ngIf="id != null; else createButton" mat-raised-button
+            [disabled]="applianceForm.valid === false || applianceForm.pristine === true" class="save"
+            (click)="onUpdate(id)">
+            SAGLABĀT
+        </button>
+        <ng-template #createButton>
+            <button mat-raised-button [disabled]="applianceForm.valid === false || applianceForm.pristine === true"
+                class="create" (click)="onCreate()">
+                IZVEIDOT
+            </button>
+        </ng-template>
+        <a mat-button [disabled]="busy()" class="cancel" routerLink="..">
+            ATCELT
+        </a>
+        <button mat-button (click)="onCopyFrom()">
+            NO GATAVAJIEM
+        </button>
+    </div>
+
+</laiks-appliance-form>

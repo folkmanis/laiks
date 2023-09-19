@@ -1,0 +1,21 @@
+<section>
+    <h2>
+        {{email}}
+    </h2>
+</section>
+<section>
+    <laiks-user-form [formControl]="userControl" [npAllowed]="npAllowed()" [locales]="locales()" [zones]="zones()">
+
+        <div class="buttons">
+            <button mat-raised-button [disabled]="!userControl.valid || busy() || update() == null" (click)="onSave()">
+                SAGLABĀT
+            </button>
+            <button mat-button color="warn" [disabled]="busy() || update() == null" (click)="onReset()">
+                ATIESTATĪT
+            </button>
+            <a *ngIf="npAllowed()" mat-raised-button [routerLink]="['appliances']" [disabled]="busy()">
+                APARĀTI
+            </a>
+        </div>
+    </laiks-user-form>
+</section>

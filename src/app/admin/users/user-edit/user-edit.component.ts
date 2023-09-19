@@ -1,15 +1,22 @@
-import { ChangeDetectionStrategy, Component, Input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  signal,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import {
+  ConfirmationDialogService,
+  DEFAULT_PERMISSIONS,
+  LaiksUser,
+  PermissionsService,
+  UsersService,
+} from '@shared';
 import { EMPTY, mergeMap, switchMap } from 'rxjs';
-import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
-import { LaiksUser } from 'src/app/shared/laiks-user';
-import { DEFAULT_PERMISSIONS } from 'src/app/shared/permissions';
-import { PermissionsAdminService } from '../../lib/permissions-admin.service';
-import { UsersAdminService } from '../../lib/users-admin.service';
 
 @Component({
   selector: 'laiks-user-edit',
@@ -17,14 +24,9 @@ import { UsersAdminService } from '../../lib/users-admin.service';
   styleUrls: ['./user-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    MatCheckboxModule,
-    MatButtonModule,
-    RouterLink,
-  ]
+  imports: [MatCheckboxModule, MatButtonModule, RouterLink],
 })
 export class UserEditComponent {
-
   @Input() activeUserId: string | undefined;
 
   id = signal('');
@@ -37,43 +39,51 @@ export class UserEditComponent {
   busy = signal(false);
 
   permissions$ = toObservable(this.id).pipe(
-    switchMap(id => id ? this.permissionsAdminService.getUserPermissions(id) : EMPTY),
+    switchMap((id) =>
+      id ? this.permissionsService.getUserPermissions(id) : EMPTY
+    )
   );
 
-  permissions = toSignal(this.permissions$, { initialValue: DEFAULT_PERMISSIONS });
-
+  permissions = toSignal(this.permissions$, {
+    initialValue: DEFAULT_PERMISSIONS,
+  });
 
   constructor(
-    private usersService: UsersAdminService,
+    private usersService: UsersService,
     private route: ActivatedRoute,
     private router: Router,
     private snack: MatSnackBar,
     private confirm: ConfirmationDialogService,
-    private permissionsAdminService: PermissionsAdminService,
-  ) { }
+    private permissionsService: PermissionsService
+  ) {}
 
   onDelete() {
     this.busy.set(true);
-    this.confirm.delete().pipe(
-      mergeMap(resp => resp ? this.usersService.deleteUser(this.id()) : EMPTY),
-    )
+    this.confirm
+      .delete()
+      .pipe(
+        mergeMap((resp) =>
+          resp ? this.usersService.deleteUser(this.id()) : EMPTY
+        )
+      )
       .subscribe({
         next: () => this.router.navigate(['..'], { relativeTo: this.route }),
-        error: err => this.snack.open(`Neizdevās. ${err}`, 'OK'),
+        error: (err) => this.snack.open(`Neizdevās. ${err}`, 'OK'),
         complete: () => this.busy.set(false),
       });
   }
 
   onSetAdmin(value: boolean) {
     this.busy.set(true);
-    this.permissionsAdminService.setAdmin(this.id(), value)
+    this.permissionsService
+      .setAdmin(this.id(), value)
       .subscribe(() => this.busy.set(false));
   }
 
   onSetNpUser(value: boolean) {
     this.busy.set(true);
-    this.permissionsAdminService.setNpUser(this.id(), value)
+    this.permissionsService
+      .setNpUser(this.id(), value)
       .subscribe(() => this.busy.set(false));
   }
-
 }

@@ -8,14 +8,17 @@
         </a>
     </span>
 
-    <span *ngIf="permissions().npUser">
+    <span *ngIf="isNpAllowed()">
         <a mat-button routerLink="/prices">
             CENAS
+            <span *ngIf="marketZone() as zone;">
+                {{zone.id}} ({{zone.description}})
+            </span>
         </a>
     </span>
 
-    <laiks-user-menu [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()" [laiksUser]="laiksUser$ | async"
-        [permissions]="permissions()">
+    <laiks-user-menu [user]="user()" (login)="onLogin()" (logout)="onLogout()" [laiksUser]="laiksUser()"
+        [isAdmin]="isAdmin()" [isNpAllowed]="isNpAllowed()">
     </laiks-user-menu>
 
 </mat-toolbar>
