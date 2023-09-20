@@ -5,15 +5,7 @@ import {
   Input,
   inject,
 } from '@angular/core';
-import {
-  NpDataService,
-  NpPriceWithOffset,
-  PowerAppliance,
-  PriceCalculatorService,
-  PricesTableComponent,
-  TimeObserverService,
-  eurMwhToCentsKwh,
-} from '@shared';
+import { TimeObserverService, eurMwhToCentsKwh } from '@shared/utils';
 import { addSeconds, hoursToSeconds } from 'date-fns';
 import { sortBy } from 'lodash-es';
 import {
@@ -25,6 +17,13 @@ import {
   switchMap,
 } from 'rxjs';
 import { ApplianceNameComponent } from './appliance-name/appliance-name.component';
+import { PricesTableComponent } from '@shared/prices-table';
+import {
+  NpDataService,
+  NpPriceWithOffset,
+  PriceCalculatorService,
+} from '@shared/np-data';
+import { PowerAppliance } from '@shared/appliances';
 
 @Component({
   selector: 'laiks-appliance-costs',

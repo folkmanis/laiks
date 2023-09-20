@@ -13,15 +13,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
-import {
-  NpPriceWithOffset,
-  NumberSignPipe,
-  PowerApplianceWithHourlyCosts,
-} from '@shared';
+import { NumberSignPipe } from '@shared/utils';
 import { PriceRowDirective } from './price-row.directive';
 import { TimeIntervalComponent } from './time-interval/time-interval.component';
 import { AppliancesCostsComponent } from './appliances-costs/appliances-costs.component';
 import { PriceColoredComponent } from './price-colored/price-colored.component';
+import { NpPriceWithOffset } from '@shared/np-data';
+import { PowerApplianceWithHourlyCosts } from '@shared/appliances';
 
 @Component({
   selector: 'laiks-prices-table',
@@ -49,12 +47,7 @@ export class PricesTableComponent implements AfterViewInit {
   @ViewChildren(PriceRowDirective)
   private priceRows?: QueryList<PriceRowDirective>;
 
-  displayedColumns = [
-    'difference',
-    'time',
-    'appliances',
-    'price',
-  ];
+  displayedColumns = ['difference', 'time', 'appliances', 'price'];
 
   trackByFn: (index: number, item: NpPriceWithOffset) => any = (_, item) =>
     item.startTime.valueOf();
@@ -88,9 +81,10 @@ export class PricesTableComponent implements AfterViewInit {
   @Input({ transform: booleanAttribute }) showDate: boolean = false;
 
   ngAfterViewInit(): void {
-    this.showDate && setTimeout(() => {
-      const current = this.priceRows?.find((row) => row.current);
-      current && current.scrollIn();
-    }, 1000);
+    this.showDate &&
+      setTimeout(() => {
+        const current = this.priceRows?.find((row) => row.current);
+        current && current.scrollIn();
+      }, 1000);
   }
 }

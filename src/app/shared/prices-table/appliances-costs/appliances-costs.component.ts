@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { ApplianceTagComponent } from './appliance-tag/appliance-tag.component';
-import { NpPriceWithOffset, PowerApplianceWithHourlyCosts } from '@shared';
+import { NpPriceWithOffset } from '@shared/np-data';
+import { PowerApplianceWithHourlyCosts } from '@shared/appliances';
 
 @Component({
   selector: 'laiks-appliances-costs',

@@ -9,13 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  ConfirmationDialogService,
-  DEFAULT_PERMISSIONS,
-  LaiksUser,
-  PermissionsService,
-  UsersService,
-} from '@shared';
+import { ConfirmationDialogService } from '@shared/confirmation-dialog';
+import { DEFAULT_PERMISSIONS, PermissionsService } from '@shared/permissions';
+import { LaiksUser, UsersService } from '@shared/users';
 import { EMPTY, mergeMap, switchMap } from 'rxjs';
 
 @Component({

@@ -18,14 +18,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import {
-  LaiksUser,
-  PowerAppliance,
-  UsersService,
-  WithId,
-  throwIfNull,
-} from '@shared';
+import { WithId, throwIfNull } from '@shared/utils';
 import { BehaviorSubject, EMPTY, finalize, switchMap } from 'rxjs';
+import { UsersService } from '../users.service';
+import { PowerAppliance } from '@shared/appliances';
+import { LaiksUser } from '../laiks-user';
 
 @Component({
   selector: 'laiks-user-appliances',

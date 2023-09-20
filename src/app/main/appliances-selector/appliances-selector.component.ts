@@ -2,8 +2,8 @@ import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-import { PowerAppliance } from '@shared';
-import { SelectorColorDirective } from "./selector-color.directive";
+import { PowerAppliance } from '@shared/appliances';
+import { SelectorColorDirective } from './selector-color.directive';
 
 @Component({
   selector: 'laiks-appliances-selector',

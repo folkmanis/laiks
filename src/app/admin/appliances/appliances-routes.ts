@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
-import { canDeactivateGuard, resolveSystemAppliance } from '@shared';
+import { resolveSystemAppliance } from '@shared/appliances';
+import { canDeactivateGuard } from '@shared/utils';
 import { AppliancesListComponent } from './appliances-list/appliances-list.component';
 import { EditSystemAppliancesComponent } from './edit-system-appliances/edit-system-appliances.component';
 

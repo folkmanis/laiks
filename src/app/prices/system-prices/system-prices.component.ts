@@ -6,20 +6,18 @@ import {
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { PowerApplianceWithHourlyCosts } from '@shared/appliances';
 import {
-  LoginService,
   NpDataService,
   NpPrice,
   NpPriceWithOffset,
-  PowerApplianceWithHourlyCosts,
   PriceCalculatorService,
-  PricesTableComponent,
-  TimeObserverService,
-  eurMwhToCentsKwh,
-} from '@shared';
+} from '@shared/np-data';
+import { PricesTableComponent } from '@shared/prices-table';
+import { LoginService } from '@shared/users';
+import { TimeObserverService, eurMwhToCentsKwh } from '@shared/utils';
 import { differenceInHours, isDate } from 'date-fns';
 import { map } from 'rxjs';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'laiks-system-prices',

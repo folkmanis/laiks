@@ -5,9 +5,9 @@ import {
   EditUserApplianceComponent,
   resolveActiveUserId,
   resolveActiveUser,
-  canDeactivateGuard,
   canMatchNpUser,
-} from '@shared';
+} from '@shared/users';
+import { canDeactivateGuard } from '@shared/utils';
 
 // /
 // /appliances

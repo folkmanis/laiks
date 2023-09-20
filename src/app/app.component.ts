@@ -1,21 +1,16 @@
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { User } from '@angular/fire/auth';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import {
-  DEFAULT_PERMISSIONS,
-  LoginResponseType,
-  LoginService,
-  PermissionsService,
-  MarketZonesService,
-} from '@shared';
-import { Observable, map, of, switchMap } from 'rxjs';
+import { LoginResponseType, LoginService } from '@shared/users';
+import { MarketZonesService } from '@shared/np-data/market-zones.service';
+
+import { map, of, switchMap } from 'rxjs';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
 @Component({

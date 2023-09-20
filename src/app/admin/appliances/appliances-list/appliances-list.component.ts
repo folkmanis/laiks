@@ -7,7 +7,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { PowerAppliance, SystemAppliancesService } from '@shared';
+import { PowerAppliance, SystemAppliancesService } from '@shared/appliances';
 import { Observable } from 'rxjs';
 
 @Component({

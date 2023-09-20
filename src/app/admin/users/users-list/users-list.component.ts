@@ -8,15 +8,12 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import {
-  LaiksUser,
-  UsersService,
-  ConfirmationDialogService,
-  PermissionsService,
-} from '@shared';
+import { LaiksUser, UsersService } from '@shared/users';
 import { MatIconModule } from '@angular/material/icon';
 import { EMPTY, finalize, mergeMap } from 'rxjs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ConfirmationDialogService } from '@shared/confirmation-dialog';
+import { PermissionsService } from '@shared/permissions';
 
 @Component({
   selector: 'laiks-users-list',

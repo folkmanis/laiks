@@ -5,7 +5,7 @@ import {
   Input,
 } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { colorDensity } from '@shared';
+import { colorDensity } from '@shared/utils';
 
 const BACKGROUND = '#424242';
 

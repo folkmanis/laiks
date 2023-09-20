@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
-import { WithId } from '@shared';
+import { WithId } from '@shared/utils';
 import { LaiksUser } from '../shared/users/laiks-user';
 
 @Component({

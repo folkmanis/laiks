@@ -13,7 +13,7 @@ import {
 } from '@angular/fire/firestore';
 import { startOfDay, subDays } from 'date-fns';
 import { combineLatest, map, Observable, switchMap } from 'rxjs';
-import { WithId } from '..';
+import { WithId } from '@shared/utils';
 import { LoginService } from '../users';
 import { MarketZonesService } from './market-zones.service';
 import { NpData, NpPrice, NpPriceCollectionData } from './np-price.interface';

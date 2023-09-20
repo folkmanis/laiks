@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
-import { CanMatchFn, CanActivateFn, Router } from '@angular/router';
-import { LoginService } from '@shared';
-import { first, map, tap } from 'rxjs';
+import { CanActivateFn, Router } from '@angular/router';
+import { LoginService } from '@shared/users';
+import { first, map } from 'rxjs';
 
 export const userApplianceGuard: CanActivateFn = (route) => {
   const redirect = inject(Router).parseUrl('/');

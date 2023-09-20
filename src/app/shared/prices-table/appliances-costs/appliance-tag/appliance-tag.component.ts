@@ -5,7 +5,7 @@ import {
   Input,
 } from '@angular/core';
 import { NgIf, DecimalPipe } from '@angular/common';
-import { colorDensity } from '@shared';
+import { colorDensity } from '@shared/utils';
 
 @Component({
   selector: 'laiks-appliance-tag',

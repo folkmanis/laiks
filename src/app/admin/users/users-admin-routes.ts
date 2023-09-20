@@ -1,14 +1,14 @@
 import { Route } from '@angular/router';
+import { UserEditComponent } from './user-edit/user-edit.component';
+import { UsersListComponent } from './users-list/users-list.component';
 import {
   EditUserApplianceComponent,
   UserAppliancesComponent,
   UserSettingsComponent,
-  canDeactivateGuard,
   resolveActiveUserId,
   resolveUser,
-} from '@shared';
-import { UserEditComponent } from './user-edit/user-edit.component';
-import { UsersListComponent } from './users-list/users-list.component';
+} from '@shared/users';
+import { canDeactivateGuard } from '@shared/utils';
 
 // :id
 // :id/permissions

@@ -16,15 +16,14 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import {
-  DEFAULT_PERMISSIONS,
-  Permissions,
-  PermissionsService,
-  throwIfNull,
-  WithId,
-} from '@shared';
+import { throwIfNull, WithId } from '@shared/utils';
 import { first, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
+import {
+  PermissionsService,
+  Permissions,
+  DEFAULT_PERMISSIONS,
+} from '@shared/permissions';
 
 export enum LoginResponseType {
   CREATED,

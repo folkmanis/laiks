@@ -13,8 +13,9 @@ import {
   deleteDoc,
   docData,
 } from '@angular/fire/firestore';
+import { throwIfNull, WithId } from '@shared/utils';
 import { from, map, Observable } from 'rxjs';
-import { LaiksUser, WithId, throwIfNull } from '@shared';
+import { LaiksUser } from '@shared/users';
 
 const USERS_COLL = 'users';
 

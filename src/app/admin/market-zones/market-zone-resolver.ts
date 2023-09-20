@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { MarketZone, MarketZonesService } from '@shared';
+import { MarketZone, MarketZonesService } from '@shared/np-data';
 import { first } from 'rxjs';
 
 export const resolveMarketZone: ResolveFn<MarketZone> = (route) =>

@@ -1,16 +1,14 @@
 import { Directive, Input, HostBinding } from '@angular/core';
-import { colorDensity } from '@shared';
-
+import { colorDensity } from '@shared/utils';
 
 @Directive({
   selector: '[laiksSelectorColor]',
   standalone: true,
-
 })
 export class SelectorColorDirective {
-
   @HostBinding('style.backgroundColor')
-  @Input('laiksSelectorColor') background?: string | null;
+  @Input('laiksSelectorColor')
+  background?: string | null;
 
   @HostBinding('style.color')
   get textColor() {
@@ -20,7 +18,5 @@ export class SelectorColorDirective {
     } else {
       return undefined;
     }
-
   }
-
 }

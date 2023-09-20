@@ -1,25 +1,23 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
   inject,
   signal,
 } from '@angular/core';
-import { CommonModule, NgIf, AsyncPipe } from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   ApplianceFormComponent,
-  SystemAppliancesService,
   INITIAL_APPLIANCE,
   PowerAppliance,
-  CanComponentDeactivate,
-  ConfirmationDialogService,
-} from '@shared';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { BehaviorSubject, Observable, finalize, of, switchMap } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+  SystemAppliancesService,
+} from '@shared/appliances';
+import { ConfirmationDialogService } from '@shared/confirmation-dialog';
+import { CanComponentDeactivate } from '@shared/utils';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'laiks-edit-system-appliances',

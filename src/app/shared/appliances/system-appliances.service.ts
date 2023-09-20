@@ -13,7 +13,7 @@ import {
   updateDoc,
   where,
 } from '@angular/fire/firestore';
-import { throwIfNull, WithId } from '@shared';
+import { throwIfNull, WithId } from '@shared/utils';
 import { from, map, Observable } from 'rxjs';
 import { PresetPowerAppliance } from './power-appliance.interface';
 

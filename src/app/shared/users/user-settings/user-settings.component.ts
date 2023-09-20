@@ -11,18 +11,16 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  CanComponentDeactivate,
-  ConfirmationDialogService,
-  LaiksUser,
-  LocalesService,
-  LoginService,
-  MarketZonesService,
-  UsersService,
-} from '@shared';
 import { reduce } from 'lodash-es';
 import { Observable, finalize } from 'rxjs';
 import { UserFormComponent, EMPTY_USER } from './user-form/user-form.component';
+import { UsersService } from '../users.service';
+import { MarketZonesService } from '@shared/np-data';
+import { LoginService } from '../login.service';
+import { LocalesService } from '@shared/locales.service';
+import { ConfirmationDialogService } from '@shared/confirmation-dialog';
+import { CanComponentDeactivate } from '@shared/utils';
+import { LaiksUser } from '../laiks-user';
 
 @Component({
   selector: 'laiks-user-settings',

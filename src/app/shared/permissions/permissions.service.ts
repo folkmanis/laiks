@@ -9,9 +9,8 @@ import {
   docSnapshots,
   setDoc,
 } from '@angular/fire/firestore';
-import { Observable, from, map, of, switchMap } from 'rxjs';
+import { Observable, from, map } from 'rxjs';
 import { DEFAULT_PERMISSIONS, Permissions } from './permissions';
-import { LoginService } from '@shared';
 
 const PERMISSIONS = 'permissions';
 

@@ -6,17 +6,15 @@ import {
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  LoginService,
-  NpDataService,
-  SettingsService,
-  TimeObserverService,
-} from '@shared';
+import { NpDataService } from '@shared/np-data';
+import { SettingsService } from '@shared/settings.service';
+import { LoginService } from '@shared/users';
+import { TimeObserverService } from '@shared/utils';
 import { addHours } from 'date-fns';
+import { map } from 'rxjs';
+import { AppliancesSelectorComponent } from './appliances-selector/appliances-selector.component';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { SelectorComponent } from './selector/selector.component';
-import { AppliancesSelectorComponent } from './appliances-selector/appliances-selector.component';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'laiks-main',

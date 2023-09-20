@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { NumberSignPipe } from '@shared';
+import { NumberSignPipe } from '@shared/utils';
 
 @Component({
   selector: 'laiks-selector',

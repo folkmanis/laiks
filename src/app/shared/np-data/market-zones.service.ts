@@ -10,7 +10,7 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { WithId } from '@shared';
+import { WithId } from '@shared/utils';
 import { MarketZone } from './market-zone';
 import { Observable, from } from 'rxjs';
 

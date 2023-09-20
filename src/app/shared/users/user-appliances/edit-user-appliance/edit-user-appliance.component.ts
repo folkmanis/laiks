@@ -14,16 +14,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import {
-  ApplianceFormComponent,
-  CanComponentDeactivate,
-  ConfirmationDialogService,
-  INITIAL_APPLIANCE,
-  PowerAppliance,
-  SystemAppliancesService,
-  UsersService,
-  throwIfNull,
-} from '@shared';
+import { CanComponentDeactivate, throwIfNull } from '@shared/utils';
 import {
   BehaviorSubject,
   EMPTY,
@@ -36,6 +27,14 @@ import {
   AddApplianceDialogComponent,
   ApplianceDialogData,
 } from '../add-appliance-dialog/add-appliance-dialog.component';
+import {
+  ApplianceFormComponent,
+  INITIAL_APPLIANCE,
+  PowerAppliance,
+  SystemAppliancesService,
+} from '@shared/appliances';
+import { UsersService } from '../../users.service';
+import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 
 @Component({
   selector: 'laiks-edit-user-appliance',

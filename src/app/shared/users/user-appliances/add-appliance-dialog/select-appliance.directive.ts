@@ -1,6 +1,6 @@
 import { Directive, HostListener, Input, inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { PresetPowerAppliance } from '@shared';
+import { PresetPowerAppliance } from '@shared/appliances';
 
 @Directive({
   selector: '[laiksSelectAppliance]',

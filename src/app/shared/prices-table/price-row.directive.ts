@@ -6,7 +6,7 @@ import {
   Input,
   Optional,
 } from '@angular/core';
-import { NpPriceWithOffset } from '@shared';
+import { NpPriceWithOffset } from '@shared/np-data';
 
 @Directive({
   selector: 'mat-row[laiksPriceRow],tr[laiksPriceRow]',

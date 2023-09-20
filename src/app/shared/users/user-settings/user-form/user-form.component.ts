@@ -24,7 +24,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { LaiksUser, Locale, MarketZone, WithId } from '@shared';
+import { WithId } from '@shared/utils';
+import { LaiksUser } from '../../laiks-user';
+import { MarketZone } from '@shared/np-data';
+import { Locale } from '@shared/types/locale';
 
 type EditableLaiksUserFields = Pick<
   LaiksUser,
