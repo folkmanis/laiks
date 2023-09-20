@@ -1,5 +1,5 @@
 import { ComponentType } from '@angular/cdk/portal';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { map, Observable } from 'rxjs';
 import { CancelEditConfirmationComponent } from './cancel-edit-confirmation/cancel-edit-confirmation.component';
@@ -9,7 +9,7 @@ import { DeleteConfirmationComponent } from './delete-confirmation/delete-confir
   providedIn: 'root',
 })
 export class ConfirmationDialogService {
-  constructor(private dialog: MatDialog) {}
+  private dialog = inject(MatDialog);
 
   delete(): Observable<boolean> {
     return this.openComponent(DeleteConfirmationComponent);

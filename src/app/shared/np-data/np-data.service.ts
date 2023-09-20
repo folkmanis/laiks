@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   collection,
   collectionData,
@@ -24,6 +24,10 @@ const DB_NAME = 'laiks';
   providedIn: 'root',
 })
 export class NpDataService {
+  private firestore = inject(Firestore);
+  private loginService = inject(LoginService);
+  private marketZonesService = inject(MarketZonesService);
+
   private readonly vatFn$ = this.loginService.getVatFn();
 
   private readonly dbDocName$ = this.loginService
@@ -32,12 +36,6 @@ export class NpDataService {
       switchMap((id) => this.marketZonesService.getZoneFlow(id)),
       map((zone) => zone.dbName)
     );
-
-  constructor(
-    private firestore: Firestore,
-    private loginService: LoginService,
-    private marketZonesService: MarketZonesService
-  ) {}
 
   getNpPrices(days = 2): Observable<NpPrice[]> {
     return this.dbDocName$.pipe(

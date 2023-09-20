@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -22,7 +22,7 @@ const APPLIANCES_COLL = 'powerAppliances';
   providedIn: 'root',
 })
 export class SystemAppliancesService {
-  constructor(private firestore: Firestore) {}
+  private firestore = inject(Firestore);
 
   getPowerAppliances(
     options: { enabledOnly?: boolean } = {}

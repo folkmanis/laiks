@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   Auth,
   authState,
@@ -41,14 +41,12 @@ const USERS = 'users';
   providedIn: 'root',
 })
 export class LoginService {
+  private auth = inject(Auth);
+  private firestore = inject(Firestore);
+  private permissionsService = inject(PermissionsService);
+
   isLogin = (): Observable<boolean> =>
     this.getUser().pipe(map((user) => !!user));
-
-  constructor(
-    private auth: Auth,
-    private firestore: Firestore,
-    private permissionsService: PermissionsService
-  ) {}
 
   getUser(): Observable<User | null> {
     return authState(this.auth);

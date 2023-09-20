@@ -4,7 +4,7 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  Optional,
+  inject,
 } from '@angular/core';
 import { NpPriceWithOffset } from '@shared/np-data';
 
@@ -13,11 +13,15 @@ import { NpPriceWithOffset } from '@shared/np-data';
   standalone: true,
 })
 export class PriceRowDirective {
+  private element = inject<ElementRef<HTMLTableRowElement>>(ElementRef);
+  private scrollable? = inject(CdkScrollable, { optional: true });
+
+  private _price?: NpPriceWithOffset;
+
   @HostBinding('class.current') current = false;
   @HostBinding('class.future') future = false;
   @HostBinding('class.past') past = false;
 
-  private _price?: NpPriceWithOffset;
   @Input('laiksPriceRow')
   set price(value: NpPriceWithOffset | undefined) {
     if (!value) {
@@ -31,11 +35,6 @@ export class PriceRowDirective {
   get price() {
     return this._price;
   }
-
-  constructor(
-    private element: ElementRef<HTMLTableRowElement>,
-    @Optional() private scrollable?: CdkScrollable
-  ) {}
 
   scrollIn() {
     this.scrollable?.scrollTo({

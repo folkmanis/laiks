@@ -1,34 +1,34 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
   FormArray,
   FormControl,
   FormGroup,
+  FormsModule,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
   ValidationErrors,
   Validator,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
-import { MatTable, MatTableModule } from '@angular/material/table';
-import { map, Observable, shareReplay, Subscription } from 'rxjs';
-import { PowerConsumptionCycle } from '../../power-appliance.interface';
-import { MinutesToHoursPipe } from '../../../utils/minutes-to-hours.pipe';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, AsyncPipe, DecimalPipe } from '@angular/common';
-import { NullToZeroDirective } from '../../../utils/null-to-zero.directive';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTable, MatTableModule } from '@angular/material/table';
+import { PowerConsumptionCycle } from '@shared/appliances';
+import { MinutesToHoursPipe, NullToZeroDirective } from '@shared/utils';
+import { Observable, Subscription, map, shareReplay } from 'rxjs';
 
 type PowerCycleForm = FormGroup<{
   [key in keyof PowerConsumptionCycle]: FormControl<PowerConsumptionCycle[key]>;
@@ -71,6 +71,8 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
 export class PowerCyclesComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
 {
+  private breakpointObserver = inject(BreakpointObserver);
+
   @ViewChild(MatTable) private table?: MatTable<PowerCycleForm>;
 
   powerCycles = new FormArray<PowerCycleForm>([]);
@@ -87,8 +89,6 @@ export class PowerCyclesComponent
   private touchFn = () => {};
 
   private subscription: Subscription | undefined;
-
-  constructor(private breakpointObserver: BreakpointObserver) {}
 
   writeValue(obj: PowerCyclesComponent): void {
     if (!Array.isArray(obj)) {

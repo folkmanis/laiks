@@ -1,15 +1,13 @@
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { MarketZonesService } from '@shared/np-data';
 import { LoginResponseType, LoginService } from '@shared/users';
-import { MarketZonesService } from '@shared/np-data/market-zones.service';
-
 import { map, of, switchMap } from 'rxjs';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
@@ -25,24 +23,27 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     MatToolbarModule,
     MatButtonModule,
     NgIf,
+    AsyncPipe,
     UserMenuComponent,
     RouterLink,
     CdkScrollableModule,
   ],
 })
 export class AppComponent {
+  private loginService = inject(LoginService);
+  private snack = inject(MatSnackBar);
+  private router = inject(Router);
   private zonesService = inject(MarketZonesService);
-  private laiksUser$ = this.loginService.laiksUser();
 
-  user = toSignal(this.loginService.getUser(), { initialValue: null });
+  laiksUser$ = this.loginService.laiksUser();
 
-  laiksUser = toSignal(this.laiksUser$, { initialValue: null });
+  user$ = this.loginService.getUser();
 
-  isAdmin = toSignal(this.loginService.isAdmin());
+  isAdmin$ = this.loginService.isAdmin();
 
-  isNpAllowed = toSignal(this.loginService.isNpAllowed());
+  isNpAllowed$ = this.loginService.isNpAllowed();
 
-  private marketZone$ = this.laiksUser$.pipe(
+  marketZone$ = this.laiksUser$.pipe(
     map((user) => user?.marketZoneId),
     switchMap((id) =>
       id
@@ -52,13 +53,6 @@ export class AppComponent {
         : of(null)
     )
   );
-  marketZone = toSignal(this.marketZone$, { initialValue: null });
-
-  constructor(
-    private loginService: LoginService,
-    private snack: MatSnackBar,
-    private router: Router
-  ) {}
 
   onLogin() {
     this.loginService.login().subscribe({

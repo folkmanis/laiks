@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  inject,
   signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -23,6 +24,13 @@ import { EMPTY, mergeMap, switchMap } from 'rxjs';
   imports: [MatCheckboxModule, MatButtonModule, RouterLink],
 })
 export class UserEditComponent {
+  private usersService = inject(UsersService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private snack = inject(MatSnackBar);
+  private confirm = inject(ConfirmationDialogService);
+  private permissionsService = inject(PermissionsService);
+
   @Input() activeUserId: string | undefined;
 
   id = signal('');
@@ -43,15 +51,6 @@ export class UserEditComponent {
   permissions = toSignal(this.permissions$, {
     initialValue: DEFAULT_PERMISSIONS,
   });
-
-  constructor(
-    private usersService: UsersService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private snack: MatSnackBar,
-    private confirm: ConfirmationDialogService,
-    private permissionsService: PermissionsService
-  ) {}
 
   onDelete() {
     this.busy.set(true);

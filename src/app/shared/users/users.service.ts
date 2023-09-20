@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   getDoc,
   Firestore,
@@ -23,10 +23,9 @@ const USERS_COLL = 'users';
   providedIn: 'root',
 })
 export class UsersService {
+  private firestore = inject(Firestore);
   private docRef = (id: string) =>
     doc(this.firestore, USERS_COLL, id) as DocumentReference<WithId<LaiksUser>>;
-
-  constructor(private firestore: Firestore) {}
 
   getUsers(): Observable<WithId<LaiksUser>[]> {
     const collRef = collection(

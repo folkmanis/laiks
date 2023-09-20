@@ -24,7 +24,7 @@ import { LaiksUser } from '../shared/users/laiks-user';
   imports: [NgIf, MatButtonModule, MatMenuModule, MatIconModule, RouterLink],
 })
 export class UserMenuComponent {
-  @Input() user: User | null = null;
+  @Input() user?: User | null = null;
 
   @Input() laiksUser: WithId<LaiksUser> | null = null;
 
