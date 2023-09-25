@@ -21,7 +21,7 @@ import { RouterLink } from '@angular/router';
 import { WithId, throwIfNull } from '@shared/utils';
 import { BehaviorSubject, EMPTY, finalize, switchMap } from 'rxjs';
 import { UsersService } from '../users.service';
-import { PowerAppliance } from '@shared/appliances';
+import { PowerAppliance, ColorTagComponent } from '@shared/appliances';
 import { LaiksUser } from '../laiks-user';
 
 @Component({
@@ -41,6 +41,7 @@ import { LaiksUser } from '../laiks-user';
     CdkDrag,
     CdkDragHandle,
     RouterLink,
+    ColorTagComponent,
   ],
 })
 export class UserAppliancesComponent {

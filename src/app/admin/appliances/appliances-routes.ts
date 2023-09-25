@@ -3,6 +3,8 @@ import { resolveSystemAppliance } from '@shared/appliances';
 import { canDeactivateGuard } from '@shared/utils';
 import { AppliancesListComponent } from './appliances-list/appliances-list.component';
 import { EditSystemAppliancesComponent } from './edit-system-appliances/edit-system-appliances.component';
+import { LocalizedNamesComponent } from './localized-names/localized-names.component';
+import { resolveLocales } from '@shared/locales';
 
 export default [
   {
@@ -16,11 +18,25 @@ export default [
   },
   {
     path: ':id',
-    component: EditSystemAppliancesComponent,
     resolve: {
       appliance: resolveSystemAppliance,
     },
-    canDeactivate: [canDeactivateGuard],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: EditSystemAppliancesComponent,
+        canDeactivate: [canDeactivateGuard],
+      },
+      {
+        path: 'localized-names',
+        component: LocalizedNamesComponent,
+        canDeactivate: [canDeactivateGuard],
+        resolve: {
+          locales: resolveLocales,
+        },
+      },
+    ],
   },
   {
     path: '',

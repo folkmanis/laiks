@@ -30,7 +30,7 @@ export default [
         canDeactivate: [canDeactivateGuard],
       },
       {
-        path: 'permissions',
+        path: 'settings',
         component: UserEditComponent,
         resolve: {
           activeUserId: resolveActiveUserId,

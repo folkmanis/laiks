@@ -5,22 +5,38 @@
     margin: 16px auto;
 }
 
-table {
-    width: 100%;
-}
-
 .add-button {
     position: absolute;
     bottom: 40px;
     right: 40px;
 }
 
-.mat-column-enabled {
-    width: 24px;
+mat-cell {
+    padding-left: 4px;
+    padding-right: 4px;
+
+    &:last-of-type {
+        padding-right: 8px;
+    }
+
+    &:first-of-type {
+        padding-left: 8px;
+    }
 }
 
 .mat-column-color {
-    min-width: 8px;
-    width: 8px;
-    padding: 0;
+    flex: 0 40px;
+}
+
+.mat-column-name {
+    flex: 1;
+}
+
+.mat-column-enabled {
+    flex: 0 44px;
+    margin-left: auto;
+}
+
+.mat-column-localized-names {
+    flex: 0 60px;
 }

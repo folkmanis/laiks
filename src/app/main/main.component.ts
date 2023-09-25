@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NpDataService } from '@shared/np-data';
-import { SettingsService } from '@shared/settings.service';
+import { LocalSettingsService } from '@shared/settings';
 import { LoginService } from '@shared/users';
 import { TimeObserverService } from '@shared/utils';
 import { addHours } from 'date-fns';
@@ -31,7 +31,7 @@ import { SelectorComponent } from './selector/selector.component';
   ],
 })
 export class MainComponent {
-  private settingsService = inject(SettingsService);
+  private settingsService = inject(LocalSettingsService);
 
   private loginService = inject(LoginService);
 

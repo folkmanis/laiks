@@ -15,13 +15,13 @@
         </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="delete">
-        <mat-cell *matCellDef="let user;">
-            <button mat-icon-button (click)="onDelete(user.id)" [disabled]="user.id === activeUserId || busy()">
+    <ng-container matColumnDef="edit">
+        <mat-cell *matCellDef="let user">
+            <a mat-icon-button [routerLink]="[user.id,'settings']" [disabled]="busy()">
                 <mat-icon>
-                    delete
+                    manage_accounts
                 </mat-icon>
-            </button>
+            </a>
         </mat-cell>
     </ng-container>
 

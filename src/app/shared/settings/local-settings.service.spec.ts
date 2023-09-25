@@ -1,18 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DEFAULT_SETTINGS, SettingsService } from './settings.service';
-import { Settings } from './types/settings';
+import {
+  DEFAULT_SETTINGS,
+  LocalSettingsService,
+} from './local-settings.service';
+import { LocalSettings } from './local-settings';
 
-const TEST_SETTINGS: Settings = {
+const TEST_SETTINGS: LocalSettings = {
   offset: 10,
 };
 
 describe('SettingsService', () => {
-  let service: SettingsService;
+  let service: LocalSettingsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SettingsService);
+    service = TestBed.inject(LocalSettingsService);
     window.localStorage.clear();
   });
 

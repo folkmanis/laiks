@@ -7,7 +7,11 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import { PowerAppliance, SystemAppliancesService } from '@shared/appliances';
+import {
+  PowerAppliance,
+  SystemAppliancesService,
+  ColorTagComponent,
+} from '@shared/appliances';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -22,10 +26,11 @@ import { Observable } from 'rxjs';
     RouterLink,
     MatCheckboxModule,
     MatIconModule,
+    ColorTagComponent,
   ],
 })
 export class AppliancesListComponent {
-  displayColumns = ['color', 'enabled', 'name'];
+  displayColumns = ['color', 'name', 'enabled', 'localized-names'];
 
   private appliancesService = inject(SystemAppliancesService);
 

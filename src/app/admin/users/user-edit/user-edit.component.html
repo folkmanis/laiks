@@ -1,32 +1,35 @@
-<h2>
-    {{ user?.name }}
-</h2>
-<h3>
-    {{ user?.email }}
-</h3>
+<div class="vertical-container">
+    <h2>
+        {{ user?.name }}
+    </h2>
+    <h3>
+        {{ user?.email }}
+    </h3>
 
-<section>
-    <ul>
-        <li>
-            <mat-checkbox [checked]="permissions().npUser" (change)="onSetNpUser($event.checked)" [disabled]="busy()">
-                Pieeja elektrības cenām
-            </mat-checkbox>
-        </li>
+    <section>
+        <ul>
+            <li>
+                <mat-checkbox [checked]="permissions().npUser" (change)="onSetNpUser($event.checked)"
+                    [disabled]="busy()">
+                    Pieeja elektrības cenām
+                </mat-checkbox>
+            </li>
 
-        <li>
-            <mat-checkbox [checked]="permissions().admin" (change)="onSetAdmin($event.checked)"
-                [disabled]="busy() || id() === activeUserId">
-                Administratora tiesības
-            </mat-checkbox>
-        </li>
-    </ul>
+            <li>
+                <mat-checkbox [checked]="permissions().admin" (change)="onSetAdmin($event.checked)"
+                    [disabled]="busy() || id() === activeUserId">
+                    Administratora tiesības
+                </mat-checkbox>
+            </li>
+        </ul>
 
-</section>
+    </section>
 
-<button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="busy()">
-    DZĒST
-</button>
+    <button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="id() === activeUserId || busy()">
+        DZĒST
+    </button>
 
-<a mat-button routerLink="../" [disabled]="busy()">
-    ATPAKAĻ
-</a>
+    <a mat-button routerLink="/admin/users" [disabled]="busy()">
+        ATPAKAĻ
+    </a>
+</div>

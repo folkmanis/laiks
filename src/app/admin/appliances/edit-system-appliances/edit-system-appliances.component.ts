@@ -84,6 +84,4 @@ export class EditSystemAppliancesComponent implements CanComponentDeactivate {
         this.router.navigate(['..'], { relativeTo: this.route });
       });
   }
-
-  onCopyFrom() {}
 }

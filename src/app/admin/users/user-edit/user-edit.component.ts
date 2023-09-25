@@ -9,11 +9,12 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { DEFAULT_PERMISSIONS, PermissionsService } from '@shared/permissions';
 import { LaiksUser, UsersService } from '@shared/users';
-import { EMPTY, mergeMap, switchMap } from 'rxjs';
+import { WithId } from '@shared/utils';
+import { EMPTY, finalize, mergeMap, switchMap } from 'rxjs';
 
 @Component({
   selector: 'laiks-user-edit',
@@ -25,7 +26,6 @@ import { EMPTY, mergeMap, switchMap } from 'rxjs';
 })
 export class UserEditComponent {
   private usersService = inject(UsersService);
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
   private snack = inject(MatSnackBar);
   private confirm = inject(ConfirmationDialogService);
@@ -38,7 +38,7 @@ export class UserEditComponent {
     this.id.set(value);
   }
 
-  @Input() user?: LaiksUser;
+  @Input() user?: WithId<LaiksUser>;
 
   busy = signal(false);
 
@@ -59,12 +59,14 @@ export class UserEditComponent {
       .pipe(
         mergeMap((resp) =>
           resp ? this.usersService.deleteUser(this.id()) : EMPTY
-        )
+        ),
+        finalize(() => this.busy.set(false))
       )
-      .subscribe({
-        next: () => this.router.navigate(['..'], { relativeTo: this.route }),
-        error: (err) => this.snack.open(`Neizdevās. ${err}`, 'OK'),
-        complete: () => this.busy.set(false),
+      .subscribe(() => {
+        this.snack.open(`Lietotājs ${this.user?.name} izdzēsts!`, 'OK', {
+          duration: 3000,
+        });
+        this.router.navigateByUrl('/admin/users');
       });
   }
 

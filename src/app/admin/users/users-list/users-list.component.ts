@@ -32,29 +32,12 @@ import { PermissionsService } from '@shared/permissions';
 export class UsersListComponent {
   private readonly usersService = inject(UsersService);
 
-  private readonly confirmation = inject(ConfirmationDialogService);
-  private readonly permissionsService = inject(PermissionsService);
-
   busy = signal(false);
-
-  @Input() activeUserId: string | undefined;
 
   users$ = this.usersService.getUsers();
 
-  displayedColumns = ['email', 'verified', 'delete'];
+  displayedColumns = ['email', 'verified', 'edit'];
   trackByFn: (index: number, item: LaiksUser) => any = (_, item) => item.email;
-
-  onDelete(id: string) {
-    this.busy.set(true);
-    this.confirmation
-      .delete()
-      .pipe(
-        mergeMap((resp) => (resp ? this.usersService.deleteUser(id) : EMPTY)),
-        mergeMap(() => this.permissionsService.deleteUser(id)),
-        finalize(() => this.busy.set(false))
-      )
-      .subscribe();
-  }
 
   onSetVerified(id: string) {
     this.busy.set(true);

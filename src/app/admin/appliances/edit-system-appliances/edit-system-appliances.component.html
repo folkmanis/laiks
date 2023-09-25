@@ -1,4 +1,5 @@
-<laiks-appliance-form [formControl]="applianceForm" [existingAppliances]="existingAppliances$ | async">
+<laiks-appliance-form [formControl]="applianceForm" [existingAppliances]="existingAppliances$ | async"
+    class="vertical-container">
 
     <div class="buttons">
         <button *ngIf="id != null; else createButton" mat-raised-button
@@ -15,9 +16,6 @@
         <a mat-button [disabled]="busy()" class="cancel" routerLink="..">
             ATCELT
         </a>
-        <button mat-button (click)="onCopyFrom()">
-            NO GATAVAJIEM
-        </button>
     </div>
 
 </laiks-appliance-form>

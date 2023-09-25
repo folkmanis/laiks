@@ -3,15 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { LocalSettingsService } from '@shared/settings';
+import { NumberSignPipe, TimeObserverService } from '@shared/utils';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
-import { NpDataComponent } from '../np-data/np-data.component';
-import { SelectorComponent } from './selector/selector.component';
-import { TimeObserverService } from '../shared/utils/time-observer.service';
-import { NumberSignPipe } from '../shared/number-sign.pipe';
-import { SettingsService } from '../shared/settings.service';
 import { MainComponent } from './main.component';
+import { SelectorComponent } from './selector/selector.component';
 
 const TEST_TIME = new Date(2022, 10, 23, 21, 15, 0);
 const TEST_OFFSET = 3;
@@ -34,13 +32,12 @@ describe('MainComponent', () => {
         SelectorComponent,
         NumberSignPipe,
         ClockDisplayComponent,
-        NpDataComponent,
         provideFirestore(() => getFirestore()),
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideAuth(() => getAuth()),
       ],
       providers: [
-        SettingsService,
+        LocalSettingsService,
         { provide: TimeObserverService, useClass: TestLaiksService },
       ],
     }).compileComponents();

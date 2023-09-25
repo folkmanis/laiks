@@ -1,4 +1,4 @@
-<div class="container" *ngIf="user$ | async as user">
+<div class="vertical-container" *ngIf="user$ | async as user">
 
     <div cdkDropList (cdkDropListDropped)="onMoveAppliance($event,user)" [cdkDropListData]="user.appliances"
         [cdkDropListDisabled]="busy()">
@@ -10,9 +10,7 @@
                     drag_indicator
                 </mat-icon>
             </div>
-            <div class="color-tag">
-                <div [style.background-color]="appliance.color"></div>
-            </div>
+            <laiks-color-tag [color]="appliance.color"></laiks-color-tag>
             <div class="name">
                 <a mat-button [disabled]="busy()" [routerLink]="['/','prices','appliance',idx]">
                     {{ appliance.name }}
@@ -34,12 +32,19 @@
 
     </div>
 
-    <div class="add-button">
-        <a mat-fab [disabled]="busy()" routerLink="new">
-            <mat-icon>
-                add
-            </mat-icon>
+    <div class="buttons">
+
+        <a mat-button routerLink="..">
+            UZ IESTATĪJUMIEM
         </a>
     </div>
 
+</div>
+
+<div class="add-button">
+    <a mat-fab [disabled]="busy()" routerLink="new">
+        <mat-icon>
+            add
+        </mat-icon>
+    </a>
 </div>

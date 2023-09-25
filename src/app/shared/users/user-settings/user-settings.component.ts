@@ -17,7 +17,7 @@ import { UserFormComponent, EMPTY_USER } from './user-form/user-form.component';
 import { UsersService } from '../users.service';
 import { MarketZonesService } from '@shared/np-data';
 import { LoginService } from '../login.service';
-import { LocalesService } from '@shared/locales.service';
+import { LocalesService } from '@shared/locales';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { CanComponentDeactivate } from '@shared/utils';
 import { LaiksUser } from '../laiks-user';

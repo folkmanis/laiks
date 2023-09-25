@@ -1,16 +1,15 @@
-:host {
-    display: block;
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-}
-
 form {
     padding: 16px;
+
+    &>div {
+        &:not(:first-child) {
+            margin-top: 16px;
+        }
+    }
 }
 
-form>* {
-    margin-top: 16px;
+mat-divider {
+    margin: 16px 0;
 }
 
 .full-width {

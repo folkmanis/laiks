@@ -27,7 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { WithId } from '@shared/utils';
 import { LaiksUser } from '../../laiks-user';
 import { MarketZone } from '@shared/np-data';
-import { Locale } from '@shared/types/locale';
+import { Locale } from '@shared/locales';
 
 type EditableLaiksUserFields = Pick<
   LaiksUser,

@@ -6,8 +6,8 @@ import {
   collectionData,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { WithId } from './utils/with-id';
-import { Locale } from './types/locale';
+import { WithId } from '@shared/utils';
+import { Locale } from './locale';
 
 const LOCALES = 'locales';
 

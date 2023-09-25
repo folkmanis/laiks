@@ -24,7 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { of } from 'rxjs';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
-import { LocalesService } from 'src/app/shared/locales.service';
+import { LocalesService } from '@shared/locales';
 import { MarketZone } from 'src/app/shared/np-data/market-zone';
 import { MarketZonesService } from 'src/app/shared/np-data/market-zones.service';
 import { CanComponentDeactivate } from 'src/app/shared/utils/can-deactivate.guard';

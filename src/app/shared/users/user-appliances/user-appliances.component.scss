@@ -1,8 +1,5 @@
-:host {
-    display: block;
-    width: 100%;
-    max-width: 480px;
-    margin: 16px auto;
+.buttons {
+    margin-top: 16px;
 }
 
 .appliance {
@@ -26,18 +23,10 @@
     margin-left: auto;
 }
 
-
-.color-tag>div {
-    width: 24px;
-    height: 24px;
-    border: 2px solid rgba(255, 255, 255, 0.12);
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
 .cdk-drag-handle {
     width: 24px;
     cursor: move;
+    display: flex;
 }
 
 .cdk-drag-preview {
