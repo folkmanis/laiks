@@ -27,6 +27,13 @@ export const APP_ROUTES: Route[] = [
     loadChildren: () => import('./user-settings/user-settings-routes'),
   },
   {
+    path: 'privacy-politics',
+    loadComponent: () =>
+      import('./privacy-politics/privacy-politics.component').then(
+        (c) => c.PrivacyPoliticsComponent
+      ),
+  },
+  {
     path: '',
     redirectTo: 'clock-offset',
     pathMatch: 'full',
