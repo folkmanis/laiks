@@ -63,6 +63,10 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "testing": {
+              "extractLicenses": false,
+              "outputHashing": "all"
             }
           },
           "defaultConfiguration": "production"

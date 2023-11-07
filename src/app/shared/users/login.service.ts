@@ -3,9 +3,15 @@ import {
   Auth,
   authState,
   GoogleAuthProvider,
+  EmailAuthCredential,
   signInWithPopup,
   signOut,
   User,
+  AuthProvider,
+  EmailAuthProvider,
+  signInWithEmailAndPassword,
+  deleteUser,
+  createUserWithEmailAndPassword,
 } from '@angular/fire/auth';
 import {
   doc,
@@ -52,8 +58,9 @@ export class LoginService {
     return authState(this.auth);
   }
 
-  login(): Observable<LoginResponse> {
-    return from(signInWithPopup(this.auth, new GoogleAuthProvider())).pipe(
+  loginWithGmail(): Observable<LoginResponse> {
+    const authProvider = new GoogleAuthProvider();
+    return from(signInWithPopup(this.auth, authProvider)).pipe(
       switchMap(({ user }) =>
         this.getLaiksUserSnapshot(user).pipe(
           mergeMap((laiksUser) =>
@@ -67,6 +74,23 @@ export class LoginService {
                 )
           )
         )
+      )
+    );
+  }
+
+  loginWithEmail(email: string, password: string): Observable<LaiksUser> {
+    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      switchMap(({ user }) => this.getLaiksUserSnapshot(user)),
+      mergeMap((laiksUser) => this.deleteUserIfNotRegistered(laiksUser))
+    );
+  }
+
+  createEmailAccount(email: string, password: string, name: string) {
+    return from(
+      createUserWithEmailAndPassword(this.auth, email, password)
+    ).pipe(
+      mergeMap((user) =>
+        this.createLaiksUser({ ...user.user, displayName: name })
       )
     );
   }
@@ -162,5 +186,17 @@ export class LoginService {
           : of(DEFAULT_PERMISSIONS)
       )
     );
+  }
+
+  private deleteUserIfNotRegistered(
+    laiksUser: LaiksUser | undefined
+  ): Observable<LaiksUser | never> {
+    return laiksUser
+      ? of(laiksUser)
+      : from(
+          deleteUser(this.auth.currentUser!).then(() => {
+            throw new Error('User not registered');
+          })
+        );
   }
 }

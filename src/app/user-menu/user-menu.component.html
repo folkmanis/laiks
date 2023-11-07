@@ -13,16 +13,12 @@
 
     <mat-menu #userMenu>
 
-        <span mat-menu-item>
-            {{ user.displayName }}
-        </span>
+        <a mat-menu-item routerLink="user-settings">
+            {{ laiksUser?.name || user.displayName }}
+        </a>
 
         <a mat-menu-item *ngIf="isNpAllowed" routerLink="/prices">
             Cenas
-        </a>
-
-        <a mat-menu-item routerLink="user-settings">
-            Mani iestatījumi
         </a>
 
         <a mat-menu-item *ngIf="isNpAllowed" [routerLink]="['user-settings', 'appliances']">
@@ -37,7 +33,7 @@
             Privātuma politika
         </a>
 
-        <button mat-menu-item (click)="onLogout()">
+        <button mat-menu-item (click)="logout.next()">
             Atslēgties
         </button>
 
@@ -67,9 +63,9 @@
     </span>
 
     <mat-menu #noUserMenu>
-        <button mat-menu-item (click)="onLogin()">
-            Pieslēgties ar Google
-        </button>
+        <a mat-menu-item routerLink="/login">
+            Pieslēgties
+        </a>
         <a mat-menu-item routerLink="/privacy-politics">
             Privātuma politika
         </a>

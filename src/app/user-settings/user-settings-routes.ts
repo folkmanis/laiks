@@ -1,11 +1,12 @@
 import { Route } from '@angular/router';
 import {
-  UserSettingsComponent,
-  UserAppliancesComponent,
+  DeleteUserComponent,
   EditUserApplianceComponent,
-  resolveActiveUserId,
+  UserAppliancesComponent,
+  UserSettingsComponent,
+  npUserGuard,
   resolveActiveUser,
-  canMatchNpUser,
+  resolveActiveUserId,
 } from '@shared/users';
 import { canDeactivateGuard } from '@shared/utils';
 
@@ -27,7 +28,7 @@ export default [
   },
   {
     path: 'appliances',
-    canMatch: [canMatchNpUser],
+    canMatch: [npUserGuard],
     resolve: {
       id: resolveActiveUserId,
     },
@@ -51,6 +52,14 @@ export default [
         canDeactivate: [canDeactivateGuard],
       },
     ],
+  },
+  {
+    path: 'delete-user',
+    component: DeleteUserComponent,
+    resolve: {
+      id: resolveActiveUserId,
+      user: resolveActiveUser,
+    },
   },
   {
     path: '**',

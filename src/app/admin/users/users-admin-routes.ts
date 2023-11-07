@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
-import { UserEditComponent } from './user-edit/user-edit.component';
-import { UsersListComponent } from './users-list/users-list.component';
 import {
+  DeleteUserComponent,
   EditUserApplianceComponent,
   UserAppliancesComponent,
   UserSettingsComponent,
@@ -9,6 +8,8 @@ import {
   resolveUser,
 } from '@shared/users';
 import { canDeactivateGuard } from '@shared/utils';
+import { UserEditComponent } from './user-edit/user-edit.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 // :id
 // :id/permissions
@@ -59,6 +60,10 @@ export default [
             canDeactivate: [canDeactivateGuard],
           },
         ],
+      },
+      {
+        path: 'delete-user',
+        component: DeleteUserComponent,
       },
     ],
   },

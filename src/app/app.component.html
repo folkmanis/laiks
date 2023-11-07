@@ -17,7 +17,7 @@
         </a>
     </span>
 
-    <laiks-user-menu [user]="user$ | async" (login)="onLogin()" (logout)="onLogout()" [laiksUser]="laiksUser$ | async"
+    <laiks-user-menu [user]="user$ | async" (logout)="onLogout()" [laiksUser]="laiksUser$ | async"
         [isAdmin]="isAdmin$ | async" [isNpAllowed]="isNpAllowed$ | async">
     </laiks-user-menu>
 

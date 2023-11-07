@@ -25,10 +25,6 @@ import { EMPTY, finalize, mergeMap, switchMap } from 'rxjs';
   imports: [MatCheckboxModule, MatButtonModule, RouterLink],
 })
 export class UserEditComponent {
-  private usersService = inject(UsersService);
-  private router = inject(Router);
-  private snack = inject(MatSnackBar);
-  private confirm = inject(ConfirmationDialogService);
   private permissionsService = inject(PermissionsService);
 
   @Input() activeUserId: string | undefined;
@@ -51,24 +47,6 @@ export class UserEditComponent {
   permissions = toSignal(this.permissions$, {
     initialValue: DEFAULT_PERMISSIONS,
   });
-
-  onDelete() {
-    this.busy.set(true);
-    this.confirm
-      .delete()
-      .pipe(
-        mergeMap((resp) =>
-          resp ? this.usersService.deleteUser(this.id()) : EMPTY
-        ),
-        finalize(() => this.busy.set(false))
-      )
-      .subscribe(() => {
-        this.snack.open(`Lietotājs ${this.user?.name} izdzēsts!`, 'OK', {
-          duration: 3000,
-        });
-        this.router.navigateByUrl('/admin/users');
-      });
-  }
 
   onSetAdmin(value: boolean) {
     this.busy.set(true);

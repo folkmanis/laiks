@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
-import { CanMatchFn } from '@angular/router';
+import { CanActivateFn } from '@angular/router';
 import { first } from 'rxjs';
 import { LoginService } from './login.service';
 
-export const canMatchAdmin: CanMatchFn = () => {
+export const canActivateAdmin: CanActivateFn = () => {
   return inject(LoginService).isAdmin().pipe(first());
 };

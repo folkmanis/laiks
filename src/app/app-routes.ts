@@ -2,9 +2,10 @@ import { inject } from '@angular/core';
 import { Route } from '@angular/router';
 import { first } from 'rxjs';
 import { MainComponent } from './main/main.component';
-import { canMatchAdmin } from './shared/users/admin.guard';
+import { canActivateAdmin } from './shared/users/admin.guard';
 import { LoginService } from './shared/users/login.service';
-import { canMatchNpUser } from './shared/users/np-user.guard';
+import { npUserGuard } from './shared/users/np-user.guard';
+import { loginGuard } from '@shared/users';
 
 export const APP_ROUTES: Route[] = [
   {
@@ -14,16 +15,16 @@ export const APP_ROUTES: Route[] = [
   {
     path: 'prices',
     loadChildren: () => import('./prices/prices-routes'),
-    canMatch: [canMatchNpUser],
+    canActivate: [loginGuard, npUserGuard],
   },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin-routes'),
-    canMatch: [canMatchAdmin],
+    canActivate: [loginGuard, canActivateAdmin],
   },
   {
     path: 'user-settings',
-    canMatch: [() => inject(LoginService).isLogin().pipe(first())],
+    canActivate: [loginGuard],
     loadChildren: () => import('./user-settings/user-settings-routes'),
   },
   {
@@ -31,6 +32,18 @@ export const APP_ROUTES: Route[] = [
     loadComponent: () =>
       import('./privacy-politics/privacy-politics.component').then(
         (c) => c.PrivacyPoliticsComponent
+      ),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./login/login.component').then((c) => c.LoginComponent),
+  },
+  {
+    path: 'create-user',
+    loadComponent: () =>
+      import('./login/create-user/create-user.component').then(
+        (c) => c.CreateUserComponent
       ),
   },
   {

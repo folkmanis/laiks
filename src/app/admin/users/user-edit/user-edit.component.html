@@ -25,11 +25,8 @@
 
     </section>
 
-    <button mat-button type="button" color="warn" (click)="onDelete()" [disabled]="id() === activeUserId || busy()">
-        DZĒST
-    </button>
-
     <a mat-button routerLink="/admin/users" [disabled]="busy()">
         ATPAKAĻ
     </a>
+
 </div>

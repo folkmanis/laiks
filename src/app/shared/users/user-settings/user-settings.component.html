@@ -13,8 +13,13 @@
             <button mat-button color="warn" [disabled]="busy() || update() == null" (click)="onReset()">
                 ATIESTATĪT
             </button>
+        </div>
+        <div class="buttons">
             <a *ngIf="npAllowed()" mat-raised-button [routerLink]="['appliances']" [disabled]="busy()">
                 APARĀTI
+            </a>
+            <a mat-raised-button color="warn" routerLink="delete-user">
+                DZĒST
             </a>
         </div>
     </laiks-user-form>

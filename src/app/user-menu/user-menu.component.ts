@@ -32,15 +32,5 @@ export class UserMenuComponent {
 
   @Input({ transform: booleanAttribute }) isNpAllowed: boolean = false;
 
-  @Output() login = new EventEmitter<void>();
-
   @Output() logout = new EventEmitter<void>();
-
-  onLogout() {
-    this.logout.next();
-  }
-
-  onLogin() {
-    this.login.next();
-  }
 }
