@@ -5,10 +5,11 @@
 <mat-dialog-content>
 
     <mat-action-list>
-        <button mat-list-item *ngFor="let appliance of appliances()" [laiksSelectAppliance]="appliance"
-            [locale]="locale">
+        @for (appliance of appliances(); track $index) {
+        <button mat-list-item [laiksSelectAppliance]="appliance" [locale]="locale">
             {{ appliance | localizedApplianceName:locale }}
         </button>
+        }
     </mat-action-list>
 
 

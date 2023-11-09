@@ -1,5 +1,6 @@
 @if (price(); as p) {
-<laiks-appliance-tag *ngFor="let appliance of activeAppliances()" [color]="appliance.color" [name]="appliance.name"
-    [cost]="appliance.costs.get(p.difference!) ?? null"
-    [isBest]="appliance.bestOffset === p.difference"></laiks-appliance-tag>
+@for ( appliance of activeAppliances(); track $index) {
+<laiks-appliance-tag [color]="appliance.color" [name]="appliance.name"
+    [cost]="appliance.costs.get(p.difference!) ?? null" [isBest]="appliance.bestOffset === p.difference" />
+}
 }

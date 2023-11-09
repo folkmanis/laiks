@@ -1,6 +1,7 @@
 <div class="container">
 
-    <div *ngFor="let zone of zones$ | async" class="zone-item">
+    @for (zone of zones$ | async; track zone.id) {
+    <div class="zone-item">
         <div class="name">
             <a mat-button [routerLink]="zone.id">
                 {{ zone.id }} - {{ zone.description }}
@@ -16,6 +17,7 @@
         </div>
 
     </div>
+    }
 
 </div>
 

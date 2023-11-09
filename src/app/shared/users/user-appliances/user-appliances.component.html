@@ -5,8 +5,8 @@
     <div cdkDropList (cdkDropListDropped)="onMoveAppliance($event,user)" [cdkDropListData]="user.appliances"
         [cdkDropListDisabled]="busy()">
 
-        <div cdkDrag *ngFor="let appliance of user.appliances; index as idx; trackBy: trackByFn" class="appliance"
-            cdkDragBoundary=".cdk-drop-list">
+        @for (appliance of user.appliances;let idx = $index; track trackByFn(appliance)) {
+        <div cdkDrag class="appliance" cdkDragBoundary=".cdk-drop-list">
             <div cdkDragHandle>
                 <mat-icon>
                     drag_indicator
@@ -31,6 +31,8 @@
                 </button>
             </div>
         </div>
+
+        }
 
     </div>
 

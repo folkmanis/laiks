@@ -10,7 +10,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  TrackByFunction,
   inject,
   signal,
 } from '@angular/core';
@@ -18,11 +17,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { ColorTagComponent, PowerAppliance } from '@shared/appliances';
 import { WithId, throwIfNull } from '@shared/utils';
 import { BehaviorSubject, EMPTY, finalize, switchMap } from 'rxjs';
-import { UsersService } from '../users.service';
-import { PowerAppliance, ColorTagComponent } from '@shared/appliances';
 import { LaiksUser } from '../laiks-user';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'laiks-user-appliances',
@@ -57,7 +56,7 @@ export class UserAppliancesComponent {
     this.id$.next(value);
   }
 
-  trackByFn: TrackByFunction<PowerAppliance> = (_, rec) => rec.name;
+  trackByFn = (appliance: PowerAppliance) => appliance.name;
 
   busy = signal(false);
 
