@@ -3,9 +3,11 @@
     <ng-container matColumnDef="difference">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let price">
-            <span *ngIf="price.difference >= 0">
+            @if (price.difference >= 0) {
+            <span>
                 {{ price.difference | numberSign }}
             </span>
+            }
         </mat-cell>
     </ng-container>
 
@@ -27,9 +29,9 @@
     <ng-container matColumnDef="appliances">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let price">
-            <ng-container *ngIf="price.difference >= 0 && appliances">
-                <laiks-appliances-costs [price]="price" [appliances]="appliances"></laiks-appliances-costs>
-            </ng-container>
+            @if (price.difference >= 0 && appliances) {
+            <laiks-appliances-costs [price]="price" [appliances]="appliances"></laiks-appliances-costs>
+            }
         </mat-cell>
     </ng-container>
 

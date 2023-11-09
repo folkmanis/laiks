@@ -14,27 +14,27 @@
         </mat-select>
     </mat-form-field>
 
-    <ng-container *ngIf="npAllowed">
+    @if (npAllowed) {
 
-        <mat-form-field class="medium-input">
-            <mat-label>Cenu reģions</mat-label>
-            <mat-select formControlName="marketZoneId" required (selectionChange)="onZoneChange($event.value)">
-                <mat-option *ngFor="let zone of zones;" [value]="zone.id">
-                    {{zone.id}} - {{zone.description}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <mat-form-field class="medium-input">
+        <mat-label>Cenu reģions</mat-label>
+        <mat-select formControlName="marketZoneId" required (selectionChange)="onZoneChange($event.value)">
+            <mat-option *ngFor="let zone of zones;" [value]="zone.id">
+                {{zone.id}} - {{zone.description}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>PVN apjoms</mat-label>
-            <input matInput formControlName="vatAmount" type="number" />
-        </mat-form-field>
+    <mat-form-field>
+        <mat-label>PVN apjoms</mat-label>
+        <input matInput formControlName="vatAmount" type="number" />
+    </mat-form-field>
 
-        <mat-checkbox formControlName="includeVat">
-            PVN iekļauts
-        </mat-checkbox>
+    <mat-checkbox formControlName="includeVat">
+        PVN iekļauts
+    </mat-checkbox>
 
-    </ng-container>
+    }
 
 </form>
 

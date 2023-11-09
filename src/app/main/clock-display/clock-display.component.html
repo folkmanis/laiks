@@ -1,5 +1,8 @@
 <div class="container">
-    <span *ngIf="isDate(time)" id="hours">{{ time.getHours() | number:'2.0-0' }}</span><span
-        id="separator">:</span><span *ngIf="isDate(time)" id="minutes">{{
+    @if (isDate(time)) {
+    <span id="hours">{{ time.getHours() | number:'2.0-0' }}</span><span id="separator">:</span><span id="minutes">{{
         time.getMinutes() | number:'2.0-0' }}</span>
+    } @else {
+    <span id="separator">:</span>
+    }
 </div>

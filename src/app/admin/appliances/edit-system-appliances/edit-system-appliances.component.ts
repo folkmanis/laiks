@@ -17,7 +17,7 @@ import {
 } from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { CanComponentDeactivate } from '@shared/utils';
-import { finalize } from 'rxjs';
+import { Observable, finalize, map } from 'rxjs';
 
 @Component({
   selector: 'laiks-edit-system-appliances',
@@ -64,9 +64,10 @@ export class EditSystemAppliancesComponent implements CanComponentDeactivate {
   canDeactivate = () =>
     this.applianceForm.pristine || this.confirmation.cancelEdit();
 
-  onUpdate(id: string) {
-    this.appliancesService
-      .updateAppliance(id, this.applianceForm.value)
+  onSave() {
+    const id = this.id;
+
+    (id ? this.update(id) : this.create(this.applianceForm.value))
       .pipe(finalize(() => this.busy.set(false)))
       .subscribe(() => {
         this.applianceForm.markAsPristine();
@@ -74,14 +75,13 @@ export class EditSystemAppliancesComponent implements CanComponentDeactivate {
       });
   }
 
-  onCreate() {
-    const appliance = { ...this.applianceForm.value, localizedNames: {} };
-    this.appliancesService
-      .createAppliance(appliance)
-      .pipe(finalize(() => this.busy.set(false)))
-      .subscribe(() => {
-        this.applianceForm.markAsPristine();
-        this.router.navigate(['..'], { relativeTo: this.route });
-      });
+  private update(id: string): Observable<void> {
+    return this.appliancesService.updateAppliance(id, this.applianceForm.value);
+  }
+
+  private create(appliance: PowerAppliance): Observable<void> {
+    return this.appliancesService
+      .createAppliance({ ...appliance, localizedNames: {} })
+      .pipe(map(() => undefined));
   }
 }

@@ -1,4 +1,6 @@
-<div class="vertical-container" *ngIf="user$ | async as user">
+<div class="vertical-container">
+
+    @if (user$ | async; as user) {
 
     <div cdkDropList (cdkDropListDropped)="onMoveAppliance($event,user)" [cdkDropListData]="user.appliances"
         [cdkDropListDisabled]="busy()">
@@ -39,7 +41,10 @@
         </a>
     </div>
 
+    }
+
 </div>
+
 
 <div class="add-button">
     <a mat-fab [disabled]="busy()" routerLink="new">

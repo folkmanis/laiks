@@ -5,38 +5,48 @@
             <mat-form-field class="full-width">
                 <mat-label>e-pasts</mat-label>
                 <input matInput type="email" formControlName="email" autocomplete="email" />
-                <mat-error *ngIf="newUserForm.controls.email.hasError('required')">
+                @if (newUserForm.controls.email.hasError('required')) {
+                <mat-error>
                     e-pasts jānorāda obligāti
                 </mat-error>
-                <mat-error *ngIf="newUserForm.controls.email.hasError('email')">
+                }
+                @if (newUserForm.controls.email.hasError('email')) {
+                <mat-error>
                     neatbilstošs e-pasts
                 </mat-error>
+                }
             </mat-form-field>
 
             <mat-form-field class="full-width">
                 <mat-label>parole</mat-label>
                 <input matInput type="password" formControlName="password" autocomplete="new-password" />
-                <mat-error *ngIf="newUserForm.controls.password.hasError('minlength')">
+                @if (newUserForm.controls.password.hasError('minlength')) {
+                <mat-error>
                     Parolei jāsatur vismaz {{newUserForm.controls.password.getError('minlength')?.['requiredLength']}}
                     zīmes
                 </mat-error>
+                }
             </mat-form-field>
 
             <mat-form-field class="full-width">
                 <mat-label>Parole atkārtoti</mat-label>
                 <input matInput type="password" formControlName="passwordRepeat" autocomplete="new-password" />
-                <mat-error
-                    *ngIf="newUserForm.controls.password.valid && newUserForm.controls.passwordRepeat.hasError('passwordsDontMatch')">
+                @if (newUserForm.controls.password.valid &&
+                newUserForm.controls.passwordRepeat.hasError('passwordsDontMatch')) {
+                <mat-error>
                     Parolēm jāsakrīt
                 </mat-error>
+                }
             </mat-form-field>
 
             <mat-form-field class="full-width">
                 <mat-label>Vārds</mat-label>
                 <input matInput formControlName="name" autocomplete="name" />
-                <mat-error *ngIf="newUserForm.controls.name.hasError('required')">
+                @if (newUserForm.controls.name.hasError('required')) {
+                <mat-error>
                     Jānorāda obligāti
                 </mat-error>
+                }
             </mat-form-field>
 
             <button mat-raised-button color="primary" class="full-width" [disabled]="newUserForm.valid == false">

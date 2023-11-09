@@ -1,19 +1,17 @@
 <div [formGroup]="form">
 
-    <h2 *ngIf="id; else idInput">
+    @if (id) {
+    <h2>
         {{ id }}
     </h2>
-
-    <ng-template #idInput>
-
-        <section>
-            <mat-form-field class="full-width">
-                <mat-label> Kods </mat-label>
-                <input matInput [formControl]="idControl" laiksUpperCase>
-            </mat-form-field>
-        </section>
-
-    </ng-template>
+    } @else {
+    <section>
+        <mat-form-field class="full-width">
+            <mat-label> Kods </mat-label>
+            <input matInput [formControl]="idControl" laiksUpperCase>
+        </mat-form-field>
+    </section>
+    }
 
     <section>
 

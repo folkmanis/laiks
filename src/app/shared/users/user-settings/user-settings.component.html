@@ -15,9 +15,11 @@
             </button>
         </div>
         <div class="buttons">
-            <a *ngIf="npAllowed()" mat-raised-button [routerLink]="['appliances']" [disabled]="busy()">
+            @if (npAllowed()) {
+            <a mat-raised-button [routerLink]="['appliances']" [disabled]="busy()">
                 APARĀTI
             </a>
+            }
             <a mat-raised-button color="warn" routerLink="delete-user">
                 DZĒST
             </a>

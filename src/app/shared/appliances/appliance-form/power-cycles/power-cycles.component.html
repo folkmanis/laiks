@@ -22,9 +22,9 @@
             <input matInput laiksInput type="number" [formControl]="control.controls.length" laiksNullToZero>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-            <ng-container *ngIf="powerCycles.valid">
-                {{ getTotalLength(powerCycles.value) | minutesToHours }}
-            </ng-container>
+            @if (powerCycles.valid) {
+            {{ getTotalLength(powerCycles.value) | minutesToHours }}
+            }
         </td>
     </ng-container>
 
@@ -37,9 +37,9 @@
             <input matInput laiksInput type="number" [formControl]="control.controls.consumption" laiksNullToZero>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-            <ng-container *ngIf="powerCycles.valid">
-                {{ getTotalConsumption(powerCycles.value) | number : '1.1-1' }} kWh
-            </ng-container>
+            @if (powerCycles.valid) {
+            {{ getTotalConsumption(powerCycles.value) | number : '1.1-1' }} kWh
+            }
         </td>
     </ng-container>
 
@@ -48,8 +48,8 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let control; index as idx;">
             <!-- Lielam ekrānam -->
-            <span *ngIf="isLarge$ | async; else smallMenu">
-
+            @if (isLarge$ | async) {
+            <span>
                 <button mat-icon-button type="button" (click)="onAddCycle(idx)">
                     <mat-icon>
                         add
@@ -62,13 +62,13 @@
                 </button>
 
             </span>
+            } @else {
             <!-- Mazam ekrānam -->
-            <ng-template #smallMenu>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="handsetMenu"
-                    [matMenuTriggerData]="{ index: idx }">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-            </ng-template>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="handsetMenu"
+                [matMenuTriggerData]="{ index: idx }">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            }
         </td>
         <td mat-footer-cell *matFooterCellDef>
             <button mat-icon-button type="button" (click)="onAddCycle(powerCycles.length)">

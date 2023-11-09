@@ -1,8 +1,8 @@
 <span class="name">
     {{name}}
 </span>
-<ng-container *ngIf="cost != null">
-    <span class="cost">
-        {{cost | number:'1.2-2'}}
-    </span>
-</ng-container>
+@if (cost) {
+<span class="cost">
+    {{cost | number:'1.2-2'}}
+</span>
+}
