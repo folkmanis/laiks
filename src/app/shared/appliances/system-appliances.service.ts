@@ -30,7 +30,7 @@ export class SystemAppliancesService {
     const collRef = collection(
       this.firestore,
       APPLIANCES_COLL
-    ) as CollectionReference<PresetPowerAppliance>;
+    ) as CollectionReference<WithId<PresetPowerAppliance>>;
     if (options.enabledOnly) {
       return collectionData(query(collRef, where('enabled', '==', true)), {
         idField: 'id',

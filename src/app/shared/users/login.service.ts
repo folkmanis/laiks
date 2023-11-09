@@ -110,7 +110,7 @@ export class LoginService {
             USERS,
             user.uid
           ) as DocumentReference<WithId<LaiksUser>>;
-          return docData(docRef, { idField: 'id' });
+          return docData(docRef, { idField: 'id' }).pipe(throwIfNull(user.uid));
         }
       })
     );

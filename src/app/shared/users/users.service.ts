@@ -43,7 +43,7 @@ export class UsersService {
   }
 
   userById(id: string): Observable<WithId<LaiksUser>> {
-    return docData(this.docRef(id), { idField: 'id' });
+    return docData(this.docRef(id), { idField: 'id' }).pipe(throwIfNull(id));
   }
 
   updateUser(id: string, update: Partial<LaiksUser>): Observable<void> {

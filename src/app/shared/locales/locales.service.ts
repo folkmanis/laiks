@@ -18,10 +18,9 @@ export class LocalesService {
   private firestore = inject(Firestore);
 
   getLocales(): Observable<WithId<Locale>[]> {
-    const collRef = collection(
-      this.firestore,
-      LOCALES
-    ) as CollectionReference<Locale>;
+    const collRef = collection(this.firestore, LOCALES) as CollectionReference<
+      WithId<Locale>
+    >;
 
     return collectionData(collRef, { idField: 'id' }) as Observable<
       WithId<Locale>[]

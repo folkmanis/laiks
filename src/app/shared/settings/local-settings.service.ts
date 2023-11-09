@@ -24,7 +24,8 @@ export class LocalSettingsService {
   }
 
   setOffset(offset: number) {
-    this._settings.mutate((value) => (value.offset = offset));
+    const update = { ...this.settings(), offset };
+    this._settings.set(update);
   }
 
   resetSettings() {
