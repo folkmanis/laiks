@@ -52,13 +52,15 @@ export class UserEditComponent {
     this.busy.set(true);
     this.permissionsService
       .setAdmin(this.id(), value)
-      .subscribe(() => this.busy.set(false));
+      .pipe(finalize(() => this.busy.set(false)))
+      .subscribe();
   }
 
-  onSetNpUser(value: boolean) {
+  onSetNpBlocked(value: boolean) {
     this.busy.set(true);
     this.permissionsService
-      .setNpUser(this.id(), value)
-      .subscribe(() => this.busy.set(false));
+      .setNpBlocked(this.id(), value)
+      .pipe(finalize(() => this.busy.set(false)))
+      .subscribe();
   }
 }

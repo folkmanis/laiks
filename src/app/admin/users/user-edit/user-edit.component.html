@@ -9,12 +9,11 @@
     <section>
         <ul>
             <li>
-                <mat-checkbox [checked]="permissions().npUser" (change)="onSetNpUser($event.checked)"
+                <mat-checkbox [checked]="permissions().npBlocked" (change)="onSetNpBlocked($event.checked)"
                     [disabled]="busy()">
-                    Pieeja elektrības cenām
+                    Nav pieejas elektrības cenām
                 </mat-checkbox>
             </li>
-
             <li>
                 <mat-checkbox [checked]="permissions().admin" (change)="onSetAdmin($event.checked)"
                     [disabled]="busy() || id() === activeUserId">

@@ -8,16 +8,9 @@
         </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="verified">
-        <mat-cell *matCellDef="let user;">
-            <mat-checkbox [checked]="user.verified" (change)="onSetVerified(user.id)"
-                [disabled]="user.verified || busy()"></mat-checkbox>
-        </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="edit">
         <mat-cell *matCellDef="let user">
-            <a mat-icon-button [routerLink]="[user.id,'settings']" [disabled]="busy()">
+            <a mat-icon-button [routerLink]="[user.id,'settings']">
                 <mat-icon>
                     manage_accounts
                 </mat-icon>

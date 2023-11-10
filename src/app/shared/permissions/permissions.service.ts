@@ -53,8 +53,8 @@ export class PermissionsService {
     return this.setKey('admin', value, id);
   }
 
-  setNpUser(id: string, value: boolean) {
-    return this.setKey('npUser', value, id);
+  setNpBlocked(id: string, value: boolean) {
+    return this.setKey('npBlocked', value, id);
   }
 
   setUserPermissions(permissions: Permissions, id: string) {

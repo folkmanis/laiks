@@ -1,8 +1,10 @@
 <div class="container">
 
-    <laiks-appliances-selector [appliances]="appliances$ | async"></laiks-appliances-selector>
+    @if (npAllowed()) {
+    <laiks-appliances-selector [appliances]="appliances$ | async" />
+    }
 
-    <laiks-selector [value]="offset()" (valueChange)="onSetOffset($event)"></laiks-selector>
+    <laiks-selector [value]="offset()" (valueChange)="onSetOffset($event)" />
 
-    <laiks-clock-display [time]="timeWithOffset()"></laiks-clock-display>
+    <laiks-clock-display [time]="timeWithOffset()" />
 </div>

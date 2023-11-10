@@ -1,19 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { LaiksUser, UsersService } from '@shared/users';
-import { MatIconModule } from '@angular/material/icon';
-import { EMPTY, finalize, mergeMap } from 'rxjs';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ConfirmationDialogService } from '@shared/confirmation-dialog';
-import { PermissionsService } from '@shared/permissions';
 
 @Component({
   selector: 'laiks-users-list',
@@ -30,20 +21,9 @@ import { PermissionsService } from '@shared/permissions';
   ],
 })
 export class UsersListComponent {
-  private readonly usersService = inject(UsersService);
+  users$ = inject(UsersService).getUsers();
 
-  busy = signal(false);
+  displayedColumns = ['email', 'edit'];
 
-  users$ = this.usersService.getUsers();
-
-  displayedColumns = ['email', 'verified', 'edit'];
   trackByFn: (index: number, item: LaiksUser) => any = (_, item) => item.email;
-
-  onSetVerified(id: string) {
-    this.busy.set(true);
-    this.usersService
-      .setVerified(id)
-      .pipe(finalize(() => this.busy.set(false)))
-      .subscribe();
-  }
 }

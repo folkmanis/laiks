@@ -148,7 +148,7 @@ export class LoginService {
   }
 
   isNpAllowed(): Observable<boolean> {
-    return this.getPermissions().pipe(map((data) => data.npUser));
+    return this.getPermissions().pipe(map((data) => !data.npBlocked));
   }
 
   private getLaiksUserSnapshot(user: User): Observable<LaiksUser | undefined> {

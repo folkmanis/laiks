@@ -53,8 +53,4 @@ export class UsersService {
   deleteUser(id: string): Observable<void> {
     return from(deleteDoc(this.docRef(id)));
   }
-
-  setVerified(id: string) {
-    return this.updateUser(id, { verified: true });
-  }
 }
