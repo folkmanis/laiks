@@ -3,14 +3,12 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MarketZonesService } from '@shared/np-data';
-import { LoginResponse, LoginResponseType, LoginService } from '@shared/users';
+import { LoginService } from '@shared/users';
 import { map, of, switchMap } from 'rxjs';
 import { UserMenuComponent } from './user-menu/user-menu.component';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-root',

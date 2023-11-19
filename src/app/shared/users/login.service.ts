@@ -2,16 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import {
   Auth,
   authState,
+  createUserWithEmailAndPassword,
+  deleteUser,
   GoogleAuthProvider,
-  EmailAuthCredential,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   User,
-  AuthProvider,
-  EmailAuthProvider,
-  signInWithEmailAndPassword,
-  deleteUser,
-  createUserWithEmailAndPassword,
 } from '@angular/fire/auth';
 import {
   doc,
@@ -22,14 +19,10 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
+import { PermissionsService } from '@shared/permissions';
 import { throwIfNull, WithId } from '@shared/utils';
 import { first, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
-import {
-  PermissionsService,
-  Permissions,
-  DEFAULT_PERMISSIONS,
-} from '@shared/permissions';
 
 export enum LoginResponseType {
   CREATED,
@@ -144,11 +137,19 @@ export class LoginService {
   }
 
   isAdmin(): Observable<boolean> {
-    return this.getPermissions().pipe(map((data) => data.admin));
+    return this.laiksUser().pipe(
+      switchMap((user) =>
+        user ? this.permissionsService.isAdmin(user.id) : of(false)
+      )
+    );
   }
 
   isNpAllowed(): Observable<boolean> {
-    return this.getPermissions().pipe(map((data) => !data.npBlocked));
+    return this.laiksUser().pipe(
+      switchMap((user) =>
+        user ? this.permissionsService.isNpUser(user.id) : of(false)
+      )
+    );
   }
 
   private getLaiksUserSnapshot(user: User): Observable<LaiksUser | undefined> {
@@ -175,17 +176,6 @@ export class LoginService {
     const laiksUser = defaultUser(user.email, user.displayName);
 
     return from(setDoc(docRef, laiksUser)).pipe(map(() => laiksUser));
-  }
-
-  private getPermissions(): Observable<Permissions> {
-    return this.getUser().pipe(
-      map((user) => user?.uid),
-      switchMap((id) =>
-        id
-          ? this.permissionsService.getPermissions(id)
-          : of(DEFAULT_PERMISSIONS)
-      )
-    );
   }
 
   private deleteUserIfNotRegistered(

@@ -9,14 +9,14 @@
     <section>
         <ul>
             <li>
-                <mat-checkbox [checked]="permissions().npBlocked" (change)="onSetNpBlocked($event.checked)"
-                    [disabled]="busy()">
+                <mat-checkbox [checked]="(npBlocked$ | async) === true" (change)="onSetNpBlocked($event.checked)"
+                    [disabled]="npBlockedBusy()">
                     Nav pieejas elektrības cenām
                 </mat-checkbox>
             </li>
             <li>
-                <mat-checkbox [checked]="permissions().admin" (change)="onSetAdmin($event.checked)"
-                    [disabled]="busy() || id() === activeUserId">
+                <mat-checkbox [checked]="(admin$ | async) === true" (change)="onSetAdmin($event.checked)"
+                    [disabled]="adminBusy() || id() === activeUserId">
                     Administratora tiesības
                 </mat-checkbox>
             </li>
@@ -24,7 +24,7 @@
 
     </section>
 
-    <a mat-button routerLink="/admin/users" [disabled]="busy()">
+    <a mat-button routerLink="/admin/users" [disabled]="adminBusy() || npBlockedBusy()">
         ATPAKAĻ
     </a>
 

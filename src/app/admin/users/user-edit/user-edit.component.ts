@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,16 +6,14 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, RouterLink } from '@angular/router';
-import { ConfirmationDialogService } from '@shared/confirmation-dialog';
-import { DEFAULT_PERMISSIONS, PermissionsService } from '@shared/permissions';
-import { LaiksUser, UsersService } from '@shared/users';
+import { RouterLink } from '@angular/router';
+import { PermissionsService } from '@shared/permissions';
+import { LaiksUser } from '@shared/users';
 import { WithId } from '@shared/utils';
-import { EMPTY, finalize, mergeMap, switchMap } from 'rxjs';
+import { filter, finalize, map, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'laiks-user-edit',
@@ -22,7 +21,7 @@ import { EMPTY, finalize, mergeMap, switchMap } from 'rxjs';
   styleUrls: ['./user-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatCheckboxModule, MatButtonModule, RouterLink],
+  imports: [MatCheckboxModule, MatButtonModule, RouterLink, AsyncPipe],
 })
 export class UserEditComponent {
   private permissionsService = inject(PermissionsService);
@@ -36,31 +35,37 @@ export class UserEditComponent {
 
   @Input() user?: WithId<LaiksUser>;
 
-  busy = signal(false);
+  adminBusy = signal(true);
+  npBlockedBusy = signal(true);
 
-  permissions$ = toObservable(this.id).pipe(
-    switchMap((id) =>
-      id ? this.permissionsService.getUserPermissions(id) : EMPTY
-    )
+  admin$ = toObservable(this.id).pipe(
+    tap(() => this.adminBusy.set(true)),
+    filter((id) => typeof id === 'string'),
+    switchMap((id) => this.permissionsService.isAdmin(id)),
+    tap(() => this.adminBusy.set(false))
   );
 
-  permissions = toSignal(this.permissions$, {
-    initialValue: DEFAULT_PERMISSIONS,
-  });
+  npBlocked$ = toObservable(this.id).pipe(
+    tap(() => this.npBlockedBusy.set(true)),
+    filter((id) => typeof id === 'string'),
+    switchMap((id) => this.permissionsService.isNpUser(id)),
+    map((npUser) => !npUser),
+    tap(() => this.npBlockedBusy.set(false))
+  );
 
   onSetAdmin(value: boolean) {
-    this.busy.set(true);
+    this.adminBusy.set(true);
     this.permissionsService
       .setAdmin(this.id(), value)
-      .pipe(finalize(() => this.busy.set(false)))
+      .pipe(finalize(() => this.adminBusy.set(false)))
       .subscribe();
   }
 
   onSetNpBlocked(value: boolean) {
-    this.busy.set(true);
+    this.npBlockedBusy.set(true);
     this.permissionsService
       .setNpBlocked(this.id(), value)
-      .pipe(finalize(() => this.busy.set(false)))
+      .pipe(finalize(() => this.npBlockedBusy.set(false)))
       .subscribe();
   }
 }
