@@ -35,8 +35,8 @@ export class UserEditComponent {
 
   @Input() user?: WithId<LaiksUser>;
 
-  adminBusy = signal(true);
-  npBlockedBusy = signal(true);
+  adminBusy = signal(false);
+  npBlockedBusy = signal(false);
 
   admin$ = toObservable(this.id).pipe(
     tap(() => this.adminBusy.set(true)),
@@ -48,8 +48,7 @@ export class UserEditComponent {
   npBlocked$ = toObservable(this.id).pipe(
     tap(() => this.npBlockedBusy.set(true)),
     filter((id) => typeof id === 'string'),
-    switchMap((id) => this.permissionsService.isNpUser(id)),
-    map((npUser) => !npUser),
+    switchMap((id) => this.permissionsService.isNpBlocked(id)),
     tap(() => this.npBlockedBusy.set(false))
   );
 

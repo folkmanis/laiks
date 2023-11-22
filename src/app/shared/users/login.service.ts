@@ -147,8 +147,9 @@ export class LoginService {
   isNpAllowed(): Observable<boolean> {
     return this.laiksUser().pipe(
       switchMap((user) =>
-        user ? this.permissionsService.isNpUser(user.id) : of(false)
-      )
+        user ? this.permissionsService.isNpBlocked(user.id) : of(true)
+      ),
+      map((blocked) => !blocked)
     );
   }
 
