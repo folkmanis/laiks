@@ -1,12 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import {
-  DocumentReference,
   Firestore,
   deleteDoc,
   doc,
   docData,
   setDoc,
-  collection,
 } from '@angular/fire/firestore';
 import { Observable, from, map } from 'rxjs';
 
