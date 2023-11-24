@@ -8,10 +8,12 @@ import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LaiksUser } from 'src/app/shared/users/laiks-user';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { WithId } from '@shared/utils';
 
 class TestUsersService {}
 
-const testUser: LaiksUser = {
+const testUser: WithId<LaiksUser> = {
+  id: '4ace',
   email: 'user@user.com',
   verified: true,
   name: 'User User',
