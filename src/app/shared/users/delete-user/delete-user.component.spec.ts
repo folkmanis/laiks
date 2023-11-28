@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteUserComponent } from './delete-user.component';
+import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideRouter } from '@angular/router';
 
 describe('DeleteUserComponent', () => {
   let component: DeleteUserComponent;
@@ -8,7 +10,11 @@ describe('DeleteUserComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DeleteUserComponent]
+      imports: [DeleteUserComponent],
+      providers: [
+        testFirebaseProvider,
+        provideRouter([{ path: '**', component: DeleteUserComponent }]),
+      ],
     });
     fixture = TestBed.createComponent(DeleteUserComponent);
     component = fixture.componentInstance;

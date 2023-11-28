@@ -13,7 +13,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
-import { mergeMap } from 'rxjs';
 
 @Component({
   selector: 'laiks-login',

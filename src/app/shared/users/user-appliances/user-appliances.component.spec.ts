@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserAppliancesComponent } from './user-appliances.component';
+import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideRouter } from '@angular/router';
 
 describe('UserAppliancesComponent', () => {
   let component: UserAppliancesComponent;
@@ -8,7 +10,11 @@ describe('UserAppliancesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [UserAppliancesComponent]
+      imports: [UserAppliancesComponent],
+      providers: [
+        provideRouter([{ path: '**', component: UserAppliancesComponent }]),
+        testFirebaseProvider,
+      ],
     });
     fixture = TestBed.createComponent(UserAppliancesComponent);
     component = fixture.componentInstance;

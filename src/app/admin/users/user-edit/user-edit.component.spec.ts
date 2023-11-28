@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LaiksUser } from 'src/app/shared/users/laiks-user';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { WithId } from '@shared/utils';
+import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
 
 class TestUsersService {}
 
@@ -45,6 +46,7 @@ describe('UserEditComponent', () => {
           },
         ]),
         ConfirmationDialogService,
+        testFirebaseProvider,
       ],
     }).compileComponents();
 

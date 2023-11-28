@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  User,
+  User, updateProfile
 } from '@angular/fire/auth';
 import {
   doc,
@@ -21,7 +21,16 @@ import {
 } from '@angular/fire/firestore';
 import { PermissionsService } from '@shared/permissions';
 import { throwIfNull, WithId } from '@shared/utils';
-import { first, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import {
+  EMPTY,
+  first,
+  from,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
 
 export enum LoginResponseType {
@@ -60,11 +69,11 @@ export class LoginService {
             laiksUser
               ? of({ type: LoginResponseType.EXISTING, laiksUser })
               : this.createLaiksUser(user).pipe(
-                  map((u) => ({
-                    type: LoginResponseType.CREATED,
-                    laiksUser: u,
-                  }))
-                )
+                map((u) => ({
+                  type: LoginResponseType.CREATED,
+                  laiksUser: u,
+                }))
+              )
           )
         )
       )
@@ -78,14 +87,30 @@ export class LoginService {
     );
   }
 
-  createEmailAccount(email: string, password: string, name: string) {
+  createEmailAccount(
+    email: string,
+    password: string,
+    name: string
+  ): Observable<LaiksUser> {
     return from(
       createUserWithEmailAndPassword(this.auth, email, password)
     ).pipe(
+      mergeMap((userCredentials) => updateProfile(userCredentials.user, { displayName: name })),
+      map(() => this.auth.currentUser),
+      throwIfNull(),
       mergeMap((user) =>
-        this.createLaiksUser({ ...user.user, displayName: name })
+        this.createLaiksUser({ ...user, displayName: name })
       )
     );
+  }
+
+  deleteAccount(): Observable<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      return from(user.delete());
+    } else {
+      return EMPTY;
+    }
   }
 
   logout() {
@@ -185,9 +210,9 @@ export class LoginService {
     return laiksUser
       ? of(laiksUser)
       : from(
-          deleteUser(this.auth.currentUser!).then(() => {
-            throw new Error('User not registered');
-          })
-        );
+        deleteUser(this.auth.currentUser!).then(() => {
+          throw new Error('User not registered');
+        })
+      );
   }
 }

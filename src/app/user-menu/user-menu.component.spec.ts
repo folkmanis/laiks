@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserMenuComponent } from './user-menu.component';
+import { provideRouter } from '@angular/router';
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent;
@@ -8,9 +9,11 @@ describe('UserMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [UserMenuComponent]
-})
-    .compileComponents();
+      imports: [UserMenuComponent],
+      providers: [
+        provideRouter([{ path: '**', component: UserMenuComponent }]),
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserMenuComponent);
     component = fixture.componentInstance;

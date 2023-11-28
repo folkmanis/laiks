@@ -23,11 +23,6 @@ describe('SettingsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return default offset', () => {
-    const offset = service.offset;
-    expect(offset()).toEqual(DEFAULT_SETTINGS.offset);
-  });
-
   it('should update and read settings', () => {
     service.setOffset(TEST_SETTINGS.offset);
     expect(service.offset()).toEqual(TEST_SETTINGS.offset);

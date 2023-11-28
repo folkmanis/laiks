@@ -65,14 +65,14 @@ export const washer: PowerAppliance = {
 };
 
 const dishWasherCosts = [
-  0.0195,
-  0.00975,
-  17070000 / 1000.0 / 1000.0 / 60.0 / 60.0, // Ws to MWh
-  7500000 / 1000.0 / 1000.0 / 60.0 / 60.0, // Ws to MWh
+  19.5,
+  9.75,
+  17070000 / 1000.0 / 60.0 / 60.0, // Ws to kWh
+  7500000 / 1000.0 / 60.0 / 60.0, // Ws to kWh
 ];
 const washerCosts = [
-  19140000 / 1000.0 / 1000.0 / 60.0 / 60.0, // Ws to MWh
-  7845000 / 1000.0 / 1000.0 / 60.0 / 60.0, // Ws to MWh
+  19140000 / 1000.0 / 60.0 / 60.0, // Ws to kWh
+  7845000 / 1000.0 / 60.0 / 60.0, // Ws to kWh
 ];
 
 const after30min = addMinutes(pricesStart, 30);
@@ -107,7 +107,7 @@ describe('PriceCalculatorService', () => {
 
   it('should calculate cycle price', () => {
     const cost = service.priceTime(testPrices, after30min, dishWasher);
-    const expected = 0.0195;
+    const expected = 19.5;
     expect(cost).toBeCloseTo(expected, 2);
   });
 

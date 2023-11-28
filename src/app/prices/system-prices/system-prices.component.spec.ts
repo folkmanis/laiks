@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
 import { SystemPricesComponent } from './system-prices.component';
 
 describe('SystemPricesComponent', () => {
@@ -8,7 +9,8 @@ describe('SystemPricesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SystemPricesComponent]
+      imports: [SystemPricesComponent],
+      providers: [testFirebaseProvider],
     });
     fixture = TestBed.createComponent(SystemPricesComponent);
     component = fixture.componentInstance;
