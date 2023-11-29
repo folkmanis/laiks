@@ -46,3 +46,4 @@ Thumbs.db
 .runtimeconfig.json
 firebase.json
 testdata/
+testdata

@@ -7,44 +7,56 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-// import { onRequest } from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
-import * as auth from "firebase-functions/v1/auth";
-import { initializeApp } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
-
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+import { initializeApp } from 'firebase-admin/app';
+import * as logger from 'firebase-functions/logger';
+import * as auth from 'firebase-functions/v1/auth';
+import { onRequest } from 'firebase-functions/v2/https';
+import { getNpZone } from './scraper/get-np-zone';
+import { updateNpZoneData } from './scraper/update-np-data';
+import { userCleanupHandler } from './user-cleanup';
+import { onSchedule } from 'firebase-functions/v2/scheduler';
+import { updateAllNpData } from './scraper/update-all-np-data';
 
 initializeApp();
-const db = getFirestore();
 
-export const userDeleteCleanup = auth.user().onDelete(async (user) => {
-    const { uid, displayName } = user;
-    logger.log(`User ${uid}, ${displayName} deleted`);
-    return Promise.allSettled([
-        deleteLaiksUser(uid),
-        deleteAdmin(uid),
-        deleteNpBlocked(uid),
-    ]);
+export const userDeleteCleanup = auth.user().onDelete(userCleanupHandler);
+
+export const scrapeZone = onRequest(async (request, response) => {
+  const zoneId = request.query['zone'];
+  if (typeof zoneId !== 'string') {
+    response.status(400).send('zone not provided');
+    return;
+  }
+
+  try {
+    const zoneInfo = await getNpZone(zoneId);
+
+    if (zoneInfo == undefined) {
+      response.status(400).json({ error: `Zone ${zoneId} not found` });
+      return;
+    }
+
+    const result = await updateNpZoneData(zoneInfo);
+
+    response.json(result);
+  } catch (error) {
+    logger.error(error);
+    response.status(400).json({ error: (error as Error).message });
+  }
 });
 
-async function deleteLaiksUser(uid: string) {
-    logger.info(`deleting LaiksUser ${uid}`);
-    return db.doc(`/users/${uid}`).delete();
-}
+export const scrapeAll = onRequest(async (_, response) => {
+  try {
+    const result = await updateAllNpData();
+    response.json(result);
+  } catch (error) {
+    if (error instanceof Error) {
+      response.status(500).json({ error: error.message });
+    }
+  }
+});
 
-async function deleteAdmin(uid: string) {
-    logger.log(`Deleting from admin db ${uid}`);
-    return db.doc(`/admins/${uid}`).delete();
-}
-
-async function deleteNpBlocked(uid: string) {
-    logger.log(`Deleting from npBlocked ${uid}`);
-    return db.doc(`/npBlocked/${uid}`).delete();
-}
+export const scheduledScraper = onSchedule('every day 15:05', async () => {
+  await updateAllNpData();
+  logger.info('Scheduled scrape complete');
+});
