@@ -56,7 +56,7 @@ export const scrapeAll = onRequest(async (_, response) => {
   }
 });
 
-export const scheduledScraper = onSchedule('every day 15:05', async () => {
+export const scheduledScraper = onSchedule('every day 12:05', async () => {
   await updateAllNpData();
   logger.info('Scheduled scrape complete');
 });
