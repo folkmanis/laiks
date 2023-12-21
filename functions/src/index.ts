@@ -16,6 +16,7 @@ import { updateNpZoneData } from './scraper/update-np-data';
 import { userCleanupHandler } from './user-cleanup';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { updateAllNpData } from './scraper/update-all-np-data';
+import { deleteInactiveUsers } from './delete-inactive-users';
 
 initializeApp();
 
@@ -50,13 +51,24 @@ export const scrapeAll = onRequest(async (_, response) => {
     const result = await updateAllNpData();
     response.json(result);
   } catch (error) {
-    if (error instanceof Error) {
-      response.status(500).json({ error: error.message });
-    }
+    response.status(400).json({ error: (error as Error).message });
+  }
+});
+
+export const deleteInactive = onRequest(async (_, response) => {
+  try {
+    const result = await deleteInactiveUsers();
+    response.json(result);
+  } catch (error) {
+    logger.error(error);
+    response.status(400).json({ error: (error as Error).message });
   }
 });
 
 export const scheduledScraper = onSchedule('every day 12:05', async () => {
   await updateAllNpData();
   logger.info('Scheduled scrape complete');
+
+  await deleteInactiveUsers();
+  logger.info('User cleanup complete');
 });
