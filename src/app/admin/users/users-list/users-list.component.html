@@ -3,7 +3,11 @@
     <ng-container matColumnDef="email">
         <mat-cell *matCellDef="let user;">
             <a mat-button [routerLink]="[user.id]">
+                @if (user.email.length > 0) {
                 {{ user.email }}
+                } @else {
+                {{ user.id }}
+                }
             </a>
         </mat-cell>
     </ng-container>
