@@ -29,6 +29,7 @@ import { MarketZone } from 'src/app/shared/np-data/market-zone';
 import { MarketZonesService } from 'src/app/shared/np-data/market-zones.service';
 import { CanComponentDeactivate } from 'src/app/shared/utils/can-deactivate.guard';
 import { UpperCaseDirective } from 'src/app/shared/utils/upper-case.directive';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 type MarketZoneGroup = FormGroup<{
   [key in keyof MarketZone]: FormControl<MarketZone[key]>;
@@ -53,6 +54,7 @@ type MarketZoneGroup = FormGroup<{
     RouterLink,
     MatDividerModule,
     UpperCaseDirective,
+    MatCheckboxModule,
   ],
 })
 export class MarketZoneEditComponent implements CanComponentDeactivate {
@@ -67,6 +69,7 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
     url: ['', Validators.required],
     tax: [0, Validators.required],
     dbName: ['', Validators.required],
+    enabled: [false],
   });
 
   idControl = new FormControl<string>('', {

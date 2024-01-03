@@ -4,4 +4,5 @@ export interface MarketZone {
   locale: string;
   tax: number;
   url: string;
+  enabled: boolean;
 }
