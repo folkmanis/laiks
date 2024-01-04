@@ -1,19 +1,17 @@
 import { UserRecord } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import * as logger from 'firebase-functions/logger';
+import * as auth from 'firebase-functions/v1/auth';
 
-export const userCleanupHandler: (user: UserRecord) => Promise<void> = async (
-  user
-) => {
+export const userDeleteCleanup = auth.user().onDelete((user: UserRecord) => {
   const { uid, displayName } = user;
   logger.log(`User ${uid}, ${displayName} deleted`);
-  await Promise.allSettled([
+  return Promise.allSettled([
     deleteLaiksUser(uid),
     deleteAdmin(uid),
     deleteNpBlocked(uid),
   ]);
-  return;
-};
+});
 
 async function deleteLaiksUser(uid: string) {
   logger.info(`deleting LaiksUser ${uid}`);

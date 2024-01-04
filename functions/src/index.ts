@@ -8,16 +8,14 @@
  */
 
 import { initializeApp } from 'firebase-admin/app';
-import * as logger from 'firebase-functions/logger';
-import { onRequest } from 'firebase-functions/v2/https';
-import { getNpZone } from './scraper/get-np-zone';
-import { updateNpZoneData } from './scraper/update-np-data';
-import { userDeleteCleanup } from './user-cleanup';
-import { onSchedule } from 'firebase-functions/v2/scheduler';
-import { updateAllNpData } from './scraper/update-all-np-data';
-import { deleteInactiveUsers } from './delete-inactive-users';
-import { createZonesSetup } from './scraper/create-zones-setup';
+import { deleteInactiveUsersOnRequest } from './delete-inactive-users';
 import { onLaiksUserDeleted } from './on-laiks-user-deleted';
+import { scheduledUserMaintenance } from './scheduled-user-maintenance';
+import { scheduledScraper } from './scraper/scheduled-scraper';
+import { scrapeAll } from './scraper/scrape-all';
+import { scrapeZone } from './scraper/scrape-zone';
+import { setDefaultZones } from './set-default-zones';
+import { userDeleteCleanup } from './user-cleanup';
 
 initializeApp();
 
@@ -25,98 +23,14 @@ exports.userDeleteCleanup = userDeleteCleanup;
 
 exports.onLaiksUserDeleted = onLaiksUserDeleted;
 
-export const scrapeZone = onRequest(
-  {
-    region: 'europe-west1',
-  },
-  async (request, response) => {
-    const zoneId = request.query['zone'];
-    if (typeof zoneId !== 'string') {
-      response.status(400).send('zone not provided');
-      return;
-    }
+exports.scrapeZone = scrapeZone;
 
-    try {
-      const zoneInfo = await getNpZone(zoneId);
+exports.scrapeAll = scrapeAll;
 
-      if (zoneInfo == undefined) {
-        response.status(400).json({ error: `Zone ${zoneId} not found` });
-        return;
-      }
+exports.deleteInactiveUsers = deleteInactiveUsersOnRequest;
 
-      const result = await updateNpZoneData(zoneInfo);
+exports.scheduledScraper = scheduledScraper;
 
-      response.json(result);
-    } catch (error) {
-      logger.error(error);
-      response.status(400).json({ error: (error as Error).message });
-    }
-  }
-);
+exports.scheduledUserMaintenance = scheduledUserMaintenance;
 
-export const scrapeAll = onRequest(
-  {
-    region: 'europe-west1',
-  },
-  async (_, response) => {
-    try {
-      const result = await updateAllNpData();
-      response.json(result);
-    } catch (error) {
-      response.status(400).json({ error: (error as Error).message });
-    }
-  }
-);
-
-export const deleteInactive = onRequest(
-  {
-    region: 'europe-west1',
-  },
-  async (_, response) => {
-    try {
-      const result = await deleteInactiveUsers();
-      response.json(result);
-    } catch (error) {
-      logger.error(error);
-      response.status(400).json({ error: (error as Error).message });
-    }
-  }
-);
-
-export const scheduledScraper = onSchedule(
-  {
-    region: 'europe-west1',
-    schedule: 'every day 12:35',
-  },
-  async () => {
-    await updateAllNpData();
-    logger.info('Scheduled scrape complete');
-  }
-);
-
-// every even day at 01:00
-export const scheduledUserMaintenance = onSchedule(
-  {
-    region: 'europe-west1',
-    schedule: '0 1 2-31/2 * *',
-  },
-  async () => {
-    await deleteInactiveUsers();
-    logger.info('User cleanup complete');
-  }
-);
-
-export const setDefaultZones = onRequest(
-  {
-    region: 'europe-west1',
-  },
-  async (_, response) => {
-    try {
-      const result = await createZonesSetup();
-      response.json(result);
-    } catch (error) {
-      logger.error(error);
-      response.status(501).json({ error: (error as Error).message });
-    }
-  }
-);
+exports.setDefaultZones = setDefaultZones;
