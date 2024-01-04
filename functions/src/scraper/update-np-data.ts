@@ -36,11 +36,38 @@ const pricesCollection = (zoneDbName: string): CollectionReference =>
   pricesDocument(zoneDbName).collection(PRICES_COLLECTION_NAME);
 
 export async function updateNpZoneData(
-  zoneInfo: MarketZone
+  zoneInfo: MarketZone,
+  forced: boolean
 ): Promise<NpUpdateResult> {
   logger.info(`Retrieving from ${zoneInfo.url}`);
 
   const npData = await getNpPrices(zoneInfo);
+
+  const prices = npData.getNpPrices();
+
+  if (prices.length === 0) {
+    logger.log('no data on server');
+    return {
+      zoneId: zoneInfo.description,
+      retrievedRecords: 0,
+      storedRecords: 0,
+    };
+  }
+
+  if (forced) {
+    logger.log('force storing all data');
+    const statistics = {
+      average: npData.average(AVERAGE_DAYS),
+      stDev: npData.stDev(AVERAGE_DAYS),
+      averageDays: AVERAGE_DAYS,
+    };
+    const result = await writeNpData(zoneInfo.dbName, prices, statistics);
+    return {
+      zoneId: zoneInfo.description,
+      retrievedRecords: prices.length,
+      storedRecords: result.length,
+    };
+  }
 
   const newData = await filterNewRecords(zoneInfo.dbName, npData.getNpPrices());
 
@@ -48,7 +75,7 @@ export async function updateNpZoneData(
     logger.log('no new data on server');
     return {
       zoneId: zoneInfo.description,
-      retrievedRecords: npData.getNpPrices().length,
+      retrievedRecords: prices.length,
       storedRecords: 0,
     };
   } else {
@@ -61,7 +88,7 @@ export async function updateNpZoneData(
     const result = await writeNpData(zoneInfo.dbName, newData, statistics);
     return {
       zoneId: zoneInfo.description,
-      retrievedRecords: npData.getNpPrices().length,
+      retrievedRecords: prices.length,
       storedRecords: result.length,
     };
   }
