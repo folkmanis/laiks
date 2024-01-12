@@ -12,6 +12,7 @@ import {
   updateDoc,
   deleteDoc,
   docData,
+  writeBatch,
 } from '@angular/fire/firestore';
 import { throwIfNull, WithId } from '@shared/utils';
 import { from, map, Observable } from 'rxjs';
@@ -52,5 +53,11 @@ export class UsersService {
 
   deleteUser(id: string): Observable<void> {
     return from(deleteDoc(this.docRef(id)));
+  }
+
+  deleteUsers(ids: string[]): Observable<void> {
+    const batch = writeBatch(this.firestore);
+    ids.forEach((id) => batch.delete(this.docRef(id)));
+    return from(batch.commit());
   }
 }

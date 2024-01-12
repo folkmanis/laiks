@@ -4,7 +4,8 @@
     margin: 16px auto;
 }
 
-mat-cell {
+mat-cell,
+mat-header-cell {
     padding-left: 4px;
     padding-right: 4px;
 
@@ -17,7 +18,7 @@ mat-cell {
     }
 }
 
-.mat-column-verified {
+.mat-column-selection {
     flex: 0 48px;
 }
 
