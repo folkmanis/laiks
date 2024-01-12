@@ -1,4 +1,4 @@
-import { getNpZone } from './get-np-zone';
+import { getNpZone } from './np-zone-utilities';
 import { updateNpZoneData } from './update-np-data';
 import { onRequest } from 'firebase-functions/v2/https';
 import * as logger from 'firebase-functions/logger';

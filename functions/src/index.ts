@@ -16,6 +16,7 @@ import { scrapeAll } from './scraper/scrape-all';
 import { scrapeZone } from './scraper/scrape-zone';
 import { setDefaultZones } from './set-default-zones';
 import { userDeleteCleanup } from './user-cleanup';
+import { onCopyLaiksDbRequest } from './copy-laiks-db';
 
 initializeApp();
 
@@ -34,3 +35,5 @@ exports.scheduledScraper = scheduledScraper;
 exports.scheduledUserMaintenance = scheduledUserMaintenance;
 
 exports.setDefaultZones = setDefaultZones;
+
+exports.copyLaiksDb = onCopyLaiksDbRequest;

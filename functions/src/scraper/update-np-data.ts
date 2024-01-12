@@ -29,10 +29,10 @@ const AVERAGE_DAYS = 5;
 
 const collection = () => getFirestore().collection(DB_COLLECTION);
 
-const pricesDocument = (zone: string): DocumentReference =>
-  collection().doc(zone);
+export const pricesDocument = (zoneDbName: string): DocumentReference =>
+  collection().doc(zoneDbName);
 
-const pricesCollection = (zoneDbName: string): CollectionReference =>
+export const pricesCollection = (zoneDbName: string): CollectionReference =>
   pricesDocument(zoneDbName).collection(PRICES_COLLECTION_NAME);
 
 export async function updateNpZoneData(
@@ -149,10 +149,10 @@ async function writeNpData(
 ): Promise<WriteResult[]> {
   const batch = getFirestore().batch();
 
+  const collectionRef = pricesCollection(zoneDbName);
+
   for (const price of npPrices) {
-    const docRef = pricesCollection(zoneDbName).doc(
-      price.startTime.toISOString()
-    );
+    const docRef = collectionRef.doc(price.startTime.toISOString());
     batch.set(docRef, price);
   }
 

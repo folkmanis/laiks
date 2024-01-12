@@ -1,4 +1,4 @@
-import { getNpZones } from './get-np-zones';
+import { getNpZones } from './np-zone-utilities';
 import { updateNpZoneData } from './update-np-data';
 import { PromisePool } from '@supercharge/promise-pool';
 
