@@ -1,6 +1,6 @@
 import * as logger from 'firebase-functions/logger';
 import { onRequest } from 'firebase-functions/v2/https';
-import { createZonesSetup } from './scraper/create-zones-setup';
+import { createZonesSetup } from './scraper/np-zone-utilities';
 
 export const setDefaultZones = onRequest(
   {
