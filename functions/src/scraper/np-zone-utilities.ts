@@ -2,7 +2,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { MarketZone } from './dto/market-zone';
 import { DEFAULT_MARKET_ZONES } from './default-market-zones';
 
-const ZONES_COLLECTION_NAME = 'zones';
+export const ZONES_COLLECTION_NAME = 'zones';
 
 export async function createZonesSetup() {
   const zonesCollection = getFirestore().collection(ZONES_COLLECTION_NAME);

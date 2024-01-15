@@ -1,17 +1,10 @@
-import { plainToInstance } from 'class-transformer';
-import {
-  CollectionReference,
-  DocumentReference,
-  Timestamp,
-  WriteResult,
-  getFirestore,
-} from 'firebase-admin/firestore';
+import { Timestamp } from 'firebase-admin/firestore';
 import * as logger from 'firebase-functions/logger';
-import { IncomingMessage } from 'node:http';
-import { get } from 'node:https';
 import { MarketZone } from './dto/market-zone';
 import { NpData } from './dto/np-data';
 import { NpPrice } from './dto/np-price';
+import { writeNpData } from './write-np-data';
+import { pricesCollection } from './prices-collection-ref';
 
 export interface NpDataUpdateOptions {
   averageDays: number;
@@ -23,26 +16,13 @@ export interface NpUpdateResult {
   storedRecords: number;
 }
 
-const PRICES_COLLECTION_NAME = 'prices';
-const DB_COLLECTION = 'laiks';
-const AVERAGE_DAYS = 5;
-
-const collection = () => getFirestore().collection(DB_COLLECTION);
-
-export const pricesDocument = (zoneDbName: string): DocumentReference =>
-  collection().doc(zoneDbName);
-
-export const pricesCollection = (zoneDbName: string): CollectionReference =>
-  pricesDocument(zoneDbName).collection(PRICES_COLLECTION_NAME);
+export const AVERAGE_DAYS = 5;
 
 export async function updateNpZoneData(
   zoneInfo: MarketZone,
+  npData: NpData,
   forced: boolean
 ): Promise<NpUpdateResult> {
-  logger.info(`Retrieving from ${zoneInfo.url}`);
-
-  const npData = await getNpPrices(zoneInfo);
-
   const prices = npData.getNpPrices();
 
   if (prices.length === 0) {
@@ -94,37 +74,6 @@ export async function updateNpZoneData(
   }
 }
 
-async function getNpPrices(zone: MarketZone): Promise<NpData> {
-  const data = await getNpData(new URL(zone.url));
-
-  const prices = plainToInstance(NpData, JSON.parse(data).data, {
-    excludeExtraneousValues: true,
-  });
-
-  logger.log(`Parsed ${prices.getNpPrices().length} price records`);
-
-  return prices;
-}
-
-async function getNpData(url: URL): Promise<string> {
-  const req: IncomingMessage = await new Promise((resolve) =>
-    get(url, resolve).end()
-  );
-  const data = await retrieveData(req);
-
-  logger.log(`Retrieved from ${url} ${data.length} bytes of data`);
-
-  return data;
-}
-
-function retrieveData(message: IncomingMessage): Promise<string> {
-  return new Promise((resolve) => {
-    let xml = '';
-    message.on('data', (chunk) => (xml += chunk));
-    message.on('end', () => resolve(xml));
-  });
-}
-
 async function filterNewRecords(
   zoneDbName: string,
   npPrices: NpPrice[]
@@ -140,31 +89,4 @@ async function filterNewRecords(
   );
 
   return npPrices.filter(({ startTime }) => startTime > lastDate);
-}
-
-async function writeNpData(
-  zoneDbName: string,
-  npPrices: NpPrice[],
-  statistics: { average: number; stDev: number }
-): Promise<WriteResult[]> {
-  const batch = getFirestore().batch();
-
-  const collectionRef = pricesCollection(zoneDbName);
-
-  for (const price of npPrices) {
-    const docRef = collectionRef.doc(price.startTime.toISOString());
-    batch.set(docRef, price);
-  }
-
-  batch.set(
-    pricesDocument(zoneDbName),
-    {
-      ...statistics,
-      lastUpdate: Timestamp.now(),
-    },
-    { merge: true }
-  );
-  const result = await batch.commit();
-
-  return result;
 }

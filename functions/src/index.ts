@@ -8,32 +8,101 @@
  */
 
 import { initializeApp } from 'firebase-admin/app';
-import { deleteInactiveUsersOnRequest } from './delete-inactive-users';
-import { onLaiksUserDeleted } from './on-laiks-user-deleted';
-import { scheduledUserMaintenance } from './scheduled-user-maintenance';
-import { scheduledScraper } from './scraper/scheduled-scraper';
-import { scrapeAll } from './scraper/scrape-all';
-import { scrapeZone } from './scraper/scrape-zone';
-import { setDefaultZones } from './set-default-zones';
-import { userDeleteCleanup } from './user-cleanup';
-import { onCopyLaiksDbRequest } from './copy-laiks-db';
+import { getAuth } from 'firebase-admin/auth';
+import * as auth from 'firebase-functions/v1/auth';
+import {
+  onDocumentDeleted,
+  onDocumentUpdated,
+} from 'firebase-functions/v2/firestore';
+import { onCall, onRequest } from 'firebase-functions/v2/https';
+import { onSchedule } from 'firebase-functions/v2/scheduler';
+import { movePricesCollection } from './rename-laiks-db';
+import { deleteInactiveUsers } from './delete-inactive-users';
+import { MarketZone } from './scraper/dto/market-zone';
+import {
+  ZONES_COLLECTION_NAME,
+  createZonesSetup,
+} from './scraper/np-zone-utilities';
+import { scrapeSingleZone } from './scraper/scrape-single-zone';
+import { updateAllNpData } from './scraper/update-all-np-data';
+import { afterUserDeleted } from './user-cleanup';
+import { assertIsString } from './utils/assertions';
 
 initializeApp();
 
-exports.userDeleteCleanup = userDeleteCleanup;
+export const userDeleteCleanup = auth.user().onDelete((user) => {
+  const { uid, displayName } = user;
+  return afterUserDeleted(uid, displayName);
+});
 
-exports.onLaiksUserDeleted = onLaiksUserDeleted;
+export const onLaiksUserDeleted = onDocumentDeleted(
+  {
+    document: 'users/{docId}',
+    region: 'europe-west1',
+  },
+  (event) => {
+    const id = event.data?.id;
+    assertIsString(id, 'user id');
+    getAuth().deleteUser(id);
+  }
+);
 
-exports.scrapeZone = scrapeZone;
+export const scrapeZone = scrapeSingleZone;
 
-exports.scrapeAll = scrapeAll;
+export const scrapeAll = onRequest(
+  {
+    region: 'europe-west1',
+  },
+  async (request, response) => {
+    const forced = !!Number(request.query['forced']);
+    const result = await updateAllNpData(forced);
+    response.json(result);
+  }
+);
 
-exports.deleteInactiveUsers = deleteInactiveUsersOnRequest;
+exports.deleteInactiveUsers = onCall(
+  {
+    region: 'europe-west1',
+  },
+  async () => {
+    return deleteInactiveUsers();
+  }
+);
 
-exports.scheduledScraper = scheduledScraper;
+exports.scheduledScraper = onSchedule(
+  {
+    region: 'europe-west1',
+    schedule: 'every day 12:35',
+  },
+  () => {
+    updateAllNpData(false);
+  }
+);
 
-exports.scheduledUserMaintenance = scheduledUserMaintenance;
+exports.scheduledUserMaintenance = onSchedule(
+  {
+    region: 'europe-west1',
+    schedule: '0 1 2-31/2 * *',
+  },
+  () => {
+    deleteInactiveUsers();
+  }
+);
 
-exports.setDefaultZones = setDefaultZones;
+exports.setDefaultZones = onCall(
+  {
+    region: 'europe-west1',
+  },
+  () => createZonesSetup()
+);
 
-exports.copyLaiksDb = onCopyLaiksDbRequest;
+export const moveLaiksDb = onDocumentUpdated(
+  `${ZONES_COLLECTION_NAME}/{zoneId}`,
+  async (event) => {
+    const oldZone = event.data?.before.data() as MarketZone;
+    const newZone = event.data?.after.data() as MarketZone;
+    if (oldZone.dbName !== newZone.dbName) {
+      await movePricesCollection(oldZone.dbName, newZone.dbName);
+    }
+  }
+);

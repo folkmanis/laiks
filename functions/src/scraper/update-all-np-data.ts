@@ -1,4 +1,5 @@
 import { getNpZones } from './np-zone-utilities';
+import { retrieveNpData } from './retrieve-np-data';
 import { updateNpZoneData } from './update-np-data';
 import { PromisePool } from '@supercharge/promise-pool';
 
@@ -10,6 +11,7 @@ export async function updateAllNpData(forced: boolean) {
   return PromisePool.for(zones)
     .withConcurrency(MAX_CONCURRENT)
     .process(async (zone) => {
-      return updateNpZoneData(zone, forced);
+      const npData = await retrieveNpData(zone.url);
+      return updateNpZoneData(zone, npData, forced);
     });
 }

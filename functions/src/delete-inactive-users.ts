@@ -2,26 +2,10 @@ import { PromisePool } from '@supercharge/promise-pool';
 import { isBefore, subDays } from 'date-fns';
 import { Auth, UserRecord, getAuth } from 'firebase-admin/auth';
 import * as logger from 'firebase-functions/logger';
-import { onRequest } from 'firebase-functions/v2/https';
 
 const MAX_USERS = 1000;
 const MAX_INACTIVE_DAYS = 7;
 const MAX_CONCURRENT_DELETES = 3;
-
-export const deleteInactiveUsersOnRequest = onRequest(
-  {
-    region: 'europe-west1',
-  },
-  async (_, response) => {
-    try {
-      const result = await deleteInactiveUsers();
-      response.json(result);
-    } catch (error) {
-      logger.error(error);
-      response.status(400).json({ error: (error as Error).message });
-    }
-  }
-);
 
 export async function deleteInactiveUsers(
   inactiveDays: number = MAX_INACTIVE_DAYS

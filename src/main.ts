@@ -7,8 +7,12 @@ import {
   importProvidersFrom,
 } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
+import {
+  connectFirestoreEmulator,
+  getFirestore,
+  provideFirestore,
+} from '@angular/fire/firestore';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -31,8 +35,18 @@ bootstrapApplication(AppComponent, {
     provideRouter(APP_ROUTES, withComponentInputBinding()),
     importProvidersFrom(
       provideFirebaseApp(() => initializeApp(environment.firebase)),
-      provideAuth(() => getAuth()),
-      provideFirestore(() => getFirestore()),
+      provideAuth(() => {
+        const auth = getAuth();
+        environment.production ||
+          connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+        return auth;
+      }),
+      provideFirestore(() => {
+        const firestore = getFirestore();
+        environment.production ||
+          connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
+        return firestore;
+      }),
       BrowserAnimationsModule,
       MatSnackBarModule,
       MatDialogModule
