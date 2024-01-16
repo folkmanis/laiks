@@ -1,0 +1,19 @@
+.spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+section {
+    margin-bottom: 16px;
+
+    &:not(:first-of-type) {
+        margin-top: 16px;
+    }
+}
+
+.buttons-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}

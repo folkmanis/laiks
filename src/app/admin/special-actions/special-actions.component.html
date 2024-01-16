@@ -1,0 +1,72 @@
+<div class="vertical-container">
+    <section>
+        <div class="buttons-row">
+            <button mat-raised-button (click)="onScrapeAll(forcedAllCheck.checked)" [disabled]="busy()">
+                NOLASĪT VISUS DATUS
+            </button>
+            <mat-checkbox #forcedAllCheck [disabled]="busy()">
+                Piespiedu
+            </mat-checkbox>
+        </div>
+    </section>
+
+    <mat-divider />
+
+    <section>
+        <div>
+            <mat-form-field>
+                <mat-label>Tirgus reģions</mat-label>
+                <mat-select #marketZone>
+                    @for (zone of zones$ | async; track $index) {
+                    <mat-option [value]="zone.id">
+                        {{ zone.id }} - {{ zone.description }}
+                    </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="buttons-row">
+            <button mat-raised-button (click)="onScrapeZone(marketZone.value, forcedZoneCheck.checked)"
+                [disabled]="busy() || marketZone.value == null">
+                NOLASĪT REĢIONU
+            </button>
+            <mat-checkbox #forcedZoneCheck [disabled]="busy()">
+                Piespiedu
+            </mat-checkbox>
+        </div>
+    </section>
+    <mat-divider />
+    <section>
+        <div class="buttons-row">
+            <button mat-raised-button [disabled]="busy()" (click)="onDeleteInactiveUsers()">
+                DZĒST NEAKTĪVOS LIETOTĀJUS
+            </button>
+        </div>
+    </section>
+    <mat-divider />
+    <section>
+        @if(result(); as data) {
+        <h3>
+            Atbilde:
+        </h3>
+        <p>
+            {{ data | json}}
+        </p>
+        }
+
+        @if (error(); as err) {
+        <h3>
+            Kļūda:
+        </h3>
+        <p>
+            {{ err['message'] }}
+        </p>
+        }
+
+        @if(busy()) {
+        <div class="spinner">
+            <mat-spinner [diameter]="240"></mat-spinner>
+        </div>
+        }
+    </section>
+</div>

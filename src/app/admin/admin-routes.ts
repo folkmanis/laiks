@@ -14,6 +14,13 @@ export default [
     loadChildren: () => import('./market-zones/market-zones-routes'),
   },
   {
+    path: 'special-actions',
+    loadComponent: () =>
+      import('./special-actions/special-actions.component').then(
+        (c) => c.SpecialActionsComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '/',
   },

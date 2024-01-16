@@ -13,6 +13,11 @@ import {
   getFirestore,
   provideFirestore,
 } from '@angular/fire/firestore';
+import {
+  provideFunctions,
+  getFunctions,
+  connectFunctionsEmulator,
+} from '@angular/fire/functions';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -48,6 +53,12 @@ bootstrapApplication(AppComponent, {
         environment.production ||
           connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
         return firestore;
+      }),
+      provideFunctions(() => {
+        const functions = getFunctions(undefined, 'europe-west1');
+        environment.production ||
+          connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+        return functions;
       }),
       BrowserAnimationsModule,
       MatSnackBarModule,

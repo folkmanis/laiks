@@ -88,7 +88,9 @@ exports.deleteInactiveUsers = onCall(
   async (request) => {
     checkAuthStatus(request.auth);
     await checkAdmin(request.auth.uid);
-    return deleteInactiveUsers();
+
+    const maxInactiveDays = request.data['maxInactiveDays'];
+    return deleteInactiveUsers(maxInactiveDays);
   }
 );
 

@@ -7,10 +7,10 @@ const MAX_USERS = 1000;
 const MAX_INACTIVE_DAYS = 7;
 const MAX_CONCURRENT_DELETES = 3;
 
-export async function deleteInactiveUsers(
-  inactiveDays: number = MAX_INACTIVE_DAYS
-) {
+export async function deleteInactiveUsers(days?: number) {
   const auth = getAuth();
+
+  const inactiveDays = days ?? MAX_INACTIVE_DAYS;
 
   logger.log(`Looking for users inactive for ${inactiveDays} days`);
 

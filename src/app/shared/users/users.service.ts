@@ -14,9 +14,11 @@ import {
   docData,
   writeBatch,
 } from '@angular/fire/firestore';
+import { httpsCallable, Functions } from '@angular/fire/functions';
 import { throwIfNull, WithId } from '@shared/utils';
 import { from, map, Observable } from 'rxjs';
 import { LaiksUser } from '@shared/users';
+import { DeleteInactiveUsersResult } from './delete-inactive-result';
 
 const USERS_COLL = 'users';
 
@@ -25,6 +27,8 @@ const USERS_COLL = 'users';
 })
 export class UsersService {
   private firestore = inject(Firestore);
+  private functions = inject(Functions);
+
   private docRef = (id: string) =>
     doc(this.firestore, USERS_COLL, id) as DocumentReference<WithId<LaiksUser>>;
 
@@ -59,5 +63,17 @@ export class UsersService {
     const batch = writeBatch(this.firestore);
     ids.forEach((id) => batch.delete(this.docRef(id)));
     return from(batch.commit());
+  }
+
+  deleteInactiveUsers(
+    maxInactiveDays?: number
+  ): Observable<DeleteInactiveUsersResult> {
+    const deleter = httpsCallable<
+      { maxInactiveDays?: number },
+      DeleteInactiveUsersResult
+    >(this.functions, 'deleteInactiveUsers');
+    return from(deleter({ maxInactiveDays })).pipe(
+      map((response) => response.data)
+    );
   }
 }

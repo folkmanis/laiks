@@ -12,11 +12,13 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { startOfDay, subDays } from 'date-fns';
-import { combineLatest, map, Observable, switchMap } from 'rxjs';
+import { combineLatest, from, map, Observable, switchMap } from 'rxjs';
 import { throwIfNull, WithId } from '@shared/utils';
 import { LoginService } from '../users';
 import { MarketZonesService } from './market-zones.service';
 import { NpData, NpPrice, NpPriceCollectionData } from './np-price.interface';
+import { httpsCallable, Functions } from '@angular/fire/functions';
+import { ScrapeZoneResult } from './scrape-zone-result';
 
 const DB_NAME = 'laiks';
 
@@ -26,6 +28,8 @@ const DB_NAME = 'laiks';
 export class NpDataService {
   private firestore = inject(Firestore);
   private loginService = inject(LoginService);
+  private functions = inject(Functions);
+
   private marketZonesService = inject(MarketZonesService);
 
   private readonly vatFn$ = this.loginService.getVatFn();
@@ -86,6 +90,22 @@ export class NpDataService {
         average: vatFn(average),
       }))
     );
+  }
+
+  scrapeZone(zone: string, forced = false): Observable<ScrapeZoneResult> {
+    const scrape = httpsCallable<
+      { zone: string; forced?: boolean },
+      ScrapeZoneResult
+    >(this.functions, 'scrapeZone');
+    return from(scrape({ zone, forced })).pipe(map((result) => result.data));
+  }
+
+  scrapeAllZones(forced = false): Observable<ScrapeZoneResult[]> {
+    const scrape = httpsCallable<
+      { forced?: boolean },
+      { errors: any[]; results: ScrapeZoneResult[] }
+    >(this.functions, 'scrapeAll');
+    return from(scrape({ forced })).pipe(map((result) => result.data.results));
   }
 
   private docToNpPrices(doc: DocumentData): NpPrice[] {
