@@ -38,7 +38,9 @@ bootstrapApplication(AppComponent, {
       provideAuth(() => {
         const auth = getAuth();
         environment.production ||
-          connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+          connectAuthEmulator(auth, 'http://127.0.0.1:9099', {
+            disableWarnings: true,
+          });
         return auth;
       }),
       provideFirestore(() => {
