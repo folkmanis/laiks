@@ -1,27 +1,16 @@
-import { onRequest } from 'firebase-functions/v2/https';
-import { assertIsDefined, assertIsString } from '../utils/assertions';
+import { assertIsDefined } from '../utils/assertions';
 import { getNpZone } from './np-zone-utilities';
-import { updateNpZoneData } from './update-np-data';
 import { retrieveNpData } from './retrieve-np-data';
+import { updateNpZoneData } from './update-np-data';
 
-export const scrapeSingleZone = onRequest(
-  {
-    region: 'europe-west1',
-  },
-  async (request, response) => {
-    const forced = !!Number(request.query['forced']);
-    const zoneId = request.query['zone'];
+export async function scrapeSingleZone(
+  zoneId: string,
+  forced: boolean = false
+) {
+  const zoneInfo = await getNpZone(zoneId);
+  assertIsDefined(zoneInfo, 'zoneInfo');
 
-    assertIsString(zoneId, 'zone');
+  const npData = await retrieveNpData(zoneInfo.url);
 
-    const zoneInfo = await getNpZone(zoneId);
-
-    assertIsDefined(zoneInfo, 'zoneInfo');
-
-    const npData = await retrieveNpData(zoneInfo.url);
-
-    const result = await updateNpZoneData(zoneInfo, npData, forced);
-
-    response.json(result);
-  }
-);
+  return updateNpZoneData(zoneInfo, npData, forced);
+}

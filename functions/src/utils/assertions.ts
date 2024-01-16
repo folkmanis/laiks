@@ -1,5 +1,8 @@
+import { getFirestore } from 'firebase-admin/firestore';
 import { HttpsError } from 'firebase-functions/v2/https';
 import { AuthData } from 'firebase-functions/v2/tasks';
+
+const ADMINS_COLLECTION = 'admins';
 
 export function assertIsString(
   val: unknown,
@@ -30,5 +33,15 @@ export function checkAuthStatus(
 ): asserts auth is AuthData {
   if (!auth) {
     throw new HttpsError('unauthenticated', 'Not authenticated');
+  }
+}
+
+export async function checkAdmin(uid: string) {
+  const adminDoc = await getFirestore()
+    .collection(ADMINS_COLLECTION)
+    .doc(uid)
+    .get();
+  if (!adminDoc.exists) {
+    throw new HttpsError('permission-denied', 'Unauthorized for the action');
   }
 }

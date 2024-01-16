@@ -14,10 +14,10 @@ import {
   onDocumentDeleted,
   onDocumentUpdated,
 } from 'firebase-functions/v2/firestore';
-import { onCall, onRequest } from 'firebase-functions/v2/https';
+import { onCall } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import { movePricesCollection } from './rename-laiks-db';
 import { deleteInactiveUsers } from './delete-inactive-users';
+import { movePricesCollection } from './rename-laiks-db';
 import { MarketZone } from './scraper/dto/market-zone';
 import {
   ZONES_COLLECTION_NAME,
@@ -26,7 +26,11 @@ import {
 import { scrapeSingleZone } from './scraper/scrape-single-zone';
 import { updateAllNpData } from './scraper/update-all-np-data';
 import { afterUserDeleted } from './user-cleanup';
-import { assertIsString } from './utils/assertions';
+import {
+  assertIsString,
+  checkAdmin,
+  checkAuthStatus,
+} from './utils/assertions';
 
 initializeApp();
 
@@ -47,16 +51,33 @@ export const onLaiksUserDeleted = onDocumentDeleted(
   }
 );
 
-export const scrapeZone = scrapeSingleZone;
-
-export const scrapeAll = onRequest(
+export const scrapeZone = onCall(
   {
     region: 'europe-west1',
   },
-  async (request, response) => {
-    const forced = !!Number(request.query['forced']);
-    const result = await updateAllNpData(forced);
-    response.json(result);
+  async (request) => {
+    checkAuthStatus(request.auth);
+    await checkAdmin(request.auth.uid);
+
+    const zoneId = request.data['zone'];
+    assertIsString(zoneId, 'zone');
+
+    const forced = request.data['forced'];
+
+    return scrapeSingleZone(zoneId, forced);
+  }
+);
+
+export const scrapeAll = onCall(
+  {
+    region: 'europe-west1',
+  },
+  async (request) => {
+    checkAuthStatus(request.auth);
+    await checkAdmin(request.auth.uid);
+
+    const forced = request.data['forced'];
+    return updateAllNpData(forced);
   }
 );
 
@@ -64,7 +85,9 @@ exports.deleteInactiveUsers = onCall(
   {
     region: 'europe-west1',
   },
-  async () => {
+  async (request) => {
+    checkAuthStatus(request.auth);
+    await checkAdmin(request.auth.uid);
     return deleteInactiveUsers();
   }
 );
@@ -93,7 +116,11 @@ exports.setDefaultZones = onCall(
   {
     region: 'europe-west1',
   },
-  () => createZonesSetup()
+  async (request) => {
+    checkAuthStatus(request.auth);
+    await checkAdmin(request.auth.uid);
+    return createZonesSetup();
+  }
 );
 
 export const moveLaiksDb = onDocumentUpdated(
