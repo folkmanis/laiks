@@ -64,9 +64,13 @@
               "sourceMap": true,
               "namedChunks": true
             },
-            "testing": {
-              "extractLicenses": false,
-              "outputHashing": "all"
+            "emulators": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.emulators.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -75,10 +79,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "laiks:build:production"
+              "buildTarget": "laiks:build:production"
             },
             "development": {
-              "browserTarget": "laiks:build:development"
+              "buildTarget": "laiks:build:development"
+            },
+            "emulators": {
+              "buildTarget": "laiks:build:development,emulators"
             }
           },
           "defaultConfiguration": "development",
@@ -90,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "laiks:build"
+            "buildTarget": "laiks:build"
           }
         },
         "test": {

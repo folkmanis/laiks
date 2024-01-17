@@ -2,11 +2,9 @@
   "name": "laiks",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
+    "start:emulators": "ng serve --configuration emulators",
     "build": "ng build",
-    "build-test": "ng build --configuration testing",
-    "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "emulators:start": "firebase emulators:start --import=testdata --export-on-exit"
   },

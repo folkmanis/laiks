@@ -1,7 +1,7 @@
-import { firebaseConfig } from '../firebase-config';
+import { firebaseProductionConfig } from '../firebase-config';
 
 export const environment = {
-  firebase: firebaseConfig,
-  dbName: 'laiks',
+  firebase: firebaseProductionConfig,
   production: true,
+  emulators: false,
 };

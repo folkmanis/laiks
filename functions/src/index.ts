@@ -129,6 +129,7 @@ export const moveLaiksDb = onDocumentUpdated(
   {
     document: `${ZONES_COLLECTION_NAME}/{zoneId}`,
     region: 'europe-west1',
+    timeoutSeconds: 300,
   },
   async (event) => {
     const oldZone = event.data?.before.data() as MarketZone;

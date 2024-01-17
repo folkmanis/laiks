@@ -42,7 +42,7 @@ bootstrapApplication(AppComponent, {
       provideFirebaseApp(() => initializeApp(environment.firebase)),
       provideAuth(() => {
         const auth = getAuth();
-        environment.production ||
+        environment.emulators &&
           connectAuthEmulator(auth, 'http://127.0.0.1:9099', {
             disableWarnings: true,
           });
@@ -50,13 +50,13 @@ bootstrapApplication(AppComponent, {
       }),
       provideFirestore(() => {
         const firestore = getFirestore();
-        environment.production ||
+        environment.emulators &&
           connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
         return firestore;
       }),
       provideFunctions(() => {
         const functions = getFunctions(undefined, 'europe-west1');
-        environment.production ||
+        environment.emulators &&
           connectFunctionsEmulator(functions, '127.0.0.1', 5001);
         return functions;
       }),
