@@ -1,10 +1,11 @@
+import { DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
+  input,
 } from '@angular/core';
-import { NgIf, DecimalPipe } from '@angular/common';
 import { colorDensity } from '@shared/utils';
 
 @Component({
@@ -13,12 +14,12 @@ import { colorDensity } from '@shared/utils';
   templateUrl: './appliance-tag.component.html',
   styleUrls: ['./appliance-tag.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, DecimalPipe],
+  imports: [DecimalPipe],
 })
 export class ApplianceTagComponent {
-  @Input({ required: true }) name!: string;
+  name = input.required<string>();
 
-  @Input({ required: true }) cost: number | null = null;
+  cost = input.required<number | null>();
 
   @Input() isBest: boolean = false;
 

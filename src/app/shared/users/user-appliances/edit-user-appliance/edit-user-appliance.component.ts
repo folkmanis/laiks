@@ -2,39 +2,32 @@ import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   computed,
   effect,
   inject,
+  input,
   numberAttribute,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CanComponentDeactivate, throwIfNull } from '@shared/utils';
-import {
-  BehaviorSubject,
-  EMPTY,
-  Observable,
-  filter,
-  finalize,
-  switchMap,
-} from 'rxjs';
-import {
-  AddApplianceDialogComponent,
-  ApplianceDialogData,
-} from '../add-appliance-dialog/add-appliance-dialog.component';
 import {
   ApplianceFormComponent,
   INITIAL_APPLIANCE,
   PowerAppliance,
   SystemAppliancesService,
 } from '@shared/appliances';
-import { UsersService } from '../../users.service';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
+import { CanComponentDeactivate, throwIfNull } from '@shared/utils';
+import { EMPTY, Observable, filter, finalize, switchMap } from 'rxjs';
+import { UsersService } from '../../users.service';
+import {
+  AddApplianceDialogComponent,
+  ApplianceDialogData,
+} from '../add-appliance-dialog/add-appliance-dialog.component';
 
 @Component({
   selector: 'laiks-edit-user-appliance',
@@ -61,27 +54,23 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
     { initialValue: [] }
   );
   private confirmation = inject(ConfirmationDialogService);
-  private id$ = new BehaviorSubject('');
-  user$ = this.id$.pipe(
+
+  id = input.required<string>();
+
+  user$ = toObservable(this.id).pipe(
     switchMap((id) => (id ? this.usersService.userById(id) : EMPTY)),
     throwIfNull()
   );
 
   user = toSignal(this.user$);
 
-  @Input() set id(value: string) {
-    this.id$.next(value);
-  }
-
   applianceForm = new FormControl<PowerAppliance>(INITIAL_APPLIANCE, {
     nonNullable: true,
   });
 
-  idx = signal<number | null>(null);
-  @Input({ alias: 'idx', transform: numberAttribute })
-  set idxValue(value: number) {
-    this.idx.set(value);
-  }
+  idx = input<number | null, number | null>(null, {
+    transform: numberAttribute,
+  });
 
   initialValue = computed(() => {
     const idx = this.idx();

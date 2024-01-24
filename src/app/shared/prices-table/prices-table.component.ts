@@ -6,20 +6,20 @@ import {
   Input,
   QueryList,
   ViewChildren,
-  signal,
   booleanAttribute,
+  input,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
+import { PowerApplianceWithHourlyCosts } from '@shared/appliances';
+import { NpPriceWithOffset } from '@shared/np-data';
 import { NumberSignPipe } from '@shared/utils';
-import { PriceRowDirective } from './price-row.directive';
-import { TimeIntervalComponent } from './time-interval/time-interval.component';
 import { AppliancesCostsComponent } from './appliances-costs/appliances-costs.component';
 import { PriceColoredComponent } from './price-colored/price-colored.component';
-import { NpPriceWithOffset } from '@shared/np-data';
-import { PowerApplianceWithHourlyCosts } from '@shared/appliances';
+import { PriceRowDirective } from './price-row.directive';
+import { TimeIntervalComponent } from './time-interval/time-interval.component';
 
 @Component({
   selector: 'laiks-prices-table',
@@ -63,13 +63,7 @@ export class PricesTableComponent implements AfterViewInit {
     return mustShow;
   };
 
-  npPrices = signal<NpPriceWithOffset[]>([]);
-  @Input('npPrices')
-  set npPricesInput(value: NpPriceWithOffset[] | null | undefined) {
-    if (Array.isArray(value)) {
-      this.npPrices.set(value);
-    }
-  }
+  npPrices = input<NpPriceWithOffset[]>([]);
 
   @Input()
   appliances: PowerApplianceWithHourlyCosts[] | null = null;

@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   inject,
+  input,
   signal,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -13,7 +14,7 @@ import { RouterLink } from '@angular/router';
 import { PermissionsService } from '@shared/permissions';
 import { LaiksUser } from '@shared/users';
 import { WithId } from '@shared/utils';
-import { filter, finalize, map, switchMap, tap } from 'rxjs';
+import { filter, finalize, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'laiks-user-edit',
@@ -28,10 +29,7 @@ export class UserEditComponent {
 
   @Input() activeUserId: string | undefined;
 
-  id = signal('');
-  @Input('id') set idSet(value: string) {
-    this.id.set(value);
-  }
+  id = input('');
 
   @Input() user?: WithId<LaiksUser>;
 

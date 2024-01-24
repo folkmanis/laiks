@@ -1,7 +1,6 @@
 <div class="vertical-container">
     <laiks-appliance-name>
-        {{(appliance$ | async)?.name}}
+        {{ appliance().name }}
     </laiks-appliance-name>
-    <laiks-prices-table [npPrices]="costs$ | async" [average]="average$ | async"
-        [stDev]="stDev$ | async"></laiks-prices-table>
+    <laiks-prices-table [npPrices]="costs()" [average]="average()" [stDev]="stDev()" />
 </div>

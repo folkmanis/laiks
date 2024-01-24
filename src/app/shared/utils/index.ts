@@ -9,3 +9,5 @@ export * from './upper-case.directive';
 export * from './with-id';
 export * from './eur-mwh-to-cents-kwh';
 export * from './color-density';
+export * from './average';
+export * from './st-dev';
