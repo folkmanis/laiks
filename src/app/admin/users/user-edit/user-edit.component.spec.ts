@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserEditComponent } from './user-edit.component';
 import { UsersService } from '../../../shared/users/users.service';
 import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -28,6 +29,7 @@ const testUser: WithId<LaiksUser> = {
 describe('UserEditComponent', () => {
   let component: UserEditComponent;
   let fixture: ComponentFixture<UserEditComponent>;
+  let harness: RouterTestingHarness;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -48,13 +50,18 @@ describe('UserEditComponent', () => {
         ConfirmationDialogService,
         testFirebaseProvider,
       ],
-    }).compileComponents();
+    })
+      .compileComponents()
+      .then(async () => {
+        harness = await RouterTestingHarness.create();
+        component = await harness.navigateByUrl('/', UserEditComponent);
+      });
 
-    fixture = TestBed.createComponent(UserEditComponent);
-    component = fixture.componentInstance;
-    component.user = testUser;
-    component.id.set('4ace');
-    fixture.detectChanges();
+    // fixture = TestBed.createComponent(UserEditComponent);
+    // component = fixture.componentInstance;
+    // component.user = testUser;
+    // component.id.set('4ace');
+    // fixture.detectChanges();
   });
 
   it('should create', () => {
