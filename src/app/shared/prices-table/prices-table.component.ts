@@ -4,10 +4,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  QueryList,
-  ViewChildren,
   booleanAttribute,
-  input,
+  computed,
+  input, viewChildren
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -44,8 +43,15 @@ import { TimeIntervalComponent } from './time-interval/time-interval.component';
   ],
 })
 export class PricesTableComponent implements AfterViewInit {
-  @ViewChildren(PriceRowDirective)
-  private priceRows?: QueryList<PriceRowDirective>;
+
+  private priceRows = viewChildren(PriceRowDirective);
+
+  private currentRow = computed(() => {
+    if (!this.showDate()) {
+      return null;
+    }
+    return this.priceRows().find(row => row.current) || null;
+  });
 
   displayedColumns = ['difference', 'time', 'appliances', 'price'];
 
@@ -58,7 +64,7 @@ export class PricesTableComponent implements AfterViewInit {
     price
   ) => {
     const mustShow =
-      this.showDate && this.lastDate?.getDate() !== price.startTime.getDate();
+      this.showDate() && this.lastDate?.getDate() !== price.startTime.getDate();
     this.lastDate = price.startTime;
     return mustShow;
   };
@@ -72,13 +78,11 @@ export class PricesTableComponent implements AfterViewInit {
 
   @Input() stDev: number | null = null;
 
-  @Input({ transform: booleanAttribute }) showDate: boolean = false;
+  showDate = input(false, { transform: booleanAttribute });
 
   ngAfterViewInit(): void {
-    this.showDate &&
-      setTimeout(() => {
-        const current = this.priceRows?.find((row) => row.current);
-        current && current.scrollIn();
-      }, 1000);
+    setTimeout(() => {
+      this.currentRow()?.scrollIn();
+    }, 1000);
   }
 }
