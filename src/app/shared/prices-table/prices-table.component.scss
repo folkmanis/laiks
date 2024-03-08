@@ -32,7 +32,8 @@ mat-header-cell.mat-column-price {
 
 .mat-column-date {
     font-size: 14px;
-    background-color: var(--primary-color);
+    color: var(--on-primary-container-color);
+    background-color: var(--primary-container-color);
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
@@ -42,5 +43,5 @@ mat-header-cell.mat-column-price {
 }
 
 .current {
-    background-color: var(--accent-darker);
+    background-color: var(--tertiary-container-color);
 }

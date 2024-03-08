@@ -8,20 +8,20 @@
 
         <div class="buttons">
             <button mat-raised-button [disabled]="!userControl.valid || busy() || update() == null" (click)="onSave()">
-                SAGLABĀT
+                Saglabāt
             </button>
             <button mat-button color="warn" [disabled]="busy() || update() == null" (click)="onReset()">
-                ATIESTATĪT
+                Atiestatīt
             </button>
         </div>
         <div class="buttons">
             @if (npAllowed()) {
             <a mat-raised-button [routerLink]="['appliances']" [disabled]="busy()">
-                APARĀTI
+                Aparāti
             </a>
             }
-            <a mat-raised-button color="warn" routerLink="delete-user">
-                DZĒST
+            <a mat-raised-button class="tertiary-button" routerLink="delete-user">
+                Dzēst
             </a>
         </div>
     </laiks-user-form>

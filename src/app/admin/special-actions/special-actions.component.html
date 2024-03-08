@@ -1,8 +1,8 @@
 <div class="vertical-container">
     <section>
         <div class="buttons-row">
-            <button mat-raised-button (click)="onScrapeAll(forcedAllCheck.checked)" [disabled]="busy()">
-                NOLASĪT VISUS DATUS
+            <button mat-button (click)="onScrapeAll(forcedAllCheck.checked)" [disabled]="busy()">
+                Nolasīt visus datus
             </button>
             <mat-checkbox #forcedAllCheck [disabled]="busy()">
                 Piespiedu
@@ -28,7 +28,7 @@
         <div class="buttons-row">
             <button mat-raised-button (click)="onScrapeZone(marketZone.value, forcedZoneCheck.checked)"
                 [disabled]="busy() || marketZone.value == null">
-                NOLASĪT REĢIONU
+                Nolasīt reģionu
             </button>
             <mat-checkbox #forcedZoneCheck [disabled]="busy()">
                 Piespiedu
@@ -39,7 +39,7 @@
     <section>
         <div class="buttons-row">
             <button mat-raised-button [disabled]="busy()" (click)="onDeleteInactiveUsers()">
-                DZĒST NEAKTĪVOS LIETOTĀJUS
+                Dzēst neaktīvos lietotājus
             </button>
         </div>
     </section>

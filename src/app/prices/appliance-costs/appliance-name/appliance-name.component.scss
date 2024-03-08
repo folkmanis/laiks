@@ -1,6 +1,7 @@
 :host {
     height: 56px;
-    background-color: var(--primary-color);
+    color: var(--on-primary-container-color);
+    background-color: var(--primary-container-color);
     display: flex;
     align-items: center;
 }

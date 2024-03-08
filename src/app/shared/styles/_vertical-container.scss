@@ -9,7 +9,7 @@
 
 }
 
-@mixin theme($theme) {
+@mixin theme() {
 
     @include appearance();
 

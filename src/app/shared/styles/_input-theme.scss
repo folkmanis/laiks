@@ -1,42 +1,11 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
-
-@mixin color($color-config) {
-
-    $primary-palette: map.get($color-config, 'primary');
-    $warn-palette: map.get($color-config, 'warn');
-
-    input[laiksInput] {
-
-        caret-color: mat.get-color-from-palette($primary-palette, 500);
-        border: none;
-
-        border-bottom: {
-            color: mat.get-color-from-palette(mat.$grey-palette, 500);
-            width: 2px;
-            style: solid;
-        }
-
-        &.ng-invalid {
-            border-bottom-color: mat.get-color-from-palette($warn-palette, 'text');
-            color: mat.get-color-from-palette($warn-palette, 'text');
-        }
-
-
-        &:focus {
-            border-bottom-color: mat.get-color-from-palette($primary-palette, 'lighter');
-        }
-    }
-
-}
+@use '@angular/material-experimental' as matx;
 
 @mixin appearance() {
 
     input[laiksInput] {
-        color: inherit;
         background-color: inherit;
-        font-size: 16px;
-        font-weight: 600;
 
         &:focus {
             outline: none;
@@ -50,14 +19,51 @@
 
 }
 
-@mixin theme($theme) {
+@mixin md3-typography($theme) {
+
+    input[laiksInput] {
+        font-size: mat.get-theme-typography($theme, body-large, font-size); //  16px
+        font-weight: mat.get-theme-typography($theme, body-large, font-weight); // 600
+    }
+
+}
+
+@mixin md3-color($theme) {
+
+    input[laiksInput] {
+
+        color: mat.get-theme-color($theme, on-surface);
+
+        caret-color: mat.get-theme-color($theme, primary);
+        border: none;
+
+        border-bottom: {
+            color: mat.get-theme-color($theme, on-surface-variant);
+            width: 2px;
+            style: solid;
+        }
+
+        &.ng-invalid {
+            border-bottom-color: mat.get-theme-color($theme, error);
+            color: mat.get-theme-color($theme, on-surface);
+        }
+
+
+        &:focus {
+            border-bottom-color: mat.get-theme-color($theme, primary);
+        }
+    }
+
+}
+
+
+@mixin md3-theme($theme) {
 
     @include appearance();
 
-    $color-config: mat.get-color-config($theme);
-
-    @if $color-config !=null {
-        @include color($color-config);
+    @if $theme !=null {
+        @include md3-typography($theme);
+        @include md3-color($theme);
     }
 
 

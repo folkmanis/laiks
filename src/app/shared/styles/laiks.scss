@@ -1,31 +1,37 @@
 @use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
 @use './variables';
 @use './input-theme' as laiks-input;
-@use './hour-details-theme' as hour-details;
 @use './vertical-container';
 
 @include mat.core();
 
-// Define a theme.
-$primary: mat.define-palette(mat.$pink-palette, 700, 500, 900);
-$accent: mat.define-palette(mat.$blue-grey-palette, A200, A100, A400);
-
-$warn: mat.define-palette(mat.$red-palette);
-
-$theme: mat.define-dark-theme((color: (primary: $primary,
-                accent: $accent,
-                warn: $warn ),
-            typography: mat.define-typography-config(),
-            density: 0,
+$dark-theme: matx.define-theme((color: (theme-type: dark,
+                primary: matx.$m3-rose-palette,
+                tertiary: matx.$m3-cyan-palette,
+            ),
+            density: (scale: -1),
         ));
 
-@include mat.all-component-themes($theme);
-@include mat.typography-hierarchy($theme);
+html {
 
-@include variables.theme($theme);
 
-@include laiks-input.theme($theme);
+    @include mat.all-component-themes($dark-theme);
+    @include mat.typography-hierarchy($dark-theme, $back-compat: true);
+    // @include matx.color-variants-back-compat($dark-theme);
 
-@include hour-details.theme($theme);
+    @include laiks-input.md3-theme($dark-theme);
+}
 
-@include vertical-container.theme($theme);
+body {
+    background-color: mat.get-theme-color($dark-theme, surface);
+    color: mat.get-theme-color($dark-theme, on-surface);
+}
+
+.tertiary-button {
+    @include mat.button-color($dark-theme, $color-variant: tertiary);
+}
+
+@include variables.md3-theme($dark-theme);
+
+@include vertical-container.theme();
