@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,12 +8,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
-import { WithId } from '@shared/utils';
-import { SelectApplianceDirective } from './select-appliance.directive';
 import {
   LocalizedApplianceNamePipe,
   PresetPowerAppliance,
 } from '@shared/appliances';
+import { WithId } from '@shared/utils';
+import { SelectApplianceDirective } from './select-appliance.directive';
 
 export interface ApplianceDialogData {
   appliances: Signal<WithId<PresetPowerAppliance>[]>;
@@ -29,7 +28,6 @@ export interface ApplianceDialogData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatDialogModule,
-    NgFor,
     MatButtonModule,
     MatDividerModule,
     MatListModule,
