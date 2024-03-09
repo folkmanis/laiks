@@ -1,5 +1,5 @@
 <div>
-    <button mat-fab color="primary" (click)="onButtonPress(1)" id="add" aria-label="Plus button">
+    <button mat-fab (click)="onButtonPress(1)" id="add" aria-label="Plus button">
         <mat-icon>
             add
         </mat-icon>
@@ -7,11 +7,11 @@
 </div>
 
 <div class="number" aria-label="Selected value">
-    {{ value | numberSign }}
+    {{ value() | numberSign }}
 </div>
 
 <div>
-    <button mat-fab color="primary" (click)="onButtonPress(-1)" id="remove" aria-label="Minus button">
+    <button mat-fab (click)="onButtonPress(-1)" id="remove" aria-label="Minus button">
         <mat-icon>
             remove
         </mat-icon>

@@ -5,13 +5,17 @@
             <button mat-raised-button
                 [disabled]="busy() || applianceForm.valid === false || applianceForm.pristine === true"
                 (click)="onSave()">
-                {{ idx() ? 'SAGLABĀT' : 'IZVEIDOT' }}
+                @if(idx()) {
+                Saglabāt
+                } @else {
+                Izveidot
+                }
             </button>
-            <a mat-button [disabled]="busy()" class="cancel" routerLink="..">
-                ATCELT
+            <a mat-button [disabled]="busy()" class="tertiary-button" routerLink="..">
+                Atcelt
             </a>
             <button mat-button (click)="onCopyFrom()">
-                NO GATAVAJIEM
+                No gatavajiem
             </button>
         </div>
 

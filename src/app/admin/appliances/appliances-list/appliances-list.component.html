@@ -2,31 +2,35 @@
 
     <ng-container matColumnDef="name">
         <mat-cell *matCellDef="let appliance">
-            <a mat-button [routerLink]="[appliance.id]">
+            <a mat-button [routerLink]="[appliance.id]" [disabled]="busy()">
                 {{ appliance.name }}
             </a>
         </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="enabled">
+    <ng-container matColumnDef="buttons">
         <mat-cell *matCellDef="let appliance">
-            <mat-checkbox [checked]="appliance.enabled" (change)="onEnable($event, appliance.id)"></mat-checkbox>
+            <mat-checkbox [checked]="appliance.enabled" (change)="onEnable($event, appliance.id)" [disabled]="busy()">
+            </mat-checkbox>
+
+            <a mat-icon-button [routerLink]="[appliance.id,'localized-names']" [disabled]="busy()">
+                <mat-icon>
+                    translate
+                </mat-icon>
+            </a>
+
+            <button mat-icon-button (click)="onDelete(appliance.id)" [disabled]="busy()">
+                <mat-icon>
+                    delete
+                </mat-icon>
+            </button>
+
         </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="color">
         <mat-cell *matCellDef="let appliance">
             <laiks-color-tag [color]="appliance.color"></laiks-color-tag>
-        </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="localized-names">
-        <mat-cell *matCellDef="let appliance">
-            <a mat-icon-button [routerLink]="[appliance.id,'localized-names']">
-                <mat-icon>
-                    translate
-                </mat-icon>
-            </a>
         </mat-cell>
     </ng-container>
 

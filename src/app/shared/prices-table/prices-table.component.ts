@@ -1,4 +1,4 @@
-import { DatePipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -28,12 +28,10 @@ import { TimeIntervalComponent } from './time-interval/time-interval.component';
   standalone: true,
   imports: [
     MatTableModule,
-    NgIf,
     MatButtonModule,
     MatIconModule,
     PriceRowDirective,
     MatListModule,
-    NgFor,
     DecimalPipe,
     DatePipe,
     NumberSignPipe,

@@ -1,20 +1,21 @@
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
-import { MarketZonesService, NpDataService } from '@shared/np-data';
-import { catchError, finalize, map, of } from 'rxjs';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MarketZonesService, NpDataService } from '@shared/np-data';
 import { UsersService } from '@shared/users';
+import { catchError, finalize, of } from 'rxjs';
 
 @Component({
   selector: 'laiks-special-actions',
@@ -25,7 +26,6 @@ import { UsersService } from '@shared/users';
     MatProgressSpinnerModule,
     MatDividerModule,
     MatCheckboxModule,
-    AsyncPipe,
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
@@ -38,7 +38,7 @@ export class SpecialActionsComponent {
   private npDataService = inject(NpDataService);
   private usersService = inject(UsersService);
 
-  zones$ = inject(MarketZonesService).getZonesFlow();
+  zones = toSignal(inject(MarketZonesService).getZonesFlow());
 
   result = signal<Record<string, any> | null>(null);
   busy = signal(false);

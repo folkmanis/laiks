@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,17 +9,18 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { ConfirmationDialogService } from '@shared/confirmation-dialog';
+import { LocalesService } from '@shared/locales';
+import { MarketZonesService } from '@shared/np-data';
+import { CanComponentDeactivate } from '@shared/utils';
+import { navigateRelative } from '@shared/utils/navigate-relative';
 import { reduce } from 'lodash-es';
 import { Observable, finalize } from 'rxjs';
-import { UserFormComponent, EMPTY_USER } from './user-form/user-form.component';
-import { UsersService } from '../users.service';
-import { MarketZonesService } from '@shared/np-data';
-import { LoginService } from '../login.service';
-import { LocalesService } from '@shared/locales';
-import { ConfirmationDialogService } from '@shared/confirmation-dialog';
-import { CanComponentDeactivate } from '@shared/utils';
 import { LaiksUser } from '../laiks-user';
+import { LoginService } from '../login.service';
+import { UsersService } from '../users.service';
+import { EMPTY_USER, UserFormComponent } from './user-form/user-form.component';
 
 @Component({
   selector: 'laiks-user-settings',
@@ -28,8 +28,6 @@ import { LaiksUser } from '../laiks-user';
   imports: [
     MatButtonModule,
     RouterLink,
-    NgIf,
-    NgFor,
     FormsModule,
     ReactiveFormsModule,
     UserFormComponent,
@@ -39,8 +37,7 @@ import { LaiksUser } from '../laiks-user';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserSettingsComponent implements CanComponentDeactivate {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private navigate = navigateRelative();
   private usersService = inject(UsersService);
   private confirmation = inject(ConfirmationDialogService);
   private initialValue?: LaiksUser;
@@ -88,7 +85,7 @@ export class UserSettingsComponent implements CanComponentDeactivate {
       .pipe(finalize(() => this.busy.set(false)))
       .subscribe(() => {
         this.userControl.markAsPristine();
-        this.router.navigate(['..'], { relativeTo: this.route });
+        this.navigate(['..']);
       });
   }
 

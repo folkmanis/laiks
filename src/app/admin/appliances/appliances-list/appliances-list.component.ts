@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatCheckboxChange,
@@ -12,7 +12,8 @@ import {
   SystemAppliancesService,
   ColorTagComponent,
 } from '@shared/appliances';
-import { Observable } from 'rxjs';
+import { ConfirmationDialogService } from '@shared/confirmation-dialog';
+import { EMPTY, Observable, finalize, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'laiks-appliances-list',
@@ -30,16 +31,32 @@ import { Observable } from 'rxjs';
   ],
 })
 export class AppliancesListComponent {
-  displayColumns = ['color', 'name', 'enabled', 'localized-names'];
+  displayColumns = ['color', 'name', 'buttons'];
 
   private appliancesService = inject(SystemAppliancesService);
+  private confirmation = inject(ConfirmationDialogService);
 
   appliances$: Observable<PowerAppliance[]> =
     this.appliancesService.getPowerAppliances();
 
+  busy = signal(false);
+
   onEnable(event: MatCheckboxChange, id: string) {
+    this.busy.set(true);
     this.appliancesService
-      .updateAppliance(id, { enabled: event.checked })
+      .updateAppliance(id, { enabled: event.checked }).pipe(
+        finalize(() => this.busy.set(false)),
+      )
       .subscribe();
   }
+
+  onDelete(id: string) {
+    this.busy.set(true);
+    this.confirmation.delete().pipe(
+      mergeMap(response => response ? this.appliancesService.deleteAppliance(id) : EMPTY),
+      finalize(() => this.busy.set(false)),
+    )
+      .subscribe();
+  }
+
 }

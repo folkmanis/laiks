@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {
-  ReactiveFormsModule,
-  Validators,
-  NonNullableFormBuilder,
-  FormControl,
-  FormGroup,
-  ValidatorFn,
-  AbstractControl,
-} from '@angular/forms';
-import { LoginService } from '@shared/users';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { LoginService } from '@shared/users';
 
 interface NewUser {
   email: string;
@@ -46,7 +45,6 @@ const passwordsMatchValidator: ValidatorFn = (
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    NgIf,
   ],
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],

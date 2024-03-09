@@ -1,4 +1,3 @@
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,10 +7,9 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NpDataService } from '@shared/np-data';
 import { LocalSettingsService } from '@shared/settings';
-import { LoginService } from '@shared/users';
+import { LoginService, isNpAllowed } from '@shared/users';
 import { TimeObserverService } from '@shared/utils';
 import { addHours } from 'date-fns';
-import { map } from 'rxjs';
 import { AppliancesSelectorComponent } from './appliances-selector/appliances-selector.component';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { SelectorComponent } from './selector/selector.component';
@@ -23,23 +21,21 @@ import { SelectorComponent } from './selector/selector.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NgIf,
     SelectorComponent,
     ClockDisplayComponent,
-    AsyncPipe,
     AppliancesSelectorComponent,
   ],
 })
 export class MainComponent {
   private settingsService = inject(LocalSettingsService);
 
-  private loginService = inject(LoginService);
+  private laiksUser = toSignal(inject(LoginService).laiksUser());
 
-  npAllowed = toSignal(this.loginService.isNpAllowed());
+  appliances = computed(() => {
+    return this.laiksUser()?.appliances || [];
+  });
 
-  appliances$ = this.loginService
-    .laiksUser()
-    .pipe(map((user) => user?.appliances));
+  npAllowed = isNpAllowed();
 
   offset = this.settingsService.offset;
   private currentTime = toSignal(inject(TimeObserverService).minuteObserver(), {

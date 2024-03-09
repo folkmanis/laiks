@@ -1,17 +1,12 @@
+<section>
+    <mat-form-field class="full-width">
+        <mat-label> Kods </mat-label>
+        <input matInput [(ngModel)]="id" name="idControl" #idControl="ngModel" laiksUpperCase required
+            [disabled]="initialValue() != undefined">
+    </mat-form-field>
+</section>
 <div [formGroup]="form">
 
-    @if (id) {
-    <h2>
-        {{ id }}
-    </h2>
-    } @else {
-    <section>
-        <mat-form-field class="full-width">
-            <mat-label> Kods </mat-label>
-            <input matInput [formControl]="idControl" laiksUpperCase>
-        </mat-form-field>
-    </section>
-    }
 
     <section>
 
@@ -73,11 +68,16 @@
 <mat-divider></mat-divider>
 
 <section>
-    <button mat-raised-button (click)="onSave()" [disabled]="isInvalid() || this.form.pristine">
-        {{ id ? 'Saglabāt' : 'Izveidot' }}
+    <button mat-raised-button (click)="onSave()"
+        [disabled]="form.pristine || form.valid == false || (initialValue() == undefined && idControl.valid == false)">
+        @if (initialValue()) {
+        Saglabāt
+        }@else {
+        Izveidot
+        }
     </button>
 
-    <a mat-button routerLink="..">
-        ATCELT
+    <a mat-button class="tertiary-button" routerLink="..">
+        Atcelt
     </a>
 </section>

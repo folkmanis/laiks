@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,7 +20,7 @@ import { LaiksUser } from '../shared/users/laiks-user';
   styleUrls: ['./user-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NgIf, MatButtonModule, MatMenuModule, MatIconModule, RouterLink],
+  imports: [MatButtonModule, MatMenuModule, MatIconModule, RouterLink],
 })
 export class UserMenuComponent {
   @Input() user?: User | null = null;

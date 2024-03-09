@@ -1,9 +1,5 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
+  ChangeDetectionStrategy, Component, model
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,14 +14,10 @@ import { NumberSignPipe } from '@shared/utils';
   imports: [MatButtonModule, MatIconModule, NumberSignPipe],
 })
 export class SelectorComponent {
-  @Input()
-  value: number = 0;
 
-  @Output()
-  valueChange = new EventEmitter<number>();
+  value = model(0);
 
   onButtonPress(val: number): void {
-    this.value += val;
-    this.valueChange.next(this.value);
+    this.value.set(this.value() + val);
   }
 }

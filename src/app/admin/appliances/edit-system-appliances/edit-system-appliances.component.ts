@@ -1,14 +1,15 @@
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  effect,
   inject,
-  signal,
+  input,
+  signal
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import {
   ApplianceFormComponent,
   INITIAL_APPLIANCE,
@@ -17,6 +18,7 @@ import {
 } from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { CanComponentDeactivate } from '@shared/utils';
+import { navigateRelative } from '@shared/utils/navigate-relative';
 import { Observable, finalize, map } from 'rxjs';
 
 @Component({
@@ -24,11 +26,9 @@ import { Observable, finalize, map } from 'rxjs';
   standalone: true,
   imports: [
     ApplianceFormComponent,
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    AsyncPipe,
     RouterLink,
   ],
   templateUrl: './edit-system-appliances.component.html',
@@ -36,22 +36,13 @@ import { Observable, finalize, map } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditSystemAppliancesComponent implements CanComponentDeactivate {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
   private appliancesService = inject(SystemAppliancesService);
   private confirmation = inject(ConfirmationDialogService);
-  private _initialValue = INITIAL_APPLIANCE;
+  private navigate = navigateRelative();
 
-  @Input() id: string | null = null;
+  id = input<string | null>(null);
 
-  @Input({ alias: 'appliance' })
-  set initialValue(value: PowerAppliance) {
-    this._initialValue = value || INITIAL_APPLIANCE;
-    this.applianceForm.reset(this.initialValue);
-  }
-  get initialValue() {
-    return this._initialValue;
-  }
+  initialValue = input.required<PowerAppliance>({ alias: 'appliance' });
 
   busy = signal(false);
 
@@ -59,19 +50,25 @@ export class EditSystemAppliancesComponent implements CanComponentDeactivate {
     nonNullable: true,
   });
 
-  existingAppliances$ = this.appliancesService.getPowerAppliances();
+  existingAppliances = toSignal(this.appliancesService.getPowerAppliances(), { initialValue: [] });
+
+  constructor() {
+    effect(() => {
+      this.applianceForm.reset(this.initialValue());
+    }, { allowSignalWrites: true });
+  }
 
   canDeactivate = () =>
     this.applianceForm.pristine || this.confirmation.cancelEdit();
 
   onSave() {
-    const id = this.id;
+    const id = this.id();
 
     (id ? this.update(id) : this.create(this.applianceForm.value))
       .pipe(finalize(() => this.busy.set(false)))
       .subscribe(() => {
         this.applianceForm.markAsPristine();
-        this.router.navigate(['..'], { relativeTo: this.route });
+        this.navigate(['..']);
       });
   }
 

@@ -1,6 +1,6 @@
 <div class="container">
 
-    @for (zone of zones$ | async; track zone.id) {
+    @for (zone of zones(); track zone.id) {
     <div class="zone-item">
         <div class="name">
             <a mat-button [routerLink]="zone.id">

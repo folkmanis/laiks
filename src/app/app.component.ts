@@ -1,14 +1,14 @@
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MarketZonesService } from '@shared/np-data';
-import { LoginService } from '@shared/users';
+import { LoginService, isAdmin, isNpAllowed } from '@shared/users';
 import { map, of, switchMap } from 'rxjs';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +21,6 @@ import { UserMenuComponent } from './user-menu/user-menu.component';
     MatIconModule,
     MatToolbarModule,
     MatButtonModule,
-    NgIf,
-    AsyncPipe,
     UserMenuComponent,
     RouterLink,
     CdkScrollableModule,
@@ -33,24 +31,26 @@ export class AppComponent {
   private router = inject(Router);
   private zonesService = inject(MarketZonesService);
 
-  laiksUser$ = this.loginService.laiksUser();
-
-  user$ = this.loginService.getUser();
-
-  isAdmin$ = this.loginService.isAdmin();
-
-  isNpAllowed$ = this.loginService.isNpAllowed();
-
-  marketZone$ = this.laiksUser$.pipe(
+  private marketZone$ = this.loginService.laiksUser().pipe(
     map((user) => user?.marketZoneId),
     switchMap((id) =>
       id
         ? this.zonesService
-            .getZoneFlow(id)
-            .pipe(map((zone) => ({ ...zone, id })))
+          .getZoneFlow(id)
+          .pipe(map((zone) => ({ ...zone, id })))
         : of(null)
     )
   );
+
+  marketZone = toSignal(this.marketZone$);
+
+  laiksUser = toSignal(this.loginService.laiksUser(), { initialValue: null });
+
+  user = toSignal(this.loginService.getUser(), { initialValue: null });
+
+  isAdmin = isAdmin();
+
+  isNpAllowed = isNpAllowed();
 
   onLogout() {
     this.loginService.logout();

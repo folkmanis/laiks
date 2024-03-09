@@ -1,10 +1,10 @@
-import { AsyncPipe, NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -18,13 +18,13 @@ import { EMPTY, finalize, mergeMap } from 'rxjs';
   templateUrl: './market-zones-list.component.html',
   styleUrls: ['./market-zones-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, NgFor, AsyncPipe, MatButtonModule, MatIconModule],
+  imports: [RouterLink, MatButtonModule, MatIconModule],
 })
 export class MarketZonesListComponent {
   private readonly zonesService = inject(MarketZonesService);
   private confirmation = inject(ConfirmationDialogService);
 
-  zones$ = this.zonesService.getZonesFlow();
+  zones = toSignal(this.zonesService.getZonesFlow(), { initialValue: [] });
 
   busy = signal(false);
 

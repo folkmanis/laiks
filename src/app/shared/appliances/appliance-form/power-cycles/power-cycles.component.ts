@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -60,7 +60,6 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
     FormsModule,
     NullToZeroDirective,
     ReactiveFormsModule,
-    NgIf,
     MatButtonModule,
     MatMenuModule,
     AsyncPipe,
@@ -69,8 +68,7 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
   ],
 })
 export class PowerCyclesComponent
-  implements OnInit, OnDestroy, ControlValueAccessor, Validator
-{
+  implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   private breakpointObserver = inject(BreakpointObserver);
 
   @ViewChild(MatTable) private table?: MatTable<PowerCycleForm>;
@@ -86,7 +84,7 @@ export class PowerCyclesComponent
       shareReplay(1)
     );
 
-  private touchFn = () => {};
+  private touchFn = () => { };
 
   private subscription: Subscription | undefined;
 
@@ -136,7 +134,7 @@ export class PowerCyclesComponent
     return { invalidControls: errors };
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

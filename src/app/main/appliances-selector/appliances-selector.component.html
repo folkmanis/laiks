@@ -1,8 +1,9 @@
 <ul>
-    @for (appliance of firstAppliances; track idx; let idx = $index) {
+    @for (appliance of firstAppliances(); track idx; let idx = $index) {
     <li>
-        <a mat-raised-button [laiksSelectorColor]="appliance.color"
-            [routerLink]="['/prices/appliance', idx]">{{appliance.name}}</a>
+        <a mat-raised-button [laiksSelectorColor]="appliance.color" [routerLink]="['/prices/appliance', idx]">
+            {{appliance.name}}
+        </a>
     </li>
     }
 </ul>

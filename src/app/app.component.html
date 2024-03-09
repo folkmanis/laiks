@@ -8,19 +8,19 @@
         </a>
     </span>
 
-    @if (isNpAllowed$ | async) {
+    @if (isNpAllowed()) {
     <span>
         <a mat-button routerLink="/prices">
-            CENAS
-            @if (marketZone$ | async; as zone) {
+            Cenas
+            @if (marketZone(); as zone) {
             {{zone.id}} ({{zone.description}})
             }
         </a>
     </span>
     }
 
-    <laiks-user-menu [user]="user$ | async" (logout)="onLogout()" [laiksUser]="laiksUser$ | async"
-        [isAdmin]="isAdmin$ | async" [isNpAllowed]="isNpAllowed$ | async">
+    <laiks-user-menu [user]="user()" (logout)="onLogout()" [laiksUser]="laiksUser()" [isAdmin]="isAdmin()"
+        [isNpAllowed]="isNpAllowed()">
     </laiks-user-menu>
 
 </mat-toolbar>

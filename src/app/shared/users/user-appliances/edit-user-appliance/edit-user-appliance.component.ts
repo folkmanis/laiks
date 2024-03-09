@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -38,7 +37,6 @@ import {
   imports: [
     ReactiveFormsModule,
     RouterLink,
-    NgIf,
     MatButtonModule,
     ApplianceFormComponent,
   ],
@@ -82,7 +80,7 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
     }
   });
 
-  existingAppliances = computed(() => this.user()?.appliances);
+  existingAppliances = computed(() => this.user()?.appliances || []);
 
   busy = signal(false);
 

@@ -16,7 +16,7 @@ describe('SelectorComponent', () => {
 
     fixture = TestBed.createComponent(SelectorComponent);
     component = fixture.componentInstance;
-    component.value = 2;
+    component.value.set(2);
     fixture.detectChanges();
   });
 

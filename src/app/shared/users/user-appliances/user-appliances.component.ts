@@ -5,21 +5,22 @@ import {
   CdkDropList,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   inject,
-  signal,
+  input,
+  signal
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { ColorTagComponent, PowerAppliance } from '@shared/appliances';
 import { WithId, throwIfNull } from '@shared/utils';
-import { BehaviorSubject, EMPTY, finalize, switchMap } from 'rxjs';
+import { finalize, switchMap } from 'rxjs';
 import { LaiksUser } from '../laiks-user';
 import { UsersService } from '../users.service';
 
@@ -31,8 +32,6 @@ import { UsersService } from '../users.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,
-    NgFor,
-    NgIf,
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
@@ -46,15 +45,12 @@ import { UsersService } from '../users.service';
 export class UserAppliancesComponent {
   private usersService = inject(UsersService);
 
-  private id$ = new BehaviorSubject('');
-  user$ = this.id$.pipe(
-    switchMap((id) => (id ? this.usersService.userById(id) : EMPTY)),
+  id = input.required<string>();
+
+  user$ = toObservable(this.id).pipe(
+    switchMap((id) => this.usersService.userById(id)),
     throwIfNull()
   );
-
-  @Input() set id(value: string) {
-    this.id$.next(value);
-  }
 
   trackByFn = (appliance: PowerAppliance) => appliance.name;
 

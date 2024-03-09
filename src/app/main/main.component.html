@@ -1,7 +1,7 @@
 <div class="container">
 
     @if (npAllowed()) {
-    <laiks-appliances-selector [appliances]="appliances$ | async" />
+    <laiks-appliances-selector [appliances]="appliances()" />
     }
 
     <laiks-selector [value]="offset()" (valueChange)="onSetOffset($event)" />

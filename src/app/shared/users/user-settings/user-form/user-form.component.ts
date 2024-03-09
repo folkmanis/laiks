@@ -1,4 +1,3 @@
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,10 +23,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { Locale } from '@shared/locales';
+import { MarketZone } from '@shared/np-data';
 import { WithId } from '@shared/utils';
 import { LaiksUser } from '../../laiks-user';
-import { MarketZone } from '@shared/np-data';
-import { Locale } from '@shared/locales';
 
 type EditableLaiksUserFields = Pick<
   LaiksUser,
@@ -52,8 +51,6 @@ export const EMPTY_USER: EditableLaiksUserFields = {
   selector: 'laiks-user-form',
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -94,7 +91,7 @@ export class UserFormComponent implements ControlValueAccessor, Validator {
     this.userForm.valueChanges.subscribe(fn);
   }
 
-  registerOnTouched(): void {}
+  registerOnTouched(): void { }
 
   setDisabledState(isDisabled: boolean): void {
     if (isDisabled) {

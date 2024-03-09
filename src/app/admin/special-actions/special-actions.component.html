@@ -17,7 +17,7 @@
             <mat-form-field>
                 <mat-label>Tirgus reģions</mat-label>
                 <mat-select #marketZone>
-                    @for (zone of zones$ | async; track $index) {
+                    @for (zone of zones(); track $index) {
                     <mat-option [value]="zone.id">
                         {{ zone.id }} - {{ zone.description }}
                     </mat-option>

@@ -1,11 +1,11 @@
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   InjectionToken,
-  Input,
   computed,
-  signal,
+  effect,
+  input,
+  signal
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -59,7 +59,6 @@ export const APPLIANCES_BY_NAME = new InjectionToken<AppliancesByNameFn>(
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    NgIf,
     MatRadioModule,
     MatCheckboxModule,
     PowerCyclesComponent,
@@ -85,14 +84,7 @@ export const APPLIANCES_BY_NAME = new InjectionToken<AppliancesByNameFn>(
 export class ApplianceFormComponent implements ControlValueAccessor, Validator {
   private initialValue = INITIAL_APPLIANCE;
 
-  private _existingAppliances: PowerAppliance[] = [];
-  @Input() set existingAppliances(value: PowerAppliance[] | undefined | null) {
-    this._existingAppliances = Array.isArray(value) ? value : [];
-    this.onValidatorChange();
-  }
-  get existingAppliances(): PowerAppliance[] {
-    return this._existingAppliances;
-  }
+  existingAppliances = input<PowerAppliance[]>([]);
 
   applianceForm: FormGroup<ApplianceFormType> =
     new FormBuilder().nonNullable.group({
@@ -112,8 +104,8 @@ export class ApplianceFormComponent implements ControlValueAccessor, Validator {
 
   busy = signal(false);
 
-  private onTouchFn: () => void = () => {};
-  private onValidatorChange: () => void = () => {};
+  private onTouchFn: () => void = () => { };
+  private onValidatorChange: () => void = () => { };
 
   formStatus = toSignal(this.applianceForm.statusChanges, {
     initialValue: 'PENDING',
@@ -122,6 +114,11 @@ export class ApplianceFormComponent implements ControlValueAccessor, Validator {
     () => this.busy() || this.formStatus() !== 'VALID'
   );
 
+  constructor() {
+    effect(() => {
+      this.existingAppliances() && this.onValidatorChange();
+    });
+  }
   writeValue(obj: PowerAppliance): void {
     this.applianceForm.reset(obj, { emitEvent: false });
     this.initialValue = obj;
@@ -160,7 +157,7 @@ export class ApplianceFormComponent implements ControlValueAccessor, Validator {
       const current = control.value as string;
       if (
         current === this.initialValue.name ||
-        !this.existingAppliances.some(
+        !this.existingAppliances().some(
           (ea) => ea.name.toLocaleUpperCase() === current.toLocaleUpperCase()
         )
       ) {

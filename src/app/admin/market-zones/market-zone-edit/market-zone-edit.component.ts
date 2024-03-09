@@ -1,10 +1,11 @@
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  effect,
   inject,
-  signal,
+  input,
+  model,
+  signal
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -16,21 +17,22 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { LocalesService } from '@shared/locales';
+import { navigateRelative } from '@shared/utils/navigate-relative';
 import { EMPTY, Observable, finalize, mergeMap, of } from 'rxjs';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
-import { LocalesService } from '@shared/locales';
 import { MarketZone } from 'src/app/shared/np-data/market-zone';
 import { MarketZonesService } from 'src/app/shared/np-data/market-zones.service';
 import { CanComponentDeactivate } from 'src/app/shared/utils/can-deactivate.guard';
 import { UpperCaseDirective } from 'src/app/shared/utils/upper-case.directive';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DbNameConfirmationComponent } from './db-name-confirmation/db-name-confirmation.component';
 
 type MarketZoneGroup = FormGroup<{
@@ -59,11 +61,10 @@ type MarketZoneGroup = FormGroup<{
   ],
 })
 export class MarketZoneEditComponent implements CanComponentDeactivate {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
   private marketZoneService = inject(MarketZonesService);
   private confirmation = inject(ConfirmationDialogService);
   private dialog = inject(MatDialog);
+  private navigate = navigateRelative();
 
   form: MarketZoneGroup = inject(FormBuilder).nonNullable.group({
     description: ['', Validators.required],
@@ -74,69 +75,64 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
     enabled: [false],
   });
 
-  idControl = new FormControl<string>('', {
-    validators: [Validators.required],
-    nonNullable: true,
-  });
+  id = model<string>();
 
-  @Input() id?: string;
-
-  private _initialValue?: MarketZone;
-  @Input() set initialValue(value: MarketZone | undefined) {
-    this.form.reset(value, { emitEvent: false });
-    this._initialValue = value;
-  }
-  get initialValue() {
-    return this._initialValue;
-  }
+  initialValue = input<MarketZone>();
 
   locales = toSignal(inject(LocalesService).getLocales(), { initialValue: [] });
 
   busy = signal(false);
 
+  constructor() {
+    effect(() => {
+      this.form.reset(this.initialValue());
+    }, { allowSignalWrites: true });
+  }
+
   canDeactivate = () =>
     this.form.pristine ? of(true) : this.confirmation.cancelEdit();
 
   onSave() {
-    this.busy.set(true);
-    const id = this.id;
+
+    const id = this.id();
+
     if (id) {
-      this.checkDbNameChange()
-        .pipe(
-          mergeMap((confirmation) =>
-            confirmation
-              ? this.marketZoneService.updateZone(id, this.form.value)
-              : EMPTY
-          ),
-          finalize(() => {
-            this.busy.set(false);
-          })
-        )
+
+      this.busy.set(true);
+
+      (this.initialValue() ? this.updateZone(id) : this.createZone(id))
+        .pipe(finalize(() => this.busy.set(false)))
         .subscribe(() => this.returnToList());
-    } else {
-      this.marketZoneService
-        .setZone(this.idControl.value, this.form.getRawValue())
-        .pipe(
-          finalize(() => {
-            this.busy.set(false);
-          })
-        )
-        .subscribe(() => this.returnToList());
+
     }
+
   }
 
-  isInvalid(): boolean {
-    return !this.form.valid || !(this.id || this.idControl.valid);
+  private updateZone(id: string): Observable<any> {
+    return this.confirmDbNameChange()
+      .pipe(
+        mergeMap((confirmation) =>
+          confirmation
+            ? this.marketZoneService.updateZone(id, this.form.value)
+            : EMPTY
+        ),
+      );
+  }
+
+  private createZone(id: string): Observable<any> {
+    return this.marketZoneService
+      .setZone(id, this.form.getRawValue());
   }
 
   private returnToList() {
     this.form.markAsPristine();
-    this.router.navigate(['..'], { relativeTo: this.route });
+    this.navigate(['..']);
   }
 
-  private checkDbNameChange(): Observable<boolean> {
+  private confirmDbNameChange(): Observable<boolean> {
     const newDbName = this.form.getRawValue().dbName;
-    if (!!this.id && newDbName !== this.initialValue?.dbName) {
+    const initialValue = this.initialValue();
+    if (initialValue && newDbName !== initialValue.dbName) {
       return this.dialog.open(DbNameConfirmationComponent).afterClosed();
     } else {
       return of(true);
