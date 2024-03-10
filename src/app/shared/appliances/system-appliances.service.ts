@@ -25,7 +25,7 @@ export class SystemAppliancesService {
   private firestore = inject(Firestore);
 
   getPowerAppliances(
-    options: { enabledOnly?: boolean } = {}
+    options: { enabledOnly?: boolean; } = {}
   ): Observable<WithId<PresetPowerAppliance>[]> {
     const collRef = collection(
       this.firestore,
@@ -65,29 +65,30 @@ export class SystemAppliancesService {
   updateAppliance(
     id: string,
     update: Partial<PresetPowerAppliance>
-  ): Observable<void> {
+  ): Promise<void> {
     const docRef = doc(
       this.firestore,
       APPLIANCES_COLL,
       id
     ) as DocumentReference<PresetPowerAppliance>;
-    return from(updateDoc(docRef, update));
+    return updateDoc(docRef, update);
   }
 
-  createAppliance(value: PresetPowerAppliance): Observable<string> {
+  async createAppliance(value: PresetPowerAppliance): Promise<string> {
     const collRef = collection(
       this.firestore,
       APPLIANCES_COLL
     ) as CollectionReference<PresetPowerAppliance>;
-    return from(addDoc(collRef, value)).pipe(map((doc) => doc.id));
+    const result = await addDoc(collRef, value);
+    return result.id;
   }
 
-  deleteAppliance(id: string): Observable<void> {
+  deleteAppliance(id: string): Promise<void> {
     const docRef = doc(
       this.firestore,
       APPLIANCES_COLL,
       id
     ) as DocumentReference<PresetPowerAppliance>;
-    return from(deleteDoc(docRef));
+    return deleteDoc(docRef);
   }
 }

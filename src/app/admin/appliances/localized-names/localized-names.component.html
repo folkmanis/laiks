@@ -1,6 +1,6 @@
 <div class="vertical-container">
     <h1>
-        {{ appliance?.name }}
+        {{ appliance()?.name }}
     </h1>
 
     <form [formGroup]="namesForm" (submit)="onSave()">
@@ -23,16 +23,22 @@
 
         </mat-table>
 
-        <mat-divider></mat-divider>
+        <mat-divider />
 
         <div class="buttons">
             <button mat-raised-button type="submit" [disabled]="busy() || !namesForm.valid || namesForm.pristine">
-                SAGLABĀT
+                Saglabāt
             </button>
-            <a mat-button color="warn" routerLink="../.." [disabled]="busy()">
-                ATCELT
+            <a mat-button class="tertiary-button" routerLink="../.." [disabled]="busy()">
+                Atcelt
             </a>
         </div>
     </form>
 
 </div>
+
+<ng-template #errorMessageTemplate>
+    <div>
+        Neizdevās saglabāt.
+    </div>
+</ng-template>

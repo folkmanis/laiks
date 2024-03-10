@@ -8,12 +8,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import {
+  ColorTagComponent,
   PowerAppliance,
   SystemAppliancesService,
-  ColorTagComponent,
 } from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
-import { EMPTY, Observable, finalize, mergeMap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'laiks-appliances-list',
@@ -36,27 +36,22 @@ export class AppliancesListComponent {
   private appliancesService = inject(SystemAppliancesService);
   private confirmation = inject(ConfirmationDialogService);
 
-  appliances$: Observable<PowerAppliance[]> =
-    this.appliancesService.getPowerAppliances();
+  appliances$ = this.appliancesService.getPowerAppliances();
 
   busy = signal(false);
 
-  onEnable(event: MatCheckboxChange, id: string) {
+  async onEnable(event: MatCheckboxChange, id: string) {
     this.busy.set(true);
-    this.appliancesService
-      .updateAppliance(id, { enabled: event.checked }).pipe(
-        finalize(() => this.busy.set(false)),
-      )
-      .subscribe();
+    await this.appliancesService
+      .updateAppliance(id, { enabled: event.checked });
+    this.busy.set(false);
   }
 
-  onDelete(id: string) {
+  async onDelete(id: string) {
     this.busy.set(true);
-    this.confirmation.delete().pipe(
-      mergeMap(response => response ? this.appliancesService.deleteAppliance(id) : EMPTY),
-      finalize(() => this.busy.set(false)),
-    )
-      .subscribe();
+    const confirmation = await this.confirmation.delete();
+    confirmation && await this.appliancesService.deleteAppliance(id);
+    this.busy.set(false);
   }
 
 }

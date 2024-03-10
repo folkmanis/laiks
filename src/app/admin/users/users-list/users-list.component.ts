@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { LaiksUser, LoginService, UsersService } from '@shared/users';
 import { WithId } from '@shared/utils';
-import { EMPTY, combineLatest, map, mergeMap } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'laiks-users-list',
@@ -72,19 +72,14 @@ export class UsersListComponent {
       : this.userSelection.setSelection(...this.users());
   }
 
-  onDeleteSelected() {
+  async onDeleteSelected() {
     if (this.userSelection.isEmpty()) {
       return;
     }
     const selectedIds = this.userSelection.selected.map((user) => user.id);
-    this.confirmationDialogService
-      .delete()
-      .pipe(
-        mergeMap((resp) =>
-          resp ? this.usersService.deleteUsers(selectedIds) : EMPTY
-        )
-      )
-      .subscribe();
+    const confirmation = await this.confirmationDialogService
+      .delete();
+    confirmation && await this.usersService.deleteUsers(selectedIds);
   }
 
   private resetSelection() {

@@ -28,15 +28,12 @@ export class MarketZonesListComponent {
 
   busy = signal(false);
 
-  onDelete(id: string) {
+  async onDelete(id: string) {
+
     this.busy.set(true);
 
-    this.confirmation
-      .delete()
-      .pipe(
-        mergeMap((resp) => (resp ? this.zonesService.deleteZone(id) : EMPTY)),
-        finalize(() => this.busy.set(false))
-      )
-      .subscribe();
+    const confirmation = await this.confirmation.delete();
+    confirmation && await this.zonesService.deleteZone(id);
+    this.busy.set(false);
   }
 }

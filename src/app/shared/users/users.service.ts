@@ -59,17 +59,17 @@ export class UsersService {
     return from(deleteDoc(this.docRef(id)));
   }
 
-  deleteUsers(ids: string[]): Observable<void> {
+  deleteUsers(ids: string[]): Promise<void> {
     const batch = writeBatch(this.firestore);
     ids.forEach((id) => batch.delete(this.docRef(id)));
-    return from(batch.commit());
+    return batch.commit();
   }
 
   deleteInactiveUsers(
     maxInactiveDays?: number
   ): Observable<DeleteInactiveUsersResult> {
     const deleter = httpsCallable<
-      { maxInactiveDays?: number },
+      { maxInactiveDays?: number; },
       DeleteInactiveUsersResult
     >(this.functions, 'deleteInactiveUsers');
     return from(deleter({ maxInactiveDays })).pipe(

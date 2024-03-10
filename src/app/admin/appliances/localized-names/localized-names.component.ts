@@ -4,14 +4,19 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  TemplateRef,
+  effect,
   inject,
+  input,
   signal,
+  viewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import {
   PresetPowerAppliance,
   SystemAppliancesService,
@@ -19,9 +24,10 @@ import {
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { Locale } from '@shared/locales';
 import { CanComponentDeactivate, WithId } from '@shared/utils';
+import { navigateRelative } from '@shared/utils/navigate-relative';
 import { finalize } from 'rxjs';
 
-type NamesForm = { [key: string]: FormControl<string> };
+type NamesForm = { [key: string]: FormControl<string>; };
 
 interface LocaleRowData {
   locale: Locale;
@@ -42,15 +48,13 @@ interface LocaleRowData {
   styleUrls: ['./localized-names.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocalizedNamesComponent
-  implements OnChanges, CanComponentDeactivate
-{
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private confirmation = inject(ConfirmationDialogService);
-  private readonly appliancesService = inject(SystemAppliancesService);
+export class LocalizedNamesComponent implements CanComponentDeactivate {
 
-  private _locales: WithId<Locale>[] = [];
+  private navigate = navigateRelative();
+  private confirmation = inject(ConfirmationDialogService);
+  private appliancesService = inject(SystemAppliancesService);
+  private snack = inject(MatSnackBar);
+  private errorMessageTemplate = viewChild.required<TemplateRef<any>>('errorMessageTemplate');
 
   namesForm = new FormGroup<NamesForm>({});
 
@@ -60,29 +64,22 @@ export class LocalizedNamesComponent
 
   displayColumns = ['name', 'input'];
 
-  @Input() id!: string;
-  @Input() appliance?: PresetPowerAppliance;
+  id = input.required<string>();
 
-  @Input() set locales(value: WithId<Locale>[]) {
-    this._locales = Array.isArray(value) ? value : [];
-  }
-  get locales() {
-    return this._locales;
-  }
+  appliance = input<PresetPowerAppliance>();
 
-  ngOnChanges(changes: SimpleChanges): void {
-    const { appliance, locales } = changes;
-    if (
-      appliance.previousValue !== appliance.currentValue ||
-      locales.previousValue !== locales.currentValue
-    )
-      this.initializeControls();
+  locales = input<WithId<Locale>[]>([]);
+
+  constructor() {
+    effect(() => {
+      this.initializeControls(this.appliance(), this.locales());
+    }, { allowSignalWrites: true });
   }
 
   canDeactivate = () =>
     this.namesForm.pristine || this.confirmation.cancelEdit();
 
-  onSave() {
+  async onSave() {
     if (this.namesForm.valid == false || this.namesForm.value == null) {
       return;
     }
@@ -90,29 +87,35 @@ export class LocalizedNamesComponent
     this.busy.set(true);
     const localizedNames = this.namesForm
       .value as PresetPowerAppliance['localizedNames'];
-    this.appliancesService
-      .updateAppliance(this.id, { localizedNames })
-      .pipe(finalize(() => this.busy.set(false)))
-      .subscribe(() => {
-        this.namesForm.markAsPristine();
-        this.router.navigate(['../..'], { relativeTo: this.route });
-      });
+
+    try {
+      await this.appliancesService
+        .updateAppliance(this.id(), { localizedNames });
+      this.namesForm.markAsPristine();
+      this.navigate(['../..']);
+    } catch (error) {
+      this.snack.openFromTemplate(this.errorMessageTemplate(), { duration: 5000 });
+    }
+    this.busy.set(false);
   }
 
-  private initializeControls() {
-    const keys = this.locales.map((l) => l.id);
-    const localizedNames = this.appliance?.localizedNames || {};
+  private initializeControls(
+    appliance: PresetPowerAppliance | undefined,
+    locales: WithId<Locale>[]
+  ) {
+    const keys = locales.map((l) => l.id);
+    const localizedNames = appliance?.localizedNames || {};
     const initialValue = keys.reduce(
       (acc, curr) => ({ ...acc, [curr]: localizedNames[curr] || '' }),
       {}
     );
 
     for (const key of Object.keys(this.namesForm.controls)) {
-      if (this.locales.some((locale) => locale.id === key) == false) {
+      if (locales.some((locale) => locale.id === key) == false) {
         (this.namesForm as FormGroup).removeControl(key, {});
       }
     }
-    for (const locale of this.locales) {
+    for (const locale of locales) {
       if (this.namesForm.contains(locale.id) == false) {
         this.namesForm.addControl(
           locale.id,
@@ -125,7 +128,7 @@ export class LocalizedNamesComponent
     const data = Object.entries(this.namesForm.controls).map(
       ([key, control]) => ({
         control,
-        locale: this.locales.find((l) => l.id === key)!,
+        locale: locales.find((l) => l.id === key)!,
       })
     );
     this.dataSource.set(data);

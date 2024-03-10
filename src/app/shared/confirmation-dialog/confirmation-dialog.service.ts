@@ -1,7 +1,7 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { inject, Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { CancelEditConfirmationComponent } from './cancel-edit-confirmation/cancel-edit-confirmation.component';
 import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 
@@ -11,19 +11,20 @@ import { DeleteConfirmationComponent } from './delete-confirmation/delete-confir
 export class ConfirmationDialogService {
   private dialog = inject(MatDialog);
 
-  delete(): Observable<boolean> {
+  delete(): Promise<boolean> {
     return this.openComponent(DeleteConfirmationComponent);
   }
 
-  cancelEdit(): Observable<boolean> {
+  cancelEdit(): Promise<boolean> {
     return this.openComponent(CancelEditConfirmationComponent);
   }
 
-  private openComponent<T>(
+  private async openComponent<T>(
     component: ComponentType<T>,
     config?: MatDialogConfig
-  ): Observable<boolean> {
+  ): Promise<boolean> {
     const dialorgRef = this.dialog.open(component, config);
-    return dialorgRef.afterClosed().pipe(map((resp) => !!resp));
+    const response = await firstValueFrom(dialorgRef.afterClosed());
+    return !!response;
   }
 }

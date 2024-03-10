@@ -27,7 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { LocalesService } from '@shared/locales';
 import { navigateRelative } from '@shared/utils/navigate-relative';
-import { EMPTY, Observable, finalize, mergeMap, of } from 'rxjs';
+import { EMPTY, Observable, finalize, firstValueFrom, mergeMap, of } from 'rxjs';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { MarketZone } from 'src/app/shared/np-data/market-zone';
 import { MarketZonesService } from 'src/app/shared/np-data/market-zones.service';
@@ -90,52 +90,39 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
   }
 
   canDeactivate = () =>
-    this.form.pristine ? of(true) : this.confirmation.cancelEdit();
+    this.form.pristine || this.confirmation.cancelEdit();
 
-  onSave() {
+  async onSave() {
 
     const id = this.id();
-
-    if (id) {
-
-      this.busy.set(true);
-
-      (this.initialValue() ? this.updateZone(id) : this.createZone(id))
-        .pipe(finalize(() => this.busy.set(false)))
-        .subscribe(() => this.returnToList());
-
+    if (!id) {
+      return;
     }
 
-  }
+    this.busy.set(true);
+    if (this.initialValue()) {
+      const confirmation = await this.confirmDbNameChange();
+      confirmation &&
+        await this.marketZoneService.updateZone(id, this.form.value);
+    } else {
+      await this.marketZoneService
+        .setZone(id, this.form.getRawValue());
+    }
 
-  private updateZone(id: string): Observable<any> {
-    return this.confirmDbNameChange()
-      .pipe(
-        mergeMap((confirmation) =>
-          confirmation
-            ? this.marketZoneService.updateZone(id, this.form.value)
-            : EMPTY
-        ),
-      );
-  }
-
-  private createZone(id: string): Observable<any> {
-    return this.marketZoneService
-      .setZone(id, this.form.getRawValue());
-  }
-
-  private returnToList() {
+    this.busy.set(false);
     this.form.markAsPristine();
     this.navigate(['..']);
+
   }
 
-  private confirmDbNameChange(): Observable<boolean> {
+  private async confirmDbNameChange(): Promise<boolean> {
     const newDbName = this.form.getRawValue().dbName;
     const initialValue = this.initialValue();
     if (initialValue && newDbName !== initialValue.dbName) {
-      return this.dialog.open(DbNameConfirmationComponent).afterClosed();
+      const dialogRef = this.dialog.open(DbNameConfirmationComponent);
+      return firstValueFrom(dialogRef.afterClosed());
     } else {
-      return of(true);
+      return true;
     }
   }
 }

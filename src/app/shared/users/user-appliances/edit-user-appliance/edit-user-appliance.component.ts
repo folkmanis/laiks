@@ -85,18 +85,12 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
   busy = signal(false);
 
   constructor() {
-    effect(
-      () => {
-        this.applianceForm.reset(this.initialValue());
-      },
+    effect(() => this.applianceForm.reset(this.initialValue()),
       { allowSignalWrites: true }
     );
   }
 
-  canDeactivate: () => boolean | Observable<boolean> | Promise<boolean> =
-    () => {
-      return this.applianceForm.pristine || this.confirmation.cancelEdit();
-    };
+  canDeactivate = () => this.applianceForm.pristine || this.confirmation.cancelEdit();
 
   onSave() {
     const idx = this.idx();

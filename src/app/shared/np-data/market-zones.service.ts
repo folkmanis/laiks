@@ -11,8 +11,8 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { WithId, throwIfNull } from '@shared/utils';
+import { Observable } from 'rxjs';
 import { MarketZone } from './market-zone';
-import { Observable, from } from 'rxjs';
 
 const ZONES = 'zones';
 
@@ -37,15 +37,15 @@ export class MarketZonesService {
     return docData(this.docRef(id)).pipe(throwIfNull(id));
   }
 
-  updateZone(id: string, zoneUpdate: Partial<MarketZone>): Observable<void> {
-    return from(updateDoc(this.docRef(id), zoneUpdate));
+  updateZone(id: string, zoneUpdate: Partial<MarketZone>): Promise<void> {
+    return updateDoc(this.docRef(id), zoneUpdate);
   }
 
-  setZone(id: string, zone: MarketZone): Observable<void> {
-    return from(setDoc(this.docRef(id), zone));
+  setZone(id: string, zone: MarketZone): Promise<void> {
+    return setDoc(this.docRef(id), zone);
   }
 
-  deleteZone(id: string): Observable<void> {
-    return from(deleteDoc(this.docRef(id)));
+  deleteZone(id: string): Promise<void> {
+    return deleteDoc(this.docRef(id));
   }
 }
