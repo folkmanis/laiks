@@ -17,7 +17,6 @@ import { PricesTableComponent } from '@shared/prices-table';
 import { LoginService } from '@shared/users';
 import { TimeObserverService, eurMwhToCentsKwh } from '@shared/utils';
 import { differenceInHours, isDate } from 'date-fns';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'laiks-system-prices',
@@ -30,13 +29,11 @@ import { map } from 'rxjs';
 export class SystemPricesComponent {
   private calculator = inject(PriceCalculatorService);
 
-  private readonly npDataService = inject(NpDataService);
+  private npDataService = inject(NpDataService);
 
   private npPrices = toSignal(
-    this.npDataService.getNpPricesWithVat().pipe(map(eurMwhToCentsKwh)),
-    {
-      initialValue: [] as NpPrice[],
-    }
+    this.npDataService.getNpPricesWithVat(),
+    { initialValue: [] }
   );
 
   private dateNow = toSignal(inject(TimeObserverService).minuteObserver(), {
@@ -50,9 +47,10 @@ export class SystemPricesComponent {
 
   private npData = toSignal(this.npDataService.getNpDocWithVat());
 
-  npPricesWithOffset = computed(() =>
-    addDifference(this.npPrices(), this.dateNow())
-  );
+  npPricesWithOffset = computed(() => {
+    const prices = eurMwhToCentsKwh(this.npPrices());
+    return addDifference(prices, this.dateNow());
+  });
 
   stDev: Signal<number> = computed(() => (this.npData()?.stDev ?? 0) / 10);
 

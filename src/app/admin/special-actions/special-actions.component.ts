@@ -15,7 +15,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MarketZonesService, NpDataService } from '@shared/np-data';
 import { UsersService } from '@shared/users';
-import { catchError, finalize, of } from 'rxjs';
 
 @Component({
   selector: 'laiks-special-actions',
@@ -44,55 +43,48 @@ export class SpecialActionsComponent {
   busy = signal(false);
   error = signal<Record<string, any> | null>(null);
 
-  onScrapeAll(forced: boolean) {
+  async onScrapeAll(forced: boolean) {
     this.reset();
 
-    this.npDataService
-      .scrapeAllZones(forced)
-      .pipe(
-        catchError((err) => {
-          this.error.set(err);
-          return of(null);
-        }),
-        finalize(() => this.busy.set(false))
-      )
-      .subscribe((response) => {
-        this.result.set(response);
-      });
+    try {
+
+      const result = await this.npDataService.scrapeAllZones(forced);
+      this.result.set(result);
+
+    } catch (error) {
+      this.error.set(error as Error);
+      this.result.set(null);
+    }
+    this.busy.set(false);
   }
 
-  onScrapeZone(zoneId: string, forced: boolean) {
+  async onScrapeZone(zoneId: string, forced: boolean) {
     this.reset();
 
-    this.npDataService
-      .scrapeZone(zoneId, forced)
-      .pipe(
-        catchError((err) => {
-          this.error.set(err);
-          return of(null);
-        }),
-        finalize(() => this.busy.set(false))
-      )
-      .subscribe((response) => {
-        this.result.set(response);
-      });
+    try {
+
+      const result = await this.npDataService.scrapeZone(zoneId, forced);
+      this.result.set(result);
+
+    } catch (error) {
+      this.error.set(error as Error);
+      this.result.set(null);
+    }
+    this.busy.set(false);
   }
 
-  onDeleteInactiveUsers() {
+  async onDeleteInactiveUsers() {
     this.reset();
+    try {
 
-    this.usersService
-      .deleteInactiveUsers()
-      .pipe(
-        catchError((err) => {
-          this.error.set(err);
-          return of(null);
-        }),
-        finalize(() => this.busy.set(false))
-      )
-      .subscribe((response) => {
-        this.result.set(response);
-      });
+      const response = await this.usersService.deleteInactiveUsers();
+      this.result.set(response);
+
+    } catch (error) {
+      this.error.set(error as Error);
+      this.result.set(null);
+    }
+    this.busy.set(false);
   }
 
   private reset() {

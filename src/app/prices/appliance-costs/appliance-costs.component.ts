@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,7 +28,7 @@ import { ApplianceNameComponent } from './appliance-name/appliance-name.componen
 @Component({
   selector: 'laiks-appliance-costs',
   standalone: true,
-  imports: [AsyncPipe, PricesTableComponent, ApplianceNameComponent],
+  imports: [PricesTableComponent, ApplianceNameComponent],
   templateUrl: './appliance-costs.component.html',
   styleUrls: ['./appliance-costs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

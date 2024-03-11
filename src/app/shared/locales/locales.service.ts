@@ -5,8 +5,8 @@ import {
   collection,
   collectionData,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { WithId } from '@shared/utils';
+import { Observable, firstValueFrom } from 'rxjs';
 import { Locale } from './locale';
 
 const LOCALES = 'locales';
@@ -17,13 +17,12 @@ const LOCALES = 'locales';
 export class LocalesService {
   private firestore = inject(Firestore);
 
-  getLocales(): Observable<WithId<Locale>[]> {
-    const collRef = collection(this.firestore, LOCALES) as CollectionReference<
-      WithId<Locale>
-    >;
+  getLocalesFlow(): Observable<WithId<Locale>[]> {
+    const collRef = collection(this.firestore, LOCALES) as CollectionReference<WithId<Locale>>;
+    return collectionData(collRef, { idField: 'id' });
+  }
 
-    return collectionData(collRef, { idField: 'id' }) as Observable<
-      WithId<Locale>[]
-    >;
+  getLocales(): Promise<WithId<Locale>[]> {
+    return firstValueFrom(this.getLocalesFlow());
   }
 }

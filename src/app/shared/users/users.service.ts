@@ -1,23 +1,23 @@
 import { Injectable, inject } from '@angular/core';
 import {
-  getDoc,
-  Firestore,
+  CollectionReference,
   DocumentReference,
-  doc,
+  Firestore,
   collection,
   collectionData,
-  CollectionReference,
-  query,
-  orderBy,
-  updateDoc,
   deleteDoc,
+  doc,
   docData,
+  getDoc,
+  orderBy,
+  query,
+  updateDoc,
   writeBatch,
 } from '@angular/fire/firestore';
-import { httpsCallable, Functions } from '@angular/fire/functions';
-import { throwIfNull, WithId } from '@shared/utils';
-import { from, map, Observable } from 'rxjs';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 import { LaiksUser } from '@shared/users';
+import { WithId, assertNotNull, throwIfNull } from '@shared/utils';
+import { Observable } from 'rxjs';
 import { DeleteInactiveUsersResult } from './delete-inactive-result';
 
 const USERS_COLL = 'users';
@@ -32,7 +32,7 @@ export class UsersService {
   private docRef = (id: string) =>
     doc(this.firestore, USERS_COLL, id) as DocumentReference<WithId<LaiksUser>>;
 
-  getUsers(): Observable<WithId<LaiksUser>[]> {
+  getUsersFlow(): Observable<WithId<LaiksUser>[]> {
     const collRef = collection(
       this.firestore,
       USERS_COLL
@@ -40,23 +40,24 @@ export class UsersService {
     return collectionData(query(collRef, orderBy('email')), { idField: 'id' });
   }
 
-  getUserById(id: string): Observable<LaiksUser> {
-    return from(getDoc(this.docRef(id))).pipe(
-      map((doc) => doc.data()),
-      throwIfNull(id)
-    );
+  async getUserById(id: string): Promise<LaiksUser> {
+    const snapshot = await getDoc(this.docRef(id));
+    const user = snapshot.data();
+    assertNotNull(user, id);
+    return user;
   }
 
-  userById(id: string): Observable<WithId<LaiksUser>> {
-    return docData(this.docRef(id), { idField: 'id' }).pipe(throwIfNull(id));
+  userByIdFlow(id: string): Observable<WithId<LaiksUser>> {
+    return docData(this.docRef(id), { idField: 'id' })
+      .pipe(throwIfNull(id));
   }
 
-  updateUser(id: string, update: Partial<LaiksUser>): Observable<void> {
-    return from(updateDoc(this.docRef(id), update));
+  updateUser(id: string, update: Partial<LaiksUser>): Promise<void> {
+    return updateDoc(this.docRef(id), update);
   }
 
-  deleteUser(id: string): Observable<void> {
-    return from(deleteDoc(this.docRef(id)));
+  deleteUser(id: string): Promise<void> {
+    return deleteDoc(this.docRef(id));
   }
 
   deleteUsers(ids: string[]): Promise<void> {
@@ -65,15 +66,14 @@ export class UsersService {
     return batch.commit();
   }
 
-  deleteInactiveUsers(
+  async deleteInactiveUsers(
     maxInactiveDays?: number
-  ): Observable<DeleteInactiveUsersResult> {
+  ): Promise<DeleteInactiveUsersResult> {
     const deleter = httpsCallable<
       { maxInactiveDays?: number; },
       DeleteInactiveUsersResult
     >(this.functions, 'deleteInactiveUsers');
-    return from(deleter({ maxInactiveDays })).pipe(
-      map((response) => response.data)
-    );
+    const response = await deleter({ maxInactiveDays });
+    return response.data;
   }
 }

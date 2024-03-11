@@ -14,6 +14,9 @@ export default [
     path: 'new',
     component: MarketZoneEditComponent,
     canDeactivate: [canDeactivateGuard],
+    data: {
+      initialValue: null,
+    }
   },
   {
     path: ':id',

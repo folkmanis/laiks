@@ -1,14 +1,14 @@
 <div class="vertical-container">
     <h2>
         Vai tiešām vēlaties dzēst lietotāja
-        {{user?.name}} kontu un visus iestatījumus?
+        {{ name() }} kontu un visus iestatījumus?
     </h2>
-    <button mat-raised-button color="warn" (click)="onDelete()" [disabled]="busy()">
-        DZĒST
+    <button mat-raised-button class="tertiary-button" (click)="onDelete()" [disabled]="busy()">
+        Dzēst
     </button>
 
     <a mat-button routerLink=".." [disabled]="busy()">
-        ATPAKAĻ
+        Atcelt
     </a>
 
 </div>

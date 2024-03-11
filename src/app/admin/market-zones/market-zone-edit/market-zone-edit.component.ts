@@ -19,7 +19,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOptionModule } from '@angular/material/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,7 +27,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { LocalesService } from '@shared/locales';
 import { navigateRelative } from '@shared/utils/navigate-relative';
-import { EMPTY, Observable, finalize, firstValueFrom, mergeMap, of } from 'rxjs';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { MarketZone } from 'src/app/shared/np-data/market-zone';
 import { MarketZonesService } from 'src/app/shared/np-data/market-zones.service';
@@ -63,7 +62,6 @@ type MarketZoneGroup = FormGroup<{
 export class MarketZoneEditComponent implements CanComponentDeactivate {
   private marketZoneService = inject(MarketZonesService);
   private confirmation = inject(ConfirmationDialogService);
-  private dialog = inject(MatDialog);
   private navigate = navigateRelative();
 
   form: MarketZoneGroup = inject(FormBuilder).nonNullable.group({
@@ -79,7 +77,7 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
 
   initialValue = input<MarketZone>();
 
-  locales = toSignal(inject(LocalesService).getLocales(), { initialValue: [] });
+  locales = toSignal(inject(LocalesService).getLocalesFlow(), { initialValue: [] });
 
   busy = signal(false);
 
@@ -95,16 +93,19 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
   async onSave() {
 
     const id = this.id();
-    if (!id) {
+    if (!id || this.form.valid == false) {
       return;
     }
 
-    this.busy.set(true);
     if (this.initialValue()) {
       const confirmation = await this.confirmDbNameChange();
-      confirmation &&
-        await this.marketZoneService.updateZone(id, this.form.value);
+      if (!confirmation) {
+        return;
+      }
+      this.busy.set(true);
+      await this.marketZoneService.updateZone(id, this.form.value);
     } else {
+      this.busy.set(true);
       await this.marketZoneService
         .setZone(id, this.form.getRawValue());
     }
@@ -119,8 +120,7 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
     const newDbName = this.form.getRawValue().dbName;
     const initialValue = this.initialValue();
     if (initialValue && newDbName !== initialValue.dbName) {
-      const dialogRef = this.dialog.open(DbNameConfirmationComponent);
-      return firstValueFrom(dialogRef.afterClosed());
+      return this.confirmation.openComponent(DbNameConfirmationComponent);
     } else {
       return true;
     }

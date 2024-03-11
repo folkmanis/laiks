@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { LoginResponse, LoginResponseType, LoginService } from '@shared/users';
-import { MatButtonModule } from '@angular/material/button';
 import {
-  ReactiveFormsModule,
-  Validators,
+  FormBuilder,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { MatDividerModule } from '@angular/material/divider';
+import { LoginResponseType, LoginService } from '@shared/users';
 
 @Component({
   selector: 'laiks-login',
@@ -36,55 +36,50 @@ export class LoginComponent {
   private router = inject(Router);
   private redirect =
     inject(ActivatedRoute).snapshot.queryParamMap.get('redirect');
+  private nnfb = new FormBuilder().nonNullable;
 
-  private loginSubscriber = {
-    error: (err: any) => {
-      this.snack.open(`Neizdevās pieslēgties. ${err}`, 'OK');
-      this.loginService.logout();
-    },
-    next: (resp: LoginResponse) => {
-      if (resp.type === LoginResponseType.CREATED) {
+  loginGroup = this.nnfb.group({
+    email: ['', [Validators.email, Validators.required]],
+    password: ['', [Validators.required]],
+  });
+
+  async onLoginWithGmail() {
+    try {
+      const result = await this.loginService.loginWithGmail();
+      if (result.type === LoginResponseType.CREATED) {
         this.snack.open(
-          `Izveidots jauns lietotājs ${resp.laiksUser.email}`,
+          `Izveidots jauns lietotājs ${result.laiksUser.email}`,
           'OK'
         );
         this.router.navigate(['/', 'user-settings']);
         return;
       }
-      if (resp.type === LoginResponseType.EXISTING) {
+      if (result.type === LoginResponseType.EXISTING) {
         this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
       }
       this.router.navigateByUrl(this.redirect ?? '/');
-    },
-  };
 
-  loginGroup = new FormGroup({
-    email: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.email, Validators.required],
-    }),
-    password: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-  });
-
-  onLoginWithGmail() {
-    this.loginService.loginWithGmail().subscribe(this.loginSubscriber);
+    } catch (err) {
+      this.snack.open(`Neizdevās pieslēgties. ${err}`, 'OK');
+      this.loginService.logout();
+    }
   }
 
-  onLoginWithEmail(event: SubmitEvent) {
+  async onLoginWithEmail(event: SubmitEvent) {
+
     event.preventDefault();
     const { email, password } = this.loginGroup.getRawValue();
-    this.loginService.loginWithEmail(email, password).subscribe({
-      error: (err) => {
-        this.snack.open(`Pieslēgšanās neveiksmīga. ${err.message}`, 'OK');
-        this.loginGroup.controls.password.reset();
-      },
-      next: () => {
-        this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
-        this.router.navigateByUrl(this.redirect ?? '/');
-      },
-    });
+
+    try {
+      await this.loginService.loginWithEmail(email, password);
+
+      this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
+      this.router.navigateByUrl(this.redirect ?? '/');
+
+    } catch (error) {
+      this.snack.open(`Pieslēgšanās neveiksmīga. ${error}`, 'OK');
+      this.loginGroup.controls.password.reset();
+    }
+
   }
 }

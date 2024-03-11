@@ -6,7 +6,7 @@ import {
   docData,
   setDoc,
 } from '@angular/fire/firestore';
-import { Observable, from, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 const ADMINS = 'admins';
 const NP_BLOCKEDS = 'npBlocked';
@@ -29,28 +29,13 @@ export class PermissionsService {
     return docData(this.adminDoc(id)).pipe(map((data) => !!data));
   }
 
-  deleteUser(id: string) {
-    return from(
-      Promise.all([
-        deleteDoc(this.adminDoc(id)),
-        deleteDoc(this.npBlockedDoc(id)),
-      ])
-    );
+  setAdmin(id: string, value: boolean): Promise<void> {
+    const docRef = this.adminDoc(id);
+    return value ? setDoc(docRef, {}) : deleteDoc(docRef);
   }
 
-  setAdmin(id: string, value: boolean): Observable<void> {
-    if (value) {
-      return from(setDoc(this.adminDoc(id), {}));
-    } else {
-      return from(deleteDoc(this.adminDoc(id)));
-    }
-  }
-
-  setNpBlocked(id: string, value: boolean): Observable<void> {
-    if (value) {
-      return from(setDoc(this.npBlockedDoc(id), {}));
-    } else {
-      return from(deleteDoc(this.npBlockedDoc(id)));
-    }
+  setNpBlocked(id: string, value: boolean): Promise<void> {
+    const docRef = this.npBlockedDoc(id);
+    return value ? setDoc(docRef, {}) : deleteDoc(this.npBlockedDoc(id));
   }
 }

@@ -31,15 +31,13 @@ import { combineLatest, map } from 'rxjs';
   ],
 })
 export class UsersListComponent {
-  private readonly confirmationDialogService = inject(
-    ConfirmationDialogService
-  );
+  private readonly confirmation = inject(ConfirmationDialogService);
 
   private readonly usersService = inject(UsersService);
   private readonly loginService = inject(LoginService);
 
   private users$ = combineLatest([
-    this.usersService.getUsers(),
+    this.usersService.getUsersFlow(),
     this.loginService.getUser(),
   ]).pipe(
     map(([laiksUsers, user]) =>
@@ -77,8 +75,7 @@ export class UsersListComponent {
       return;
     }
     const selectedIds = this.userSelection.selected.map((user) => user.id);
-    const confirmation = await this.confirmationDialogService
-      .delete();
+    const confirmation = await this.confirmation.delete();
     confirmation && await this.usersService.deleteUsers(selectedIds);
   }
 

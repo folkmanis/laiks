@@ -1,18 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  computed,
   inject,
-  signal,
+  input,
+  signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { UsersService } from '../users.service';
-import { Router, RouterLink } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { LaiksUser } from '../laiks-user';
-import { WithId } from '@shared/utils';
-import { finalize } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, RouterLink } from '@angular/router';
+import { WithId } from '@shared/utils';
+import { LaiksUser } from '../laiks-user';
+import { UsersService } from '../users.service';
+import { DeletedUserSnackComponent } from './deleted-user-snack/deleted-user-snack.component';
 
 @Component({
   selector: 'laiks-delete-user',
@@ -29,21 +29,20 @@ export class DeleteUserComponent {
 
   busy = signal(false);
 
-  @Input() id!: string;
+  id = input.required<string>();
 
-  @Input() user?: WithId<LaiksUser>;
+  user = input.required<WithId<LaiksUser>>();
 
-  onDelete() {
+  name = computed(() => this.user().name);
+
+  async onDelete() {
     this.busy.set(true);
 
-    this.usersService
-      .deleteUser(this.id)
-      .pipe(finalize(() => this.busy.set(false)))
-      .subscribe(() => {
-        this.snack.open(`Lietotājs ${this.user?.name} izdzēsts!`, 'OK', {
-          duration: 3000,
-        });
-        this.router.navigateByUrl('/admin/users');
-      });
+    await this.usersService.deleteUser(this.id());
+
+    this.busy.set(false);
+    this.snack.openFromComponent(DeletedUserSnackComponent, { data: this.name() });
+    this.router.navigateByUrl('/admin/users');
+
   }
 }

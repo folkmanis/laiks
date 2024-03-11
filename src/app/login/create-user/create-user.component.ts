@@ -68,15 +68,14 @@ export class CreateUserComponent {
     }
   );
 
-  onCreateUser(event: SubmitEvent) {
+  async onCreateUser(event: SubmitEvent) {
     event.preventDefault();
     const { email, password, name } = this.newUserForm.getRawValue();
-    this.loginService.createEmailAccount(email, password, name).subscribe({
-      error: (err) =>
-        this.snack.open(`Neizdevās pievienot. ${err.message}`, 'OK'),
-      next: () => {
-        this.router.navigate(['/', 'user-settings']);
-      },
-    });
+    try {
+      await this.loginService.createEmailAccount(email, password, name);
+      this.router.navigate(['/', 'user-settings']);
+    } catch (err) {
+      this.snack.open(`Neizdevās pievienot. ${err}`, 'OK');
+    }
   }
 }

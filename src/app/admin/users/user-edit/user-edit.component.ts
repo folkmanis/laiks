@@ -50,19 +50,15 @@ export class UserEditComponent {
     tap(() => this.npBlockedBusy.set(false))
   );
 
-  onSetAdmin(value: boolean) {
+  async onSetAdmin(value: boolean) {
     this.adminBusy.set(true);
-    this.permissionsService
-      .setAdmin(this.id(), value)
-      .pipe(finalize(() => this.adminBusy.set(false)))
-      .subscribe();
+    await this.permissionsService.setAdmin(this.id(), value);
+    this.adminBusy.set(false);
   }
 
-  onSetNpBlocked(value: boolean) {
+  async onSetNpBlocked(value: boolean) {
     this.npBlockedBusy.set(true);
-    this.permissionsService
-      .setNpBlocked(this.id(), value)
-      .pipe(finalize(() => this.npBlockedBusy.set(false)))
-      .subscribe();
+    await this.permissionsService.setNpBlocked(this.id(), value);
+    this.npBlockedBusy.set(false);
   }
 }

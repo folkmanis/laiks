@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { MarketZonesService } from '@shared/np-data';
-import { EMPTY, finalize, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'laiks-market-zones-list',

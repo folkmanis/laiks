@@ -11,13 +11,13 @@ import {
   Timestamp,
   where,
 } from '@angular/fire/firestore';
-import { startOfDay, subDays } from 'date-fns';
-import { combineLatest, from, map, Observable, switchMap } from 'rxjs';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 import { throwIfNull, WithId } from '@shared/utils';
+import { startOfDay, subDays } from 'date-fns';
+import { combineLatest, map, Observable, switchMap } from 'rxjs';
 import { LoginService } from '../users';
 import { MarketZonesService } from './market-zones.service';
 import { NpData, NpPrice, NpPriceCollectionData } from './np-price.interface';
-import { httpsCallable, Functions } from '@angular/fire/functions';
 import { ScrapeZoneResult } from './scrape-zone-result';
 
 const DB_NAME = 'laiks';
@@ -92,20 +92,22 @@ export class NpDataService {
     );
   }
 
-  scrapeZone(zone: string, forced = false): Observable<ScrapeZoneResult> {
+  async scrapeZone(zone: string, forced = false): Promise<ScrapeZoneResult> {
     const scrape = httpsCallable<
-      { zone: string; forced?: boolean },
+      { zone: string; forced?: boolean; },
       ScrapeZoneResult
     >(this.functions, 'scrapeZone');
-    return from(scrape({ zone, forced })).pipe(map((result) => result.data));
+    const result = await scrape({ zone, forced });
+    return result.data;
   }
 
-  scrapeAllZones(forced = false): Observable<ScrapeZoneResult[]> {
+  async scrapeAllZones(forced = false): Promise<ScrapeZoneResult[]> {
     const scrape = httpsCallable<
-      { forced?: boolean },
-      { errors: any[]; results: ScrapeZoneResult[] }
+      { forced?: boolean; },
+      { errors: any[]; results: ScrapeZoneResult[]; }
     >(this.functions, 'scrapeAll');
-    return from(scrape({ forced })).pipe(map((result) => result.data.results));
+    const result = await scrape({ forced });
+    return result.data.results;
   }
 
   private docToNpPrices(doc: DocumentData): NpPrice[] {

@@ -2,8 +2,9 @@
 
     <ng-container matColumnDef="email">
         <mat-header-cell *matHeaderCellDef>
-            <button mat-button color="warn" [disabled]="userSelection.isEmpty()" (click)="onDeleteSelected()">
-                DZĒST
+            <button mat-button class="tertiary-button" [disabled]="userSelection.isEmpty()"
+                (click)="onDeleteSelected()">
+                Dzēst
             </button>
         </mat-header-cell>
         <mat-cell *matCellDef="let user;">

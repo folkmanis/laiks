@@ -71,22 +71,22 @@ export class UserSettingsComponent implements CanComponentDeactivate {
 
   zones = toSignal(inject(MarketZonesService).getZonesFlow());
 
-  locales = toSignal(inject(LocalesService).getLocales());
+  locales = toSignal(inject(LocalesService).getLocalesFlow());
 
-  onSave() {
+  async onSave() {
     const update = this.update();
     const id = this.id;
     if (update == null || !id) {
       return;
     }
     this.busy.set(true);
-    this.usersService
-      .updateUser(id, update)
-      .pipe(finalize(() => this.busy.set(false)))
-      .subscribe(() => {
-        this.userControl.markAsPristine();
-        this.navigate(['..']);
-      });
+
+    await this.usersService.updateUser(id, update);
+
+    this.userControl.markAsPristine();
+    this.navigate(['..']);
+    this.busy.set(false);
+
   }
 
   onReset() {

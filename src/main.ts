@@ -19,7 +19,7 @@ import {
   connectFunctionsEmulator,
 } from '@angular/fire/functions';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
@@ -37,6 +37,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
     { provide: LOCALE_ID, useValue: 'lv' },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
     provideRouter(APP_ROUTES, withComponentInputBinding()),
     importProvidersFrom(
       provideFirebaseApp(() => initializeApp(environment.firebase)),

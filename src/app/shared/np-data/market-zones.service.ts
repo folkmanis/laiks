@@ -10,8 +10,8 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { WithId, throwIfNull } from '@shared/utils';
-import { Observable } from 'rxjs';
+import { WithId, assertNotNull, throwIfNull } from '@shared/utils';
+import { Observable, firstValueFrom } from 'rxjs';
 import { MarketZone } from './market-zone';
 
 const ZONES = 'zones';
@@ -35,6 +35,12 @@ export class MarketZonesService {
 
   getZoneFlow(id: string): Observable<MarketZone> {
     return docData(this.docRef(id)).pipe(throwIfNull(id));
+  }
+
+  async getZone(id: string): Promise<MarketZone> {
+    const marketZone = await firstValueFrom(this.getZoneFlow(id));
+    assertNotNull(marketZone, id);
+    return marketZone;
   }
 
   updateZone(id: string, zoneUpdate: Partial<MarketZone>): Promise<void> {

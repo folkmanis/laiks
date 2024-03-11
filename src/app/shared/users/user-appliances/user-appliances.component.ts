@@ -18,11 +18,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { ColorTagComponent, PowerAppliance } from '@shared/appliances';
+import { ApplianceDeletedSnackComponent, ColorTagComponent, PowerAppliance } from '@shared/appliances';
+import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { WithId, throwIfNull } from '@shared/utils';
-import { finalize, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { LaiksUser } from '../laiks-user';
 import { UsersService } from '../users.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'laiks-user-appliances',
@@ -44,11 +46,13 @@ import { UsersService } from '../users.service';
 })
 export class UserAppliancesComponent {
   private usersService = inject(UsersService);
+  private confirmation = inject(ConfirmationDialogService);
+  private snack = inject(MatSnackBar);
 
   id = input.required<string>();
 
   user$ = toObservable(this.id).pipe(
-    switchMap((id) => this.usersService.userById(id)),
+    switchMap((id) => this.usersService.userByIdFlow(id)),
     throwIfNull()
   );
 
@@ -56,17 +60,19 @@ export class UserAppliancesComponent {
 
   busy = signal(false);
 
-  onRemoveAppliance(idx: number, user: WithId<LaiksUser>) {
-    this.busy.set(true);
-    user.appliances.splice(idx, 1);
-    this.saveUserAppliances(user);
+  async onRemoveAppliance(idx: number, user: WithId<LaiksUser>) {
+    if (await this.confirmation.delete()) {
+      const name = user.appliances[idx].name;
+      user.appliances.splice(idx, 1);
+      await this.saveUserAppliances(user);
+      this.snack.openFromComponent(ApplianceDeletedSnackComponent, { data: name });
+    }
   }
 
   onMoveAppliance(
     event: CdkDragDrop<PowerAppliance[]>,
     user: WithId<LaiksUser>
   ) {
-    this.busy.set(true);
     moveItemInArray<PowerAppliance>(
       event.container.data,
       event.previousIndex,
@@ -75,10 +81,9 @@ export class UserAppliancesComponent {
     this.saveUserAppliances(user);
   }
 
-  private saveUserAppliances(user: WithId<LaiksUser>) {
-    this.usersService
-      .updateUser(user.id, { appliances: user.appliances })
-      .pipe(finalize(() => this.busy.set(false)))
-      .subscribe();
+  private async saveUserAppliances(user: WithId<LaiksUser>) {
+    this.busy.set(true);
+    await this.usersService.updateUser(user.id, { appliances: user.appliances });
+    this.busy.set(false);
   }
 }

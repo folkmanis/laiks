@@ -12,7 +12,7 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import {
   ApplianceFormComponent,
   INITIAL_APPLIANCE,
@@ -21,7 +21,8 @@ import {
 } from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { CanComponentDeactivate, throwIfNull } from '@shared/utils';
-import { EMPTY, Observable, filter, finalize, switchMap } from 'rxjs';
+import { navigateRelative } from '@shared/utils/navigate-relative';
+import { EMPTY, firstValueFrom, switchMap } from 'rxjs';
 import { UsersService } from '../../users.service';
 import {
   AddApplianceDialogComponent,
@@ -42,21 +43,20 @@ import {
   ],
 })
 export class EditUserApplianceComponent implements CanComponentDeactivate {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private dialog = inject(MatDialog);
+  private navigate = navigateRelative();
+  private confirmation = inject(ConfirmationDialogService);
 
   private usersService = inject(UsersService);
   private systemAppliances = toSignal(
     inject(SystemAppliancesService).getPowerAppliances({ enabledOnly: true }),
     { initialValue: [] }
   );
-  private confirmation = inject(ConfirmationDialogService);
 
   id = input.required<string>();
 
   user$ = toObservable(this.id).pipe(
-    switchMap((id) => (id ? this.usersService.userById(id) : EMPTY)),
+    switchMap((id) => (id ? this.usersService.userByIdFlow(id) : EMPTY)),
     throwIfNull()
   );
 
@@ -92,7 +92,7 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
 
   canDeactivate = () => this.applianceForm.pristine || this.confirmation.cancelEdit();
 
-  onSave() {
+  async onSave() {
     const idx = this.idx();
     const { appliances, id } = this.user()!;
     if (idx !== null && !isNaN(idx)) {
@@ -100,29 +100,29 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
     } else {
       appliances.push(this.applianceForm.value);
     }
-    this.usersService
-      .updateUser(id, { appliances })
-      .pipe(finalize(() => this.busy.set(false)))
-      .subscribe(() => {
-        this.applianceForm.markAsPristine();
-        this.router.navigate(['..'], { relativeTo: this.route });
-      });
+
+    this.busy.set(true);
+
+    await this.usersService.updateUser(id, { appliances });
+
+    this.busy.set(false);
+    this.applianceForm.markAsPristine();
+    this.navigate(['..']);
+
   }
 
-  onCopyFrom() {
+  async onCopyFrom() {
     const config: MatDialogConfig<ApplianceDialogData> = {
       data: {
         appliances: this.systemAppliances,
         locale: this.user()?.locale,
       },
     };
-    this.dialog
-      .open(AddApplianceDialogComponent, config)
-      .afterClosed()
-      .pipe(filter(Boolean))
-      .subscribe((a: PowerAppliance) => {
-        this.applianceForm.reset(a);
-        this.applianceForm.markAsDirty();
-      });
+    const dialogRef = this.dialog.open<AddApplianceDialogComponent, ApplianceDialogData, PowerAppliance>(AddApplianceDialogComponent, config);
+    const appliance = await firstValueFrom(dialogRef.afterClosed());
+    if (appliance) {
+      this.applianceForm.reset(appliance);
+      this.applianceForm.markAsDirty();
+    }
   }
 }

@@ -20,10 +20,11 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { PermissionsService } from '@shared/permissions';
-import { throwIfNull, WithId } from '@shared/utils';
+import { assertNotNull, throwIfNull, WithId } from '@shared/utils';
 import {
   EMPTY,
   first,
+  firstValueFrom,
   from,
   map,
   mergeMap,
@@ -60,56 +61,48 @@ export class LoginService {
     return authState(this.auth);
   }
 
-  loginWithGmail(): Observable<LoginResponse> {
+  async loginWithGmail(): Promise<LoginResponse> {
     const authProvider = new GoogleAuthProvider();
-    return from(signInWithPopup(this.auth, authProvider)).pipe(
-      switchMap(({ user }) =>
-        this.getLaiksUserSnapshot(user).pipe(
-          mergeMap((laiksUser) =>
-            laiksUser
-              ? of({ type: LoginResponseType.EXISTING, laiksUser })
-              : this.createLaiksUser(user).pipe(
-                map((u) => ({
-                  type: LoginResponseType.CREATED,
-                  laiksUser: u,
-                }))
-              )
-          )
-        )
-      )
-    );
+    const { user } = await signInWithPopup(this.auth, authProvider);
+    const laiksUser = await this.getLaiksUserSnapshot(user);
+
+    if (laiksUser) {
+      return { type: LoginResponseType.EXISTING, laiksUser };
+    } else {
+      const newLaiksUser = await this.createLaiksUser(user);
+      return {
+        type: LoginResponseType.CREATED,
+        laiksUser: newLaiksUser,
+      };
+    }
   }
 
-  loginWithEmail(email: string, password: string): Observable<LaiksUser> {
-    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      switchMap(({ user }) => this.getLaiksUserSnapshot(user)),
-      mergeMap((laiksUser) => this.deleteUserIfNotRegistered(laiksUser))
-    );
+  async loginWithEmail(email: string, password: string): Promise<LaiksUser> {
+    const { user } = await signInWithEmailAndPassword(this.auth, email, password);
+    const laiksUser = await this.getLaiksUserSnapshot(user);
+    return this.deleteUserIfNotRegistered(laiksUser);
   }
 
-  createEmailAccount(
+  async createEmailAccount(
     email: string,
     password: string,
     name: string
-  ): Observable<LaiksUser> {
-    return from(
-      createUserWithEmailAndPassword(this.auth, email, password)
-    ).pipe(
-      mergeMap((userCredentials) => updateProfile(userCredentials.user, { displayName: name })),
-      map(() => this.auth.currentUser),
-      throwIfNull(),
-      mergeMap((user) =>
-        this.createLaiksUser({ ...user, displayName: name })
-      )
-    );
+  ): Promise<LaiksUser> {
+
+    const userCredentials = await createUserWithEmailAndPassword(this.auth, email, password);
+    await updateProfile(userCredentials.user, { displayName: name });
+
+    const user = this.auth.currentUser;
+    assertNotNull(user);
+
+    return this.createLaiksUser({ ...user, displayName: name });
   }
 
-  deleteAccount(): Observable<void> {
+  async deleteAccount(): Promise<void> {
     const user = this.auth.currentUser;
+
     if (user) {
-      return from(user.delete());
-    } else {
-      return EMPTY;
+      return user.delete();
     }
   }
 
@@ -152,13 +145,12 @@ export class LoginService {
     );
   }
 
-  updateLaiksUser(update: Partial<LaiksUser>) {
-    return this.getUser().pipe(
-      first(),
-      throwIfNull(),
-      map((user) => doc(this.firestore, USERS, user.uid)),
-      mergeMap((docRef) => updateDoc(docRef, update))
-    );
+  async updateLaiksUser(update: Partial<LaiksUser>) {
+    const user = await firstValueFrom(this.getUser());
+    assertNotNull(user);
+    const docRef = doc(this.firestore, USERS, user.uid);
+
+    return updateDoc(docRef, update);
   }
 
   isAdmin(): Observable<boolean> {
@@ -178,17 +170,17 @@ export class LoginService {
     );
   }
 
-  private getLaiksUserSnapshot(user: User): Observable<LaiksUser | undefined> {
+  private async getLaiksUserSnapshot(user: User): Promise<LaiksUser | undefined> {
     const docRef = doc(
       this.firestore,
       USERS,
       user.uid
     ) as DocumentReference<LaiksUser>;
-
-    return from(getDoc(docRef)).pipe(map((snapshot) => snapshot.data()));
+    const snapshot = await getDoc(docRef);
+    return snapshot.data();
   }
 
-  private createLaiksUser(user: User): Observable<LaiksUser> {
+  private async createLaiksUser(user: User): Promise<LaiksUser> {
     if (!user.email || !user.displayName) {
       throw new Error('Missing email or name');
     }
@@ -200,19 +192,19 @@ export class LoginService {
     ) as DocumentReference<LaiksUser>;
 
     const laiksUser = defaultUser(user.email, user.displayName);
-
-    return from(setDoc(docRef, laiksUser)).pipe(map(() => laiksUser));
+    await setDoc(docRef, laiksUser);
+    return laiksUser;
   }
 
-  private deleteUserIfNotRegistered(
+  private async deleteUserIfNotRegistered(
     laiksUser: LaiksUser | undefined
-  ): Observable<LaiksUser | never> {
-    return laiksUser
-      ? of(laiksUser)
-      : from(
-        deleteUser(this.auth.currentUser!).then(() => {
-          throw new Error('User not registered');
-        })
-      );
+  ): Promise<LaiksUser | never> {
+    if (laiksUser) {
+      return laiksUser;
+    } else {
+      await deleteUser(this.auth.currentUser!);
+      throw new Error('User not registered');
+    }
   }
+
 }

@@ -19,7 +19,7 @@ export class ConfirmationDialogService {
     return this.openComponent(CancelEditConfirmationComponent);
   }
 
-  private async openComponent<T>(
+  async openComponent<T>(
     component: ComponentType<T>,
     config?: MatDialogConfig
   ): Promise<boolean> {

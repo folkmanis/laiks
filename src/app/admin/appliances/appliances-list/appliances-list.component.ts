@@ -1,19 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MatCheckboxChange,
-  MatCheckboxModule,
-} from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule, } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
-import {
-  ColorTagComponent,
-  PowerAppliance,
-  SystemAppliancesService,
-} from '@shared/appliances';
+import { ColorTagComponent, SystemAppliancesService } from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
-import { Observable } from 'rxjs';
+import { ApplianceDeletedSnackComponent } from 'src/app/shared/appliances';
 
 @Component({
   selector: 'laiks-appliances-list',
@@ -35,6 +29,7 @@ export class AppliancesListComponent {
 
   private appliancesService = inject(SystemAppliancesService);
   private confirmation = inject(ConfirmationDialogService);
+  private snack = inject(MatSnackBar);
 
   appliances$ = this.appliancesService.getPowerAppliances();
 
@@ -47,10 +42,12 @@ export class AppliancesListComponent {
     this.busy.set(false);
   }
 
-  async onDelete(id: string) {
+  async onDelete(id: string, name: string) {
     this.busy.set(true);
-    const confirmation = await this.confirmation.delete();
-    confirmation && await this.appliancesService.deleteAppliance(id);
+    if (await this.confirmation.delete()) {
+      await this.appliancesService.deleteAppliance(id);
+      this.snack.openFromComponent(ApplianceDeletedSnackComponent, { data: name });
+    }
     this.busy.set(false);
   }
 
