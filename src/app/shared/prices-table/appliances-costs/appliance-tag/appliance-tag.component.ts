@@ -2,9 +2,8 @@ import { DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
-  Input,
-  input,
+  computed,
+  input
 } from '@angular/core';
 import { colorDensity } from '@shared/utils';
 
@@ -15,26 +14,29 @@ import { colorDensity } from '@shared/utils';
   styleUrls: ['./appliance-tag.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DecimalPipe],
+  host: {
+    '[style.background-color]': 'background()',
+    '[style.color]': 'textColor()',
+  }
 })
 export class ApplianceTagComponent {
   name = input.required<string>();
 
   cost = input.required<number | null>();
 
-  @Input() isBest: boolean = false;
+  isBest = input(false);
 
-  @Input({ required: true }) color: string | null = null;
+  color = input.required<string | null>();
 
-  @HostBinding('style.background-color') get background() {
-    return this.isBest ? this.color : undefined;
-  }
+  background = computed(() => this.isBest() ? this.color() : undefined);
 
-  @HostBinding('style.color') get textColor() {
-    const backg = this.background;
-    if (typeof backg === 'string') {
-      return colorDensity(backg) > 0.5 ? 'black' : 'white';
+  textColor = computed(() => {
+    const background = this.background();
+    if (background) {
+      return colorDensity(background) > 0.5 ? 'black' : 'white';
     } else {
       return undefined;
     }
-  }
+  });
+
 }

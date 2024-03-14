@@ -1,16 +1,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
-  booleanAttribute,
+  input,
+  output
 } from '@angular/core';
 import { User } from '@angular/fire/auth';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
+import { isAdmin, isNpAllowed } from '@shared/users';
 import { WithId } from '@shared/utils';
 import { LaiksUser } from '../shared/users/laiks-user';
 
@@ -23,13 +22,18 @@ import { LaiksUser } from '../shared/users/laiks-user';
   imports: [MatButtonModule, MatMenuModule, MatIconModule, RouterLink],
 })
 export class UserMenuComponent {
-  @Input() user?: User | null = null;
 
-  @Input() laiksUser: WithId<LaiksUser> | null = null;
+  user = input<User | null>(null);
 
-  @Input({ transform: booleanAttribute }) isAdmin: boolean = false;
+  laiksUser = input<WithId<LaiksUser> | null>(null);
 
-  @Input({ transform: booleanAttribute }) isNpAllowed: boolean = false;
+  isAdmin = isAdmin();
 
-  @Output() logout = new EventEmitter<void>();
+  isNpAllowed = isNpAllowed();
+
+  logout = output();
+
+  onLogout() {
+    this.logout.emit();
+  }
 }

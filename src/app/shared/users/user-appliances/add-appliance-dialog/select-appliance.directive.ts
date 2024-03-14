@@ -1,27 +1,29 @@
-import { Directive, HostListener, Input, inject } from '@angular/core';
+import { Directive, inject, input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { PresetPowerAppliance } from '@shared/appliances';
 
 @Directive({
   selector: '[laiksSelectAppliance]',
   standalone: true,
+  host: {
+    '(click)': 'onClick()'
+  }
 })
 export class SelectApplianceDirective {
+
   private dialogRef = inject(MatDialogRef);
 
-  @Input('laiksSelectAppliance') appliance: PresetPowerAppliance | null = null;
+  appliance = input.required<PresetPowerAppliance>({ alias: 'laiksSelectAppliance' });
 
-  @Input() locale?: string;
+  locale = input<string>();
 
-  @HostListener('click') onClick() {
-    if (!this.appliance) {
-      this.dialogRef.close();
-      return false;
-    }
-    const { localizedNames, ...appliance } = this.appliance;
+  onClick() {
 
-    if (this.locale && localizedNames?.[this.locale]) {
-      appliance.name = localizedNames[this.locale];
+    const { localizedNames, ...appliance } = this.appliance();
+
+    const locale = this.locale();
+    if (locale && localizedNames?.[locale]) {
+      appliance.name = localizedNames[locale];
     }
 
     this.dialogRef.close(appliance);

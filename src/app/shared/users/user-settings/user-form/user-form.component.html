@@ -8,7 +8,7 @@
     <mat-form-field class="medium-input">
         <mat-label>Valsts</mat-label>
         <mat-select formControlName="locale" required>
-            @for (locale of locales; track locale.id) {
+            @for (locale of locales(); track locale.id) {
             <mat-option [value]="locale.id">
                 {{locale.id}} - {{locale.language}}
             </mat-option>
@@ -16,12 +16,12 @@
         </mat-select>
     </mat-form-field>
 
-    @if (npAllowed) {
+    @if (npAllowed()) {
 
     <mat-form-field class="medium-input">
         <mat-label>Cenu reģions</mat-label>
         <mat-select formControlName="marketZoneId" required (selectionChange)="onZoneChange($event.value)">
-            @for (zone of zones; track zone.id) {
+            @for (zone of zones(); track zone.id) {
             <mat-option [value]="zone.id">
                 {{zone.id}} - {{zone.description}}
             </mat-option>

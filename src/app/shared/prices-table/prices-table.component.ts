@@ -3,7 +3,6 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  Input,
   booleanAttribute,
   computed,
   input, viewChildren
@@ -48,7 +47,7 @@ export class PricesTableComponent implements AfterViewInit {
     if (!this.showDate()) {
       return null;
     }
-    return this.priceRows().find(row => row.current) || null;
+    return this.priceRows().find(row => row.current()) || null;
   });
 
   displayedColumns = ['difference', 'time', 'appliances', 'price'];
@@ -69,12 +68,12 @@ export class PricesTableComponent implements AfterViewInit {
 
   npPrices = input<NpPriceWithOffset[]>([]);
 
-  @Input()
-  appliances: PowerApplianceWithHourlyCosts[] | null = null;
 
-  @Input() average: number | null = null;
+  appliances = input<PowerApplianceWithHourlyCosts[]>([]);
 
-  @Input() stDev: number | null = null;
+  average = input<number | null>(null);
+
+  stDev = input<number | null>(null);
 
   showDate = input(false, { transform: booleanAttribute });
 

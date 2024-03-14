@@ -1,15 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
   TemplateRef,
   effect,
   inject,
   input,
   signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +22,6 @@ import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { Locale } from '@shared/locales';
 import { CanComponentDeactivate, WithId } from '@shared/utils';
 import { navigateRelative } from '@shared/utils/navigate-relative';
-import { finalize } from 'rxjs';
 
 type NamesForm = { [key: string]: FormControl<string>; };
 

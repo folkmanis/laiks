@@ -1,13 +1,14 @@
-import { Directive, HostBinding } from '@angular/core';
+import { Directive } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Directive({
-  selector: '[formControl][laiksUpperCase],[formControlName][laiksUpperCase]',
-  standalone: true
+  selector: '[formControl][laiksUpperCase],[formControlName][laiksUpperCase],[ngModel][laiksUpperCase]',
+  standalone: true,
+  host: {
+    '[style.text-transform]': '"uppercase"'
+  }
 })
 export class UpperCaseDirective {
-
-  @HostBinding('style.text-transform') uppercase = 'uppercase';
 
   constructor(
     ngControl: NgControl,

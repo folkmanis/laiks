@@ -1,6 +1,5 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { isDate } from 'date-fns';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'laiks-clock-display',
@@ -12,10 +11,10 @@ import { isDate } from 'date-fns';
 })
 export class ClockDisplayComponent {
 
-  @Input() time: Date | null = null;
+  time = input.required<Date>();
 
-  isDate(value: unknown): value is Date {
-    return isDate(value);
-  }
+  hours = computed(() => this.time().getHours());
+
+  minutes = computed(() => this.time().getMinutes());
 
 }

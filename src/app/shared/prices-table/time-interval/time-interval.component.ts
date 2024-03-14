@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { PriceTimeComponent } from './price-time/price-time.component';
 
 @Component({
@@ -10,6 +10,6 @@ import { PriceTimeComponent } from './price-time/price-time.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimeIntervalComponent {
-  @Input({ required: true }) from!: Date;
-  @Input({ required: true }) to!: Date;
+  from = input.required<Date>();
+  to = input.required<Date>();
 }

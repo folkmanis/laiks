@@ -22,15 +22,15 @@
     <ng-container matColumnDef="price">
         <mat-header-cell *matHeaderCellDef>centi</mat-header-cell>
         <mat-cell *matCellDef="let price" class="mat-body-strong">
-            <laiks-price-colored [value]="price.value" [average]="average" [stDev]="stDev" />
+            <laiks-price-colored [value]="price.value" [average]="average()" [stDev]="stDev()" />
         </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="appliances">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let price">
-            @if (price.difference >= 0 && appliances) {
-            <laiks-appliances-costs [price]="price" [appliances]="appliances" />
+            @if (price.difference >= 0) {
+            <laiks-appliances-costs [price]="price" [appliances]="appliances()" />
             }
         </mat-cell>
     </ng-container>

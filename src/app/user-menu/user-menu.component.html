@@ -1,9 +1,9 @@
-@if (user) {
+@if (user(); as staticUser) {
 
 <span>
 
     <button mat-icon-button [matMenuTriggerFor]="userMenu">
-        @if (user.photoURL; as photo) {
+        @if (staticUser.photoURL; as photo) {
         <img [src]="photo">
         } @else {
         <mat-icon>
@@ -16,10 +16,10 @@
     <mat-menu #userMenu>
 
         <a mat-menu-item routerLink="user-settings">
-            {{ laiksUser?.name || user.displayName }}
+            {{ laiksUser()?.name || staticUser.displayName }}
         </a>
 
-        @if (isNpAllowed) {
+        @if (isNpAllowed()) {
         <a mat-menu-item routerLink="/prices">
             Cenas
         </a>
@@ -28,7 +28,7 @@
         </a>
         }
 
-        @if (isAdmin) {
+        @if (isAdmin()) {
         <button mat-menu-item [mat-menu-trigger-for]="adminMenu">
             Sistēmas Iestatījumi
         </button>
@@ -39,7 +39,7 @@
             Privātuma politika
         </a>
 
-        <button mat-menu-item (click)="logout.next()">
+        <button mat-menu-item (click)="onLogout()">
             Atslēgties
         </button>
 

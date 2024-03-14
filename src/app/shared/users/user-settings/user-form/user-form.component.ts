@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  booleanAttribute,
   inject,
+  input
 } from '@angular/core';
 import {
   AbstractControl,
@@ -25,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Locale } from '@shared/locales';
 import { MarketZone } from '@shared/np-data';
+import { isNpAllowed } from '@shared/users/is-np-allowed';
 import { WithId } from '@shared/utils';
 import { LaiksUser } from '../../laiks-user';
 
@@ -75,13 +75,11 @@ export class UserFormComponent implements ControlValueAccessor, Validator {
     locale: [EMPTY_USER.locale, Validators.required],
   });
 
-  @Input()
-  zones?: WithId<MarketZone>[] = [];
+  zones = input<WithId<MarketZone>[]>([]);
 
-  @Input()
-  locales?: WithId<Locale>[] = [];
+  locales = input<WithId<Locale>[]>([]);
 
-  @Input({ transform: booleanAttribute }) npAllowed: boolean = false;
+  npAllowed = isNpAllowed();
 
   writeValue(obj: LaiksUser): void {
     this.userForm.reset(obj, { emitEvent: false });
@@ -106,8 +104,8 @@ export class UserFormComponent implements ControlValueAccessor, Validator {
   }
 
   onZoneChange(id: any) {
-    const newZone = this.zones?.find((z) => z.id === id);
-    if (newZone != undefined) {
+    const newZone = this.zones()?.find((zone) => zone.id === id);
+    if (newZone) {
       this.userForm.controls.vatAmount.setValue(newZone.tax);
     }
   }

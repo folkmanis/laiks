@@ -1,22 +1,24 @@
-import { Directive, Input, HostBinding } from '@angular/core';
+import { Directive, computed, input } from '@angular/core';
 import { colorDensity } from '@shared/utils';
 
 @Directive({
   selector: '[laiksSelectorColor]',
   standalone: true,
+  host: {
+    '[style.backgroundColor]': 'background()',
+    '[style.color]': 'textColor()'
+  }
 })
 export class SelectorColorDirective {
-  @HostBinding('style.backgroundColor')
-  @Input('laiksSelectorColor')
-  background?: string | null;
 
-  @HostBinding('style.color')
-  get textColor() {
-    const backg = this.background;
-    if (typeof backg === 'string') {
-      return colorDensity(backg) > 0.5 ? 'black' : 'white';
+  background = input<string | null>(null, { alias: 'laiksSelectorColor' });
+
+  textColor = computed(() => {
+    const background = this.background();
+    if (background) {
+      return colorDensity(background) > 0.5 ? 'black' : 'white';
     } else {
       return undefined;
     }
-  }
+  });
 }

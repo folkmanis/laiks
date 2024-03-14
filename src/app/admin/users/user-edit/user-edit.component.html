@@ -1,10 +1,12 @@
 <div class="vertical-container">
+    @if(user(); as staticUser) {
     <h2>
-        {{ user?.name }}
+        {{ staticUser.name }}
     </h2>
     <h3>
-        {{ user?.email }}
+        {{ staticUser.email }}
     </h3>
+    }
 
     <section>
         <ul>
@@ -16,7 +18,7 @@
             </li>
             <li>
                 <mat-checkbox [checked]="(admin$ | async) === true" (change)="onSetAdmin($event.checked)"
-                    [disabled]="adminBusy() || id() === activeUserId">
+                    [disabled]="adminBusy() || id() === activeUserId()">
                     Administratora tiesības
                 </mat-checkbox>
             </li>

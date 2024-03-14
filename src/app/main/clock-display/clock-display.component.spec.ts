@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ClockDisplayComponent } from './clock-display.component';
+import { input, signal } from '@angular/core';
 
 const TEST_DATE = new Date(2022, 10, 20, 12, 3, 0);
 const TEST_TIME_STR = '12:03';
@@ -11,14 +12,14 @@ describe('ClockDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [ClockDisplayComponent]
-})
+      imports: [ClockDisplayComponent]
+    })
       .compileComponents();
 
     fixture = TestBed.createComponent(ClockDisplayComponent);
     component = fixture.componentInstance;
 
-    component.time = TEST_DATE;
+    component.time = input(TEST_DATE);
 
     fixture.detectChanges();
   });

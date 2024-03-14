@@ -1,10 +1,10 @@
+import { DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
-  Input,
+  computed,
+  input
 } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
 import { colorDensity } from '@shared/utils';
 
 const BACKGROUND = '#424242';
@@ -16,31 +16,32 @@ const BACKGROUND = '#424242';
   templateUrl: './price-colored.component.html',
   styleUrls: ['./price-colored.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '[style.color]': 'color()' },
 })
 export class PriceColoredComponent {
-  @Input({ required: true }) value: number = 0;
-  @Input() average: number | null = null;
 
-  @Input() stDev: number | null = null;
+  value = input.required<number>();
 
-  get score() {
-    if (
-      this.stDev === 0 ||
-      this.average == null ||
-      this.stDev == null ||
-      this.value == null
-    ) {
-      return 0;
-    }
-    const score = (this.average - this.value) / this.stDev; // .coerceIn(-1.0, 1.0)
-    if (score < -1) return -1;
-    if (score > 1) return 1;
-    return score;
+  average = input<number | null>(null);
+
+  stDev = input<number | null>(null);
+
+  color = computed(() => {
+    const score = getScore(this.value(), this.average(), this.stDev());
+    return scoreColor(score, BACKGROUND);
+  });
+
+}
+
+function getScore(value: number, average: number | null, stDev: number | null): number {
+  if (typeof stDev !== 'number' || typeof average !== 'number') {
+    return 0;
   }
+  const score = (average - value) / stDev; // .coerceIn(-1.0, 1.0)
+  if (score < -1) return -1;
+  if (score > 1) return 1;
+  return score;
 
-  @HostBinding('style.color') get color() {
-    return scoreColor(this.score, BACKGROUND);
-  }
 }
 
 function scoreColor(score: number, background: string): string {

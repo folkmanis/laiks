@@ -1,10 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   computed,
+  effect,
   inject,
-  signal,
+  input,
+  signal
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,9 +17,9 @@ import { MarketZonesService } from '@shared/np-data';
 import { CanComponentDeactivate } from '@shared/utils';
 import { navigateRelative } from '@shared/utils/navigate-relative';
 import { reduce } from 'lodash-es';
-import { Observable, finalize } from 'rxjs';
+import { Observable } from 'rxjs';
+import { isNpAllowed } from '../is-np-allowed';
 import { LaiksUser } from '../laiks-user';
-import { LoginService } from '../login.service';
 import { UsersService } from '../users.service';
 import { EMPTY_USER, UserFormComponent } from './user-form/user-form.component';
 
@@ -40,20 +41,12 @@ export class UserSettingsComponent implements CanComponentDeactivate {
   private navigate = navigateRelative();
   private usersService = inject(UsersService);
   private confirmation = inject(ConfirmationDialogService);
-  private initialValue?: LaiksUser;
 
-  @Input() id?: string;
+  id = input.required<string>();
 
-  @Input() set user(value: LaiksUser) {
-    this.initialValue = value;
-    this.userControl.reset(this.initialValue);
-  }
+  user = input<LaiksUser>();
 
   busy = signal(false);
-
-  get email() {
-    return this.initialValue?.email;
-  }
 
   userControl = new FormControl(EMPTY_USER, {
     nonNullable: true,
@@ -64,18 +57,24 @@ export class UserSettingsComponent implements CanComponentDeactivate {
   });
 
   update = computed(() =>
-    this.filterUpdate(this.initialValue, this.valueChanges())
+    this.filterUpdate(this.user(), this.valueChanges())
   );
 
-  npAllowed = toSignal(inject(LoginService).isNpAllowed());
+  npAllowed = isNpAllowed();
 
-  zones = toSignal(inject(MarketZonesService).getZonesFlow());
+  zones = toSignal(inject(MarketZonesService).getZonesFlow(), { initialValue: [] });
 
-  locales = toSignal(inject(LocalesService).getLocalesFlow());
+  locales = toSignal(inject(LocalesService).getLocalesFlow(), { initialValue: [] });
+
+  constructor() {
+    effect(() => {
+      this.userControl.reset(this.user());
+    }, { allowSignalWrites: true });
+  }
 
   async onSave() {
     const update = this.update();
-    const id = this.id;
+    const id = this.id();
     if (update == null || !id) {
       return;
     }
@@ -90,7 +89,7 @@ export class UserSettingsComponent implements CanComponentDeactivate {
   }
 
   onReset() {
-    this.userControl.reset(this.initialValue);
+    this.userControl.reset(this.user());
   }
 
   canDeactivate: () => boolean | Observable<boolean> | Promise<boolean> = () =>

@@ -48,8 +48,6 @@ export class AppComponent {
 
   user = toSignal(this.loginService.getUser(), { initialValue: null });
 
-  isAdmin = isAdmin();
-
   isNpAllowed = isNpAllowed();
 
   onLogout() {

@@ -1,10 +1,10 @@
 <section>
     <h2>
-        {{email}}
+        {{ user()?.email || '' }}
     </h2>
 </section>
 <section>
-    <laiks-user-form [formControl]="userControl" [npAllowed]="npAllowed()" [locales]="locales()" [zones]="zones()">
+    <laiks-user-form [formControl]="userControl" [locales]="locales()" [zones]="zones()">
 
         <div class="buttons">
             <button mat-raised-button [disabled]="!userControl.valid || busy() || update() == null" (click)="onSave()">

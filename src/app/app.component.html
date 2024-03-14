@@ -19,14 +19,12 @@
     </span>
     }
 
-    <laiks-user-menu [user]="user()" (logout)="onLogout()" [laiksUser]="laiksUser()" [isAdmin]="isAdmin()"
-        [isNpAllowed]="isNpAllowed()">
-    </laiks-user-menu>
+    <laiks-user-menu [user]="user()" (logout)="onLogout()" [laiksUser]="laiksUser()" />
 
 </mat-toolbar>
 
 <div class="container" cdkScrollable>
 
-    <router-outlet></router-outlet>
+    <router-outlet />
 
 </div>
