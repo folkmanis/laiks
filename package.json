@@ -22,13 +22,13 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
-    "date-fns": "^3.3.1",
-    "firebase": "^10.7.2",
+    "date-fns": "^3.4.0",
+    "firebase": "^10.8.1",
     "firebaseui": "^6.1.0",
     "lodash-es": "^4.17.21",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
-    "zone.js": "^0.14.3"
+    "zone.js": "^0.14.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.0",
@@ -38,11 +38,11 @@
     "@types/lodash-es": "^4.17.12",
     "eslint-config-prettier": "^9.1.0",
     "jasmine-core": "~4.3.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.1.0",
+    "karma": "^6.4.3",
+    "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "^5.3.3"
+    "karma-jasmine-html-reporter": "^2.1.0",
+    "typescript": "^5.4.2"
   }
 }
