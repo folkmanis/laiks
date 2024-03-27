@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  afterNextRender,
-  inject,
-  input,
-  signal
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterLink } from '@angular/router';
@@ -38,17 +31,9 @@ export class UserEditComponent {
   npBlockedBusy = signal(true);
 
   constructor() {
-
-    this.permissionsService.isNpBlocked(this.id())
-      .then(isNpBlocked => this.isNpBlocked.set(isNpBlocked))
-      .finally(() => this.npBlockedBusy.set(false));
-
-    afterNextRender(async () => {
-      console.log(this.id());
-      const isAdmin = await this.permissionsService.isAdmin(this.id());
-      this.isAdmin.set(isAdmin);
-      console.log(this.isAdmin());
-      this.adminBusy.set(false);
+    effect(async () => {
+      this.getAdmin(this.id());
+      this.getNpBlocked(this.id());
     });
   }
 
@@ -61,6 +46,18 @@ export class UserEditComponent {
   async onSetNpBlocked(value: boolean) {
     this.npBlockedBusy.set(true);
     await this.permissionsService.setNpBlocked(this.id(), value);
+    this.npBlockedBusy.set(false);
+  }
+
+  private async getAdmin(id: string) {
+    const isAdmin = await this.permissionsService.isAdmin(id);
+    this.isAdmin.set(isAdmin);
+    this.adminBusy.set(false);
+  }
+
+  private async getNpBlocked(id: string) {
+    const isNpBlocked = await this.permissionsService.isNpBlocked(this.id());
+    this.isNpBlocked.set(isNpBlocked);
     this.npBlockedBusy.set(false);
   }
 }
