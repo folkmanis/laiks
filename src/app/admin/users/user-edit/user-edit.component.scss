@@ -1,19 +1,11 @@
-form {
-    padding: 16px;
-}
-
-form>* {
-    margin-top: 16px;
-}
-
-.full-width {
-    width: 100%;
+:host {
+    padding: 0 16px;
 }
 
 ul {
     list-style-type: none;
-}
 
-li {
-    margin-top: 8px;
+    li {
+        margin-top: 8px;
+    }
 }

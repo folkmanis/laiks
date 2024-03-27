@@ -10,9 +10,12 @@
             <button mat-raised-button [disabled]="!userControl.valid || busy() || update() == null" (click)="onSave()">
                 Saglabāt
             </button>
-            <button mat-button color="warn" [disabled]="busy() || update() == null" (click)="onReset()">
+            <button mat-button [disabled]="busy() || update() == null" (click)="onReset()">
                 Atiestatīt
             </button>
+            <a mat-button routerLink="..">
+                Atgriezties
+            </a>
         </div>
         <div class="buttons">
             @if (npAllowed()) {

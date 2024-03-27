@@ -1,54 +1,54 @@
-<table mat-table [dataSource]="powerCycles.controls">
+<mat-table [dataSource]="powerCycles.controls" [class.large]="isLarge()">
 
     <!-- Numurs -->
     <ng-container matColumnDef="index">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let control; index as idx;">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let control; index as idx;">
             {{ idx + 1 }}.
-        </td>
-        <td mat-footer-cell *matFooterCellDef>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
             <mat-icon>
                 functions
             </mat-icon>
-        </td>
+        </mat-footer-cell>
     </ng-container>
 
     <!-- Cikla garums -->
     <ng-container matColumnDef="length">
-        <th mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef>
             Ilgums (minūtes)
-        </th>
-        <td mat-cell *matCellDef="let control;">
+        </mat-header-cell>
+        <mat-cell *matCellDef="let control;">
             <input matInput laiksInput type="number" [formControl]="control.controls.length" laiksNullToZero
                 (focus)="touchFn()">
-        </td>
-        <td mat-footer-cell *matFooterCellDef>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
             @if (powerCycles.valid) {
             {{ getTotalLength(powerCycles.value) | minutesToHours }}
             }
-        </td>
+        </mat-footer-cell>
     </ng-container>
 
     <!-- Cikla patēriņš -->
     <ng-container matColumnDef="consumption">
-        <th mat-header-cell *matHeaderCellDef>
+        <mat-header-cell *matHeaderCellDef>
             Patēriņš (W)
-        </th>
-        <td mat-cell *matCellDef="let control;">
+        </mat-header-cell>
+        <mat-cell *matCellDef="let control;">
             <input matInput laiksInput type="number" [formControl]="control.controls.consumption" laiksNullToZero
                 (focus)="touchFn()">
-        </td>
-        <td mat-footer-cell *matFooterCellDef>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
             @if (powerCycles.valid) {
             {{ getTotalConsumption(powerCycles.value) | number : '1.1-1' }} kWh
             }
-        </td>
+        </mat-footer-cell>
     </ng-container>
 
-    <!-- Pogas -->
+    <!-- Buttons -->
     <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let control; index as idx;">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let control; index as idx;">
             <!-- Lielam ekrānam -->
             @if (isLarge() === true) {
             <span>
@@ -65,29 +65,29 @@
 
             </span>
             } @else {
-            <!-- Mazam ekrānam -->
+            <!-- Small screens -->
             <button mat-icon-button type="button" [matMenuTriggerFor]="handsetMenu"
                 [matMenuTriggerData]="{ index: idx }">
                 <mat-icon>more_vert</mat-icon>
             </button>
             }
-        </td>
-        <td mat-footer-cell *matFooterCellDef>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
             <button mat-icon-button type="button" (click)="onAddCycle(powerCycles.length)">
                 <mat-icon>
                     add
                 </mat-icon>
             </button>
-        </td>
+        </mat-footer-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let control; columns: displayedColumns"></tr>
-    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let control; columns: displayedColumns" />
+    <mat-footer-row *matFooterRowDef="displayedColumns" />
 
-</table>
+</mat-table>
 
-<!-- Maziem ekrāniem -->
+<!-- Small screens menu -->
 <mat-menu #handsetMenu>
 
     <ng-template matMenuContent let-idx="index">

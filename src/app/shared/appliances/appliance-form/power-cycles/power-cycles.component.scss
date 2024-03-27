@@ -1,7 +1,3 @@
-.mat-mdc-table {
-    width: 100%;
-}
-
 .mat-column-index {
     max-width: 2.5rem;
     text-align: center;
@@ -9,14 +5,15 @@
 
 .mat-column-length,
 .mat-column-consumption {
-    & input {
+    input {
         max-width: 80px;
     }
 }
 
-.mat-mdc-cell,
-.mat-mdc-header-cell,
-.mat-mdc-footer-cell {
-    padding-left: 4px;
-    padding-right: 4px;
+.mat-column-actions {
+    flex: 0 76px;
+
+    .large & {
+        flex: 0 112px;
+    }
 }
