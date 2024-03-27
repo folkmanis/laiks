@@ -43,6 +43,9 @@ interface LocaleRowData {
   templateUrl: './localized-names.component.html',
   styleUrls: ['./localized-names.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class LocalizedNamesComponent implements CanComponentDeactivate {
 

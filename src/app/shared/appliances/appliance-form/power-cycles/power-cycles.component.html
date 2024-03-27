@@ -19,7 +19,8 @@
             Ilgums (minūtes)
         </th>
         <td mat-cell *matCellDef="let control;">
-            <input matInput laiksInput type="number" [formControl]="control.controls.length" laiksNullToZero>
+            <input matInput laiksInput type="number" [formControl]="control.controls.length" laiksNullToZero
+                (focus)="touchFn()">
         </td>
         <td mat-footer-cell *matFooterCellDef>
             @if (powerCycles.valid) {
@@ -34,7 +35,8 @@
             Patēriņš (W)
         </th>
         <td mat-cell *matCellDef="let control;">
-            <input matInput laiksInput type="number" [formControl]="control.controls.consumption" laiksNullToZero>
+            <input matInput laiksInput type="number" [formControl]="control.controls.consumption" laiksNullToZero
+                (focus)="touchFn()">
         </td>
         <td mat-footer-cell *matFooterCellDef>
             @if (powerCycles.valid) {
@@ -48,7 +50,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let control; index as idx;">
             <!-- Lielam ekrānam -->
-            @if (isLarge$ | async) {
+            @if (isLarge() === true) {
             <span>
                 <button mat-icon-button type="button" (click)="onAddCycle(idx)">
                     <mat-icon>

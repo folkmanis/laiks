@@ -21,6 +21,9 @@ import { DeletedUserSnackComponent } from './deleted-user-snack/deleted-user-sna
   templateUrl: './delete-user.component.html',
   styleUrls: ['./delete-user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class DeleteUserComponent {
   private usersService = inject(UsersService);

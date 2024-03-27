@@ -13,6 +13,9 @@ import { WithId } from '@shared/utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [MatCheckboxModule, MatButtonModule, RouterLink],
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class UserEditComponent {
 

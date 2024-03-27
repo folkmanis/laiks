@@ -1,6 +1,4 @@
-<div class="vertical-container">
-    <laiks-appliance-name>
-        {{ appliance().name }}
-    </laiks-appliance-name>
-    <laiks-prices-table [npPrices]="costs()" [average]="average()" [stDev]="stDev()" />
-</div>
+<laiks-appliance-name>
+    {{ appliance().name }}
+</laiks-appliance-name>
+<laiks-prices-table [npPrices]="costs()" [average]="average()" [stDev]="stDev()" />

@@ -49,6 +49,9 @@ const passwordsMatchValidator: ValidatorFn = (
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class CreateUserComponent {
   private nnfb = inject(NonNullableFormBuilder);

@@ -25,6 +25,9 @@ import { differenceInHours, isDate } from 'date-fns';
   templateUrl: './system-prices.component.html',
   styleUrls: ['./system-prices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class SystemPricesComponent {
   private calculator = inject(PriceCalculatorService);

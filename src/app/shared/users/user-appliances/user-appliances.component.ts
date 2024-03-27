@@ -5,7 +5,6 @@ import {
   CdkDropList,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,10 +12,11 @@ import {
   input,
   signal
 } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { ApplianceDeletedSnackComponent, ColorTagComponent, PowerAppliance } from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
@@ -24,7 +24,6 @@ import { WithId, throwIfNull } from '@shared/utils';
 import { switchMap } from 'rxjs';
 import { LaiksUser } from '../laiks-user';
 import { UsersService } from '../users.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'laiks-user-appliances',
@@ -33,7 +32,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./user-appliances.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AsyncPipe,
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
@@ -43,6 +41,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     RouterLink,
     ColorTagComponent,
   ],
+  host: {
+    'class': 'vertical-container'
+  }
 })
 export class UserAppliancesComponent {
   private usersService = inject(UsersService);
@@ -55,6 +56,8 @@ export class UserAppliancesComponent {
     switchMap((id) => this.usersService.userByIdFlow(id)),
     throwIfNull()
   );
+
+  user = toSignal(this.user$);
 
   trackByFn = (appliance: PowerAppliance) => appliance.name;
 

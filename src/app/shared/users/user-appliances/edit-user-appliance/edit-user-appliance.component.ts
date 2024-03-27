@@ -41,6 +41,9 @@ import {
     MatButtonModule,
     ApplianceFormComponent,
   ],
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class EditUserApplianceComponent implements CanComponentDeactivate {
   private dialog = inject(MatDialog);
@@ -68,6 +71,11 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
 
   idx = input<number | null, number | null>(null, {
     transform: numberAttribute,
+  });
+
+  isNew = computed(() => {
+    const idx = this.idx();
+    return idx === null || isNaN(idx);
   });
 
   initialValue = computed(() => {

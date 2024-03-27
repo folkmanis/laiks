@@ -33,6 +33,9 @@ import { navigateRelative } from '@shared/utils/navigate-relative';
   templateUrl: './edit-system-appliances.component.html',
   styleUrls: ['./edit-system-appliances.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class EditSystemAppliancesComponent implements CanComponentDeactivate {
 

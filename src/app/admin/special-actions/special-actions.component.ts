@@ -32,6 +32,9 @@ import { UsersService } from '@shared/users';
   templateUrl: './special-actions.component.html',
   styleUrl: './special-actions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class SpecialActionsComponent {
   private npDataService = inject(NpDataService);

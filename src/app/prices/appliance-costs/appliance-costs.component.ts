@@ -32,6 +32,9 @@ import { ApplianceNameComponent } from './appliance-name/appliance-name.componen
   templateUrl: './appliance-costs.component.html',
   styleUrls: ['./appliance-costs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'vertical-container'
+  },
 })
 export class ApplianceCostsComponent {
   private npDataService = inject(NpDataService);

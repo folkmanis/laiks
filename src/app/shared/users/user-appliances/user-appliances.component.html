@@ -1,51 +1,47 @@
-<div class="vertical-container">
+@if (user(); as user) {
 
-    @if (user$ | async; as user) {
+<div cdkDropList (cdkDropListDropped)="onMoveAppliance($event,user)" [cdkDropListData]="user.appliances"
+    [cdkDropListDisabled]="busy()">
 
-    <div cdkDropList (cdkDropListDropped)="onMoveAppliance($event,user)" [cdkDropListData]="user.appliances"
-        [cdkDropListDisabled]="busy()">
-
-        @for (appliance of user.appliances;let idx = $index; track trackByFn(appliance)) {
-        <div cdkDrag class="appliance" cdkDragBoundary=".cdk-drop-list">
-            <div cdkDragHandle>
-                <mat-icon>
-                    drag_indicator
-                </mat-icon>
-            </div>
-            <laiks-color-tag [color]="appliance.color"></laiks-color-tag>
-            <div class="name">
-                <a mat-button [disabled]="busy()" [routerLink]="['/','prices','appliance',idx]">
-                    {{ appliance.name }}
-                </a>
-            </div>
-            <div class="actions">
-                <a mat-icon-button [disabled]="busy()" [routerLink]="[idx]">
-                    <mat-icon>
-                        edit
-                    </mat-icon>
-                </a>
-                <button mat-icon-button [disabled]="busy()" (click)="onRemoveAppliance(idx, user)">
-                    <mat-icon>
-                        delete
-                    </mat-icon>
-                </button>
-            </div>
+    @for (appliance of user.appliances;let idx = $index; track trackByFn(appliance)) {
+    <div cdkDrag class="appliance" cdkDragBoundary=".cdk-drop-list">
+        <div cdkDragHandle>
+            <mat-icon>
+                drag_indicator
+            </mat-icon>
         </div>
-
-        }
-
-    </div>
-
-    <div class="buttons">
-
-        <a mat-button routerLink="..">
-            Atpakaļ uz iestatījumiem
-        </a>
+        <laiks-color-tag [color]="appliance.color"></laiks-color-tag>
+        <div class="name">
+            <a mat-button [disabled]="busy()" [routerLink]="['/','prices','appliance',idx]">
+                {{ appliance.name }}
+            </a>
+        </div>
+        <div class="actions">
+            <a mat-icon-button [disabled]="busy()" [routerLink]="[idx]">
+                <mat-icon>
+                    edit
+                </mat-icon>
+            </a>
+            <button mat-icon-button [disabled]="busy()" (click)="onRemoveAppliance(idx, user)">
+                <mat-icon>
+                    delete
+                </mat-icon>
+            </button>
+        </div>
     </div>
 
     }
 
 </div>
+
+<div class="buttons">
+
+    <a mat-button routerLink="..">
+        Atpakaļ uz iestatījumiem
+    </a>
+</div>
+
+}
 
 
 <div class="add-button">

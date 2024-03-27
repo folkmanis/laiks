@@ -1,33 +1,30 @@
-<div class="vertical-container">
-    @if(user(); as staticUser) {
-    <h2>
-        {{ staticUser.name }}
-    </h2>
-    <h3>
-        {{ staticUser.email }}
-    </h3>
-    }
+@if(user(); as staticUser) {
+<h2>
+    {{ staticUser.name }}
+</h2>
+<h3>
+    {{ staticUser.email }}
+</h3>
+}
 
-    <section>
-        <ul>
-            <li>
-                <mat-checkbox [checked]="isNpBlocked() === true" (change)="onSetNpBlocked($event.checked)"
-                    [disabled]="npBlockedBusy()">
-                    Nav pieejas elektrības cenām
-                </mat-checkbox>
-            </li>
-            <li>
-                <mat-checkbox [checked]="isAdmin() === true" (change)="onSetAdmin($event.checked)"
-                    [disabled]="adminBusy() || id() === activeUserId()">
-                    Administratora tiesības
-                </mat-checkbox>
-            </li>
-        </ul>
+<section>
+    <ul>
+        <li>
+            <mat-checkbox [checked]="isNpBlocked() === true" (change)="onSetNpBlocked($event.checked)"
+                [disabled]="npBlockedBusy()">
+                Nav pieejas elektrības cenām
+            </mat-checkbox>
+        </li>
+        <li>
+            <mat-checkbox [checked]="isAdmin() === true" (change)="onSetAdmin($event.checked)"
+                [disabled]="adminBusy() || id() === activeUserId()">
+                Administratora tiesības
+            </mat-checkbox>
+        </li>
+    </ul>
 
-    </section>
+</section>
 
-    <a mat-button routerLink="/admin/users" [disabled]="adminBusy() || npBlockedBusy()">
-        ATPAKAĻ
-    </a>
-
-</div>
+<a mat-button routerLink="/admin/users" [disabled]="adminBusy() || npBlockedBusy()">
+    ATPAKAĻ
+</a>

@@ -1,13 +1,12 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
-  OnInit,
   ViewChild,
-  inject,
+  inject
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   ControlValueAccessor,
   FormArray,
@@ -28,7 +27,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { PowerConsumptionCycle } from '@shared/appliances';
 import { MinutesToHoursPipe, NullToZeroDirective } from '@shared/utils';
-import { Observable, Subscription, map, shareReplay } from 'rxjs';
+import { map } from 'rxjs';
 
 type PowerCycleForm = FormGroup<{
   [key in keyof PowerConsumptionCycle]: FormControl<PowerConsumptionCycle[key]>;
@@ -50,7 +49,11 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
       useExisting: PowerCyclesComponent,
       multi: true,
     },
-    { provide: NG_VALIDATORS, useExisting: PowerCyclesComponent, multi: true },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: PowerCyclesComponent,
+      multi: true
+    },
   ],
   standalone: true,
   imports: [
@@ -62,14 +65,15 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
     ReactiveFormsModule,
     MatButtonModule,
     MatMenuModule,
-    AsyncPipe,
     DecimalPipe,
     MinutesToHoursPipe,
   ],
 })
-export class PowerCyclesComponent
-  implements OnInit, OnDestroy, ControlValueAccessor, Validator {
-  private breakpointObserver = inject(BreakpointObserver);
+export class PowerCyclesComponent implements ControlValueAccessor, Validator {
+
+  private isLarge$ = inject(BreakpointObserver)
+    .observe(Breakpoints.HandsetPortrait)
+    .pipe(map((state) => !state.matches));
 
   @ViewChild(MatTable) private table?: MatTable<PowerCycleForm>;
 
@@ -77,16 +81,9 @@ export class PowerCyclesComponent
 
   displayedColumns = ['index', 'length', 'consumption', 'actions'];
 
-  isLarge$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.HandsetPortrait)
-    .pipe(
-      map((state) => !state.matches),
-      shareReplay(1)
-    );
+  isLarge = toSignal(this.isLarge$);
 
-  private touchFn = () => { };
-
-  private subscription: Subscription | undefined;
+  touchFn = () => { };
 
   writeValue(obj: PowerCyclesComponent): void {
     if (!Array.isArray(obj)) {
@@ -99,7 +96,7 @@ export class PowerCyclesComponent
   }
 
   registerOnChange(fn: any): void {
-    this.subscription = this.powerCycles.valueChanges
+    this.powerCycles.valueChanges
       .pipe(
         map((cycles) =>
           cycles.map((cycle) => ({
@@ -132,12 +129,6 @@ export class PowerCyclesComponent
       (control) => !control.valid
     );
     return { invalidControls: errors };
-  }
-
-  ngOnInit(): void { }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 
   onAddCycle(idx: number, value: PowerConsumptionCycle = DEFAULT_VALUE) {
