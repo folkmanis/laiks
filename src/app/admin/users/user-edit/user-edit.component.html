@@ -11,13 +11,13 @@
     <section>
         <ul>
             <li>
-                <mat-checkbox [checked]="(npBlocked$ | async) === true" (change)="onSetNpBlocked($event.checked)"
+                <mat-checkbox [checked]="isNpBlocked() === true" (change)="onSetNpBlocked($event.checked)"
                     [disabled]="npBlockedBusy()">
                     Nav pieejas elektrības cenām
                 </mat-checkbox>
             </li>
             <li>
-                <mat-checkbox [checked]="(admin$ | async) === true" (change)="onSetAdmin($event.checked)"
+                <mat-checkbox [checked]="isAdmin() === true" (change)="onSetAdmin($event.checked)"
                     [disabled]="adminBusy() || id() === activeUserId()">
                     Administratora tiesības
                 </mat-checkbox>

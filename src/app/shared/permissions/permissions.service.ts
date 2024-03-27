@@ -3,10 +3,9 @@ import {
   Firestore,
   deleteDoc,
   doc,
-  docData,
-  setDoc,
+  getDoc,
+  setDoc
 } from '@angular/fire/firestore';
-import { Observable, map } from 'rxjs';
 
 const ADMINS = 'admins';
 const NP_BLOCKEDS = 'npBlocked';
@@ -15,18 +14,21 @@ const NP_BLOCKEDS = 'npBlocked';
   providedIn: 'root',
 })
 export class PermissionsService {
+
   private firestore = inject(Firestore);
 
   private readonly adminDoc = (id: string) => doc(this.firestore, ADMINS, id);
   private readonly npBlockedDoc = (id: string) =>
     doc(this.firestore, NP_BLOCKEDS, id);
 
-  isNpBlocked(id: string): Observable<boolean> {
-    return docData(this.npBlockedDoc(id)).pipe(map((data) => !!data));
+  async isNpBlocked(id: string): Promise<boolean> {
+    const data = await getDoc(this.npBlockedDoc(id));
+    return data.exists();
   }
 
-  isAdmin(id: string): Observable<boolean> {
-    return docData(this.adminDoc(id)).pipe(map((data) => !!data));
+  async isAdmin(id: string): Promise<boolean> {
+    const data = await getDoc(this.adminDoc(id));
+    return data.exists();
   }
 
   setAdmin(id: string, value: boolean): Promise<void> {
