@@ -4,7 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 export function isAdmin() {
     return toSignal(
-        inject(LoginService).isAdmin(),
+        inject(LoginService).adminObserver(),
         { initialValue: false }
     );
 } 

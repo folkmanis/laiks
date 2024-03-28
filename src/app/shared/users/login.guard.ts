@@ -11,7 +11,7 @@ export const loginGuard: CanActivateFn = (route) => {
   const router = inject(Router);
 
   return inject(LoginService)
-    .isLogin()
+    .loginObserver()
     .pipe(
       first(),
       map(

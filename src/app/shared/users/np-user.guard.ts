@@ -4,4 +4,4 @@ import { first } from 'rxjs';
 import { LoginService } from './login.service';
 
 export const npUserGuard: CanActivateFn = () =>
-  inject(LoginService).isNpAllowed().pipe(first());
+  inject(LoginService).npAllowedObserver().pipe(first());

@@ -38,7 +38,7 @@ export class UsersListComponent {
 
   private users$ = combineLatest([
     this.usersService.getUsersFlow(),
-    this.loginService.getUser(),
+    this.loginService.userObserver(),
   ]).pipe(
     map(([laiksUsers, user]) =>
       laiksUsers.filter((laiksUser) => laiksUser.id !== user?.uid)

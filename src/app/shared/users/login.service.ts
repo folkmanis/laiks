@@ -8,7 +8,8 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  User, updateProfile
+  updateProfile,
+  User
 } from '@angular/fire/auth';
 import {
   doc,
@@ -21,17 +22,7 @@ import {
 } from '@angular/fire/firestore';
 import { PermissionsService } from '@shared/permissions';
 import { assertNotNull, throwIfNull, WithId } from '@shared/utils';
-import {
-  EMPTY,
-  first,
-  firstValueFrom,
-  from,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
+import { firstValueFrom, map, Observable, of, switchMap } from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
 
 export enum LoginResponseType {
@@ -54,11 +45,12 @@ export class LoginService {
   private firestore = inject(Firestore);
   private permissionsService = inject(PermissionsService);
 
-  isLogin = (): Observable<boolean> =>
-    this.getUser().pipe(map((user) => !!user));
-
-  getUser(): Observable<User | null> {
+  userObserver(): Observable<User | null> {
     return authState(this.auth);
+  }
+
+  loginObserver(): Observable<boolean> {
+    return this.userObserver().pipe(map((user) => !!user));
   }
 
   async loginWithGmail(): Promise<LoginResponse> {
@@ -110,7 +102,7 @@ export class LoginService {
     signOut(this.auth);
   }
 
-  laiksUser(): Observable<WithId<LaiksUser> | null> {
+  laiksUserObserver(): Observable<WithId<LaiksUser> | null> {
     return authState(this.auth).pipe(
       switchMap((user) => {
         if (!user) {
@@ -127,15 +119,15 @@ export class LoginService {
     );
   }
 
-  getUserProperty<T extends keyof LaiksUser>(key: T): Observable<LaiksUser[T]> {
-    return this.laiksUser().pipe(
+  userPropertyObserver<T extends keyof LaiksUser>(key: T): Observable<LaiksUser[T]> {
+    return this.laiksUserObserver().pipe(
       throwIfNull(),
       map((user) => user[key])
     );
   }
 
-  getVatFn(): Observable<(val: number) => number> {
-    return this.laiksUser().pipe(
+  vatFnObserver(): Observable<(val: number) => number> {
+    return this.laiksUserObserver().pipe(
       throwIfNull(),
       map((user) =>
         user.includeVat
@@ -146,23 +138,23 @@ export class LoginService {
   }
 
   async updateLaiksUser(update: Partial<LaiksUser>) {
-    const user = await firstValueFrom(this.getUser());
+    const user = await firstValueFrom(this.userObserver());
     assertNotNull(user);
     const docRef = doc(this.firestore, USERS, user.uid);
 
     return updateDoc(docRef, update);
   }
 
-  isAdmin(): Observable<boolean> {
-    return this.laiksUser().pipe(
+  adminObserver(): Observable<boolean> {
+    return this.laiksUserObserver().pipe(
       switchMap((user) =>
         user ? this.permissionsService.isAdmin(user.id) : of(false)
       )
     );
   }
 
-  isNpAllowed(): Observable<boolean> {
-    return this.laiksUser().pipe(
+  npAllowedObserver(): Observable<boolean> {
+    return this.laiksUserObserver().pipe(
       switchMap((user) =>
         user ? this.permissionsService.isNpBlocked(user.id) : of(true)
       ),

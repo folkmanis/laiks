@@ -9,7 +9,7 @@ export const userApplianceGuard: CanActivateFn = (route) => {
   return (
     !!idx &&
     inject(LoginService)
-      .laiksUser()
+      .laiksUserObserver()
       .pipe(
         first(),
         map((user) => user && !!user.appliances[+idx]),

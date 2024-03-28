@@ -38,7 +38,7 @@ describe('LoginService', () => {
             .toEqual(defaultLaiksUser)
         ),
         mergeMap(() => service.deleteAccount()),
-        mergeMap(() => service.isLogin()),
+        mergeMap(() => service.loginObserver()),
         first()
       )
       .subscribe({

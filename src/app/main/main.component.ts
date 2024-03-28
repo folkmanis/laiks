@@ -29,7 +29,7 @@ import { SelectorComponent } from './selector/selector.component';
 export class MainComponent {
   private settingsService = inject(LocalSettingsService);
 
-  private laiksUser = toSignal(inject(LoginService).laiksUser());
+  private laiksUser = toSignal(inject(LoginService).laiksUserObserver());
 
   appliances = computed(() => {
     return this.laiksUser()?.appliances || [];

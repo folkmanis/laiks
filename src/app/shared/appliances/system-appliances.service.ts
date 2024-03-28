@@ -6,15 +6,18 @@ import {
   CollectionReference,
   deleteDoc,
   doc,
+  DocumentData,
   DocumentReference,
   Firestore,
   getDoc,
+  Query,
   query,
   updateDoc,
   where,
 } from '@angular/fire/firestore';
-import { throwIfNull, WithId } from '@shared/utils';
-import { from, map, Observable } from 'rxjs';
+import { WithId } from '@shared/utils';
+import { dataOrThrow } from '@shared/utils/data-or-throw';
+import { Observable } from 'rxjs';
 import { PresetPowerAppliance } from './power-appliance.interface';
 
 const APPLIANCES_COLL = 'powerAppliances';
@@ -22,47 +25,36 @@ const APPLIANCES_COLL = 'powerAppliances';
   providedIn: 'root',
 })
 export class SystemAppliancesService {
+
   private firestore = inject(Firestore);
 
-  getPowerAppliances(
-    options: { enabledOnly?: boolean; } = {}
-  ): Observable<WithId<PresetPowerAppliance>[]> {
-    const collRef = collection(
+  getPowerAppliances<T extends DocumentData = PresetPowerAppliance, D extends WithId<T> = WithId<T>>(
+    { enabledOnly, name }: { enabledOnly?: boolean; name?: string; } = {}
+  ): Observable<D[]> {
+    let collRef = collection(
       this.firestore,
       APPLIANCES_COLL
-    ) as CollectionReference<WithId<PresetPowerAppliance>>;
-    if (options.enabledOnly) {
-      return collectionData(query(collRef, where('enabled', '==', true)), {
-        idField: 'id',
-      }) as Observable<WithId<PresetPowerAppliance>[]>;
-    } else {
-      return collectionData(collRef, { idField: 'id' }) as Observable<
-        WithId<PresetPowerAppliance>[]
-      >;
+    ) as CollectionReference<T> | Query<T>;
+    if (enabledOnly) {
+      collRef = query(collRef, where('enabled', '==', true));
     }
+    if (name) {
+      collRef = query(collRef, where('name', '==', name));
+    }
+    return collectionData(collRef, { idField: 'id' }) as Observable<D[]>;
   }
 
-  getAppliance(id: string): Observable<PresetPowerAppliance> {
+  async getAppliance(id: string): Promise<PresetPowerAppliance> {
     const docRef = doc(
       this.firestore,
       APPLIANCES_COLL,
       id
     ) as DocumentReference<PresetPowerAppliance>;
-    return from(getDoc(docRef)).pipe(
-      map((doc) => doc.data()),
-      throwIfNull(id)
-    );
+    const snapshot = await getDoc(docRef);
+    return dataOrThrow(snapshot);
   }
 
-  getAppliancesByName(name: string): Observable<PresetPowerAppliance[]> {
-    const collRef = collection(
-      this.firestore,
-      APPLIANCES_COLL
-    ) as CollectionReference<PresetPowerAppliance>;
-    return collectionData(query(collRef, where('name', '==', name)));
-  }
-
-  updateAppliance(
+  async updateAppliance(
     id: string,
     update: Partial<PresetPowerAppliance>
   ): Promise<void> {
@@ -83,7 +75,7 @@ export class SystemAppliancesService {
     return result.id;
   }
 
-  deleteAppliance(id: string): Promise<void> {
+  async deleteAppliance(id: string): Promise<void> {
     const docRef = doc(
       this.firestore,
       APPLIANCES_COLL,

@@ -4,7 +4,7 @@ import { LoginService } from './login.service';
 
 export function isNpAllowed() {
     return toSignal(
-        inject(LoginService).isNpAllowed(),
+        inject(LoginService).npAllowedObserver(),
         { initialValue: true }
     );
 }

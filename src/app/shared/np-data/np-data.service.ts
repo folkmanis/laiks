@@ -32,10 +32,10 @@ export class NpDataService {
 
   private marketZonesService = inject(MarketZonesService);
 
-  private readonly vatFn$ = this.loginService.getVatFn();
+  private readonly vatFn$ = this.loginService.vatFnObserver();
 
   private readonly dbDocName$ = this.loginService
-    .getUserProperty('marketZoneId')
+    .userPropertyObserver('marketZoneId')
     .pipe(
       switchMap((id) => this.marketZonesService.getZoneFlow(id)),
       map((zone) => zone.dbName)

@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { map } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { LoginService } from './login.service';
 
-export const resolveActiveUserId: ResolveFn<string | undefined> = () =>
-  inject(LoginService)
-    .getUser()
-    .pipe(map((user) => user?.uid));
+export const resolveActiveUserId: ResolveFn<string | undefined> = async () => {
+  const user = await firstValueFrom(inject(LoginService).userObserver());
+  return user?.uid;
+};

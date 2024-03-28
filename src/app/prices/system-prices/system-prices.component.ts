@@ -44,7 +44,7 @@ export class SystemPricesComponent {
   });
 
   private powerAppliances = toSignal(
-    inject(LoginService).getUserProperty('appliances'),
+    inject(LoginService).userPropertyObserver('appliances'),
     { initialValue: [] }
   );
 

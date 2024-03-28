@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
-import { first } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { LoginService } from './login.service';
 
 export const canActivateAdmin: CanActivateFn = () => {
-  return inject(LoginService).isAdmin().pipe(first());
+  return firstValueFrom(inject(LoginService).adminObserver());
 };

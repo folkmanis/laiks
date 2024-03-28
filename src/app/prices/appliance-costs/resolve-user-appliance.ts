@@ -6,7 +6,7 @@ import { first, map } from 'rxjs';
 
 export const resolveUserAppliance: ResolveFn<PowerAppliance> = (route) => {
   return inject(LoginService)
-    .laiksUser()
+    .laiksUserObserver()
     .pipe(
       first(),
       map((user) => user!.appliances[+route.paramMap.get('idx')!])
