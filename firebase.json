@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/laiks",
+    "public": "dist/laiks/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
