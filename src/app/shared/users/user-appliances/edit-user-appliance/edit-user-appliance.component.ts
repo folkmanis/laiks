@@ -20,7 +20,7 @@ import {
   SystemAppliancesService,
 } from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
-import { CanComponentDeactivate, throwIfNull } from '@shared/utils';
+import { CanComponentDeactivate, assertNotNull, throwIfNull } from '@shared/utils';
 import { navigateRelative } from '@shared/utils/navigate-relative';
 import { EMPTY, firstValueFrom, switchMap } from 'rxjs';
 import { UsersService } from '../../users.service';
@@ -101,8 +101,12 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
   canDeactivate = () => this.applianceForm.pristine || this.confirmation.cancelEdit();
 
   async onSave() {
+
     const idx = this.idx();
-    const { appliances, id } = this.user()!;
+    const user = this.user();
+    assertNotNull(user);
+
+    const appliances = user.appliances ?? [];
     if (idx !== null && !isNaN(idx)) {
       appliances[idx] = this.applianceForm.value;
     } else {
@@ -111,7 +115,10 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
 
     this.busy.set(true);
 
-    await this.usersService.updateUser(id, { appliances });
+    await this.usersService.updateUser(
+      user.id,
+      { appliances },
+    );
 
     this.busy.set(false);
     this.applianceForm.markAsPristine();
