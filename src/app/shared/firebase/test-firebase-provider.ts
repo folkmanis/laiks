@@ -6,6 +6,7 @@ import {
   getFirestore,
   provideFirestore,
 } from '@angular/fire/firestore';
+import { provideFunctions, connectFunctionsEmulator, getFunctions } from "@angular/fire/functions";
 import { environment } from 'src/environments/environment';
 
 export const testFirebaseProvider = importProvidersFrom(
@@ -23,5 +24,10 @@ export const testFirebaseProvider = importProvidersFrom(
     (firestore.toJSON() as any).settings.host !== '127.0.0.1:8080' &&
       connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
     return firestore;
+  }),
+  provideFunctions(() => {
+    const functions = getFunctions();
+    connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+    return functions;
   })
 );

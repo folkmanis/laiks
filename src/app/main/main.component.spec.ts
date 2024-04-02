@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { MainComponent } from './main.component';
 import { SelectorComponent } from './selector/selector.component';
+import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
 
 const TEST_TIME = new Date(2022, 10, 23, 21, 15, 0);
 const TEST_OFFSET = 3;
@@ -32,11 +33,9 @@ describe('MainComponent', () => {
         SelectorComponent,
         NumberSignPipe,
         ClockDisplayComponent,
-        provideFirestore(() => getFirestore()),
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideAuth(() => getAuth()),
       ],
       providers: [
+        testFirebaseProvider,
         LocalSettingsService,
         { provide: TimeObserverService, useClass: TestLaiksService },
       ],

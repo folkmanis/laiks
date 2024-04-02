@@ -3,7 +3,7 @@ import { LoginService } from './login.service';
 import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
 import { PermissionsService } from '@shared/permissions';
 import { defaultUser } from './laiks-user';
-import { first, mergeMap, tap } from 'rxjs';
+import { first, firstValueFrom, mergeMap, tap } from 'rxjs';
 
 const NEW_USER = {
   email: 'user2@example.com',
@@ -25,28 +25,20 @@ describe('LoginService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should create and delete email user', (done: DoneFn) => {
+  it('should create and delete email user', async () => {
+
     const { email, password, name } = NEW_USER;
     const defaultLaiksUser = defaultUser(email, name);
 
-    service
-      .createEmailAccount(email, password, name)
-      .pipe(
-        tap((laiksUser) =>
-          expect(laiksUser)
-            .withContext('user created')
-            .toEqual(defaultLaiksUser)
-        ),
-        mergeMap(() => service.deleteAccount()),
-        mergeMap(() => service.loginObserver()),
-        first()
-      )
-      .subscribe({
-        next: (laiksUser) => {
-          expect(laiksUser).toBeFalse();
-          done();
-        },
-        error: (err) => done.fail(err),
-      });
+    const laiksUser = await service.createEmailAccount(email, password, name);
+    expect(laiksUser)
+      .withContext('user created')
+      .toEqual(defaultLaiksUser);
+
+    await service.deleteAccount();
+
+    const isLogin = await firstValueFrom(service.loginObserver());
+    expect(isLogin).toBeFalse();
+
   });
 });
