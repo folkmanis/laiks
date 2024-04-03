@@ -11,10 +11,10 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { WithId, assertNotNull, throwIfNull } from '@shared/utils';
-import { Observable, firstValueFrom } from 'rxjs';
-import { MarketZone } from './market-zone';
+import { WithId, throwIfNull } from '@shared/utils';
 import { dataOrThrow } from '@shared/utils/data-or-throw';
+import { Observable } from 'rxjs';
+import { MarketZone } from './market-zone';
 
 const ZONES = 'zones';
 

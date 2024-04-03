@@ -1,4 +1,4 @@
-import { importProvidersFrom } from '@angular/core';
+import { Injectable, importProvidersFrom } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import {
@@ -29,5 +29,19 @@ export const testFirebaseProvider = importProvidersFrom(
     const functions = getFunctions();
     connectFunctionsEmulator(functions, '127.0.0.1', 5001);
     return functions;
-  })
+  }),
 );
+
+@Injectable()
+export class FirestoreTestTools {
+
+  async clearAllData() {
+    fetch(
+      'http://127.0.0.1:8080/emulator/v1/projects/laiks-e2d86/databases/(default)/documents',
+      {
+        method: 'DELETE'
+      }
+    );
+  }
+
+}

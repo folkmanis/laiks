@@ -6,7 +6,8 @@
     "start:emulators": "ng serve --configuration emulators",
     "build": "ng build",
     "test": "ng test",
-    "emulators:start": "firebase emulators:start --import=testdata --export-on-exit"
+    "emulators:start": "firebase emulators:start --import=testdata --export-on-exit",
+    "test:emulators": "firebase emulators:exec 'ng test'"
   },
   "private": true,
   "dependencies": {
