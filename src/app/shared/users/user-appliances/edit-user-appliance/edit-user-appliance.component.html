@@ -2,17 +2,18 @@
 
     <div class="buttons">
         <button mat-raised-button
-            [disabled]="busy() || applianceForm.valid === false || applianceForm.pristine === true" (click)="onSave()">
+            [disabled]="busy() || applianceForm.valid === false || applianceForm.pristine === true" (click)="onSave()"
+            id="save-button">
             @if(isNew()) {
             Izveidot
             } @else {
             Saglabāt
             }
         </button>
-        <a mat-button [disabled]="busy()" class="tertiary-button" routerLink="..">
+        <a mat-button [disabled]="busy()" class="tertiary-button" routerLink=".." id="cancel-button">
             Atcelt
         </a>
-        <button mat-button (click)="onCopyFrom()">
+        <button mat-button (click)="onCopyFrom()" id="from-presets-button">
             No gatavajiem
         </button>
     </div>

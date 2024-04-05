@@ -31,6 +31,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { Observable } from 'rxjs';
 import { PowerAppliance } from '../power-appliance.interface';
 import { PowerCyclesComponent } from './power-cycles/power-cycles.component';
+import { mapValues, pickBy } from 'lodash-es';
 
 export const INITIAL_APPLIANCE: PowerAppliance = {
   name: '',
@@ -144,7 +145,11 @@ export class ApplianceFormComponent implements ControlValueAccessor, Validator {
     if (this.applianceForm.valid) {
       return null;
     } else {
-      return { appliance: this.applianceForm.errors };
+      const controlsWithError = pickBy(
+        this.applianceForm.controls,
+        (control) => !control.valid
+      );
+      return mapValues(controlsWithError, (control) => control.errors);
     }
   }
 
