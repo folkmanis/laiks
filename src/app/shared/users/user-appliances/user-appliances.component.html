@@ -10,7 +10,7 @@
                 drag_indicator
             </mat-icon>
         </div>
-        <laiks-color-tag [color]="appliance.color"></laiks-color-tag>
+        <laiks-color-tag [color]="appliance.color" />
         <div class="name">
             <a mat-button [disabled]="busy()" [routerLink]="['/','prices','appliance',idx]">
                 {{ appliance.name }}
