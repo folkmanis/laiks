@@ -6,23 +6,13 @@ import {
   enableProdMode,
   importProvidersFrom,
 } from '@angular/core';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
-import {
-  connectFirestoreEmulator,
-  getFirestore,
-  provideFirestore,
-} from '@angular/fire/firestore';
-import {
-  provideFunctions,
-  getFunctions,
-  connectFunctionsEmulator,
-} from '@angular/fire/functions';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { productionFirebaseProvider } from '@shared/firebase/production-firebase-provider';
+import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
 import { APP_ROUTES } from './app/app-routes';
 import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
@@ -39,31 +29,12 @@ bootstrapApplication(AppComponent, {
     { provide: LOCALE_ID, useValue: 'lv' },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
     provideRouter(APP_ROUTES, withComponentInputBinding()),
+    environment.emulators ? testFirebaseProvider : productionFirebaseProvider,
     importProvidersFrom(
-      provideFirebaseApp(() => initializeApp(environment.firebase)),
-      provideAuth(() => {
-        const auth = getAuth();
-        environment.emulators &&
-          connectAuthEmulator(auth, 'http://127.0.0.1:9099', {
-            disableWarnings: true,
-          });
-        return auth;
-      }),
-      provideFirestore(() => {
-        const firestore = getFirestore();
-        environment.emulators &&
-          connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
-        return firestore;
-      }),
-      provideFunctions(() => {
-        const functions = getFunctions(undefined, 'europe-west1');
-        environment.emulators &&
-          connectFunctionsEmulator(functions, '127.0.0.1', 5001);
-        return functions;
-      }),
       BrowserAnimationsModule,
       MatSnackBarModule,
       MatDialogModule
     ),
   ],
 });
+

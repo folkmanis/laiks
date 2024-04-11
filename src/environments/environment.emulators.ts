@@ -1,7 +1,7 @@
-import { firebaseTestConfig } from '../firebase-config';
+import { firebaseEmulatorsConfig } from '../firebase-config';
 
 export const environment = {
-  firebase: firebaseTestConfig,
+  firebase: firebaseEmulatorsConfig,
   production: false,
   emulators: true,
 };

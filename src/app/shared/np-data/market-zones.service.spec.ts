@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { FirestoreTestTools, testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
 import { finalize, from, mergeMap, take, tap } from 'rxjs';
 import { MarketZone } from './market-zone';
 import { MarketZonesService } from './market-zones.service';
+import { loginAdmin, logout } from '@shared/firebase/test-firebase-provider.spec';
 
 const TEST_ZONE_ID = 'test';
 
@@ -18,20 +19,21 @@ const TEST_ZONE: MarketZone = {
 describe('MarketZonesService', () => {
 
     let service: MarketZonesService;
-    let firestoreTestTools: FirestoreTestTools;
 
     beforeEach(async () => {
         TestBed.configureTestingModule({
             providers: [
                 testFirebaseProvider,
-                FirestoreTestTools,
             ]
         });
 
         service = TestBed.inject(MarketZonesService);
-        firestoreTestTools = TestBed.inject(FirestoreTestTools);
-        await firestoreTestTools.clearAllData();
 
+        await loginAdmin();
+    });
+
+    afterEach(() => {
+        logout();
     });
 
     it('should be created', () => {
@@ -46,27 +48,25 @@ describe('MarketZonesService', () => {
         await expectAsync(service.getZone(TEST_ZONE_ID)).withContext('zone deleted').toBeRejected();
     });
 
-    it('should update and receive zones list', (done) => {
+    it('should append record and receive updated zones list', (done) => {
 
-        const testCount = 5;
         let lastValue: MarketZone;
 
         const valueLogger = jasmine.createSpy('Value');
 
         service.getZonesFlow()
             .pipe(
-                take(testCount + 2),
+                take(2),
                 tap(valueLogger),
                 tap(zones => lastValue = zones),
                 finalize(() => {
-                    expect(valueLogger).toHaveBeenCalledTimes(testCount + 2);
+                    expect(valueLogger).toHaveBeenCalledTimes(2);
                     expect(lastValue).toContain({ id: TEST_ZONE_ID, ...TEST_ZONE });
                     done();
                 })
             )
             .subscribe();
 
-        createMockRecords(testCount);
         service.setZone(TEST_ZONE_ID, TEST_ZONE);
 
     });
@@ -83,6 +83,7 @@ describe('MarketZonesService', () => {
                 valueLogger();
             }),
             take(1),
+            mergeMap(() => service.deleteZone(TEST_ZONE_ID)),
             finalize(() => {
                 expect(lastValue).toEqual(expectedLastValue);
                 expect(valueLogger).toHaveBeenCalled();
@@ -92,11 +93,5 @@ describe('MarketZonesService', () => {
 
 
     });
-
-    async function createMockRecords(count: number) {
-        for (let i = 0; i < count; i++) {
-            await service.setZone('zone' + i, TEST_ZONE);
-        }
-    }
 
 });

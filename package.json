@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "emulators:start": "firebase emulators:start --import=testdata --export-on-exit",
-    "test:emulators": "firebase emulators:exec 'ng test'"
+    "test:emulators": "firebase emulators:exec 'ng test' --import=testdata --only auth,firestore"
   },
   "private": true,
   "dependencies": {
