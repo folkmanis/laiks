@@ -10,7 +10,7 @@ export class MinutesToHoursPipe implements PipeTransform {
   transform(value: unknown): string | any {
     if (typeof value === 'number') {
       const hours = minutesToHours(value);
-      const minutes = value % 60;
+      const minutes = Math.round(value % 60);
       return (hours ? `${hours} h, ` : '') + `${minutes} min`;
     }
     return value;

@@ -12,6 +12,7 @@ import {
   User
 } from '@angular/fire/auth';
 import {
+  deleteDoc,
   doc,
   docData,
   DocumentReference,
@@ -79,7 +80,7 @@ export class LoginService {
     email: string,
     password: string,
     name: string
-  ): Promise<LaiksUser> {
+  ): Promise<WithId<LaiksUser>> {
 
     const userCredentials = await createUserWithEmailAndPassword(this.auth, email, password);
     await updateProfile(userCredentials.user, { displayName: name });
@@ -172,7 +173,7 @@ export class LoginService {
     return snapshot.data();
   }
 
-  private async createLaiksUser(user: User): Promise<LaiksUser> {
+  private async createLaiksUser(user: User): Promise<WithId<LaiksUser>> {
     if (!user.email || !user.displayName) {
       throw new Error('Missing email or name');
     }
@@ -185,7 +186,16 @@ export class LoginService {
 
     const laiksUser = defaultUser(user.email, user.displayName);
     await setDoc(docRef, laiksUser);
-    return laiksUser;
+    return { ...laiksUser, id: user.uid };
+  }
+
+  async deleteLaiksUser(uid: string) {
+    const docRef = doc(
+      this.firestore,
+      USERS,
+      uid
+    ) as DocumentReference<LaiksUser>;
+    return deleteDoc(docRef);
   }
 
   private async deleteUserIfNotRegistered(

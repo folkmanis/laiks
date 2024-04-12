@@ -44,10 +44,11 @@ describe('LoginService', () => {
     const laiksUser = await service.createEmailAccount(email, password, name);
     expect(laiksUser)
       .withContext('user created')
-      .toEqual(defaultLaiksUser);
+      .toEqual(jasmine.objectContaining(defaultLaiksUser));
 
     await service.loginWithEmail(email, password);
 
+    await service.deleteLaiksUser(laiksUser.id);
     await service.deleteAccount();
 
     const isLogin = await firstValueFrom(service.loginObserver());
