@@ -22,13 +22,11 @@ export class TimeObserverService {
     );
   }
 
-  private timeToNextMinute(): number {
-    const now = new Date();
+  timeToNextMinute(now = new Date()): number {
     return +startOfMinute(addMinutes(now, 1)) - +now;
   }
 
-  private timeToNextDay(): number {
-    const now = new Date();
+  timeToNextDay(now = new Date()): number {
     return +startOfDay(addDays(now, 1)) - +now;
   }
 }
