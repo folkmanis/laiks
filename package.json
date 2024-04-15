@@ -19,12 +19,12 @@
     "@angular/fire": "^17.0.1",
     "@angular/forms": "^17.3.4",
     "@angular/material": "^17.2.0",
-    "@angular/material-experimental": "^17.3.2",
+    "@angular/material-experimental": "^17.3.4",
     "@angular/platform-browser": "^17.3.4",
     "@angular/platform-browser-dynamic": "^17.3.4",
     "@angular/router": "^17.3.4",
     "date-fns": "^3.6.0",
-    "firebase": "^10.10.0",
+    "firebase": "^10.11.0",
     "firebaseui": "^6.1.0",
     "lodash-es": "^4.17.21",
     "rxjs": "^7.8.1",
@@ -44,6 +44,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.5"
   }
 }
