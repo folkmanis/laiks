@@ -31,17 +31,14 @@ const [TEST_ZONE_NAME, TEST_ZONE] = DEFAULT_MARKET_ZONES[0];
 describe('np-data functions', () => {
   let testNpData: NpData;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     testNpData = getTestNpData();
     await createZonesSetup();
-  });
-
-  beforeEach(async () => {
     await updateNpZoneData(TEST_ZONE, testNpData, true);
   });
 
-  afterEach(() => {
-    test.cleanup();
+  afterEach(async () => {
+    await dropDatabase();
   });
 
   it('np-data records should be written', async () => {
@@ -57,7 +54,7 @@ describe('np-data functions', () => {
     expect(data['averageDays']).toBe(AVERAGE_DAYS);
   });
 
-  it('documnts should not be updated twice', async () => {
+  it('documents should not be updated twice', async () => {
     await updateNpZoneData(TEST_ZONE, testNpData, true);
     const result = await updateNpZoneData(TEST_ZONE, testNpData, false);
     expect(result.storedRecords).toBe(0);
@@ -69,8 +66,9 @@ describe('np-zone functions', () => {
     await createZonesSetup();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     test.cleanup();
+    await dropDatabase();
   });
 
   it('default zones should be created', async () => {
@@ -111,7 +109,7 @@ describe('np-zone functions', () => {
 
     const wrapped = test.wrap(moveLaiksDb);
 
-    await wrapped(change);
+    await wrapped({ data: change });
 
     const newRecords = (await pricesCollection(newDbName).get()).docs.map(
       (doc) => doc.data()
@@ -122,4 +120,14 @@ describe('np-zone functions', () => {
     expect((await pricesCollection(oldDbName).get()).size).toBe(0);
     expect((await pricesDocument(oldDbName).get()).exists).toBeFalsy();
   });
+
+
+
 });
+
+function dropDatabase() {
+  const request = new Request(
+    'http://localhost:8080/emulator/v1/projects/laiks-e2d86/databases/(default)/documents',
+    { method: 'DELETE' });
+  return fetch(request);
+}
