@@ -11,6 +11,9 @@
         "source": "**",
         "destination": "/index.html"
       }
+    ],
+    "predeploy": [
+      "ng build"
     ]
   },
   "emulators": {
@@ -32,7 +35,7 @@
     },
     "singleProjectMode": true
   },
-  "firestore":{
+  "firestore": {
     "rules": "firestore.rules"
   },
   "functions": [
