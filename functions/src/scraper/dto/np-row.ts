@@ -1,11 +1,11 @@
 import { Expose, Transform, Type } from 'class-transformer';
 import { subDays } from 'date-fns';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import { fromZonedTime } from 'date-fns-tz';
 import { NpColumn } from './np-column';
 import 'reflect-metadata';
 
-const toUTCDate = ({ value }: { value: string | number | Date }) =>
-  zonedTimeToUtc(value, 'CET');
+const toUTCDate = ({ value }: { value: string | number | Date; }) =>
+  fromZonedTime(value, 'CET');
 
 export class NpRow {
   @Expose({ name: 'Columns' })
