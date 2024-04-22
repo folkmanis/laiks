@@ -1,8 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
-  FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -31,17 +29,18 @@ import { LoginResponseType, LoginService } from '@shared/users';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
+
   private snack = inject(MatSnackBar);
   private loginService = inject(LoginService);
   private router = inject(Router);
-  private redirect =
-    inject(ActivatedRoute).snapshot.queryParamMap.get('redirect');
   private nnfb = new FormBuilder().nonNullable;
 
   loginGroup = this.nnfb.group({
     email: ['', [Validators.email, Validators.required]],
     password: ['', [Validators.required]],
   });
+
+  redirect = input<string>();
 
   async onLoginWithGmail() {
     try {
@@ -57,7 +56,7 @@ export class LoginComponent {
       if (result.type === LoginResponseType.EXISTING) {
         this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
       }
-      this.router.navigateByUrl(this.redirect ?? '/');
+      this.router.navigateByUrl(this.redirect() ?? '/');
 
     } catch (err) {
       this.snack.open(`Neizdevās pieslēgties. ${err}`, 'OK');
@@ -74,7 +73,7 @@ export class LoginComponent {
       await this.loginService.loginWithEmail(email, password);
 
       this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
-      this.router.navigateByUrl(this.redirect ?? '/');
+      this.router.navigateByUrl(this.redirect() ?? '/');
 
     } catch (error) {
       this.snack.open(`Pieslēgšanās neveiksmīga. ${error}`, 'OK');
