@@ -2,7 +2,7 @@
     <mat-form-field class="full-width">
         <mat-label> Kods </mat-label>
         <input matInput [(ngModel)]="id" name="idControl" #idControl="ngModel" laiksUpperCase required
-            [disabled]="initialValue() != undefined">
+            [disabled]="initialValue() !== undefined">
     </mat-form-field>
 </section>
 <div [formGroup]="form">
@@ -69,7 +69,7 @@
 
 <section>
     <button mat-raised-button (click)="onSave()"
-        [disabled]="form.pristine || form.valid == false || (initialValue() == undefined && idControl.valid == false)">
+        [disabled]="form.pristine || !form.valid || (initialValue() === undefined && !idControl.valid)">
         @if (initialValue()) {
         Saglabāt
         }@else {

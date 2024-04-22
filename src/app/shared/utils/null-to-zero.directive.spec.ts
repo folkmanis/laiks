@@ -1,8 +1,8 @@
-import { Component, DebugElement } from '@angular/core';
-import { NullToZeroDirective } from "./null-to-zero.directive";
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { NullToZeroDirective } from "./null-to-zero.directive";
 
 @Component({
     standalone: true,
@@ -44,7 +44,7 @@ describe('NullToZeroDirective', () => {
         expect(input.value).toBe('0');
     });
 
-    function setInputValue(value: any) {
+    function setInputValue(value: string) {
         input.value = value;
         input.dispatchEvent(new Event('input'));
         input.dispatchEvent(new Event('blur'));

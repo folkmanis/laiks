@@ -1,10 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import {
-  DEFAULT_SETTINGS,
-  LocalSettingsService,
-} from './local-settings.service';
 import { LocalSettings } from './local-settings';
+import { LocalSettingsService } from './local-settings.service';
 
 const TEST_SETTINGS: LocalSettings = {
   offset: 10,

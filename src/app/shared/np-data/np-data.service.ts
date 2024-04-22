@@ -104,7 +104,7 @@ export class NpDataService {
   async scrapeAllZones(forced = false): Promise<ScrapeZoneResult[]> {
     const scrape = httpsCallable<
       { forced?: boolean; },
-      { errors: any[]; results: ScrapeZoneResult[]; }
+      { errors: Error[]; results: ScrapeZoneResult[]; }
     >(this.functions, 'scrapeAll');
     const result = await scrape({ forced });
     return result.data.results;

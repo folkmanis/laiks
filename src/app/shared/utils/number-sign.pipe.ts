@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'numberSign',
-    standalone: true
+  name: 'numberSign',
+  standalone: true
 })
 export class NumberSignPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
+  transform(value: unknown): unknown {
     if (typeof value !== 'number') {
       return value;
     }

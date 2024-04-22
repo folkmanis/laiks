@@ -95,7 +95,7 @@ export class PowerCyclesComponent implements ControlValueAccessor, Validator {
     this.table?.renderRows();
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: Partial<PowerConsumptionCycle>[]) => void): void {
     this.powerCycles.valueChanges
       .pipe(
         map((cycles) =>

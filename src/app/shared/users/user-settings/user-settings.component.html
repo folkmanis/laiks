@@ -7,10 +7,10 @@
     <laiks-user-form [formControl]="userControl" [locales]="locales()" [zones]="zones()">
 
         <div class="buttons">
-            <button mat-raised-button [disabled]="!userControl.valid || busy() || update() == null" (click)="onSave()">
+            <button mat-raised-button [disabled]="!userControl.valid || busy() || !update()" (click)="onSave()">
                 Saglabāt
             </button>
-            <button mat-button [disabled]="busy() || update() == null" (click)="onReset()">
+            <button mat-button [disabled]="busy() || !update()" (click)="onReset()">
                 Atiestatīt
             </button>
             <a mat-button routerLink="..">

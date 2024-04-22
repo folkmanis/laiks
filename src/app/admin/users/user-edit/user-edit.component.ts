@@ -59,7 +59,7 @@ export class UserEditComponent {
   }
 
   private async getNpBlocked(id: string) {
-    const isNpBlocked = await this.permissionsService.isNpBlocked(this.id());
+    const isNpBlocked = await this.permissionsService.isNpBlocked(id);
     this.isNpBlocked.set(isNpBlocked);
     this.npBlockedBusy.set(false);
   }

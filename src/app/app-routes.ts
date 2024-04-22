@@ -1,11 +1,8 @@
-import { inject } from '@angular/core';
 import { Route } from '@angular/router';
-import { first } from 'rxjs';
+import { loginGuard } from '@shared/users';
 import { MainComponent } from './main/main.component';
 import { canActivateAdmin } from './shared/users/admin.guard';
-import { LoginService } from './shared/users/login.service';
 import { npUserGuard } from './shared/users/np-user.guard';
-import { loginGuard } from '@shared/users';
 
 export const APP_ROUTES: Route[] = [
   {

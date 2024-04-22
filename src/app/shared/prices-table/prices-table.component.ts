@@ -52,7 +52,7 @@ export class PricesTableComponent implements AfterViewInit {
 
   displayedColumns = ['difference', 'time', 'appliances', 'price'];
 
-  trackByFn: (index: number, item: NpPriceWithOffset) => any = (_, item) =>
+  trackByFn: (index: number, item: NpPriceWithOffset) => number = (_, item) =>
     item.startTime.valueOf();
 
   private lastDate: Date | null = null;

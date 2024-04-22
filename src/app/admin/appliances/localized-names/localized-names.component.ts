@@ -53,7 +53,7 @@ export class LocalizedNamesComponent implements CanComponentDeactivate {
   private confirmation = inject(ConfirmationDialogService);
   private appliancesService = inject(SystemAppliancesService);
   private snack = inject(MatSnackBar);
-  private errorMessageTemplate = viewChild.required<TemplateRef<any>>('errorMessageTemplate');
+  private errorMessageTemplate = viewChild.required<TemplateRef<unknown>>('errorMessageTemplate');
 
   namesForm = new FormGroup<NamesForm>({});
 

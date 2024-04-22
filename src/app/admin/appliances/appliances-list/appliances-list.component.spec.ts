@@ -43,12 +43,13 @@ describe('AppliancesListComponent', () => {
     let loader: HarnessLoader;
 
     let table: MatTableHarness;
-    let confirmationDialogMockService = jasmine.createSpyObj<ConfirmationDialogService>('ConfirmationDialog', ['delete']);
-    confirmationDialogMockService.delete.and.resolveTo(true);
+    let confirmationDialogMockService: jasmine.SpyObj<ConfirmationDialogService>;
 
     let mockService: jasmine.SpyObj<SystemAppliancesService>;
 
     beforeEach(async () => {
+        confirmationDialogMockService = jasmine.createSpyObj<ConfirmationDialogService>('ConfirmationDialog', ['delete']);
+        confirmationDialogMockService.delete.and.resolveTo(true);
 
         const testData$ = new BehaviorSubject([...testData]);
         mockService = jasmine.createSpyObj<SystemAppliancesService>(

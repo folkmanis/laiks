@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
-import { ColorTagComponent, DEFAULT_COLOR } from './color-tag.component';
-import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy, Component, DebugElement, signal } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { ColorTagComponent, DEFAULT_COLOR } from './color-tag.component';
 
 const TEST_COLOR = 'rgba(55, 55, 55, 0.8)';
 

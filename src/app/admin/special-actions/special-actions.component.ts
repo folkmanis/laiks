@@ -14,7 +14,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MarketZonesService, NpDataService } from '@shared/np-data';
+import { ScrapeZoneResult } from '@shared/np-data/scrape-zone-result';
 import { UsersService } from '@shared/users';
+import { DeleteInactiveUsersResult } from '@shared/users/delete-inactive-result';
+
+type Result = ScrapeZoneResult | ScrapeZoneResult[] | DeleteInactiveUsersResult;
 
 @Component({
   selector: 'laiks-special-actions',
@@ -42,9 +46,9 @@ export class SpecialActionsComponent {
 
   zones = toSignal(inject(MarketZonesService).getZonesFlow());
 
-  result = signal<Record<string, any> | null>(null);
+  result = signal<Result | null>(null);
   busy = signal(false);
-  error = signal<Record<string, any> | null>(null);
+  error = signal<Error | null>(null);
 
   async onScrapeAll(forced: boolean) {
     this.reset();

@@ -7,7 +7,7 @@ import { minutesToHours } from 'date-fns';
 })
 export class MinutesToHoursPipe implements PipeTransform {
 
-  transform(value: unknown): string | any {
+  transform(value: unknown): string | unknown {
     if (typeof value === 'number') {
       const hours = minutesToHours(value);
       const minutes = Math.round(value % 60);

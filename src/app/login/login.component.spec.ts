@@ -1,18 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { LoginComponent } from './login.component';
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { LaiksUser, LoginService } from '@shared/users';
-import { RouterTestingHarness } from '@angular/router/testing';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Component } from '@angular/core';
-import { MatInputHarness } from "@angular/material/input/testing";
-import { MatFormFieldHarness } from "@angular/material/form-field/testing";
-import { MatButtonHarness } from "@angular/material/button/testing";
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { Component } from '@angular/core';
+import { MatButtonHarness } from "@angular/material/button/testing";
+import { MatFormFieldHarness } from "@angular/material/form-field/testing";
+import { MatInputHarness } from "@angular/material/input/testing";
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
+import { LaiksUser, LoginService } from '@shared/users';
+import { LoginComponent } from './login.component';
 
 const EMAIL_USER = {
   email: 'user@example.com',

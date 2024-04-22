@@ -5,7 +5,6 @@ import {
   input
 } from '@angular/core';
 import {
-  AbstractControl,
   ControlValueAccessor,
   FormControl,
   FormGroup,
@@ -16,7 +15,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
   Validator,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -85,7 +84,7 @@ export class UserFormComponent implements ControlValueAccessor, Validator {
     this.userForm.reset(obj, { emitEvent: false });
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: unknown) => void): void {
     this.userForm.valueChanges.subscribe(fn);
   }
 
@@ -99,11 +98,11 @@ export class UserFormComponent implements ControlValueAccessor, Validator {
     }
   }
 
-  validate(control: AbstractControl<any, any>): ValidationErrors | null {
+  validate(): ValidationErrors | null {
     return this.userForm.valid ? null : { invalid: this.userForm.errors };
   }
 
-  onZoneChange(id: any) {
+  onZoneChange(id: string) {
     const newZone = this.zones()?.find((zone) => zone.id === id);
     if (newZone) {
       this.userForm.controls.vatAmount.setValue(newZone.tax);

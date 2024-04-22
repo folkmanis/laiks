@@ -51,7 +51,7 @@ export class UsersListComponent {
 
   displayedColumns = ['selection', 'email', 'edit'];
 
-  trackByFn: (index: number, item: LaiksUser) => any = (_, item) => item.email;
+  trackByFn: (index: number, item: LaiksUser) => string = (_, item) => item.email;
 
   constructor() {
     effect(() => {

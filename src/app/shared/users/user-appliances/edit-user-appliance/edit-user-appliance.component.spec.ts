@@ -10,11 +10,10 @@ import { RouterTestingHarness } from '@angular/router/testing';
 import { PowerAppliance, SystemAppliancesService } from '@shared/appliances';
 import { dishWasher, washer } from '@shared/np-data/price-calculator.service.spec';
 import { UsersService } from '@shared/users/users.service';
+import { canDeactivateGuard } from '@shared/utils';
 import { BehaviorSubject, of } from 'rxjs';
 import { TEST_USER } from "../../users.service.spec";
 import { EditUserApplianceComponent } from './edit-user-appliance.component';
-import { canDeactivateGuard } from '@shared/utils';
-import { Component } from '@angular/core';
 
 const fakeSystemAppliances = [dishWasher, washer]
   .map((appliance, idx) => ({ ...appliance, id: 'id_' + idx }));
