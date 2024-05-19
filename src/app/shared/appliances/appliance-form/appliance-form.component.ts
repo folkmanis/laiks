@@ -125,11 +125,11 @@ export class ApplianceFormComponent implements ControlValueAccessor, Validator {
     this.initialValue = obj;
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: Partial<PowerAppliance>) => void): void {
     this.applianceForm.valueChanges.subscribe(fn);
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouchFn = fn;
   }
 

@@ -26,7 +26,7 @@
     </div>
     <div class="buttons-row">
         <button mat-raised-button (click)="onScrapeZone(marketZone.value, forcedZoneCheck.checked)"
-            [disabled]="busy() || marketZone.value == null">
+            [disabled]="busy() || marketZone.value === null">
             Nolasīt reģionu
         </button>
         <mat-checkbox #forcedZoneCheck [disabled]="busy()">

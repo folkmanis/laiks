@@ -36,6 +36,8 @@ describe('SystemAppliancesService', () => {
 
     it('should retrieve, create, update and delete appliance', async () => {
         const appliances = await firstValueFrom(service.getPowerAppliances());
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { id, ...newAppliance } = appliances[0];
         const newId = await service.createAppliance(newAppliance);
         expect(newId).withContext('created').toBeTruthy();

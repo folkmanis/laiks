@@ -30,6 +30,12 @@
             "prefix": "laiks",
             "style": "kebab-case"
           }
+        ],
+        "@angular-eslint/no-host-metadata-property": [
+          "off",
+          {
+            "allowStatic": false
+          }
         ]
       }
     },

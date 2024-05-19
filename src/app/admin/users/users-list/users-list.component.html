@@ -32,7 +32,7 @@
     <ng-container matColumnDef="selection">
         <mat-header-cell *matHeaderCellDef>
             <mat-checkbox [checked]="isAllSelected()" (change)="toggleAll()"
-                [indeterminate]="userSelection.hasValue() && isAllSelected() == false"></mat-checkbox>
+                [indeterminate]="userSelection.hasValue() && !isAllSelected()"></mat-checkbox>
         </mat-header-cell>
         <mat-cell *matCellDef="let user">
             <mat-checkbox [checked]="userSelection.isSelected(user)"

@@ -1,17 +1,17 @@
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MarketZonesService } from '@shared/np-data';
-import { LoginService, isAdmin, isNpAllowed } from '@shared/users';
+import { LoginService, isNpAllowed } from '@shared/users';
 import { map, of, switchMap } from 'rxjs';
 import { UserMenuComponent } from './user-menu/user-menu.component';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-root',
+  selector: 'laiks-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

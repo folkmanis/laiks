@@ -1,9 +1,9 @@
-import { Snapshot, dataOrThrow } from "./data-or-throw";
+import { dataOrThrow } from "./data-or-throw";
 
 describe('dataOrThrow', () => {
 
     it('should return data', () => {
-        const snapshot: Snapshot<Record<string, any>> = {
+        const snapshot = {
             exists: () => true,
             data: () => ({})
         };

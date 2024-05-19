@@ -1,6 +1,7 @@
 <div class="container">
 
-    <form [formGroup]="newUserForm" (submit)="onCreateUser($event)">
+    <form [formGroup]="newUserForm" (submit)="onCreateUser($event)" cdkTrapFocus cdkTrapFocusAutoCapture>
+
         <mat-form-field class="full-width">
             <mat-label>e-pasts</mat-label>
             <input matInput type="email" formControlName="email" autocomplete="email" />

@@ -1,7 +1,6 @@
 import {
   ComponentFixture,
-  ComponentFixtureAutoDetect,
-  TestBed,
+  TestBed
 } from '@angular/core/testing';
 import { SelectorComponent } from './selector.component';
 

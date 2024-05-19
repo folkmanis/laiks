@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -9,7 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LoginResponseType, LoginService } from '@shared/users';
 
 @Component({
@@ -23,6 +24,7 @@ import { LoginResponseType, LoginService } from '@shared/users';
     MatDividerModule,
     MatInputModule,
     RouterLink,
+    A11yModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -34,6 +36,7 @@ export class LoginComponent {
   private loginService = inject(LoginService);
   private router = inject(Router);
   private nnfb = new FormBuilder().nonNullable;
+  private emailInput = viewChild<ElementRef<HTMLInputElement>>('emailInput');
 
   loginGroup = this.nnfb.group({
     email: ['', [Validators.email, Validators.required]],
@@ -78,6 +81,7 @@ export class LoginComponent {
     } catch (error) {
       this.snack.open(`Pieslēgšanās neveiksmīga. ${error}`, 'OK');
       this.loginGroup.controls.password.reset();
+      this.emailInput()?.nativeElement.focus();
     }
 
   }

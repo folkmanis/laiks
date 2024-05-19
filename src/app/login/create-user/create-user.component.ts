@@ -1,3 +1,4 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
@@ -45,6 +46,7 @@ const passwordsMatchValidator: ValidatorFn = (
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    A11yModule,
   ],
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
