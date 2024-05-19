@@ -25,12 +25,12 @@
     "@angular/platform-browser-dynamic": "^17.3.9",
     "@angular/router": "^17.3.9",
     "date-fns": "^3.6.0",
-    "firebase": "^10.11.0",
+    "firebase": "^10.12.0",
     "firebaseui": "^6.1.0",
     "lodash-es": "^4.17.21",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
-    "zone.js": "^0.14.4"
+    "zone.js": "^0.14.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.7",
