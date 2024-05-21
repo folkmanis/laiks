@@ -29,7 +29,7 @@ bootstrapApplication(AppComponent, {
     { provide: LOCALE_ID, useValue: 'lv' },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
     provideRouter(APP_ROUTES, withComponentInputBinding()),
-    environment.emulators ? testFirebaseProvider : productionFirebaseProvider,
+    ...(environment.emulators ? testFirebaseProvider : productionFirebaseProvider),
     importProvidersFrom(
       BrowserAnimationsModule,
       MatSnackBarModule,

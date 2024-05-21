@@ -25,7 +25,7 @@ describe('testFirebaseProvider', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [testFirebaseProvider]
+            providers: testFirebaseProvider
         });
     });
 

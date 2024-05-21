@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { importProvidersFrom } from '@angular/core';
+import { EnvironmentProviders } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import {
@@ -10,7 +10,7 @@ import {
 import { connectFunctionsEmulator, getFunctions, provideFunctions } from "@angular/fire/functions";
 import { environment } from 'src/environments/environment';
 
-export const testFirebaseProvider = importProvidersFrom(
+export const testFirebaseProvider: EnvironmentProviders[] = [
   provideFirebaseApp(() => initializeApp(environment.firebase)),
   provideAuth(() => {
     const auth = getAuth();
@@ -31,4 +31,4 @@ export const testFirebaseProvider = importProvidersFrom(
     connectFunctionsEmulator(functions, '127.0.0.1', 5001);
     return functions;
   }),
-);
+];
