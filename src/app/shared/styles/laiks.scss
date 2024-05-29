@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-@use '@angular/material-experimental' as matx;
 @use './variables';
 @use './input-theme' as laiks-input;
 @use './vertical-container';
@@ -17,8 +16,6 @@ html {
 
 
     @include mat.all-component-themes($dark-theme);
-    @include mat.typography-hierarchy($dark-theme, $back-compat: true);
-    // @include matx.color-variants-back-compat($dark-theme);
 
     @include laiks-input.md3-theme($dark-theme);
 }
