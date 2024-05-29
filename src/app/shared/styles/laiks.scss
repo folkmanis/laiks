@@ -6,9 +6,9 @@
 
 @include mat.core();
 
-$dark-theme: matx.define-theme((color: (theme-type: dark,
-                primary: matx.$m3-rose-palette,
-                tertiary: matx.$m3-cyan-palette,
+$dark-theme: mat.define-theme((color: (theme-type: dark,
+                primary: mat.$rose-palette,
+                tertiary: mat.$cyan-palette,
             ),
             density: (scale: -1),
         ));
