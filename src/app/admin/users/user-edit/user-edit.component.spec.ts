@@ -9,6 +9,7 @@ import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { UsersService } from '../../../shared/users/users.service';
 import { UserEditComponent } from './user-edit.component';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 
 describe('UserEditComponent', () => {
@@ -36,6 +37,7 @@ describe('UserEditComponent', () => {
         ], withComponentInputBinding()),
         ConfirmationDialogService,
         testFirebaseProvider,
+        provideExperimentalZonelessChangeDetection(),
       ],
     });
     await TestBed.compileComponents();

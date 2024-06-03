@@ -1,8 +1,9 @@
 import { TestBed, fakeAsync } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, MaybeAsync, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, GuardResult, MaybeAsync, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { Observable, firstValueFrom, from, throwError } from 'rxjs';
 import { loginGuard } from './login.guard';
 import { LoginService } from './login.service';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 
 
@@ -29,6 +30,7 @@ describe('loginGuard', async () => {
           provide: LoginService,
           useValue: mockLoginService,
         },
+        provideExperimentalZonelessChangeDetection(),
       ]
     });
   });
@@ -78,20 +80,20 @@ describe('loginGuard', async () => {
   }));
 
 
-  function getLoginGuardWithDummyUrl(urlPath: string): () => MaybeAsync<boolean | UrlTree> {
+  function getLoginGuardWithDummyUrl(urlPath: string): () => MaybeAsync<GuardResult> {
     const dummyRoute = new ActivatedRouteSnapshot();
     dummyRoute.url = [new UrlSegment(urlPath, {})];
     const dummyState: RouterStateSnapshot = { url: urlPath, root: new ActivatedRouteSnapshot() };
     return () => loginGuard(dummyRoute, dummyState);
   }
 
-  async function runLoginGuardWithContext(guard: () => MaybeAsync<boolean | UrlTree>): Promise<boolean | UrlTree> {
+  async function runLoginGuardWithContext(guard: () => MaybeAsync<GuardResult>): Promise<GuardResult> {
     const result = TestBed.runInInjectionContext(guard);
     const loggedIn = result instanceof Observable ? handleObservableResult(result) : result;
     return loggedIn;
   }
 
-  function handleObservableResult<T extends boolean | UrlTree>(result: Observable<T>): Promise<T> {
+  function handleObservableResult<T extends GuardResult>(result: Observable<T>): Promise<T> {
     return firstValueFrom(result);
   }
 

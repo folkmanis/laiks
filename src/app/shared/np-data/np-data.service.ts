@@ -1,17 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import {
   collection,
-  collectionData,
   doc,
-  docData,
   DocumentData,
   DocumentReference,
-  Firestore,
   query,
   Timestamp,
   where,
-} from '@angular/fire/firestore';
-import { Functions, httpsCallable } from '@angular/fire/functions';
+} from 'firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
 import { throwIfNull, WithId } from '@shared/utils';
 import { startOfDay, subDays } from 'date-fns';
 import { combineLatest, map, Observable, switchMap } from 'rxjs';
@@ -19,6 +16,8 @@ import { LoginService } from '../users';
 import { MarketZonesService } from './market-zones.service';
 import { NpData, NpPrice, NpPriceCollectionData } from './np-price.interface';
 import { ScrapeZoneResult } from './scrape-zone-result';
+import { Firestore, Functions } from "@shared/firebase";
+import { docData, collectionData } from "rxfire/firestore";
 
 const DB_NAME = 'laiks';
 

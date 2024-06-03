@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatButtonHarness } from "@angular/material/button/testing";
 import { MatFormFieldHarness } from "@angular/material/form-field/testing";
 import { MatInputHarness } from "@angular/material/input/testing";
@@ -55,6 +55,7 @@ describe('LoginComponent', () => {
           { path: 'redirected', component: TestRedirectComponent },
           { path: '', component: TestRootComponent },
         ], withComponentInputBinding()),
+        provideExperimentalZonelessChangeDetection(),
       ],
     });
     harness = await RouterTestingHarness.create();

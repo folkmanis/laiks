@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { testFirebaseProvider } from "./test-firebase-provider";
-import { FirebaseApp } from '@angular/fire/app';
-import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
-import { Functions } from '@angular/fire/functions';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { Auth, FirebaseApp, Firestore, Functions } from "@shared/firebase";
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 const ADMIN_USER = {
     email: 'admin@example.com',
@@ -25,7 +24,7 @@ describe('testFirebaseProvider', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: testFirebaseProvider
+            providers: [testFirebaseProvider, provideExperimentalZonelessChangeDetection(),]
         });
     });
 

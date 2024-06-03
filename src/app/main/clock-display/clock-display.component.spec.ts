@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Component } from '@angular/core';
+import { Component, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { ClockDisplayComponent } from './clock-display.component';
 
 const TEST_DATE = new Date(2022, 10, 20, 12, 3, 0);
@@ -21,7 +21,8 @@ describe('ClockDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClockDisplayTestComponent]
+      imports: [ClockDisplayTestComponent],
+      providers: [provideExperimentalZonelessChangeDetection(),]
     })
       .compileComponents();
 

@@ -1,13 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import {
   CollectionReference,
-  Firestore,
   collection,
-  collectionData,
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
 import { WithId } from '@shared/utils';
 import { Observable, firstValueFrom } from 'rxjs';
 import { Locale } from './locale';
+import { Firestore } from "@shared/firebase";
+import { collectionData } from "rxfire/firestore";
 
 const LOCALES = 'locales';
 

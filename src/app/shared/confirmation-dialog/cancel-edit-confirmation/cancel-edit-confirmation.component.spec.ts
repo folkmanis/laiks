@@ -1,6 +1,6 @@
 import { HarnessLoader } from "@angular/cdk/testing";
 import { TestbedHarnessEnvironment } from "@angular/cdk/testing/testbed";
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -23,6 +23,7 @@ describe('CancelEditConfirmation', () => {
 
         TestBed.configureTestingModule({
             imports: [CancelEditConfirmationTestComponent, NoopAnimationsModule],
+            providers: [provideExperimentalZonelessChangeDetection(),]
         });
         await TestBed.compileComponents();
 

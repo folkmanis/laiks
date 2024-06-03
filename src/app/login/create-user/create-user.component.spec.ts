@@ -4,6 +4,7 @@ import { CreateUserComponent } from './create-user.component';
 
 import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('CreateUserComponent', () => {
   let component: CreateUserComponent;
@@ -12,7 +13,7 @@ describe('CreateUserComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CreateUserComponent, NoopAnimationsModule],
-      providers: [testFirebaseProvider],
+      providers: [testFirebaseProvider, provideExperimentalZonelessChangeDetection(),],
     });
     fixture = TestBed.createComponent(CreateUserComponent);
     component = fixture.componentInstance;

@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { EnvironmentProviders } from '@angular/core';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
+import { initializeApp } from 'firebase/app';
+import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import {
   connectFirestoreEmulator,
   getFirestore,
-  provideFirestore,
-} from '@angular/fire/firestore';
-import { connectFunctionsEmulator, getFunctions, provideFunctions } from "@angular/fire/functions";
+
+} from 'firebase/firestore';
+import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 import { environment } from 'src/environments/environment';
+import { provideAuth, provideFirebaseApp, provideFirestore, provideFunctions } from "./firebase-providers";
 
 export const testFirebaseProvider: EnvironmentProviders[] = [
   provideFirebaseApp(() => initializeApp(environment.firebase)),

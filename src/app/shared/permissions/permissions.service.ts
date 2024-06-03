@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import {
-  Firestore,
   deleteDoc,
   doc,
   getDoc,
   setDoc
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
+import { Firestore } from "@shared/firebase";
 
 const ADMINS = 'admins';
 const NP_BLOCKEDS = 'npBlocked';

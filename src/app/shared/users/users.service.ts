@@ -2,23 +2,22 @@ import { Injectable, inject } from '@angular/core';
 import {
   CollectionReference,
   DocumentReference,
-  Firestore,
   collection,
-  collectionData,
   deleteDoc,
   doc,
-  docData,
   getDoc,
   orderBy,
   query,
   updateDoc,
   writeBatch,
-} from '@angular/fire/firestore';
-import { Functions, httpsCallable } from '@angular/fire/functions';
+} from 'firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
 import { LaiksUser } from '@shared/users';
 import { WithId, assertNotNull, throwIfNull } from '@shared/utils';
 import { Observable } from 'rxjs';
 import { DeleteInactiveUsersResult } from './delete-inactive-result';
+import { Functions, Firestore } from "@shared/firebase";
+import { docData, collectionData } from "rxfire/firestore";
 
 const USERS_COLL = 'users';
 

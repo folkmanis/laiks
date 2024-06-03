@@ -4,6 +4,7 @@ import { finalize, from, mergeMap, take, tap } from 'rxjs';
 import { MarketZone } from './market-zone';
 import { MarketZonesService } from './market-zones.service';
 import { loginAdmin, logout } from '@shared/firebase/test-firebase-provider.spec';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 const TEST_ZONE_ID = 'test';
 
@@ -24,6 +25,7 @@ describe('MarketZonesService', () => {
         TestBed.configureTestingModule({
             providers: [
                 testFirebaseProvider,
+                provideExperimentalZonelessChangeDetection(),
             ]
         });
 

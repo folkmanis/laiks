@@ -3,6 +3,7 @@ import {
   TestBed
 } from '@angular/core/testing';
 import { SelectorComponent } from './selector.component';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('SelectorComponent', () => {
   let component: SelectorComponent;
@@ -11,6 +12,7 @@ describe('SelectorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SelectorComponent],
+      providers: [provideExperimentalZonelessChangeDetection(),]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SelectorComponent);

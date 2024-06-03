@@ -4,7 +4,7 @@ import {
   input,
   output
 } from '@angular/core';
-import { User } from '@angular/fire/auth';
+import { User } from 'firebase/auth';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';

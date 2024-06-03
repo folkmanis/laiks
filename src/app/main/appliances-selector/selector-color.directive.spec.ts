@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectorColorDirective } from './selector-color.directive';
@@ -19,7 +19,8 @@ describe('SelectorColorDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectorColorTestComponent]
+      imports: [SelectorColorTestComponent],
+      providers: [provideExperimentalZonelessChangeDetection(),]
     })
       .compileComponents();
 

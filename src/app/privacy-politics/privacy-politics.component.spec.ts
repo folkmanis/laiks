@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PrivacyPoliticsComponent } from './privacy-politics.component';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('PrivacyPoliticsComponent', () => {
   let component: PrivacyPoliticsComponent;
@@ -8,7 +9,8 @@ describe('PrivacyPoliticsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PrivacyPoliticsComponent]
+      imports: [PrivacyPoliticsComponent],
+      providers: [provideExperimentalZonelessChangeDetection(),]
     });
     fixture = TestBed.createComponent(PrivacyPoliticsComponent);
     component = fixture.componentInstance;

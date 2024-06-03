@@ -4,6 +4,7 @@ import { loginAdmin, logout } from '@shared/firebase/test-firebase-provider.spec
 import { firstValueFrom, take } from 'rxjs';
 import { PresetPowerAppliance } from './power-appliance.interface';
 import { SystemAppliancesService } from "./system-appliances.service";
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('SystemAppliancesService', () => {
 
@@ -11,7 +12,7 @@ describe('SystemAppliancesService', () => {
 
     beforeEach(async () => {
         TestBed.configureTestingModule({
-            providers: [testFirebaseProvider]
+            providers: [testFirebaseProvider, provideExperimentalZonelessChangeDetection(),]
         });
         service = TestBed.inject(SystemAppliancesService);
         await loginAdmin();

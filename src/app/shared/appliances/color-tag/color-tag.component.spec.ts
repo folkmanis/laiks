@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DebugElement, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, provideExperimentalZonelessChangeDetection, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ColorTagComponent, DEFAULT_COLOR } from './color-tag.component';
@@ -13,7 +13,8 @@ describe('ColorTagComponent', () => {
     beforeEach(async () => {
 
         TestBed.configureTestingModule({
-            imports: [ColorTagTestComponent]
+            imports: [ColorTagTestComponent],
+            providers: [provideExperimentalZonelessChangeDetection(),]
         });
         fixture = TestBed.createComponent(ColorTagTestComponent);
         componentElement = fixture.debugElement.query(By.directive(ColorTagComponent));

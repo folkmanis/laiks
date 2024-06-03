@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -23,6 +23,7 @@ describe('ConfirmationDialogService', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MatDialogModule, ConfirmationDialogServiceTestComponent, NoopAnimationsModule],
+      providers: [provideExperimentalZonelessChangeDetection(),]
     });
     await TestBed.compileComponents();
     service = TestBed.inject(ConfirmationDialogService);

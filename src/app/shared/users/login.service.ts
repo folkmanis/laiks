@@ -1,7 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import {
-  Auth,
-  authState,
   createUserWithEmailAndPassword,
   deleteUser,
   GoogleAuthProvider,
@@ -10,21 +8,22 @@ import {
   signOut,
   updateProfile,
   User
-} from '@angular/fire/auth';
+} from 'firebase/auth';
 import {
   deleteDoc,
   doc,
-  docData,
   DocumentReference,
-  Firestore,
   getDoc,
   setDoc,
   updateDoc,
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
+import { Auth, Firestore } from "@shared/firebase";
 import { PermissionsService } from '@shared/permissions';
 import { assertNotNull, throwIfNull, WithId } from '@shared/utils';
 import { firstValueFrom, map, Observable, of, switchMap } from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
+import { authState } from "rxfire/auth";
+import { docData } from "rxfire/firestore";
 
 export enum LoginResponseType {
   CREATED,

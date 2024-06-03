@@ -4,6 +4,7 @@ import { PriceCalculatorService } from './price-calculator.service';
 import { NpPrice } from './np-price.interface';
 import { PowerAppliance } from '../appliances';
 import { addHours, addMinutes } from 'date-fns';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 export const pricesStart = new Date(2022, 0, 1, 12, 0, 0);
 
@@ -82,7 +83,9 @@ describe('PriceCalculatorService', () => {
   let service: PriceCalculatorService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [provideExperimentalZonelessChangeDetection(),]
+    });
     service = TestBed.inject(PriceCalculatorService);
   });
 

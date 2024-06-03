@@ -5,6 +5,7 @@ import {
   LOCALE_ID,
   enableProdMode,
   importProvidersFrom,
+  provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -25,6 +26,7 @@ registerLocaleData(localeLv);
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideExperimentalZonelessChangeDetection(),
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
     { provide: LOCALE_ID, useValue: 'lv' },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },

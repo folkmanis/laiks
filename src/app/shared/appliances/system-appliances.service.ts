@@ -2,23 +2,23 @@ import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
   collection,
-  collectionData,
   CollectionReference,
   deleteDoc,
   doc,
   DocumentData,
   DocumentReference,
-  Firestore,
   getDoc,
   Query,
   query,
   updateDoc,
   where,
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
+import { collectionData } from "rxfire/firestore";
 import { WithId } from '@shared/utils';
 import { dataOrThrow } from '@shared/utils/data-or-throw';
 import { Observable } from 'rxjs';
 import { PresetPowerAppliance } from './power-appliance.interface';
+import { Firestore } from "@shared/firebase";
 
 const APPLIANCES_COLL = 'powerAppliances';
 @Injectable({

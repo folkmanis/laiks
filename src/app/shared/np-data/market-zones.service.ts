@@ -1,20 +1,19 @@
 import { Injectable, inject } from '@angular/core';
 import {
   CollectionReference,
-  Firestore,
   collection,
-  collectionData,
   deleteDoc,
   doc,
-  docData,
   getDoc,
   setDoc,
   updateDoc,
-} from '@angular/fire/firestore';
+} from 'firebase/firestore';
 import { WithId, throwIfNull } from '@shared/utils';
 import { dataOrThrow } from '@shared/utils/data-or-throw';
 import { Observable } from 'rxjs';
 import { MarketZone } from './market-zone';
+import { Firestore } from "@shared/firebase";
+import { collectionData, docData } from "rxfire/firestore";
 
 const ZONES = 'zones';
 

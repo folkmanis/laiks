@@ -1,9 +1,10 @@
 import { EnvironmentProviders } from '@angular/core';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { getFunctions, provideFunctions } from '@angular/fire/functions';
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getFunctions } from 'firebase/functions';
 import { environment } from 'src/environments/environment';
+import { provideFirebaseApp, provideAuth, provideFirestore, provideFunctions } from "./firebase-providers";
 
 export const productionFirebaseProvider: EnvironmentProviders[] = [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
