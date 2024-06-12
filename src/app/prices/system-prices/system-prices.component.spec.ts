@@ -11,7 +11,10 @@ describe('SystemPricesComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SystemPricesComponent],
-      providers: [testFirebaseProvider, provideExperimentalZonelessChangeDetection(),],
+      providers: [
+        testFirebaseProvider,
+        provideExperimentalZonelessChangeDetection(),
+      ],
     });
     fixture = TestBed.createComponent(SystemPricesComponent);
     component = fixture.componentInstance;

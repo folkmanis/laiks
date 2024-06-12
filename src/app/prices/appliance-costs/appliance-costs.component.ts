@@ -33,7 +33,7 @@ import { ApplianceNameComponent } from './appliance-name/appliance-name.componen
   styleUrls: ['./appliance-costs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
 export class ApplianceCostsComponent {
@@ -48,17 +48,17 @@ export class ApplianceCostsComponent {
     .dayObserver()
     .pipe(
       switchMap(() => this.npDataService.getNpPricesWithVat(5)),
-      map(eurMwhToCentsKwh)
+      map(eurMwhToCentsKwh),
     );
 
   private npPrices = toSignal(this.npPrices$);
 
   private costsForStatistics = computed(() =>
-    this.computeAllCosts(this.npPrices(), this.appliance())
+    this.computeAllCosts(this.npPrices(), this.appliance()),
   );
 
   costs = computed(() =>
-    this.computeHourlyCosts(this.npPrices(), this.appliance(), this.minutes())
+    this.computeHourlyCosts(this.npPrices(), this.appliance(), this.minutes()),
   );
 
   appliance = input.required<PowerAppliance>();
@@ -70,7 +70,7 @@ export class ApplianceCostsComponent {
   private computeHourlyCosts(
     npPrices: NpPrice[] | undefined,
     appliance: PowerAppliance,
-    start: Date
+    start: Date,
   ): NpPriceWithOffset[] {
     if (!npPrices || npPrices.length == 0) {
       return [];
@@ -93,7 +93,7 @@ export class ApplianceCostsComponent {
 
   private computeAllCosts(
     npPrices: NpPrice[] | undefined,
-    appliance: PowerAppliance
+    appliance: PowerAppliance,
   ): number[] {
     if (!npPrices || npPrices.length == 0) {
       return [];
@@ -101,7 +101,7 @@ export class ApplianceCostsComponent {
     const costs = this.calculator.allOffsetCosts(
       npPrices,
       npPrices[0].startTime,
-      appliance
+      appliance,
     );
     return [...costs.values()];
   }

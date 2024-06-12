@@ -1,106 +1,108 @@
 <mat-table [dataSource]="powerCycles.controls" [class.large]="isLarge()">
+  <!-- Numurs -->
+  <ng-container matColumnDef="index">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let control; index as idx">
+      {{ idx + 1 }}.
+    </mat-cell>
+    <mat-footer-cell *matFooterCellDef>
+      <mat-icon> functions </mat-icon>
+    </mat-footer-cell>
+  </ng-container>
 
-    <!-- Numurs -->
-    <ng-container matColumnDef="index">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let control; index as idx;">
-            {{ idx + 1 }}.
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef>
-            <mat-icon>
-                functions
-            </mat-icon>
-        </mat-footer-cell>
-    </ng-container>
+  <!-- Cikla garums -->
+  <ng-container matColumnDef="length">
+    <mat-header-cell *matHeaderCellDef> Ilgums (minūtes) </mat-header-cell>
+    <mat-cell *matCellDef="let control">
+      <input
+        matInput
+        laiksInput
+        type="number"
+        [formControl]="control.controls.length"
+        laiksNullToZero
+        (focus)="touchFn()"
+      />
+    </mat-cell>
+    <mat-footer-cell *matFooterCellDef>
+      @if (powerCycles.valid) {
+        {{ getTotalLength(powerCycles.value) | minutesToHours }}
+      }
+    </mat-footer-cell>
+  </ng-container>
 
-    <!-- Cikla garums -->
-    <ng-container matColumnDef="length">
-        <mat-header-cell *matHeaderCellDef>
-            Ilgums (minūtes)
-        </mat-header-cell>
-        <mat-cell *matCellDef="let control;">
-            <input matInput laiksInput type="number" [formControl]="control.controls.length" laiksNullToZero
-                (focus)="touchFn()">
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef>
-            @if (powerCycles.valid) {
-            {{ getTotalLength(powerCycles.value) | minutesToHours }}
-            }
-        </mat-footer-cell>
-    </ng-container>
+  <!-- Cikla patēriņš -->
+  <ng-container matColumnDef="consumption">
+    <mat-header-cell *matHeaderCellDef> Patēriņš (W) </mat-header-cell>
+    <mat-cell *matCellDef="let control">
+      <input
+        matInput
+        laiksInput
+        type="number"
+        [formControl]="control.controls.consumption"
+        laiksNullToZero
+        (focus)="touchFn()"
+      />
+    </mat-cell>
+    <mat-footer-cell *matFooterCellDef>
+      @if (powerCycles.valid) {
+        {{ getTotalConsumption(powerCycles.value) | number: "1.1-1" }} kWh
+      }
+    </mat-footer-cell>
+  </ng-container>
 
-    <!-- Cikla patēriņš -->
-    <ng-container matColumnDef="consumption">
-        <mat-header-cell *matHeaderCellDef>
-            Patēriņš (W)
-        </mat-header-cell>
-        <mat-cell *matCellDef="let control;">
-            <input matInput laiksInput type="number" [formControl]="control.controls.consumption" laiksNullToZero
-                (focus)="touchFn()">
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef>
-            @if (powerCycles.valid) {
-            {{ getTotalConsumption(powerCycles.value) | number : '1.1-1' }} kWh
-            }
-        </mat-footer-cell>
-    </ng-container>
+  <!-- Buttons -->
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let control; index as idx">
+      <!-- Lielam ekrānam -->
+      @if (isLarge() === true) {
+        <span>
+          <button mat-icon-button type="button" (click)="onAddCycle(idx)">
+            <mat-icon> add </mat-icon>
+          </button>
+          <button mat-icon-button type="button" (click)="onDeleteCycle(idx)">
+            <mat-icon> delete </mat-icon>
+          </button>
+        </span>
+      } @else {
+        <!-- Small screens -->
+        <button
+          mat-icon-button
+          type="button"
+          [matMenuTriggerFor]="handsetMenu"
+          [matMenuTriggerData]="{ index: idx }"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      }
+    </mat-cell>
+    <mat-footer-cell *matFooterCellDef>
+      <button
+        mat-icon-button
+        type="button"
+        (click)="onAddCycle(powerCycles.length)"
+      >
+        <mat-icon> add </mat-icon>
+      </button>
+    </mat-footer-cell>
+  </ng-container>
 
-    <!-- Buttons -->
-    <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let control; index as idx;">
-            <!-- Lielam ekrānam -->
-            @if (isLarge() === true) {
-            <span>
-                <button mat-icon-button type="button" (click)="onAddCycle(idx)">
-                    <mat-icon>
-                        add
-                    </mat-icon>
-                </button>
-                <button mat-icon-button type="button" (click)="onDeleteCycle(idx)">
-                    <mat-icon>
-                        delete
-                    </mat-icon>
-                </button>
-
-            </span>
-            } @else {
-            <!-- Small screens -->
-            <button mat-icon-button type="button" [matMenuTriggerFor]="handsetMenu"
-                [matMenuTriggerData]="{ index: idx }">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-            }
-        </mat-cell>
-        <mat-footer-cell *matFooterCellDef>
-            <button mat-icon-button type="button" (click)="onAddCycle(powerCycles.length)">
-                <mat-icon>
-                    add
-                </mat-icon>
-            </button>
-        </mat-footer-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns" />
-    <mat-row *matRowDef="let control; columns: displayedColumns" />
-    <mat-footer-row *matFooterRowDef="displayedColumns" />
-
+  <mat-header-row *matHeaderRowDef="displayedColumns" />
+  <mat-row *matRowDef="let control; columns: displayedColumns" />
+  <mat-footer-row *matFooterRowDef="displayedColumns" />
 </mat-table>
 
 <!-- Small screens menu -->
 <mat-menu #handsetMenu>
+  <ng-template matMenuContent let-idx="index">
+    <button mat-menu-item type="button" (click)="onAddCycle(idx)">
+      <mat-icon>add</mat-icon>
+      <span>Pievienot pirms</span>
+    </button>
 
-    <ng-template matMenuContent let-idx="index">
-
-        <button mat-menu-item type="button" (click)="onAddCycle(idx)">
-            <mat-icon>add</mat-icon>
-            <span>Pievienot pirms</span>
-        </button>
-
-        <button mat-menu-item type="button" (click)="onDeleteCycle(idx)">
-            <mat-icon>delete</mat-icon>
-            <span>Dzēst</span>
-        </button>
-
-    </ng-template>
+    <button mat-menu-item type="button" (click)="onDeleteCycle(idx)">
+      <mat-icon>delete</mat-icon>
+      <span>Dzēst</span>
+    </button>
+  </ng-template>
 </mat-menu>

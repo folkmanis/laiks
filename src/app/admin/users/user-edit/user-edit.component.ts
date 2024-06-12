@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterLink } from '@angular/router';
@@ -14,11 +21,10 @@ import { WithId } from '@shared/utils';
   standalone: true,
   imports: [MatCheckboxModule, MatButtonModule, RouterLink],
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
 export class UserEditComponent {
-
   private permissionsService = inject(PermissionsService);
 
   activeUserId = input<string>();

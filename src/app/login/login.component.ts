@@ -1,10 +1,13 @@
 import { A11yModule } from '@angular/cdk/a11y';
-import { ChangeDetectionStrategy, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -31,7 +34,6 @@ import { LoginResponseType, LoginService } from '@shared/users';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-
   private snack = inject(MatSnackBar);
   private loginService = inject(LoginService);
   private router = inject(Router);
@@ -51,7 +53,7 @@ export class LoginComponent {
       if (result.type === LoginResponseType.CREATED) {
         this.snack.open(
           `Izveidots jauns lietotājs ${result.laiksUser.email}`,
-          'OK'
+          'OK',
         );
         this.router.navigate(['/', 'user-settings']);
         return;
@@ -60,7 +62,6 @@ export class LoginComponent {
         this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
       }
       this.router.navigateByUrl(this.redirect() ?? '/');
-
     } catch (err) {
       this.snack.open(`Neizdevās pieslēgties. ${err}`, 'OK');
       this.loginService.logout();
@@ -68,7 +69,6 @@ export class LoginComponent {
   }
 
   async onLoginWithEmail(event: SubmitEvent) {
-
     event.preventDefault();
     const { email, password } = this.loginGroup.getRawValue();
 
@@ -77,12 +77,10 @@ export class LoginComponent {
 
       this.snack.open(`Pieslēgšanās veiksmīga`, 'OK', { duration: 5000 });
       this.router.navigateByUrl(this.redirect() ?? '/');
-
     } catch (error) {
       this.snack.open(`Pieslēgšanās neveiksmīga. ${error}`, 'OK');
       this.loginGroup.controls.password.reset();
       this.emailInput()?.nativeElement.focus();
     }
-
   }
 }

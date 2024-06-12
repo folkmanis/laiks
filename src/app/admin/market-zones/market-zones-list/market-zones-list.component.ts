@@ -28,11 +28,10 @@ export class MarketZonesListComponent {
   busy = signal(false);
 
   async onDelete(id: string) {
-
     this.busy.set(true);
 
     const confirmation = await this.confirmation.delete();
-    confirmation && await this.zonesService.deleteZone(id);
+    confirmation && (await this.zonesService.deleteZone(id));
     this.busy.set(false);
   }
 }

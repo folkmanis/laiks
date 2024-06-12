@@ -3,10 +3,9 @@ import { minutesToHours } from 'date-fns';
 
 @Pipe({
   name: 'minutesToHours',
-  standalone: true
+  standalone: true,
 })
 export class MinutesToHoursPipe implements PipeTransform {
-
   transform(value: unknown): string | unknown {
     if (typeof value === 'number') {
       const hours = minutesToHours(value);
@@ -15,5 +14,4 @@ export class MinutesToHoursPipe implements PipeTransform {
     }
     return value;
   }
-
 }

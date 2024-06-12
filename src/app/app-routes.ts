@@ -28,7 +28,7 @@ export const APP_ROUTES: Route[] = [
     path: 'privacy-politics',
     loadComponent: () =>
       import('./privacy-politics/privacy-politics.component').then(
-        (c) => c.PrivacyPoliticsComponent
+        (c) => c.PrivacyPoliticsComponent,
       ),
   },
   {
@@ -40,7 +40,7 @@ export const APP_ROUTES: Route[] = [
     path: 'create-user',
     loadComponent: () =>
       import('./login/create-user/create-user.component').then(
-        (c) => c.CreateUserComponent
+        (c) => c.CreateUserComponent,
       ),
   },
   {

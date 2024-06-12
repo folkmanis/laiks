@@ -16,7 +16,7 @@ export default [
     canDeactivate: [canDeactivateGuard],
     data: {
       initialValue: null,
-    }
+    },
   },
   {
     path: ':id',

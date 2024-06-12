@@ -12,8 +12,8 @@ import { WithId, throwIfNull } from '@shared/utils';
 import { dataOrThrow } from '@shared/utils/data-or-throw';
 import { Observable } from 'rxjs';
 import { MarketZone } from './market-zone';
-import { Firestore } from "@shared/firebase";
-import { collectionData, docData } from "rxfire/firestore";
+import { Firestore } from '@shared/firebase';
+import { collectionData, docData } from 'rxfire/firestore';
 
 const ZONES = 'zones';
 
@@ -23,14 +23,14 @@ const ZONES = 'zones';
 export class MarketZonesService {
   private collRef = collection(
     inject(Firestore),
-    ZONES
+    ZONES,
   ) as CollectionReference<MarketZone>;
   private docRef = (id: string) => doc(this.collRef, id);
 
   getZonesFlow(): Observable<WithId<MarketZone>[]> {
     return collectionData(
       this.collRef as CollectionReference<WithId<MarketZone>>,
-      { idField: 'id' }
+      { idField: 'id' },
     ) as Observable<WithId<MarketZone>[]>;
   }
 

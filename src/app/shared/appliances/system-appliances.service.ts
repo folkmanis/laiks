@@ -13,28 +13,30 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { collectionData } from "rxfire/firestore";
+import { collectionData } from 'rxfire/firestore';
 import { WithId } from '@shared/utils';
 import { dataOrThrow } from '@shared/utils/data-or-throw';
 import { Observable } from 'rxjs';
 import { PresetPowerAppliance } from './power-appliance.interface';
-import { Firestore } from "@shared/firebase";
+import { Firestore } from '@shared/firebase';
 
 const APPLIANCES_COLL = 'powerAppliances';
 @Injectable({
   providedIn: 'root',
 })
 export class SystemAppliancesService {
-
   private firestore = inject(Firestore);
 
-  getPowerAppliances<T extends DocumentData = PresetPowerAppliance, D extends WithId<T> = WithId<T>>(
-    { enabledOnly, name }: { enabledOnly?: boolean; name?: string; } = {}
-  ): Observable<D[]> {
-    let collRef = collection(
-      this.firestore,
-      APPLIANCES_COLL
-    ) as CollectionReference<T> | Query<T>;
+  getPowerAppliances<
+    T extends DocumentData = PresetPowerAppliance,
+    D extends WithId<T> = WithId<T>,
+  >({
+    enabledOnly,
+    name,
+  }: { enabledOnly?: boolean; name?: string } = {}): Observable<D[]> {
+    let collRef = collection(this.firestore, APPLIANCES_COLL) as
+      | CollectionReference<T>
+      | Query<T>;
     if (enabledOnly) {
       collRef = query(collRef, where('enabled', '==', true));
     }
@@ -48,7 +50,7 @@ export class SystemAppliancesService {
     const docRef = doc(
       this.firestore,
       APPLIANCES_COLL,
-      id
+      id,
     ) as DocumentReference<PresetPowerAppliance>;
     const snapshot = await getDoc(docRef);
     return dataOrThrow(snapshot);
@@ -56,12 +58,12 @@ export class SystemAppliancesService {
 
   async updateAppliance(
     id: string,
-    update: Partial<PresetPowerAppliance>
+    update: Partial<PresetPowerAppliance>,
   ): Promise<void> {
     const docRef = doc(
       this.firestore,
       APPLIANCES_COLL,
-      id
+      id,
     ) as DocumentReference<PresetPowerAppliance>;
     return updateDoc(docRef, update);
   }
@@ -69,7 +71,7 @@ export class SystemAppliancesService {
   async createAppliance(value: PresetPowerAppliance): Promise<string> {
     const collRef = collection(
       this.firestore,
-      APPLIANCES_COLL
+      APPLIANCES_COLL,
     ) as CollectionReference<PresetPowerAppliance>;
     const result = await addDoc(collRef, value);
     return result.id;
@@ -79,7 +81,7 @@ export class SystemAppliancesService {
     const docRef = doc(
       this.firestore,
       APPLIANCES_COLL,
-      id
+      id,
     ) as DocumentReference<PresetPowerAppliance>;
     return deleteDoc(docRef);
   }

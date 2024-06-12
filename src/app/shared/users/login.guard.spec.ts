@@ -1,14 +1,18 @@
 import { TestBed, fakeAsync } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, GuardResult, MaybeAsync, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  GuardResult,
+  MaybeAsync,
+  Router,
+  RouterStateSnapshot,
+  UrlSegment,
+} from '@angular/router';
 import { Observable, firstValueFrom, from, throwError } from 'rxjs';
 import { loginGuard } from './login.guard';
 import { LoginService } from './login.service';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
-
-
 describe('loginGuard', async () => {
-
   let mockLoginService: jasmine.SpyObj<LoginService>;
   let mockRouter: jasmine.SpyObj<Router>;
 
@@ -17,8 +21,13 @@ describe('loginGuard', async () => {
   const expectedQueryParams = { redirect: urlPath };
 
   beforeEach(async () => {
-    mockLoginService = jasmine.createSpyObj<LoginService>(loginGuard.name, ['loginObserver']);
-    mockRouter = jasmine.createSpyObj<Router>(loginGuard.name, ['navigate', 'createUrlTree']);
+    mockLoginService = jasmine.createSpyObj<LoginService>(loginGuard.name, [
+      'loginObserver',
+    ]);
+    mockRouter = jasmine.createSpyObj<Router>(loginGuard.name, [
+      'navigate',
+      'createUrlTree',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
@@ -31,14 +40,14 @@ describe('loginGuard', async () => {
           useValue: mockLoginService,
         },
         provideExperimentalZonelessChangeDetection(),
-      ]
+      ],
     });
   });
 
   it('should return false if user is not logged in', fakeAsync(async () => {
     mockIsLoggedInFalse();
     const authenticated = await runLoginGuardWithContext(
-      getLoginGuardWithDummyUrl(urlPath)
+      getLoginGuardWithDummyUrl(urlPath),
     );
     expect(authenticated).toBeFalsy();
   }));
@@ -46,7 +55,7 @@ describe('loginGuard', async () => {
   it('should return true if user is logged in', fakeAsync(async () => {
     mockIsLoggedInTrue();
     const authenticated = await runLoginGuardWithContext(
-      getLoginGuardWithDummyUrl(urlPath)
+      getLoginGuardWithDummyUrl(urlPath),
     );
     expect(authenticated).toBeTruthy();
   }));
@@ -54,46 +63,51 @@ describe('loginGuard', async () => {
   it('should redirect to login with origianl url as parameter when not logged in', fakeAsync(async () => {
     mockIsLoggedInFalse();
     const authenticated = await runLoginGuardWithContext(
-      getLoginGuardWithDummyUrl(urlPath)
+      getLoginGuardWithDummyUrl(urlPath),
     );
-    expect(mockRouter.createUrlTree)
-      .toHaveBeenCalledOnceWith(
-        [expectedUrl],
-        { queryParams: expectedQueryParams }
-      );
+    expect(mockRouter.createUrlTree).toHaveBeenCalledOnceWith([expectedUrl], {
+      queryParams: expectedQueryParams,
+    });
     expect(authenticated).toBeFalsy();
   }));
 
   it('should redirect to login with origianl url as parameter if errors', fakeAsync(async () => {
     mockLoginService.loginObserver.and.returnValue(
-      throwError(() => 'Authentication Error!')
+      throwError(() => 'Authentication Error!'),
     );
     const authenticated = await runLoginGuardWithContext(
-      getLoginGuardWithDummyUrl(urlPath)
+      getLoginGuardWithDummyUrl(urlPath),
     );
-    expect(mockRouter.createUrlTree)
-      .toHaveBeenCalledOnceWith(
-        [expectedUrl],
-        { queryParams: expectedQueryParams }
-      );
+    expect(mockRouter.createUrlTree).toHaveBeenCalledOnceWith([expectedUrl], {
+      queryParams: expectedQueryParams,
+    });
     expect(authenticated).toBeFalsy();
   }));
 
-
-  function getLoginGuardWithDummyUrl(urlPath: string): () => MaybeAsync<GuardResult> {
+  function getLoginGuardWithDummyUrl(
+    urlPath: string,
+  ): () => MaybeAsync<GuardResult> {
     const dummyRoute = new ActivatedRouteSnapshot();
     dummyRoute.url = [new UrlSegment(urlPath, {})];
-    const dummyState: RouterStateSnapshot = { url: urlPath, root: new ActivatedRouteSnapshot() };
+    const dummyState: RouterStateSnapshot = {
+      url: urlPath,
+      root: new ActivatedRouteSnapshot(),
+    };
     return () => loginGuard(dummyRoute, dummyState);
   }
 
-  async function runLoginGuardWithContext(guard: () => MaybeAsync<GuardResult>): Promise<GuardResult> {
+  async function runLoginGuardWithContext(
+    guard: () => MaybeAsync<GuardResult>,
+  ): Promise<GuardResult> {
     const result = TestBed.runInInjectionContext(guard);
-    const loggedIn = result instanceof Observable ? handleObservableResult(result) : result;
+    const loggedIn =
+      result instanceof Observable ? handleObservableResult(result) : result;
     return loggedIn;
   }
 
-  function handleObservableResult<T extends GuardResult>(result: Observable<T>): Promise<T> {
+  function handleObservableResult<T extends GuardResult>(
+    result: Observable<T>,
+  ): Promise<T> {
     return firstValueFrom(result);
   }
 
@@ -104,6 +118,4 @@ describe('loginGuard', async () => {
     mockLoginService.loginObserver.and.returnValue(from([false, false, true]));
   };
   //
-
-
 });

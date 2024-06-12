@@ -26,7 +26,7 @@ import { differenceInHours, isDate } from 'date-fns';
   styleUrls: ['./system-prices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
 export class SystemPricesComponent {
@@ -34,10 +34,9 @@ export class SystemPricesComponent {
 
   private npDataService = inject(NpDataService);
 
-  private npPrices = toSignal(
-    this.npDataService.getNpPricesWithVat(),
-    { initialValue: [] }
-  );
+  private npPrices = toSignal(this.npDataService.getNpPricesWithVat(), {
+    initialValue: [],
+  });
 
   private dateNow = toSignal(inject(TimeObserverService).minuteObserver(), {
     requireSync: true,
@@ -45,7 +44,7 @@ export class SystemPricesComponent {
 
   private powerAppliances = toSignal(
     inject(LoginService).userPropertyObserver('appliances'),
-    { initialValue: [] }
+    { initialValue: [] },
   );
 
   private npData = toSignal(this.npDataService.getNpDocWithVat());
@@ -65,7 +64,7 @@ export class SystemPricesComponent {
       const costs = this.calculator.allOffsetCosts(
         prices,
         getDateNow(prices),
-        appliance
+        appliance,
       );
       const bestOffset = this.calculator.bestOffset(costs)?.offset;
       return {

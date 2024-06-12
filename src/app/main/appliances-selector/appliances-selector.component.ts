@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { PowerAppliance } from '@shared/appliances';
@@ -16,5 +21,4 @@ export class AppliancesSelectorComponent {
   appliances = input<PowerAppliance[]>([]);
 
   firstAppliances = computed(() => this.appliances().slice(0, 2));
-
 }

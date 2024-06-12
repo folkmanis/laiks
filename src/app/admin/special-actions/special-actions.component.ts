@@ -37,7 +37,7 @@ type Result = ScrapeZoneResult | ScrapeZoneResult[] | DeleteInactiveUsersResult;
   styleUrl: './special-actions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
 export class SpecialActionsComponent {
@@ -54,10 +54,8 @@ export class SpecialActionsComponent {
     this.reset();
 
     try {
-
       const result = await this.npDataService.scrapeAllZones(forced);
       this.result.set(result);
-
     } catch (error) {
       this.error.set(error as Error);
       this.result.set(null);
@@ -69,10 +67,8 @@ export class SpecialActionsComponent {
     this.reset();
 
     try {
-
       const result = await this.npDataService.scrapeZone(zoneId, forced);
       this.result.set(result);
-
     } catch (error) {
       this.error.set(error as Error);
       this.result.set(null);
@@ -83,10 +79,8 @@ export class SpecialActionsComponent {
   async onDeleteInactiveUsers() {
     this.reset();
     try {
-
       const response = await this.usersService.deleteInactiveUsers();
       this.result.set(response);
-
     } catch (error) {
       this.error.set(error as Error);
       this.result.set(null);

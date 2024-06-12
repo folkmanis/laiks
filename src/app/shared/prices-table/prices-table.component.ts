@@ -5,7 +5,8 @@ import {
   Component,
   booleanAttribute,
   computed,
-  input, viewChildren
+  input,
+  viewChildren,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -40,14 +41,13 @@ import { TimeIntervalComponent } from './time-interval/time-interval.component';
   ],
 })
 export class PricesTableComponent implements AfterViewInit {
-
   private priceRows = viewChildren(PriceRowDirective);
 
   private currentRow = computed(() => {
     if (!this.showDate()) {
       return null;
     }
-    return this.priceRows().find(row => row.current()) || null;
+    return this.priceRows().find((row) => row.current()) || null;
   });
 
   displayedColumns = ['difference', 'time', 'appliances', 'price'];
@@ -58,7 +58,7 @@ export class PricesTableComponent implements AfterViewInit {
   private lastDate: Date | null = null;
   showDateHeaderFn: (index: number, rowData: NpPriceWithOffset) => boolean = (
     _,
-    price
+    price,
   ) => {
     const mustShow =
       this.showDate() && this.lastDate?.getDate() !== price.startTime.getDate();
@@ -67,7 +67,6 @@ export class PricesTableComponent implements AfterViewInit {
   };
 
   npPrices = input<NpPriceWithOffset[]>([]);
-
 
   appliances = input<PowerApplianceWithHourlyCosts[]>([]);
 

@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxChange, MatCheckboxModule, } from '@angular/material/checkbox';
+import {
+  MatCheckboxChange,
+  MatCheckboxModule,
+} from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
@@ -37,8 +45,9 @@ export class AppliancesListComponent {
 
   async onEnable(event: MatCheckboxChange, id: string) {
     this.busy.set(true);
-    await this.appliancesService
-      .updateAppliance(id, { enabled: event.checked });
+    await this.appliancesService.updateAppliance(id, {
+      enabled: event.checked,
+    });
     this.busy.set(false);
   }
 
@@ -46,9 +55,10 @@ export class AppliancesListComponent {
     this.busy.set(true);
     if (await this.confirmation.delete()) {
       await this.appliancesService.deleteAppliance(id);
-      this.snack.openFromComponent(ApplianceDeletedSnackComponent, { data: name });
+      this.snack.openFromComponent(ApplianceDeletedSnackComponent, {
+        data: name,
+      });
     }
     this.busy.set(false);
   }
-
 }

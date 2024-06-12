@@ -36,15 +36,17 @@ export class AppComponent {
     switchMap((id) =>
       id
         ? this.zonesService
-          .getZoneFlow(id)
-          .pipe(map((zone) => ({ ...zone, id })))
-        : of(null)
-    )
+            .getZoneFlow(id)
+            .pipe(map((zone) => ({ ...zone, id })))
+        : of(null),
+    ),
   );
 
   marketZone = toSignal(this.marketZone$);
 
-  laiksUser = toSignal(this.loginService.laiksUserObserver(), { initialValue: null });
+  laiksUser = toSignal(this.loginService.laiksUserObserver(), {
+    initialValue: null,
+  });
 
   user = toSignal(this.loginService.userObserver(), { initialValue: null });
 

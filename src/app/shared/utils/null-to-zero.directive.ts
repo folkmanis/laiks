@@ -7,7 +7,7 @@ import { NgControl } from '@angular/forms';
   standalone: true,
   host: {
     '(blur)': 'onBlur()',
-  }
+  },
 })
 export class NullToZeroDirective {
   private control = inject(NgControl, { self: true });

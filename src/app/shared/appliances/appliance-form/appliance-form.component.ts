@@ -5,7 +5,7 @@ import {
   computed,
   effect,
   input,
-  signal
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -49,7 +49,7 @@ type ApplianceFormType = {
 export type AppliancesByNameFn = (name: string) => Observable<PowerAppliance[]>;
 
 export const APPLIANCES_BY_NAME = new InjectionToken<AppliancesByNameFn>(
-  'By name'
+  'By name',
 );
 
 @Component({
@@ -105,14 +105,14 @@ export class ApplianceFormComponent implements ControlValueAccessor, Validator {
 
   busy = signal(false);
 
-  private onTouchFn: () => void = () => { };
-  private onValidatorChange: () => void = () => { };
+  private onTouchFn: () => void = () => {};
+  private onValidatorChange: () => void = () => {};
 
   formStatus = toSignal(this.applianceForm.statusChanges, {
     initialValue: 'PENDING',
   });
   actionsDisabled = computed(
-    () => this.busy() || this.formStatus() !== 'VALID'
+    () => this.busy() || this.formStatus() !== 'VALID',
   );
 
   constructor() {
@@ -147,7 +147,7 @@ export class ApplianceFormComponent implements ControlValueAccessor, Validator {
     } else {
       const controlsWithError = pickBy(
         this.applianceForm.controls,
-        (control) => !control.valid
+        (control) => !control.valid,
       );
       return mapValues(controlsWithError, (control) => control.errors);
     }
@@ -163,7 +163,7 @@ export class ApplianceFormComponent implements ControlValueAccessor, Validator {
       if (
         current === this.initialValue.name ||
         !this.existingAppliances().some(
-          (ea) => ea.name.toLocaleUpperCase() === current.toLocaleUpperCase()
+          (ea) => ea.name.toLocaleUpperCase() === current.toLocaleUpperCase(),
         )
       ) {
         return null;

@@ -15,7 +15,7 @@ export class PriceCalculatorService {
   priceTime(
     prices: NpPrice[],
     time: Date,
-    appliance: PowerAppliance
+    appliance: PowerAppliance,
   ): number | null {
     const { delay, cycles } = appliance;
 
@@ -43,7 +43,7 @@ export class PriceCalculatorService {
   allOffsetCosts(
     npPrices: NpPrice[],
     startTime: Date,
-    appliance: PowerAppliance
+    appliance: PowerAppliance,
   ): Map<number, number> {
     const { delay, minimumDelay } = appliance;
     const prices = new Map<number, number>();
@@ -54,7 +54,7 @@ export class PriceCalculatorService {
 
     const lastTime = npPrices.reduce(
       (last, pr) => (isAfter(pr.endTime, last) ? pr.endTime : last),
-      new Date(0)
+      new Date(0),
     );
 
     let time = startTime;
@@ -76,7 +76,7 @@ export class PriceCalculatorService {
 
   // Map< offset_hours , cost >
   bestOffset(
-    allCosts: Map<number, number>
+    allCosts: Map<number, number>,
   ): { offset: number; price: number } | null {
     let bestOffset: { offset: number; price: number } | null = null;
 
@@ -92,7 +92,7 @@ export class PriceCalculatorService {
   cycleConsumption(
     cycle: PowerConsumptionCycle,
     npPrices: NpPrice[],
-    start: number
+    start: number,
   ): number | null {
     const end = start + cycle.length;
 
@@ -101,7 +101,7 @@ export class PriceCalculatorService {
 
     while (pos !== end) {
       const price = npPrices.find(
-        (pr) => pos >= +pr.startTime && pos < +pr.endTime
+        (pr) => pos >= +pr.startTime && pos < +pr.endTime,
       )!;
 
       if (!price) {

@@ -5,7 +5,7 @@ import {
   inject,
   input,
   model,
-  signal
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -77,21 +77,24 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
 
   initialValue = input<MarketZone>();
 
-  locales = toSignal(inject(LocalesService).getLocalesFlow(), { initialValue: [] });
+  locales = toSignal(inject(LocalesService).getLocalesFlow(), {
+    initialValue: [],
+  });
 
   busy = signal(false);
 
   constructor() {
-    effect(() => {
-      this.form.reset(this.initialValue());
-    }, { allowSignalWrites: true });
+    effect(
+      () => {
+        this.form.reset(this.initialValue());
+      },
+      { allowSignalWrites: true },
+    );
   }
 
-  canDeactivate = () =>
-    this.form.pristine || this.confirmation.cancelEdit();
+  canDeactivate = () => this.form.pristine || this.confirmation.cancelEdit();
 
   async onSave() {
-
     const id = this.id();
     if (!id || this.form.valid == false) {
       return;
@@ -106,14 +109,12 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
       await this.marketZoneService.updateZone(id, this.form.value);
     } else {
       this.busy.set(true);
-      await this.marketZoneService
-        .setZone(id, this.form.getRawValue());
+      await this.marketZoneService.setZone(id, this.form.getRawValue());
     }
 
     this.busy.set(false);
     this.form.markAsPristine();
     this.navigate(['..']);
-
   }
 
   private async confirmDbNameChange(): Promise<boolean> {

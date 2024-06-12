@@ -4,11 +4,16 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getFunctions } from 'firebase/functions';
 import { environment } from 'src/environments/environment';
-import { provideFirebaseApp, provideAuth, provideFirestore, provideFunctions } from "./firebase-providers";
+import {
+  provideFirebaseApp,
+  provideAuth,
+  provideFirestore,
+  provideFunctions,
+} from './firebase-providers';
 
 export const productionFirebaseProvider: EnvironmentProviders[] = [
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideFunctions(() => getFunctions(undefined, 'europe-west1')),
+  provideFirebaseApp(() => initializeApp(environment.firebase)),
+  provideAuth(() => getAuth()),
+  provideFirestore(() => getFirestore()),
+  provideFunctions(() => getFunctions(undefined, 'europe-west1')),
 ];

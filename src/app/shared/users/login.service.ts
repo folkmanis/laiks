@@ -7,7 +7,7 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
-  User
+  User,
 } from 'firebase/auth';
 import {
   deleteDoc,
@@ -17,13 +17,13 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import { Auth, Firestore } from "@shared/firebase";
+import { Auth, Firestore } from '@shared/firebase';
 import { PermissionsService } from '@shared/permissions';
 import { assertNotNull, throwIfNull, WithId } from '@shared/utils';
 import { firstValueFrom, map, Observable, of, switchMap } from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
-import { authState } from "rxfire/auth";
-import { docData } from "rxfire/firestore";
+import { authState } from 'rxfire/auth';
+import { docData } from 'rxfire/firestore';
 
 export enum LoginResponseType {
   CREATED,
@@ -70,7 +70,11 @@ export class LoginService {
   }
 
   async loginWithEmail(email: string, password: string): Promise<LaiksUser> {
-    const { user } = await signInWithEmailAndPassword(this.auth, email, password);
+    const { user } = await signInWithEmailAndPassword(
+      this.auth,
+      email,
+      password,
+    );
     const laiksUser = await this.getLaiksUserSnapshot(user);
     return this.deleteUserIfNotRegistered(laiksUser);
   }
@@ -78,10 +82,13 @@ export class LoginService {
   async createEmailAccount(
     email: string,
     password: string,
-    name: string
+    name: string,
   ): Promise<WithId<LaiksUser>> {
-
-    const userCredentials = await createUserWithEmailAndPassword(this.auth, email, password);
+    const userCredentials = await createUserWithEmailAndPassword(
+      this.auth,
+      email,
+      password,
+    );
     await updateProfile(userCredentials.user, { displayName: name });
 
     const user = this.auth.currentUser;
@@ -111,18 +118,20 @@ export class LoginService {
           const docRef = doc(
             this.firestore,
             USERS,
-            user.uid
+            user.uid,
           ) as DocumentReference<WithId<LaiksUser>>;
           return docData(docRef, { idField: 'id' }).pipe(throwIfNull(user.uid));
         }
-      })
+      }),
     );
   }
 
-  userPropertyObserver<T extends keyof LaiksUser>(key: T): Observable<LaiksUser[T]> {
+  userPropertyObserver<T extends keyof LaiksUser>(
+    key: T,
+  ): Observable<LaiksUser[T]> {
     return this.laiksUserObserver().pipe(
       throwIfNull(),
-      map((user) => user[key])
+      map((user) => user[key]),
     );
   }
 
@@ -132,8 +141,8 @@ export class LoginService {
       map((user) =>
         user.includeVat
           ? (val: number) => val * (1 + user.vatAmount)
-          : (val: number) => val
-      )
+          : (val: number) => val,
+      ),
     );
   }
 
@@ -148,25 +157,27 @@ export class LoginService {
   adminObserver(): Observable<boolean> {
     return this.laiksUserObserver().pipe(
       switchMap((user) =>
-        user ? this.permissionsService.isAdmin(user.id) : of(false)
-      )
+        user ? this.permissionsService.isAdmin(user.id) : of(false),
+      ),
     );
   }
 
   npAllowedObserver(): Observable<boolean> {
     return this.laiksUserObserver().pipe(
       switchMap((user) =>
-        user ? this.permissionsService.isNpBlocked(user.id) : of(true)
+        user ? this.permissionsService.isNpBlocked(user.id) : of(true),
       ),
-      map((blocked) => !blocked)
+      map((blocked) => !blocked),
     );
   }
 
-  private async getLaiksUserSnapshot(user: User): Promise<LaiksUser | undefined> {
+  private async getLaiksUserSnapshot(
+    user: User,
+  ): Promise<LaiksUser | undefined> {
     const docRef = doc(
       this.firestore,
       USERS,
-      user.uid
+      user.uid,
     ) as DocumentReference<LaiksUser>;
     const snapshot = await getDoc(docRef);
     return snapshot.data();
@@ -180,7 +191,7 @@ export class LoginService {
     const docRef = doc(
       this.firestore,
       USERS,
-      user.uid
+      user.uid,
     ) as DocumentReference<LaiksUser>;
 
     const laiksUser = defaultUser(user.email, user.displayName);
@@ -192,13 +203,13 @@ export class LoginService {
     const docRef = doc(
       this.firestore,
       USERS,
-      uid
+      uid,
     ) as DocumentReference<LaiksUser>;
     return deleteDoc(docRef);
   }
 
   private async deleteUserIfNotRegistered(
-    laiksUser: LaiksUser | undefined
+    laiksUser: LaiksUser | undefined,
   ): Promise<LaiksUser | never> {
     if (laiksUser) {
       return laiksUser;
@@ -207,5 +218,4 @@ export class LoginService {
       throw new Error('User not registered');
     }
   }
-
 }

@@ -9,6 +9,6 @@ export const resolveUserAppliance: ResolveFn<PowerAppliance> = (route) => {
     .laiksUserObserver()
     .pipe(
       first(),
-      map((user) => user!.appliances[+route.paramMap.get('idx')!])
+      map((user) => user!.appliances[+route.paramMap.get('idx')!]),
     );
 };

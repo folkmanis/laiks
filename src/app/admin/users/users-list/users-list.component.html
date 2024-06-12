@@ -1,46 +1,53 @@
 <mat-table [dataSource]="users()" [trackBy]="trackByFn">
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef>
+      <button
+        mat-button
+        class="tertiary-button"
+        [disabled]="userSelection.isEmpty()"
+        (click)="onDeleteSelected()"
+      >
+        Dzēst
+      </button>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let user">
+      <a mat-button [routerLink]="[user.id]">
+        @if (user.email.length > 0) {
+          {{ user.email }}
+        } @else {
+          {{ user.id }}
+        }
+      </a>
+    </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef>
-            <button mat-button class="tertiary-button" [disabled]="userSelection.isEmpty()"
-                (click)="onDeleteSelected()">
-                Dzēst
-            </button>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let user;">
-            <a mat-button [routerLink]="[user.id]">
-                @if (user.email.length > 0) {
-                {{ user.email }}
-                } @else {
-                {{ user.id }}
-                }
-            </a>
-        </mat-cell>
-    </ng-container>
+  <ng-container matColumnDef="edit">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let user">
+      <a mat-icon-button [routerLink]="[user.id, 'settings']">
+        <mat-icon> manage_accounts </mat-icon>
+      </a>
+    </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="edit">
-        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let user">
-            <a mat-icon-button [routerLink]="[user.id,'settings']">
-                <mat-icon>
-                    manage_accounts
-                </mat-icon>
-            </a>
-        </mat-cell>
-    </ng-container>
+  <ng-container matColumnDef="selection">
+    <mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        [checked]="isAllSelected()"
+        (change)="toggleAll()"
+        [indeterminate]="userSelection.hasValue() && !isAllSelected()"
+      ></mat-checkbox>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let user">
+      <mat-checkbox
+        [checked]="userSelection.isSelected(user)"
+        (change)="userSelection.toggle(user)"
+      ></mat-checkbox>
+    </mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="selection">
-        <mat-header-cell *matHeaderCellDef>
-            <mat-checkbox [checked]="isAllSelected()" (change)="toggleAll()"
-                [indeterminate]="userSelection.hasValue() && !isAllSelected()"></mat-checkbox>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let user">
-            <mat-checkbox [checked]="userSelection.isSelected(user)"
-                (change)="userSelection.toggle(user)"></mat-checkbox>
-        </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let user; columns: displayedColumns;"></mat-row>
-
+  <mat-header-row
+    *matHeaderRowDef="displayedColumns; sticky: true"
+  ></mat-header-row>
+  <mat-row *matRowDef="let user; columns: displayedColumns"></mat-row>
 </mat-table>

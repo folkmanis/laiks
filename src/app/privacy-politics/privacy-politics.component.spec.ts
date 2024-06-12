@@ -10,7 +10,7 @@ describe('PrivacyPoliticsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PrivacyPoliticsComponent],
-      providers: [provideExperimentalZonelessChangeDetection(),]
+      providers: [provideExperimentalZonelessChangeDetection()],
     });
     fixture = TestBed.createComponent(PrivacyPoliticsComponent);
     component = fixture.componentInstance;

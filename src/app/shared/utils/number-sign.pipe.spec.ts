@@ -35,5 +35,4 @@ describe('NumberSignPipe', () => {
     const str = { data: '2' };
     expect(pipe.transform(str)).toEqual(str);
   });
-
 });

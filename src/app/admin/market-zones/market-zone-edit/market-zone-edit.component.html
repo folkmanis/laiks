@@ -1,83 +1,84 @@
 <section>
-    <mat-form-field class="full-width">
-        <mat-label> Kods </mat-label>
-        <input matInput [(ngModel)]="id" name="idControl" #idControl="ngModel" laiksUpperCase required
-            [disabled]="initialValue() !== undefined">
-    </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label> Kods </mat-label>
+    <input
+      matInput
+      [(ngModel)]="id"
+      name="idControl"
+      #idControl="ngModel"
+      laiksUpperCase
+      required
+      [disabled]="initialValue() !== undefined"
+    />
+  </mat-form-field>
 </section>
 <div [formGroup]="form">
+  <section>
+    <mat-form-field class="full-width">
+      <mat-label> Nosaukums </mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+  </section>
 
+  <section>
+    <mat-form-field class="full-width">
+      <mat-label> Valoda </mat-label>
+      <mat-select formControlName="locale">
+        @for (loc of locales(); track loc.id) {
+          <mat-option [value]="loc.id">
+            {{ loc.id }} - {{ loc.language }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </section>
 
-    <section>
+  <section>
+    <mat-form-field>
+      <mat-label>Nodoklis</mat-label>
+      <input matInput formControlName="tax" type="number" />
+      <mat-hint>Kopā = x + x * nodoklis</mat-hint>
+    </mat-form-field>
+  </section>
 
-        <mat-form-field class="full-width">
-            <mat-label> Nosaukums </mat-label>
-            <input matInput formControlName="description">
-        </mat-form-field>
+  <section>
+    <mat-form-field class="full-width">
+      <mat-label> url </mat-label>
+      <textarea matInput formControlName="url"></textarea>
+    </mat-form-field>
+  </section>
 
-    </section>
+  <section>
+    <mat-form-field class="full-width">
+      <mat-label>Datubāzes tabula</mat-label>
+      <input matInput formControlName="dbName" />
+      <mat-hint>Datubāzes tabulas nosaukums</mat-hint>
+    </mat-form-field>
+  </section>
 
-    <section>
-
-        <mat-form-field class="full-width">
-            <mat-label> Valoda </mat-label>
-            <mat-select formControlName="locale">
-                @for (loc of locales(); track loc.id) {
-                <mat-option [value]="loc.id">
-                    {{ loc.id }} - {{ loc.language }}
-                </mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-
-    </section>
-
-    <section>
-        <mat-form-field>
-            <mat-label>Nodoklis</mat-label>
-            <input matInput formControlName="tax" type="number">
-            <mat-hint>Kopā = x + x * nodoklis</mat-hint>
-        </mat-form-field>
-    </section>
-
-    <section>
-
-        <mat-form-field class="full-width">
-            <mat-label> url </mat-label>
-            <textarea matInput formControlName="url"></textarea>
-        </mat-form-field>
-
-    </section>
-
-    <section>
-
-        <mat-form-field class="full-width">
-            <mat-label>Datubāzes tabula</mat-label>
-            <input matInput formControlName="dbName">
-            <mat-hint>Datubāzes tabulas nosaukums</mat-hint>
-        </mat-form-field>
-
-    </section>
-
-    <section>
-        <mat-checkbox formControlName="enabled">Iespējots</mat-checkbox>
-    </section>
-
+  <section>
+    <mat-checkbox formControlName="enabled">Iespējots</mat-checkbox>
+  </section>
 </div>
 
 <mat-divider></mat-divider>
 
 <section>
-    <button mat-raised-button (click)="onSave()"
-        [disabled]="form.pristine || !form.valid || (initialValue() === undefined && !idControl.valid)">
-        @if (initialValue()) {
-        Saglabāt
-        }@else {
-        Izveidot
-        }
-    </button>
+  <button
+    mat-raised-button
+    (click)="onSave()"
+    [disabled]="
+      form.pristine ||
+      !form.valid ||
+      (initialValue() === undefined && !idControl.valid)
+    "
+  >
+    @if (initialValue()) {
+      Saglabāt
+    } @else {
+      Izveidot
+    }
+  </button>
 
-    <a mat-button class="tertiary-button" routerLink="..">
-        Atcelt
-    </a>
+  <a mat-button class="tertiary-button" routerLink=".."> Atcelt </a>
 </section>

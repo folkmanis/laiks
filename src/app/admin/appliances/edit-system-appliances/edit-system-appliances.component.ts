@@ -4,7 +4,7 @@ import {
   effect,
   inject,
   input,
-  signal
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,11 +34,10 @@ import { navigateRelative } from '@shared/utils/navigate-relative';
   styleUrls: ['./edit-system-appliances.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
 export class EditSystemAppliancesComponent implements CanComponentDeactivate {
-
   private appliancesService = inject(SystemAppliancesService);
   private confirmation = inject(ConfirmationDialogService);
   private navigate = navigateRelative();
@@ -53,12 +52,17 @@ export class EditSystemAppliancesComponent implements CanComponentDeactivate {
     nonNullable: true,
   });
 
-  existingAppliances = toSignal(this.appliancesService.getPowerAppliances(), { initialValue: [] });
+  existingAppliances = toSignal(this.appliancesService.getPowerAppliances(), {
+    initialValue: [],
+  });
 
   constructor() {
-    effect(() => {
-      this.applianceForm.reset(this.initialValue());
-    }, { allowSignalWrites: true });
+    effect(
+      () => {
+        this.applianceForm.reset(this.initialValue());
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   canDeactivate = () =>
@@ -67,7 +71,10 @@ export class EditSystemAppliancesComponent implements CanComponentDeactivate {
   async onSave() {
     const id = this.id();
     if (id) {
-      await this.appliancesService.updateAppliance(id, this.applianceForm.value);
+      await this.appliancesService.updateAppliance(
+        id,
+        this.applianceForm.value,
+      );
     } else {
       const appliance = {
         ...this.applianceForm.value,
@@ -79,5 +86,4 @@ export class EditSystemAppliancesComponent implements CanComponentDeactivate {
     this.applianceForm.markAsPristine();
     this.navigate(['..']);
   }
-
 }

@@ -1,82 +1,52 @@
 @if (user(); as staticUser) {
-
-<span>
-
+  <span>
     <button mat-icon-button [matMenuTriggerFor]="userMenu">
-        @if (staticUser.photoURL; as photo) {
-        <img [src]="photo" alt="Avatars">
-        } @else {
-        <mat-icon>
-            account_circle
-        </mat-icon>
-        }
-
+      @if (staticUser.photoURL; as photo) {
+        <img [src]="photo" alt="Avatars" />
+      } @else {
+        <mat-icon> account_circle </mat-icon>
+      }
     </button>
 
     <mat-menu #userMenu>
+      <a mat-menu-item routerLink="user-settings">
+        {{ laiksUser()?.name || staticUser.displayName }}
+      </a>
 
-        <a mat-menu-item routerLink="user-settings">
-            {{ laiksUser()?.name || staticUser.displayName }}
-        </a>
-
-        @if (isNpAllowed()) {
-        <a mat-menu-item routerLink="/prices">
-            Cenas
-        </a>
+      @if (isNpAllowed()) {
+        <a mat-menu-item routerLink="/prices"> Cenas </a>
         <a mat-menu-item [routerLink]="['user-settings', 'appliances']">
-            Mani aparāti
+          Mani aparāti
         </a>
-        }
+      }
 
-        @if (isAdmin()) {
+      @if (isAdmin()) {
         <button mat-menu-item [mat-menu-trigger-for]="adminMenu">
-            Sistēmas Iestatījumi
+          Sistēmas Iestatījumi
         </button>
-        }
+      }
 
+      <a mat-menu-item routerLink="/privacy-politics"> Privātuma politika </a>
 
-        <a mat-menu-item routerLink="/privacy-politics">
-            Privātuma politika
-        </a>
-
-        <button mat-menu-item (click)="onLogout()">
-            Atslēgties
-        </button>
-
+      <button mat-menu-item (click)="onLogout()">Atslēgties</button>
     </mat-menu>
 
     <mat-menu #adminMenu>
-        <a mat-menu-item routerLink="/admin/users">
-            Lietotāji
-        </a>
-        <a mat-menu-item routerLink="/admin/appliances">
-            Elektroiekārtas
-        </a>
-        <a mat-menu-item routerLink="/admin/market-zones">
-            Tirgus reģioni
-        </a>
-        <a mat-menu-item routerLink="/admin/special-actions">
-            Darbības
-        </a>
+      <a mat-menu-item routerLink="/admin/users"> Lietotāji </a>
+      <a mat-menu-item routerLink="/admin/appliances"> Elektroiekārtas </a>
+      <a mat-menu-item routerLink="/admin/market-zones"> Tirgus reģioni </a>
+      <a mat-menu-item routerLink="/admin/special-actions"> Darbības </a>
     </mat-menu>
-
-</span>
-
+  </span>
 } @else {
-
-<span>
+  <span>
     <button mat-icon-button [matMenuTriggerFor]="noUserMenu">
-        <mat-icon>account_circle</mat-icon>
+      <mat-icon>account_circle</mat-icon>
     </button>
-</span>
+  </span>
 
-<mat-menu #noUserMenu>
-    <a mat-menu-item routerLink="/login">
-        Pieslēgties
-    </a>
-    <a mat-menu-item routerLink="/privacy-politics">
-        Privātuma politika
-    </a>
-</mat-menu>
-
+  <mat-menu #noUserMenu>
+    <a mat-menu-item routerLink="/login"> Pieslēgties </a>
+    <a mat-menu-item routerLink="/privacy-politics"> Privātuma politika </a>
+  </mat-menu>
 }

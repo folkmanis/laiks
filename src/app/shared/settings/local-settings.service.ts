@@ -34,7 +34,7 @@ export class LocalSettingsService {
 
   private getSettings(): LocalSettings {
     const stored = JSON.parse(
-      this.storage.getItem('settings') || '{}'
+      this.storage.getItem('settings') || '{}',
     ) as Partial<LocalSettings>;
     return {
       ...DEFAULT_SETTINGS,

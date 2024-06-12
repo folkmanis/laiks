@@ -2,24 +2,20 @@ import { Directive } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Directive({
-  selector: '[formControl][laiksUpperCase],[formControlName][laiksUpperCase],[ngModel][laiksUpperCase]',
+  selector:
+    '[formControl][laiksUpperCase],[formControlName][laiksUpperCase],[ngModel][laiksUpperCase]',
   standalone: true,
   host: {
-    '[style.text-transform]': '"uppercase"'
-  }
+    '[style.text-transform]': '"uppercase"',
+  },
 })
 export class UpperCaseDirective {
-
-  constructor(
-    ngControl: NgControl,
-  ) {
+  constructor(ngControl: NgControl) {
     upperCaseAccessor(ngControl.valueAccessor!);
   }
-
 }
 
 function upperCaseAccessor(valueAccessor: ControlValueAccessor) {
-
   const original = valueAccessor.registerOnChange;
 
   valueAccessor.registerOnChange = (fn: (value: unknown) => void) => {

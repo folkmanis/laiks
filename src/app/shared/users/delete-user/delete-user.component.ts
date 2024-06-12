@@ -4,7 +4,7 @@ import {
   computed,
   inject,
   input,
-  signal
+  signal,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,7 +22,7 @@ import { DeletedUserSnackComponent } from './deleted-user-snack/deleted-user-sna
   styleUrls: ['./delete-user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
 export class DeleteUserComponent {
@@ -44,8 +44,9 @@ export class DeleteUserComponent {
     await this.usersService.deleteUser(this.id());
 
     this.busy.set(false);
-    this.snack.openFromComponent(DeletedUserSnackComponent, { data: this.name() });
+    this.snack.openFromComponent(DeletedUserSnackComponent, {
+      data: this.name(),
+    });
     this.router.navigateByUrl('/admin/users');
-
   }
 }

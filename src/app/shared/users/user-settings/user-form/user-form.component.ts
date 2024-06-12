@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  input
+  input,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -15,7 +15,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
   Validator,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -88,7 +88,7 @@ export class UserFormComponent implements ControlValueAccessor, Validator {
     this.userForm.valueChanges.subscribe(fn);
   }
 
-  registerOnTouched(): void { }
+  registerOnTouched(): void {}
 
   setDisabledState(isDisabled: boolean): void {
     if (isDisabled) {

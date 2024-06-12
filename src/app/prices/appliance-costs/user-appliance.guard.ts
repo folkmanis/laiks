@@ -13,7 +13,7 @@ export const userApplianceGuard: CanActivateFn = (route) => {
       .pipe(
         first(),
         map((user) => user && !!user.appliances[+idx]),
-        map((valid) => valid || redirect)
+        map((valid) => valid || redirect),
       )
   );
 };

@@ -1,31 +1,36 @@
 <section>
-    <h2>
-        {{ user()?.email || '' }}
-    </h2>
+  <h2>
+    {{ user()?.email || "" }}
+  </h2>
 </section>
 <section>
-    <laiks-user-form [formControl]="userControl" [locales]="locales()" [zones]="zones()">
-
-        <div class="buttons">
-            <button mat-raised-button [disabled]="!userControl.valid || busy() || !update()" (click)="onSave()">
-                Saglabāt
-            </button>
-            <button mat-button [disabled]="busy() || !update()" (click)="onReset()">
-                Atiestatīt
-            </button>
-            <a mat-button routerLink="..">
-                Atgriezties
-            </a>
-        </div>
-        <div class="buttons">
-            @if (npAllowed()) {
-            <a mat-raised-button [routerLink]="['appliances']" [disabled]="busy()">
-                Aparāti
-            </a>
-            }
-            <a mat-raised-button class="tertiary-button" routerLink="delete-user">
-                Dzēst
-            </a>
-        </div>
-    </laiks-user-form>
+  <laiks-user-form
+    [formControl]="userControl"
+    [locales]="locales()"
+    [zones]="zones()"
+  >
+    <div class="buttons">
+      <button
+        mat-raised-button
+        [disabled]="!userControl.valid || busy() || !update()"
+        (click)="onSave()"
+      >
+        Saglabāt
+      </button>
+      <button mat-button [disabled]="busy() || !update()" (click)="onReset()">
+        Atiestatīt
+      </button>
+      <a mat-button routerLink=".."> Atgriezties </a>
+    </div>
+    <div class="buttons">
+      @if (npAllowed()) {
+        <a mat-raised-button [routerLink]="['appliances']" [disabled]="busy()">
+          Aparāti
+        </a>
+      }
+      <a mat-raised-button class="tertiary-button" routerLink="delete-user">
+        Dzēst
+      </a>
+    </div>
+  </laiks-user-form>
 </section>

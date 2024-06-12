@@ -1,7 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SelectorComponent } from './selector.component';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
@@ -12,7 +9,7 @@ describe('SelectorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SelectorComponent],
-      providers: [provideExperimentalZonelessChangeDetection(),]
+      providers: [provideExperimentalZonelessChangeDetection()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SelectorComponent);
@@ -37,40 +34,40 @@ describe('SelectorComponent', () => {
 
   it('should create number block', () => {
     const numberBlock = fixture.nativeElement.querySelector(
-      'div.number'
+      'div.number',
     ) as HTMLDivElement;
     expect(numberBlock).toBeTruthy();
   });
 
   it('should display initial value', () => {
     const { textContent } = fixture.nativeElement.querySelector(
-      'div.number'
+      'div.number',
     ) as HTMLDivElement;
     expect(textContent).toContain('+2');
   });
 
   it('should add value on plus button press', () => {
     const button = fixture.nativeElement.querySelector(
-      'button#add'
+      'button#add',
     ) as HTMLButtonElement;
     button.dispatchEvent(new Event('click'));
     fixture.detectChanges();
     const { textContent } = fixture.nativeElement.querySelector(
-      'div.number'
+      'div.number',
     ) as HTMLDivElement;
     expect(textContent).toContain('+3');
   });
 
   it('should subtract value on minus button press', () => {
     const button = fixture.nativeElement.querySelector(
-      'button#remove'
+      'button#remove',
     ) as HTMLButtonElement;
     button.dispatchEvent(new Event('click'));
     button.dispatchEvent(new Event('click'));
     button.dispatchEvent(new Event('click'));
     fixture.detectChanges();
     const { textContent } = fixture.nativeElement.querySelector(
-      'div.number'
+      'div.number',
     ) as HTMLDivElement;
     expect(textContent).toContain('-1');
   });

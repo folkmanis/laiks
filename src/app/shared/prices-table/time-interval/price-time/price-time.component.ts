@@ -7,10 +7,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   styleUrls: ['./price-time.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [DatePipe]
+  imports: [DatePipe],
 })
 export class PriceTimeComponent {
-
   time = input.required<Date>();
-
 }

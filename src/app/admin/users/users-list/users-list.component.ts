@@ -41,8 +41,8 @@ export class UsersListComponent {
     this.loginService.userObserver(),
   ]).pipe(
     map(([laiksUsers, user]) =>
-      laiksUsers.filter((laiksUser) => laiksUser.id !== user?.uid)
-    )
+      laiksUsers.filter((laiksUser) => laiksUser.id !== user?.uid),
+    ),
   );
 
   users = toSignal(this.users$, { initialValue: [] });
@@ -51,7 +51,8 @@ export class UsersListComponent {
 
   displayedColumns = ['selection', 'email', 'edit'];
 
-  trackByFn: (index: number, item: LaiksUser) => string = (_, item) => item.email;
+  trackByFn: (index: number, item: LaiksUser) => string = (_, item) =>
+    item.email;
 
   constructor() {
     effect(() => {
@@ -76,7 +77,7 @@ export class UsersListComponent {
     }
     const selectedIds = this.userSelection.selected.map((user) => user.id);
     const confirmation = await this.confirmation.delete();
-    confirmation && await this.usersService.deleteUsers(selectedIds);
+    confirmation && (await this.usersService.deleteUsers(selectedIds));
   }
 
   private resetSelection() {

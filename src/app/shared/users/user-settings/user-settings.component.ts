@@ -5,7 +5,7 @@ import {
   effect,
   inject,
   input,
-  signal
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -56,20 +56,25 @@ export class UserSettingsComponent implements CanComponentDeactivate {
     initialValue: this.userControl.value,
   });
 
-  update = computed(() =>
-    this.filterUpdate(this.user(), this.valueChanges())
-  );
+  update = computed(() => this.filterUpdate(this.user(), this.valueChanges()));
 
   npAllowed = isNpAllowed();
 
-  zones = toSignal(inject(MarketZonesService).getZonesFlow(), { initialValue: [] });
+  zones = toSignal(inject(MarketZonesService).getZonesFlow(), {
+    initialValue: [],
+  });
 
-  locales = toSignal(inject(LocalesService).getLocalesFlow(), { initialValue: [] });
+  locales = toSignal(inject(LocalesService).getLocalesFlow(), {
+    initialValue: [],
+  });
 
   constructor() {
-    effect(() => {
-      this.userControl.reset(this.user());
-    }, { allowSignalWrites: true });
+    effect(
+      () => {
+        this.userControl.reset(this.user());
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   async onSave() {
@@ -85,7 +90,6 @@ export class UserSettingsComponent implements CanComponentDeactivate {
     this.userControl.markAsPristine();
     this.navigate(['..']);
     this.busy.set(false);
-
   }
 
   onReset() {
@@ -96,7 +100,7 @@ export class UserSettingsComponent implements CanComponentDeactivate {
     this.userControl.pristine || this.confirmation.cancelEdit();
 
   private filterUpdate<
-    T = ReturnType<(typeof this.userControl)['getRawValue']>
+    T = ReturnType<(typeof this.userControl)['getRawValue']>,
   >(initial: Partial<T> = {}, value: Partial<T>): Partial<T> | null {
     const update = reduce(
       value,
@@ -104,7 +108,7 @@ export class UserSettingsComponent implements CanComponentDeactivate {
         value === initial[key as keyof T]
           ? result
           : { ...result, [key]: value },
-      {} as Partial<T>
+      {} as Partial<T>,
     );
     return Object.keys(update).length === 0 ? null : update;
   }

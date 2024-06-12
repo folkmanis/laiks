@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Component, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import {
+  Component,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { ClockDisplayComponent } from './clock-display.component';
 
 const TEST_DATE = new Date(2022, 10, 20, 12, 3, 0);
@@ -22,9 +25,8 @@ describe('ClockDisplayComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ClockDisplayTestComponent],
-      providers: [provideExperimentalZonelessChangeDetection(),]
-    })
-      .compileComponents();
+      providers: [provideExperimentalZonelessChangeDetection()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ClockDisplayTestComponent);
     component = fixture.componentInstance;
@@ -37,7 +39,9 @@ describe('ClockDisplayComponent', () => {
   });
 
   it('should display time', () => {
-    const { textContent } = fixture.nativeElement.querySelector('laiks-clock-display') as HTMLElement;
+    const { textContent } = fixture.nativeElement.querySelector(
+      'laiks-clock-display',
+    ) as HTMLElement;
     expect(textContent).toBe(TEST_TIME_STR);
   });
 });

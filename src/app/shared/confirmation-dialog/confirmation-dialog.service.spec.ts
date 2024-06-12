@@ -2,7 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -11,7 +15,6 @@ import { from } from 'rxjs';
 import { ConfirmationDialogService } from './confirmation-dialog.service';
 
 describe('ConfirmationDialogService', () => {
-
   let service: ConfirmationDialogService;
 
   let fixture: ComponentFixture<ConfirmationDialogServiceTestComponent>;
@@ -22,8 +25,12 @@ describe('ConfirmationDialogService', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule, ConfirmationDialogServiceTestComponent, NoopAnimationsModule],
-      providers: [provideExperimentalZonelessChangeDetection(),]
+      imports: [
+        MatDialogModule,
+        ConfirmationDialogServiceTestComponent,
+        NoopAnimationsModule,
+      ],
+      providers: [provideExperimentalZonelessChangeDetection()],
     });
     await TestBed.compileComponents();
     service = TestBed.inject(ConfirmationDialogService);
@@ -31,7 +38,6 @@ describe('ConfirmationDialogService', () => {
     fixture = TestBed.createComponent(ConfirmationDialogServiceTestComponent);
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-
   });
 
   it('should be created', () => {
@@ -39,7 +45,6 @@ describe('ConfirmationDialogService', () => {
   });
 
   it('should open and close delete confirmation', async () => {
-
     from(service.delete()).subscribe(spy);
     await cancel();
     expect(spy).withContext('decline').toHaveBeenCalledWith(false);
@@ -70,33 +75,41 @@ describe('ConfirmationDialogService', () => {
   });
 
   const cancel = async () => {
-    const button = await loader.getHarness(MatButtonHarness.with({ selector: '#cancel-button' }));
+    const button = await loader.getHarness(
+      MatButtonHarness.with({ selector: '#cancel-button' }),
+    );
     await button.click();
   };
 
   const confirm = async () => {
-    const button = await loader.getHarness(MatButtonHarness.with({ selector: '#confirm-button' }));
+    const button = await loader.getHarness(
+      MatButtonHarness.with({ selector: '#confirm-button' }),
+    );
     await button.click();
   };
-
-
 });
-
 
 @Component({
   template: ``,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-class ConfirmationDialogServiceTestComponent { }
+class ConfirmationDialogServiceTestComponent {}
 
 @Component({
   template: `
-      <button mat-button mat-dialog-close id="cancel-button">Nē</button>
-      <button mat-raised-button class="tertiary-button" [mat-dialog-close]="true" id="confirm-button">Jā</button>
-            `,
+    <button mat-button mat-dialog-close id="cancel-button">Nē</button>
+    <button
+      mat-raised-button
+      class="tertiary-button"
+      [mat-dialog-close]="true"
+      id="confirm-button"
+    >
+      Jā
+    </button>
+  `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatDialogModule, MatButtonModule],
 })
-class CustomConfirmationComponent { }
+class CustomConfirmationComponent {}

@@ -2,10 +2,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { MatButtonHarness } from "@angular/material/button/testing";
-import { MatFormFieldHarness } from "@angular/material/form-field/testing";
-import { MatInputHarness } from "@angular/material/input/testing";
+import {
+  Component,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
+import { MatButtonHarness } from '@angular/material/button/testing';
+import { MatFormFieldHarness } from '@angular/material/form-field/testing';
+import { MatInputHarness } from '@angular/material/input/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
@@ -21,14 +24,13 @@ const EMAIL_USER = {
   template: `root-component`,
   standalone: true,
 })
-class TestRootComponent { }
+class TestRootComponent {}
 
 @Component({
   template: `redirected-component`,
   standalone: true,
 })
-class TestRedirectComponent { }
-
+class TestRedirectComponent {}
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -44,17 +46,24 @@ describe('LoginComponent', () => {
   let gmailButton: MatButtonHarness;
 
   beforeEach(async () => {
-    mockLoginService = jasmine.createSpyObj<LoginService>('LoginService', ['loginWithEmail', 'loginWithGmail', 'logout']);
+    mockLoginService = jasmine.createSpyObj<LoginService>('LoginService', [
+      'loginWithEmail',
+      'loginWithGmail',
+      'logout',
+    ]);
 
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
       providers: [
         { provide: LoginService, useValue: mockLoginService },
-        provideRouter([
-          { path: 'login', component: LoginComponent },
-          { path: 'redirected', component: TestRedirectComponent },
-          { path: '', component: TestRootComponent },
-        ], withComponentInputBinding()),
+        provideRouter(
+          [
+            { path: 'login', component: LoginComponent },
+            { path: 'redirected', component: TestRedirectComponent },
+            { path: '', component: TestRootComponent },
+          ],
+          withComponentInputBinding(),
+        ),
         provideExperimentalZonelessChangeDetection(),
       ],
     });
@@ -62,11 +71,21 @@ describe('LoginComponent', () => {
     component = await harness.navigateByUrl('login', LoginComponent);
 
     loader = TestbedHarnessEnvironment.loader(harness.fixture);
-    emailField = await loader.getHarness(MatFormFieldHarness.with({ selector: '#email' }));
-    passwordField = await loader.getHarness(MatFormFieldHarness.with({ selector: '#password' }));
-    submitButton = await loader.getHarness(MatButtonHarness.with({ selector: '#submit-button' }));
-    registerButton = await loader.getHarness(MatButtonHarness.with({ selector: '#register-button' }));
-    gmailButton = await loader.getHarness(MatButtonHarness.with({ selector: '#gmail-button' }));
+    emailField = await loader.getHarness(
+      MatFormFieldHarness.with({ selector: '#email' }),
+    );
+    passwordField = await loader.getHarness(
+      MatFormFieldHarness.with({ selector: '#password' }),
+    );
+    submitButton = await loader.getHarness(
+      MatButtonHarness.with({ selector: '#submit-button' }),
+    );
+    registerButton = await loader.getHarness(
+      MatButtonHarness.with({ selector: '#register-button' }),
+    );
+    gmailButton = await loader.getHarness(
+      MatButtonHarness.with({ selector: '#gmail-button' }),
+    );
 
     harness.detectChanges();
   });
@@ -84,7 +103,10 @@ describe('LoginComponent', () => {
   });
 
   it('should recieve redirect input', async () => {
-    component = await harness.navigateByUrl('login?redirect=redirected', LoginComponent);
+    component = await harness.navigateByUrl(
+      'login?redirect=redirected',
+      LoginComponent,
+    );
     expect(component.redirect()).toBe('redirected');
   });
 
@@ -97,11 +119,12 @@ describe('LoginComponent', () => {
   });
 
   it('should be valid after valid input', async () => {
-
     await setInputValues(EMAIL_USER.email, EMAIL_USER.password);
 
     expect(component.loginGroup.valid).withContext('formGroup').toBeTrue();
-    await expectAsync(submitButton.isDisabled()).withContext('submit').toBeResolvedTo(false);
+    await expectAsync(submitButton.isDisabled())
+      .withContext('submit')
+      .toBeResolvedTo(false);
   });
 
   it('should validate email login', async () => {
@@ -112,13 +135,19 @@ describe('LoginComponent', () => {
 
     await submitButton.click();
 
-    expect(mockLoginService.loginWithEmail).toHaveBeenCalledOnceWith(email, password);
+    expect(mockLoginService.loginWithEmail).toHaveBeenCalledOnceWith(
+      email,
+      password,
+    );
 
     expect(harness.routeNativeElement?.textContent).toContain('root-component');
   });
 
   it('should be redirected after successful login', async () => {
-    component = await harness.navigateByUrl('login?redirect=redirected', LoginComponent);
+    component = await harness.navigateByUrl(
+      'login?redirect=redirected',
+      LoginComponent,
+    );
 
     mockLoginService.loginWithEmail.and.resolveTo({} as LaiksUser);
 
@@ -127,10 +156,14 @@ describe('LoginComponent', () => {
 
     await submitButton.click();
 
-    expect(mockLoginService.loginWithEmail).toHaveBeenCalledOnceWith(email, password);
+    expect(mockLoginService.loginWithEmail).toHaveBeenCalledOnceWith(
+      email,
+      password,
+    );
 
-    expect(harness.routeNativeElement?.textContent).toContain('redirected-component');
-
+    expect(harness.routeNativeElement?.textContent).toContain(
+      'redirected-component',
+    );
   });
 
   async function setInputValues(email: string, password: string) {
@@ -139,7 +172,5 @@ describe('LoginComponent', () => {
 
     await emailInput?.setValue(email);
     await passwordInput?.setValue(password);
-
   }
-
 });

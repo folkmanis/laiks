@@ -10,7 +10,7 @@ import {
   Component,
   inject,
   input,
-  signal
+  signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
-import { ApplianceDeletedSnackComponent, ColorTagComponent, PowerAppliance } from '@shared/appliances';
+import {
+  ApplianceDeletedSnackComponent,
+  ColorTagComponent,
+  PowerAppliance,
+} from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { WithId, throwIfNull } from '@shared/utils';
 import { switchMap } from 'rxjs';
@@ -42,8 +46,8 @@ import { UsersService } from '../users.service';
     ColorTagComponent,
   ],
   host: {
-    'class': 'vertical-container'
-  }
+    class: 'vertical-container',
+  },
 })
 export class UserAppliancesComponent {
   private usersService = inject(UsersService);
@@ -54,7 +58,7 @@ export class UserAppliancesComponent {
 
   user$ = toObservable(this.id).pipe(
     switchMap((id) => this.usersService.userByIdFlow(id)),
-    throwIfNull()
+    throwIfNull(),
   );
 
   user = toSignal(this.user$);
@@ -68,25 +72,29 @@ export class UserAppliancesComponent {
       const name = user.appliances[idx].name;
       user.appliances.splice(idx, 1);
       await this.saveUserAppliances(user);
-      this.snack.openFromComponent(ApplianceDeletedSnackComponent, { data: name });
+      this.snack.openFromComponent(ApplianceDeletedSnackComponent, {
+        data: name,
+      });
     }
   }
 
   onMoveAppliance(
     event: CdkDragDrop<PowerAppliance[]>,
-    user: WithId<LaiksUser>
+    user: WithId<LaiksUser>,
   ) {
     moveItemInArray<PowerAppliance>(
       event.container.data,
       event.previousIndex,
-      event.currentIndex
+      event.currentIndex,
     );
     this.saveUserAppliances(user);
   }
 
   private async saveUserAppliances(user: WithId<LaiksUser>) {
     this.busy.set(true);
-    await this.usersService.updateUser(user.id, { appliances: user.appliances });
+    await this.usersService.updateUser(user.id, {
+      appliances: user.appliances,
+    });
     this.busy.set(false);
   }
 }

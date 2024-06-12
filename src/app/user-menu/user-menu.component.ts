@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
-  output
+  output,
 } from '@angular/core';
 import { User } from 'firebase/auth';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +22,6 @@ import { LaiksUser } from '../shared/users/laiks-user';
   imports: [MatButtonModule, MatMenuModule, MatIconModule, RouterLink],
 })
 export class UserMenuComponent {
-
   user = input<User | null>(null);
 
   laiksUser = input<WithId<LaiksUser> | null>(null);

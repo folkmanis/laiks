@@ -21,7 +21,7 @@ export class ConfirmationDialogService {
 
   async openComponent<T>(
     component: ComponentType<T>,
-    config?: MatDialogConfig
+    config?: MatDialogConfig,
   ): Promise<boolean> {
     const dialorgRef = this.dialog.open(component, config);
     const response = await firstValueFrom(dialorgRef.afterClosed());

@@ -1,4 +1,8 @@
 <laiks-appliance-name>
-    {{ appliance().name }}
+  {{ appliance().name }}
 </laiks-appliance-name>
-<laiks-prices-table [npPrices]="costs()" [average]="average()" [stDev]="stDev()" />
+<laiks-prices-table
+  [npPrices]="costs()"
+  [average]="average()"
+  [stDev]="stDev()"
+/>

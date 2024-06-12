@@ -13,7 +13,10 @@ describe('CreateUserComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CreateUserComponent, NoopAnimationsModule],
-      providers: [testFirebaseProvider, provideExperimentalZonelessChangeDetection(),],
+      providers: [
+        testFirebaseProvider,
+        provideExperimentalZonelessChangeDetection(),
+      ],
     });
     fixture = TestBed.createComponent(CreateUserComponent);
     component = fixture.componentInstance;

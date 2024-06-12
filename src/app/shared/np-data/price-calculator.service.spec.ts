@@ -84,7 +84,7 @@ describe('PriceCalculatorService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideExperimentalZonelessChangeDetection(),]
+      providers: [provideExperimentalZonelessChangeDetection()],
     });
     service = TestBed.inject(PriceCalculatorService);
   });
@@ -102,7 +102,7 @@ describe('PriceCalculatorService', () => {
     const cost = service.cycleConsumption(
       dishWasher.cycles[0],
       testPrices,
-      +after30min
+      +after30min,
     );
     const expected = 600000 * 1000;
     expect(cost).toBeCloseTo(expected, 3);

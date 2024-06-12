@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  input
+  input,
 } from '@angular/core';
 import { colorDensity } from '@shared/utils';
 
@@ -17,7 +17,7 @@ import { colorDensity } from '@shared/utils';
   host: {
     '[style.background-color]': 'background()',
     '[style.color]': 'textColor()',
-  }
+  },
 })
 export class ApplianceTagComponent {
   name = input.required<string>();
@@ -28,7 +28,7 @@ export class ApplianceTagComponent {
 
   color = input.required<string | null>();
 
-  background = computed(() => this.isBest() ? this.color() : undefined);
+  background = computed(() => (this.isBest() ? this.color() : undefined));
 
   textColor = computed(() => {
     const background = this.background();
@@ -38,5 +38,4 @@ export class ApplianceTagComponent {
       return undefined;
     }
   });
-
 }

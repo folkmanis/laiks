@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewChild,
-  inject
+  inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -52,7 +52,7 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
     {
       provide: NG_VALIDATORS,
       useExisting: PowerCyclesComponent,
-      multi: true
+      multi: true,
     },
   ],
   standalone: true,
@@ -70,7 +70,6 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
   ],
 })
 export class PowerCyclesComponent implements ControlValueAccessor, Validator {
-
   private isLarge$ = inject(BreakpointObserver)
     .observe(Breakpoints.HandsetPortrait)
     .pipe(map((state) => !state.matches));
@@ -83,27 +82,29 @@ export class PowerCyclesComponent implements ControlValueAccessor, Validator {
 
   isLarge = toSignal(this.isLarge$);
 
-  touchFn = () => { };
+  touchFn = () => {};
 
   writeValue(obj: PowerCyclesComponent): void {
     if (!Array.isArray(obj)) {
       return;
     }
     this.setCycles(
-      obj.map((val) => ({ ...val, length: val.length / 1000 / 60 }))
+      obj.map((val) => ({ ...val, length: val.length / 1000 / 60 })),
     );
     this.table?.renderRows();
   }
 
-  registerOnChange(fn: (value: Partial<PowerConsumptionCycle>[]) => void): void {
+  registerOnChange(
+    fn: (value: Partial<PowerConsumptionCycle>[]) => void,
+  ): void {
     this.powerCycles.valueChanges
       .pipe(
         map((cycles) =>
           cycles.map((cycle) => ({
             ...cycle,
             length: (cycle.length || 0) * 1000 * 60,
-          }))
-        )
+          })),
+        ),
       )
       .subscribe(fn);
   }
@@ -126,7 +127,7 @@ export class PowerCyclesComponent implements ControlValueAccessor, Validator {
     }
 
     const errors = this.powerCycles.controls.filter(
-      (control) => !control.valid
+      (control) => !control.valid,
     );
     return { invalidControls: errors };
   }

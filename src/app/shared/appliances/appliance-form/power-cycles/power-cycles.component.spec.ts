@@ -10,9 +10,8 @@ describe('PowerCyclesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PowerCyclesComponent],
-      providers: [provideExperimentalZonelessChangeDetection(),]
-    })
-      .compileComponents();
+      providers: [provideExperimentalZonelessChangeDetection()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PowerCyclesComponent);
     component = fixture.componentInstance;

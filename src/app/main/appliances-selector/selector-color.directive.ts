@@ -6,11 +6,10 @@ import { colorDensity } from '@shared/utils';
   standalone: true,
   host: {
     '[style.backgroundColor]': 'background()',
-    '[style.color]': 'textColor()'
-  }
+    '[style.color]': 'textColor()',
+  },
 })
 export class SelectorColorDirective {
-
   background = input<string | null>(null, { alias: 'laiksSelectorColor' });
 
   textColor = computed(() => {

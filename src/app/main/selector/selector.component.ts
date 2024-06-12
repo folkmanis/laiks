@@ -1,6 +1,4 @@
-import {
-  ChangeDetectionStrategy, Component, model
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NumberSignPipe } from '@shared/utils';
@@ -14,7 +12,6 @@ import { NumberSignPipe } from '@shared/utils';
   imports: [MatButtonModule, MatIconModule, NumberSignPipe],
 })
 export class SelectorComponent {
-
   value = model(0);
 
   onButtonPress(val: number): void {

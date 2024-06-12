@@ -1,41 +1,45 @@
 <h1>
-    {{ appliance()?.name }}
+  {{ appliance()?.name }}
 </h1>
 
 <form [formGroup]="namesForm" (submit)="onSave()">
+  <mat-table [dataSource]="dataSource()">
+    <ng-container matColumnDef="name">
+      <mat-cell *matCellDef="let data">
+        {{ data.locale.language }} - {{ data.locale.id }}
+      </mat-cell>
+    </ng-container>
 
-    <mat-table [dataSource]="dataSource()">
+    <ng-container matColumnDef="input">
+      <mat-cell *matCellDef="let data">
+        <input laiksInput [formControl]="data.control" />
+      </mat-cell>
+    </ng-container>
 
-        <ng-container matColumnDef="name">
-            <mat-cell *matCellDef="let data;">
-                {{ data.locale.language }} - {{ data.locale.id }}
-            </mat-cell>
-        </ng-container>
+    <mat-row *matRowDef="let data; columns: displayColumns"></mat-row>
+  </mat-table>
 
-        <ng-container matColumnDef="input">
-            <mat-cell *matCellDef="let data;">
-                <input laiksInput [formControl]="data.control" />
-            </mat-cell>
-        </ng-container>
+  <mat-divider />
 
-        <mat-row *matRowDef="let data; columns: displayColumns"></mat-row>
-
-    </mat-table>
-
-    <mat-divider />
-
-    <div class="buttons">
-        <button mat-raised-button type="submit" [disabled]="busy() || !namesForm.valid || namesForm.pristine">
-            Saglabāt
-        </button>
-        <a mat-button class="tertiary-button" routerLink="../.." [disabled]="busy()">
-            Atcelt
-        </a>
-    </div>
+  <div class="buttons">
+    <button
+      mat-raised-button
+      type="submit"
+      [disabled]="busy() || !namesForm.valid || namesForm.pristine"
+    >
+      Saglabāt
+    </button>
+    <a
+      mat-button
+      class="tertiary-button"
+      routerLink="../.."
+      [disabled]="busy()"
+    >
+      Atcelt
+    </a>
+  </div>
 </form>
 
 <ng-template #errorMessageTemplate>
-    <div>
-        Neizdevās saglabāt.
-    </div>
+  <div>Neizdevās saglabāt.</div>
 </ng-template>

@@ -1,30 +1,28 @@
 <mat-toolbar color="primary">
+  <span>
+    <a mat-icon-button routerLink="/">
+      <mat-icon> home </mat-icon>
+    </a>
+  </span>
 
+  @if (isNpAllowed()) {
     <span>
-        <a mat-icon-button routerLink="/">
-            <mat-icon>
-                home
-            </mat-icon>
-        </a>
+      <a mat-button routerLink="/prices">
+        Cenas
+        @if (marketZone(); as zone) {
+          {{ zone.id }} ({{ zone.description }})
+        }
+      </a>
     </span>
+  }
 
-    @if (isNpAllowed()) {
-    <span>
-        <a mat-button routerLink="/prices">
-            Cenas
-            @if (marketZone(); as zone) {
-            {{zone.id}} ({{zone.description}})
-            }
-        </a>
-    </span>
-    }
-
-    <laiks-user-menu [user]="user()" (logout)="onLogout()" [laiksUser]="laiksUser()" />
-
+  <laiks-user-menu
+    [user]="user()"
+    (logout)="onLogout()"
+    [laiksUser]="laiksUser()"
+  />
 </mat-toolbar>
 
 <div class="container" cdkScrollable>
-
-    <router-outlet />
-
+  <router-outlet />
 </div>

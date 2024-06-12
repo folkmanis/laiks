@@ -1,19 +1,27 @@
-<laiks-appliance-form [formControl]="applianceForm" [existingAppliances]="existingAppliances()" [disabled]="busy()">
+<laiks-appliance-form
+  [formControl]="applianceForm"
+  [existingAppliances]="existingAppliances()"
+  [disabled]="busy()"
+>
+  <div class="buttons">
+    <button
+      mat-raised-button
+      [disabled]="
+        applianceForm.valid === false ||
+        applianceForm.pristine === true ||
+        busy()
+      "
+      (click)="onSave()"
+    >
+      @if (id()) {
+        Saglabāt
+      } @else {
+        Izveidot
+      }
+    </button>
 
-    <div class="buttons">
-
-        <button mat-raised-button
-            [disabled]="applianceForm.valid === false || applianceForm.pristine === true || busy()" (click)="onSave()">
-            @if (id()) {
-            Saglabāt
-            } @else {
-            Izveidot
-            }
-        </button>
-
-        <a mat-button [disabled]="busy()" class="tertiary-button" routerLink="..">
-            Atcelt
-        </a>
-    </div>
-
+    <a mat-button [disabled]="busy()" class="tertiary-button" routerLink="..">
+      Atcelt
+    </a>
+  </div>
 </laiks-appliance-form>

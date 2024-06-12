@@ -28,7 +28,7 @@ type NewUserForm = {
 };
 
 const passwordsMatchValidator: ValidatorFn = (
-  group: AbstractControl<NewUserForm>
+  group: AbstractControl<NewUserForm>,
 ) => {
   if (group.value.password !== group.value.passwordRepeat) {
     group.get('passwordRepeat')?.setErrors({ passwordsDontMatch: true });
@@ -52,7 +52,7 @@ const passwordsMatchValidator: ValidatorFn = (
   styleUrls: ['./create-user.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
 export class CreateUserComponent {
@@ -70,7 +70,7 @@ export class CreateUserComponent {
     },
     {
       validators: [passwordsMatchValidator],
-    }
+    },
   );
 
   async onCreateUser(event: SubmitEvent) {

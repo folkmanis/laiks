@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  input
+  input,
 } from '@angular/core';
 import { colorDensity } from '@shared/utils';
 
@@ -19,7 +19,6 @@ const BACKGROUND = '#424242';
   host: { '[style.color]': 'color()' },
 })
 export class PriceColoredComponent {
-
   value = input.required<number>();
 
   average = input<number | null>(null);
@@ -30,10 +29,13 @@ export class PriceColoredComponent {
     const score = getScore(this.value(), this.average(), this.stDev());
     return scoreColor(score, BACKGROUND);
   });
-
 }
 
-function getScore(value: number, average: number | null, stDev: number | null): number {
+function getScore(
+  value: number,
+  average: number | null,
+  stDev: number | null,
+): number {
   if (typeof stDev !== 'number' || typeof average !== 'number') {
     return 0;
   }
@@ -41,7 +43,6 @@ function getScore(value: number, average: number | null, stDev: number | null): 
   if (score < -1) return -1;
   if (score > 1) return 1;
   return score;
-
 }
 
 function scoreColor(score: number, background: string): string {

@@ -17,7 +17,7 @@ export default [
     path: 'special-actions',
     loadComponent: () =>
       import('./special-actions/special-actions.component').then(
-        (c) => c.SpecialActionsComponent
+        (c) => c.SpecialActionsComponent,
       ),
   },
   {

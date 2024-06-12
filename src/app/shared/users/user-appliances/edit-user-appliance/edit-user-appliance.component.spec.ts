@@ -8,15 +8,20 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { PowerAppliance, SystemAppliancesService } from '@shared/appliances';
-import { dishWasher, washer } from '@shared/np-data/price-calculator.service.spec';
+import {
+  dishWasher,
+  washer,
+} from '@shared/np-data/price-calculator.service.spec';
 import { UsersService } from '@shared/users/users.service';
 import { canDeactivateGuard } from '@shared/utils';
 import { BehaviorSubject, of } from 'rxjs';
-import { TEST_USER } from "../../users.service.spec";
+import { TEST_USER } from '../../users.service.spec';
 import { EditUserApplianceComponent } from './edit-user-appliance.component';
 
-const fakeSystemAppliances = [dishWasher, washer]
-  .map((appliance, idx) => ({ ...appliance, id: 'id_' + idx }));
+const fakeSystemAppliances = [dishWasher, washer].map((appliance, idx) => ({
+  ...appliance,
+  id: 'id_' + idx,
+}));
 
 const TEST_IDX = '1';
 
@@ -36,34 +41,38 @@ describe('EditUserApplianceComponent', () => {
   let mockUserService: jasmine.SpyObj<UsersService>;
 
   beforeEach(async () => {
-
     createMockServices();
 
     TestBed.configureTestingModule({
       imports: [EditUserApplianceComponent, NoopAnimationsModule],
       providers: [
-        provideRouter([
-          {
-            path: 'new',
-            component: EditUserApplianceComponent,
-            canDeactivate: [canDeactivateGuard],
-            data: { idx: null, id: TEST_USER.id },
-          },
-          {
-            path: ':idx',
-            component: EditUserApplianceComponent,
-            data: { id: TEST_USER.id },
-            canDeactivate: [canDeactivateGuard],
-          },
-        ], withComponentInputBinding()),
+        provideRouter(
+          [
+            {
+              path: 'new',
+              component: EditUserApplianceComponent,
+              canDeactivate: [canDeactivateGuard],
+              data: { idx: null, id: TEST_USER.id },
+            },
+            {
+              path: ':idx',
+              component: EditUserApplianceComponent,
+              data: { id: TEST_USER.id },
+              canDeactivate: [canDeactivateGuard],
+            },
+          ],
+          withComponentInputBinding(),
+        ),
         { provide: UsersService, useValue: mockUserService },
-        { provide: SystemAppliancesService, useValue: mockSystemAppliancesService },
+        {
+          provide: SystemAppliancesService,
+          useValue: mockSystemAppliancesService,
+        },
         { provide: MatDialog, useValue: mockDialogService },
       ],
     });
 
     harness = await RouterTestingHarness.create();
-
   });
 
   it('should create', async () => {
@@ -144,17 +153,20 @@ describe('EditUserApplianceComponent', () => {
   });
 
   it('should open dialog on copy-from button and set form value', async () => {
-
     await navigateToNew();
 
-    const dialogRef = jasmine.createSpyObj<MatDialogRef<unknown>>('DialogRef', ['afterClosed']);
+    const dialogRef = jasmine.createSpyObj<MatDialogRef<unknown>>('DialogRef', [
+      'afterClosed',
+    ]);
     dialogRef.afterClosed.and.returnValue(of(presetAppliance));
     mockDialogService.open.and.returnValue(dialogRef);
     await copyFromButton.click();
 
     const form = component.applianceForm;
 
-    expect(mockDialogService.open).withContext('dialog opened').toHaveBeenCalled();
+    expect(mockDialogService.open)
+      .withContext('dialog opened')
+      .toHaveBeenCalled();
 
     expect(form.value).withContext('form value').toEqual(presetAppliance);
     expect(form.pristine).withContext('pristine').toBeFalse();
@@ -165,15 +177,18 @@ describe('EditUserApplianceComponent', () => {
   it('should make no changes on copy-from with cancel', async () => {
     await navigateToNew();
     const form = component.applianceForm;
-    const dialogRef = jasmine.createSpyObj<MatDialogRef<unknown>>('DialogRef', ['afterClosed']);
+    const dialogRef = jasmine.createSpyObj<MatDialogRef<unknown>>('DialogRef', [
+      'afterClosed',
+    ]);
     dialogRef.afterClosed.and.returnValue(of(''));
     mockDialogService.open.and.returnValue(dialogRef);
     await copyFromButton.click();
 
-    expect(mockDialogService.open).withContext('dialog opened').toHaveBeenCalled();
+    expect(mockDialogService.open)
+      .withContext('dialog opened')
+      .toHaveBeenCalled();
     expect(form.pristine).withContext('pristine').toBe(true);
     expect(form.value).withContext('value').toEqual(component.initialValue());
-
   });
 
   function makeValidChanges() {
@@ -195,18 +210,22 @@ describe('EditUserApplianceComponent', () => {
 
   function createMockServices() {
     const userFlow = new BehaviorSubject({ ...TEST_USER });
-    mockUserService = jasmine.createSpyObj<UsersService>('UsersService', ['userByIdFlow', 'updateUser']);
+    mockUserService = jasmine.createSpyObj<UsersService>('UsersService', [
+      'userByIdFlow',
+      'updateUser',
+    ]);
     mockUserService.userByIdFlow.and.returnValue(userFlow);
     mockUserService.updateUser.and.returnValue(Promise.resolve());
 
     mockSystemAppliancesService = jasmine.createSpyObj<SystemAppliancesService>(
       'SystemAppliancesService',
-      ['getPowerAppliances']
+      ['getPowerAppliances'],
     );
-    mockSystemAppliancesService.getPowerAppliances.and.returnValue(of(fakeSystemAppliances));
+    mockSystemAppliancesService.getPowerAppliances.and.returnValue(
+      of(fakeSystemAppliances),
+    );
 
     mockDialogService = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
-
   }
 
   async function navigateToExisting() {
@@ -218,14 +237,18 @@ describe('EditUserApplianceComponent', () => {
   }
 
   async function navigateToAppliance(idx: string) {
-
     component = await harness.navigateByUrl(idx, EditUserApplianceComponent);
     loader = TestbedHarnessEnvironment.loader(harness.fixture);
-    saveButton = await loader.getHarness(MatButtonHarness.with({ selector: '#save-button' }));
-    cancelButton = await loader.getHarness(MatButtonHarness.with({ selector: '#cancel-button' }));
-    copyFromButton = await loader.getHarness(MatButtonHarness.with({ selector: '#from-presets-button' }));
+    saveButton = await loader.getHarness(
+      MatButtonHarness.with({ selector: '#save-button' }),
+    );
+    cancelButton = await loader.getHarness(
+      MatButtonHarness.with({ selector: '#cancel-button' }),
+    );
+    copyFromButton = await loader.getHarness(
+      MatButtonHarness.with({ selector: '#from-presets-button' }),
+    );
 
     harness.detectChanges();
-
   }
 });

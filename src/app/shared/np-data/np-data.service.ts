@@ -16,8 +16,8 @@ import { LoginService } from '../users';
 import { MarketZonesService } from './market-zones.service';
 import { NpData, NpPrice, NpPriceCollectionData } from './np-price.interface';
 import { ScrapeZoneResult } from './scrape-zone-result';
-import { Firestore, Functions } from "@shared/firebase";
-import { docData, collectionData } from "rxfire/firestore";
+import { Firestore, Functions } from '@shared/firebase';
+import { docData, collectionData } from 'rxfire/firestore';
 
 const DB_NAME = 'laiks';
 
@@ -37,7 +37,7 @@ export class NpDataService {
     .userPropertyObserver('marketZoneId')
     .pipe(
       switchMap((id) => this.marketZonesService.getZoneFlow(id)),
-      map((zone) => zone.dbName)
+      map((zone) => zone.dbName),
     );
 
   getNpPrices(days = 2): Observable<NpPrice[]> {
@@ -46,11 +46,11 @@ export class NpDataService {
       map((coll) =>
         query(
           coll,
-          where('startTime', '>=', subDays(startOfDay(new Date()), days))
-        )
+          where('startTime', '>=', subDays(startOfDay(new Date()), days)),
+        ),
       ),
       switchMap((q) => collectionData(q)),
-      map((doc) => this.docToNpPrices(doc))
+      map((doc) => this.docToNpPrices(doc)),
     );
   }
 
@@ -63,8 +63,8 @@ export class NpDataService {
         prices.map(({ value, ...price }) => ({
           ...price,
           value: vatFn(value),
-        }))
-      )
+        })),
+      ),
     );
   }
 
@@ -74,10 +74,10 @@ export class NpDataService {
         (docName) =>
           doc(this.firestore, DB_NAME, docName) as DocumentReference<
             WithId<NpData>
-          >
+          >,
       ),
       switchMap((d) => docData(d, { idField: 'id' })),
-      throwIfNull()
+      throwIfNull(),
     );
   }
 
@@ -87,13 +87,13 @@ export class NpDataService {
         ...data,
         stDev: vatFn(stDev),
         average: vatFn(average),
-      }))
+      })),
     );
   }
 
   async scrapeZone(zone: string, forced = false): Promise<ScrapeZoneResult> {
     const scrape = httpsCallable<
-      { zone: string; forced?: boolean; },
+      { zone: string; forced?: boolean },
       ScrapeZoneResult
     >(this.functions, 'scrapeZone');
     const result = await scrape({ zone, forced });
@@ -102,8 +102,8 @@ export class NpDataService {
 
   async scrapeAllZones(forced = false): Promise<ScrapeZoneResult[]> {
     const scrape = httpsCallable<
-      { forced?: boolean; },
-      { errors: Error[]; results: ScrapeZoneResult[]; }
+      { forced?: boolean },
+      { errors: Error[]; results: ScrapeZoneResult[] }
     >(this.functions, 'scrapeAll');
     const result = await scrape({ forced });
     return result.data.results;
@@ -120,7 +120,7 @@ export class NpDataService {
 }
 
 function assertNpDocument(
-  d: DocumentData
+  d: DocumentData,
 ): asserts d is NpPriceCollectionData[] {
   if (
     !Array.isArray(d) ||

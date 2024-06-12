@@ -1,11 +1,14 @@
 <h2>
-    Vai tiešām vēlaties dzēst lietotāja
-    {{ name() }} kontu un visus iestatījumus?
+  Vai tiešām vēlaties dzēst lietotāja
+  {{ name() }} kontu un visus iestatījumus?
 </h2>
-<button mat-raised-button class="tertiary-button" (click)="onDelete()" [disabled]="busy()">
-    Dzēst
+<button
+  mat-raised-button
+  class="tertiary-button"
+  (click)="onDelete()"
+  [disabled]="busy()"
+>
+  Dzēst
 </button>
 
-<a mat-button routerLink=".." [disabled]="busy()">
-    Atcelt
-</a>
+<a mat-button routerLink=".." [disabled]="busy()"> Atcelt </a>

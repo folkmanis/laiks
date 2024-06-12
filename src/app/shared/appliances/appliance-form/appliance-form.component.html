@@ -1,72 +1,74 @@
 <form [formGroup]="applianceForm">
+  <h2>
+    <mat-form-field class="full-width">
+      <mat-label> Nosaukums </mat-label>
+      <input matInput formControlName="name" />
+      @if (applianceForm.controls.name.hasError("duplicate")) {
+        <mat-error>
+          Nosaukums "{{ applianceForm.controls.name.getError("duplicate") }}"
+          jau tiek izmantots
+        </mat-error>
+      } @else if (applianceForm.controls.name.hasError("required")) {
+        <mat-error> Jānorāda obligāti </mat-error>
+      }
+    </mat-form-field>
+  </h2>
 
-    <h2>
-        <mat-form-field class="full-width">
-            <mat-label>
-                Nosaukums
-            </mat-label>
-            <input matInput formControlName="name">
-            @if (applianceForm.controls.name.hasError('duplicate')) {
-            <mat-error>
-                Nosaukums "{{ applianceForm.controls.name.getError('duplicate') }}" jau tiek izmantots
-            </mat-error>
-            } @else if (applianceForm.controls.name.hasError('required')) {
-            <mat-error>
-                Jānorāda obligāti
-            </mat-error>
-            }
-        </mat-form-field>
-    </h2>
+  <div>
+    <mat-form-field id="minimum-delay">
+      <mat-label> Mazākais laiks </mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="minimumDelay"
+        class="right-align"
+      />
+      <span matTextSuffix>&nbsp;stundas</span>
+      @if (applianceForm.controls.minimumDelay.hasError("min")) {
+        <mat-error> Jābūt lielākam par nulli </mat-error>
+      }
+      @if (applianceForm.controls.minimumDelay.hasError("required")) {
+        <mat-error> Jānorāda obligāti </mat-error>
+      }
+      <mat-hint align="end">Mazākais laiks, ko var atlikt</mat-hint>
+    </mat-form-field>
+  </div>
 
-    <div>
-        <mat-form-field id="minimum-delay">
-            <mat-label>
-                Mazākais laiks
-            </mat-label>
-            <input matInput type="number" formControlName="minimumDelay" class="right-align">
-            <span matTextSuffix>&nbsp;stundas</span>
-            @if (applianceForm.controls.minimumDelay.hasError('min')) {
-            <mat-error>
-                Jābūt lielākam par nulli
-            </mat-error>
-            }
-            @if (applianceForm.controls.minimumDelay.hasError('required')) {
-            <mat-error>
-                Jānorāda obligāti
-            </mat-error>
-            }
-            <mat-hint align="end">Mazākais laiks, ko var atlikt</mat-hint>
-        </mat-form-field>
-    </div>
+  <div>
+    <label id="delay-label" for="delay">Atliktais laiks norāda cikla</label>
+    <mat-radio-group
+      aria-labelledby="delay-label"
+      formControlName="delay"
+      id="delay"
+    >
+      <mat-radio-button value="start">sākumu</mat-radio-button>
+      <mat-radio-button value="end">beigas</mat-radio-button>
+    </mat-radio-group>
+  </div>
 
-    <div>
-        <label id="delay-label" for="delay">Atliktais laiks norāda cikla</label>
-        <mat-radio-group aria-labelledby="delay-label" formControlName="delay" id="delay">
-            <mat-radio-button value="start">sākumu</mat-radio-button>
-            <mat-radio-button value="end">beigas</mat-radio-button>
-        </mat-radio-group>
-    </div>
+  <div class="mdc-form-field">
+    <input
+      matInput
+      laiksInput
+      type="color"
+      formControlName="color"
+      id="color-input"
+    />
+    <label for="color-input">Izceltā krāsa</label>
+  </div>
 
-    <div class="mdc-form-field">
-        <input matInput laiksInput type="color" formControlName="color" id="color-input">
-        <label for="color-input">Izceltā krāsa</label>
-    </div>
+  <div>
+    <mat-checkbox formControlName="enabled">
+      Rādīt izdevīgāko laiku
+    </mat-checkbox>
+  </div>
 
-    <div>
-        <mat-checkbox formControlName="enabled">
-            Rādīt izdevīgāko laiku
-        </mat-checkbox>
-    </div>
+  <div>
+    <h4>Patēriņa cikli</h4>
+    <laiks-power-cycles formControlName="cycles"></laiks-power-cycles>
+  </div>
 
-    <div>
-        <h4>
-            Patēriņa cikli
-        </h4>
-        <laiks-power-cycles formControlName="cycles"></laiks-power-cycles>
-    </div>
+  <mat-divider></mat-divider>
 
-    <mat-divider></mat-divider>
-
-    <ng-content></ng-content>
-
+  <ng-content></ng-content>
 </form>

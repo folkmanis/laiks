@@ -20,7 +20,11 @@ import {
   SystemAppliancesService,
 } from '@shared/appliances';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
-import { CanComponentDeactivate, assertNotNull, throwIfNull } from '@shared/utils';
+import {
+  CanComponentDeactivate,
+  assertNotNull,
+  throwIfNull,
+} from '@shared/utils';
 import { navigateRelative } from '@shared/utils/navigate-relative';
 import { EMPTY, firstValueFrom, switchMap } from 'rxjs';
 import { UsersService } from '../../users.service';
@@ -42,7 +46,7 @@ import {
     ApplianceFormComponent,
   ],
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
 export class EditUserApplianceComponent implements CanComponentDeactivate {
@@ -53,14 +57,14 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
   private usersService = inject(UsersService);
   private systemAppliances = toSignal(
     inject(SystemAppliancesService).getPowerAppliances({ enabledOnly: true }),
-    { initialValue: [] }
+    { initialValue: [] },
   );
 
   id = input.required<string>();
 
   user$ = toObservable(this.id).pipe(
     switchMap((id) => (id ? this.usersService.userByIdFlow(id) : EMPTY)),
-    throwIfNull()
+    throwIfNull(),
   );
 
   user = toSignal(this.user$);
@@ -93,15 +97,15 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
   busy = signal(false);
 
   constructor() {
-    effect(() => this.applianceForm.reset(this.initialValue()),
-      { allowSignalWrites: true }
-    );
+    effect(() => this.applianceForm.reset(this.initialValue()), {
+      allowSignalWrites: true,
+    });
   }
 
-  canDeactivate = () => this.applianceForm.pristine || this.confirmation.cancelEdit();
+  canDeactivate = () =>
+    this.applianceForm.pristine || this.confirmation.cancelEdit();
 
   async onSave() {
-
     const idx = this.idx();
     const user = this.user();
     assertNotNull(user);
@@ -115,15 +119,11 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
 
     this.busy.set(true);
 
-    await this.usersService.updateUser(
-      user.id,
-      { appliances },
-    );
+    await this.usersService.updateUser(user.id, { appliances });
 
     this.busy.set(false);
     this.applianceForm.markAsPristine();
     this.navigate(['..']);
-
   }
 
   async onCopyFrom() {
@@ -133,7 +133,11 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
         locale: this.user()?.locale,
       },
     };
-    const dialogRef = this.dialog.open<AddApplianceDialogComponent, ApplianceDialogData, PowerAppliance>(AddApplianceDialogComponent, config);
+    const dialogRef = this.dialog.open<
+      AddApplianceDialogComponent,
+      ApplianceDialogData,
+      PowerAppliance
+    >(AddApplianceDialogComponent, config);
     const appliance = await firstValueFrom(dialogRef.afterClosed());
     if (appliance) {
       this.applianceForm.reset(appliance);

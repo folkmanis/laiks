@@ -1,11 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  deleteDoc,
-  doc,
-  getDoc,
-  setDoc
-} from 'firebase/firestore';
-import { Firestore } from "@shared/firebase";
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { Firestore } from '@shared/firebase';
 
 const ADMINS = 'admins';
 const NP_BLOCKEDS = 'npBlocked';
@@ -14,7 +9,6 @@ const NP_BLOCKEDS = 'npBlocked';
   providedIn: 'root',
 })
 export class PermissionsService {
-
   private firestore = inject(Firestore);
 
   private readonly adminDoc = (id: string) => doc(this.firestore, ADMINS, id);

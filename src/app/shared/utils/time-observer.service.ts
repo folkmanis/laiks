@@ -10,7 +10,7 @@ export class TimeObserverService {
     return defer(() => of(new Date())).pipe(
       repeat({
         delay: () => timer(this.timeToNextMinute()),
-      })
+      }),
     );
   }
 
@@ -18,7 +18,7 @@ export class TimeObserverService {
     return defer(() => of(new Date())).pipe(
       repeat({
         delay: () => timer(this.timeToNextDay()),
-      })
+      }),
     );
   }
 

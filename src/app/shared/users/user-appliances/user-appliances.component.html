@@ -1,53 +1,52 @@
 @if (user(); as user) {
-
-<div cdkDropList (cdkDropListDropped)="onMoveAppliance($event,user)" [cdkDropListData]="user.appliances"
-    [cdkDropListDisabled]="busy()">
-
-    @for (appliance of user.appliances;let idx = $index; track trackByFn(appliance)) {
-    <div cdkDrag class="appliance" cdkDragBoundary=".cdk-drop-list">
+  <div
+    cdkDropList
+    (cdkDropListDropped)="onMoveAppliance($event, user)"
+    [cdkDropListData]="user.appliances"
+    [cdkDropListDisabled]="busy()"
+  >
+    @for (
+      appliance of user.appliances;
+      let idx = $index;
+      track trackByFn(appliance)
+    ) {
+      <div cdkDrag class="appliance" cdkDragBoundary=".cdk-drop-list">
         <div cdkDragHandle>
-            <mat-icon>
-                drag_indicator
-            </mat-icon>
+          <mat-icon> drag_indicator </mat-icon>
         </div>
         <laiks-color-tag [color]="appliance.color" />
         <div class="name">
-            <a mat-button [disabled]="busy()" [routerLink]="['/','prices','appliance',idx]">
-                {{ appliance.name }}
-            </a>
+          <a
+            mat-button
+            [disabled]="busy()"
+            [routerLink]="['/', 'prices', 'appliance', idx]"
+          >
+            {{ appliance.name }}
+          </a>
         </div>
         <div class="actions">
-            <a mat-icon-button [disabled]="busy()" [routerLink]="[idx]">
-                <mat-icon>
-                    edit
-                </mat-icon>
-            </a>
-            <button mat-icon-button [disabled]="busy()" (click)="onRemoveAppliance(idx, user)">
-                <mat-icon>
-                    delete
-                </mat-icon>
-            </button>
+          <a mat-icon-button [disabled]="busy()" [routerLink]="[idx]">
+            <mat-icon> edit </mat-icon>
+          </a>
+          <button
+            mat-icon-button
+            [disabled]="busy()"
+            (click)="onRemoveAppliance(idx, user)"
+          >
+            <mat-icon> delete </mat-icon>
+          </button>
         </div>
-    </div>
-
+      </div>
     }
+  </div>
 
-</div>
-
-<div class="buttons">
-
-    <a mat-button routerLink="..">
-        Atpakaļ uz iestatījumiem
-    </a>
-</div>
-
+  <div class="buttons">
+    <a mat-button routerLink=".."> Atpakaļ uz iestatījumiem </a>
+  </div>
 }
 
-
 <div class="add-button">
-    <a mat-fab [disabled]="busy()" routerLink="new">
-        <mat-icon>
-            add
-        </mat-icon>
-    </a>
+  <a mat-fab [disabled]="busy()" routerLink="new">
+    <mat-icon> add </mat-icon>
+  </a>
 </div>

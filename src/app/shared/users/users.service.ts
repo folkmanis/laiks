@@ -16,8 +16,8 @@ import { LaiksUser } from '@shared/users';
 import { WithId, assertNotNull, throwIfNull } from '@shared/utils';
 import { Observable } from 'rxjs';
 import { DeleteInactiveUsersResult } from './delete-inactive-result';
-import { Functions, Firestore } from "@shared/firebase";
-import { docData, collectionData } from "rxfire/firestore";
+import { Functions, Firestore } from '@shared/firebase';
+import { docData, collectionData } from 'rxfire/firestore';
 
 const USERS_COLL = 'users';
 
@@ -34,7 +34,7 @@ export class UsersService {
   getUsersFlow(): Observable<WithId<LaiksUser>[]> {
     const collRef = collection(
       this.firestore,
-      USERS_COLL
+      USERS_COLL,
     ) as CollectionReference<WithId<LaiksUser>>;
     return collectionData(query(collRef, orderBy('email')), { idField: 'id' });
   }
@@ -47,8 +47,7 @@ export class UsersService {
   }
 
   userByIdFlow(id: string): Observable<WithId<LaiksUser>> {
-    return docData(this.docRef(id), { idField: 'id' })
-      .pipe(throwIfNull(id));
+    return docData(this.docRef(id), { idField: 'id' }).pipe(throwIfNull(id));
   }
 
   updateUser(id: string, update: Partial<LaiksUser>): Promise<void> {
@@ -66,10 +65,10 @@ export class UsersService {
   }
 
   async deleteInactiveUsers(
-    maxInactiveDays?: number
+    maxInactiveDays?: number,
   ): Promise<DeleteInactiveUsersResult> {
     const deleter = httpsCallable<
-      { maxInactiveDays?: number; },
+      { maxInactiveDays?: number },
       DeleteInactiveUsersResult
     >(this.functions, 'deleteInactiveUsers');
     const response = await deleter({ maxInactiveDays });

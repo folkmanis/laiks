@@ -9,9 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./privacy-politics.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vertical-container'
+    class: 'vertical-container',
   },
 })
-export class PrivacyPoliticsComponent {
-
-}
+export class PrivacyPoliticsComponent {}

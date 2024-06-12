@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
-import { loginAdmin, logout } from '@shared/firebase/test-firebase-provider.spec';
+import {
+  loginAdmin,
+  logout,
+} from '@shared/firebase/test-firebase-provider.spec';
 import { PermissionsService } from '@shared/permissions';
 import { firstValueFrom } from 'rxjs';
 import { defaultUser } from './laiks-user';
@@ -27,17 +30,16 @@ describe('LoginService', () => {
   });
 
   it('should log in with email', async () => {
-
     await loginAdmin();
 
-    await expectAsync(firstValueFrom(service.laiksUserObserver())).toBeResolvedTo(jasmine.truthy());
+    await expectAsync(
+      firstValueFrom(service.laiksUserObserver()),
+    ).toBeResolvedTo(jasmine.truthy());
 
     logout();
-
   });
 
   it('should create and delete email user', async () => {
-
     const { email, password, name } = NEW_USER;
     const defaultLaiksUser = defaultUser(email, name);
 
@@ -53,6 +55,5 @@ describe('LoginService', () => {
 
     const isLogin = await firstValueFrom(service.loginObserver());
     expect(isLogin).toBeFalse();
-
   });
 });

@@ -1,40 +1,60 @@
 <div class="vertical-container centered" cdkTrapFocus cdkTrapFocusAutoCapture>
+  <section class="email-login">
+    <form [formGroup]="loginGroup" (submit)="onLoginWithEmail($event)">
+      <mat-form-field class="full-width" id="email">
+        <mat-label>e-pasts</mat-label>
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          #emailInput
+        />
+      </mat-form-field>
 
-    <section class="email-login">
+      <mat-form-field class="full-width" id="password">
+        <mat-label>parole</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+        />
+      </mat-form-field>
 
-        <form [formGroup]="loginGroup" (submit)="onLoginWithEmail($event);">
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="loginGroup.valid === false"
+        class="full-width"
+        id="submit-button"
+      >
+        Pieslēgties
+      </button>
+    </form>
+  </section>
 
-            <mat-form-field class="full-width" id="email">
-                <mat-label>e-pasts</mat-label>
-                <input matInput type="email" formControlName="email" autocomplete="email" #emailInput />
-            </mat-form-field>
+  <section>
+    <a
+      mat-button
+      class="full-width"
+      routerLink="/create-user"
+      id="register-button"
+    >
+      Reģistrēties
+    </a>
+  </section>
 
-            <mat-form-field class="full-width" id="password">
-                <mat-label>parole</mat-label>
-                <input matInput type="password" formControlName="password" autocomplete="current-password" />
-            </mat-form-field>
+  <mat-divider />
 
-            <button mat-raised-button color="primary" [disabled]="loginGroup.valid === false" class="full-width"
-                id="submit-button">
-                Pieslēgties
-            </button>
-
-        </form>
-
-    </section>
-
-    <section>
-        <a mat-button class="full-width" routerLink="/create-user" id="register-button">
-            Reģistrēties
-        </a>
-    </section>
-
-    <mat-divider />
-
-    <section class="oauth-login">
-        <button mat-raised-button class="full-width" (click)="onLoginWithGmail()" id="gmail-button">
-            Pieslēgties ar Gmail
-        </button>
-    </section>
-
+  <section class="oauth-login">
+    <button
+      mat-raised-button
+      class="full-width"
+      (click)="onLoginWithGmail()"
+      id="gmail-button"
+    >
+      Pieslēgties ar Gmail
+    </button>
+  </section>
 </div>

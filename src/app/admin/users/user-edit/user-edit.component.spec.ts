@@ -11,7 +11,6 @@ import { UsersService } from '../../../shared/users/users.service';
 import { UserEditComponent } from './user-edit.component';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
-
 describe('UserEditComponent', () => {
   let component: UserEditComponent;
   let harness: RouterTestingHarness;
@@ -26,15 +25,18 @@ describe('UserEditComponent', () => {
       ],
       providers: [
         UsersService,
-        provideRouter([
-          {
-            path: 'users/:id',
-            component: UserEditComponent,
-            // resolve: {
-            //   user: resolveUser,
-            // },
-          },
-        ], withComponentInputBinding()),
+        provideRouter(
+          [
+            {
+              path: 'users/:id',
+              component: UserEditComponent,
+              // resolve: {
+              //   user: resolveUser,
+              // },
+            },
+          ],
+          withComponentInputBinding(),
+        ),
         ConfirmationDialogService,
         testFirebaseProvider,
         provideExperimentalZonelessChangeDetection(),
@@ -44,7 +46,6 @@ describe('UserEditComponent', () => {
 
     harness = await RouterTestingHarness.create();
     component = await harness.navigateByUrl('users/4ace', UserEditComponent);
-
   });
 
   it('should create', () => {
@@ -54,5 +55,4 @@ describe('UserEditComponent', () => {
   it('user id should be set by navigation', () => {
     expect(component.id()).toBe('4ace');
   });
-
 });
