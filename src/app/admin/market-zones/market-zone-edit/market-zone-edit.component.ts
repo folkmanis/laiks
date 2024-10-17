@@ -67,7 +67,6 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
   form: MarketZoneGroup = inject(FormBuilder).nonNullable.group({
     description: ['', Validators.required],
     locale: ['', Validators.required],
-    url: ['', Validators.required],
     tax: [0, Validators.required],
     dbName: ['', Validators.required],
     enabled: [false],
