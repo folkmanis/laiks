@@ -1,104 +1,133 @@
-import { parseISO } from 'date-fns';
+import { readFileSync } from 'fs';
 import { NpPrice } from './np-price';
-import { plainToInstance } from 'class-transformer';
-import { NpData } from './np-data';
 
-export const TEST_STRING = `{
-    "data": {
-      "Rows": [
-    {
-      "Columns": [
-        {
-          "Index": 0,
-          "Scale": 0,
-          "SecondaryValue": null,
-          "IsDominatingDirection": false,
-          "IsValid": false,
-          "IsAdditionalData": false,
-          "Behavior": 0,
-          "Name": "25-10-2022",
-          "Value": "168,85",
-          "GroupHeader": null,
-          "DisplayNegativeValueInBlue": false,
-          "CombinedName": "25-10-2022",
-          "DateTimeForData": "0001-01-01T00:00:00",
-          "DisplayName": "168,85_True",
-          "DisplayNameOrDominatingDirection": "168,85",
-          "IsOfficial": true,
-          "UseDashDisplayStyle": false
-        },
-        {
-          "Index": 1,
-          "Scale": 0,
-          "SecondaryValue": null,
-          "IsDominatingDirection": false,
-          "IsValid": false,
-          "IsAdditionalData": false,
-          "Behavior": 0,
-          "Name": "24-10-2022",
-          "Value": "54,45",
-          "GroupHeader": null,
-          "DisplayNegativeValueInBlue": false,
-          "CombinedName": "24-10-2022",
-          "DateTimeForData": "0001-01-01T00:00:00",
-          "DisplayName": "54,45_True",
-          "DisplayNameOrDominatingDirection": "54,45",
-          "IsOfficial": true,
-          "UseDashDisplayStyle": false
-        },
-        {
-          "Index": 2,
-          "Scale": 0,
-          "SecondaryValue": null,
-          "IsDominatingDirection": false,
-          "IsValid": false,
-          "IsAdditionalData": false,
-          "Behavior": 0,
-          "Name": "24-10-2022",
-          "Value": "-",
-          "GroupHeader": null,
-          "DisplayNegativeValueInBlue": false,
-          "CombinedName": "24-10-2022",
-          "DateTimeForData": "0001-01-01T00:00:00",
-          "DisplayName": "-_True",
-          "DisplayNameOrDominatingDirection": "-",
-          "IsOfficial": true,
-          "UseDashDisplayStyle": false
-        }
-      ],
-      "Name": "00&nbsp;-&nbsp;01",
-      "StartTime": "2022-10-25T00:00:00",
-      "EndTime": "2022-10-25T01:00:00",
-      "DateTimeForData": "0001-01-01T00:00:00",
-      "DayNumber": 0,
-      "StartTimeDate": "0001-01-01T00:00:00",
-      "IsExtraRow": false,
-      "IsNtcRow": false,
-      "EmptyValue": "",
-      "Parent": null
-      }
-    ]
-  }
-  }
-    `;
+export const TEST_JSON_DATA = readFileSync(
+  './src/scraper/dto/test-np-data-v2.json',
+  'utf-8',
+);
 
-export const TEST_DATA: Record<string, unknown> = JSON.parse(TEST_STRING);
+export const TEST_AVERAGE = 88.64875;
+export const TEST_STDEV = 100.1632088;
 
 export const TEST_OBJ: NpPrice[] = [
   {
-    value: 168.85,
-    startTime: parseISO('2022-10-24T22:00:00.000Z'), // new Date(2022, 10 - 1, 24, 22, 0, 0),
-    endTime: parseISO('2022-10-24T23:00:00.000Z'), // new Date(2022, 10 - 1, 24, 23, 0, 0),
+    startTime: new Date(new Date('2024-10-15T22:00:00Z')),
+    endTime: new Date(new Date('2024-10-15T23:00:00Z')),
+    value: 30.48,
   },
   {
-    value: 54.45,
-    startTime: parseISO('2022-10-23T22:00:00.000Z'), // new Date(2022, 10 - 1, 23, 22, 0, 0),
-    endTime: parseISO('2022-10-23T23:00:00.000Z'), // new Date(2022, 10 - 1, 23, 23, 0, 0),
+    startTime: new Date('2024-10-15T23:00:00Z'),
+    endTime: new Date('2024-10-16T00:00:00Z'),
+    value: 12.8,
+  },
+  {
+    startTime: new Date('2024-10-16T00:00:00Z'),
+    endTime: new Date('2024-10-16T01:00:00Z'),
+    value: 5.3,
+  },
+  {
+    startTime: new Date('2024-10-16T01:00:00Z'),
+    endTime: new Date('2024-10-16T02:00:00Z'),
+    value: 3.61,
+  },
+  {
+    startTime: new Date('2024-10-16T02:00:00Z'),
+    endTime: new Date('2024-10-16T03:00:00Z'),
+    value: 4.04,
+  },
+  {
+    startTime: new Date('2024-10-16T03:00:00Z'),
+    endTime: new Date('2024-10-16T04:00:00Z'),
+    value: 104.95,
+  },
+  {
+    startTime: new Date('2024-10-16T04:00:00Z'),
+    endTime: new Date('2024-10-16T05:00:00Z'),
+    value: 194.79,
+  },
+  {
+    startTime: new Date('2024-10-16T05:00:00Z'),
+    endTime: new Date('2024-10-16T06:00:00Z'),
+    value: 300.07,
+  },
+  {
+    startTime: new Date('2024-10-16T06:00:00Z'),
+    endTime: new Date('2024-10-16T07:00:00Z'),
+    value: 186.94,
+  },
+  {
+    startTime: new Date('2024-10-16T07:00:00Z'),
+    endTime: new Date('2024-10-16T08:00:00Z'),
+    value: 79.96,
+  },
+  {
+    startTime: new Date('2024-10-16T08:00:00Z'),
+    endTime: new Date('2024-10-16T09:00:00Z'),
+    value: 26.68,
+  },
+  {
+    startTime: new Date('2024-10-16T09:00:00Z'),
+    endTime: new Date('2024-10-16T10:00:00Z'),
+    value: 14.16,
+  },
+  {
+    startTime: new Date('2024-10-16T10:00:00Z'),
+    endTime: new Date('2024-10-16T11:00:00Z'),
+    value: 4.99,
+  },
+  {
+    startTime: new Date('2024-10-16T11:00:00Z'),
+    endTime: new Date('2024-10-16T12:00:00Z'),
+    value: 5.99,
+  },
+  {
+    startTime: new Date('2024-10-16T12:00:00Z'),
+    endTime: new Date('2024-10-16T13:00:00Z'),
+    value: 8.71,
+  },
+  {
+    startTime: new Date('2024-10-16T13:00:00Z'),
+    endTime: new Date('2024-10-16T14:00:00Z'),
+    value: 27.02,
+  },
+  {
+    startTime: new Date('2024-10-16T14:00:00Z'),
+    endTime: new Date('2024-10-16T15:00:00Z'),
+    value: 110.19,
+  },
+  {
+    startTime: new Date('2024-10-16T15:00:00Z'),
+    endTime: new Date('2024-10-16T16:00:00Z'),
+    value: 300.01,
+  },
+  {
+    startTime: new Date('2024-10-16T16:00:00Z'),
+    endTime: new Date('2024-10-16T17:00:00Z'),
+    value: 300.02,
+  },
+  {
+    startTime: new Date('2024-10-16T17:00:00Z'),
+    endTime: new Date('2024-10-16T18:00:00Z'),
+    value: 195.43,
+  },
+  {
+    startTime: new Date('2024-10-16T18:00:00Z'),
+    endTime: new Date('2024-10-16T19:00:00Z'),
+    value: 103.42,
+  },
+  {
+    startTime: new Date('2024-10-16T19:00:00Z'),
+    endTime: new Date('2024-10-16T20:00:00Z'),
+    value: 63.89,
+  },
+  {
+    startTime: new Date('2024-10-16T20:00:00Z'),
+    endTime: new Date('2024-10-16T21:00:00Z'),
+    value: 25.03,
+  },
+  {
+    startTime: new Date('2024-10-16T21:00:00Z'),
+    endTime: new Date('2024-10-16T22:00:00Z'),
+    value: 19.09,
   },
 ];
-
-export function getTestNpData() {
-  return plainToInstance(NpData, TEST_DATA.data, {
-    excludeExtraneousValues: true,
-  });
-}

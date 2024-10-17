@@ -1,0 +1,278 @@
+{
+  "deliveryDateCET": "2024-10-16",
+  "version": 3,
+  "updatedAt": "2024-10-15T11:24:13.9213147Z",
+  "deliveryAreas": [
+    "LT",
+    "LV"
+  ],
+  "market": "DayAhead",
+  "multiAreaEntries": [
+    {
+      "deliveryStart": "2024-10-15T22:00:00Z",
+      "deliveryEnd": "2024-10-15T23:00:00Z",
+      "entryPerArea": {
+        "LT": 30.48,
+        "LV": 30.48
+      }
+    },
+    {
+      "deliveryStart": "2024-10-15T23:00:00Z",
+      "deliveryEnd": "2024-10-16T00:00:00Z",
+      "entryPerArea": {
+        "LT": 12.80,
+        "LV": 12.80
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T00:00:00Z",
+      "deliveryEnd": "2024-10-16T01:00:00Z",
+      "entryPerArea": {
+        "LT": 5.30,
+        "LV": 5.30
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T01:00:00Z",
+      "deliveryEnd": "2024-10-16T02:00:00Z",
+      "entryPerArea": {
+        "LT": 3.61,
+        "LV": 3.61
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T02:00:00Z",
+      "deliveryEnd": "2024-10-16T03:00:00Z",
+      "entryPerArea": {
+        "LT": 4.04,
+        "LV": 4.04
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T03:00:00Z",
+      "deliveryEnd": "2024-10-16T04:00:00Z",
+      "entryPerArea": {
+        "LT": 104.95,
+        "LV": 104.95
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T04:00:00Z",
+      "deliveryEnd": "2024-10-16T05:00:00Z",
+      "entryPerArea": {
+        "LT": 194.79,
+        "LV": 194.79
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T05:00:00Z",
+      "deliveryEnd": "2024-10-16T06:00:00Z",
+      "entryPerArea": {
+        "LT": 300.07,
+        "LV": 300.07
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T06:00:00Z",
+      "deliveryEnd": "2024-10-16T07:00:00Z",
+      "entryPerArea": {
+        "LT": 186.94,
+        "LV": 186.94
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T07:00:00Z",
+      "deliveryEnd": "2024-10-16T08:00:00Z",
+      "entryPerArea": {
+        "LT": 79.96,
+        "LV": 79.96
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T08:00:00Z",
+      "deliveryEnd": "2024-10-16T09:00:00Z",
+      "entryPerArea": {
+        "LT": 26.68,
+        "LV": 26.68
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T09:00:00Z",
+      "deliveryEnd": "2024-10-16T10:00:00Z",
+      "entryPerArea": {
+        "LT": 14.16,
+        "LV": 14.16
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T10:00:00Z",
+      "deliveryEnd": "2024-10-16T11:00:00Z",
+      "entryPerArea": {
+        "LT": 4.99,
+        "LV": 4.99
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T11:00:00Z",
+      "deliveryEnd": "2024-10-16T12:00:00Z",
+      "entryPerArea": {
+        "LT": 5.99,
+        "LV": 5.99
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T12:00:00Z",
+      "deliveryEnd": "2024-10-16T13:00:00Z",
+      "entryPerArea": {
+        "LT": 8.71,
+        "LV": 8.71
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T13:00:00Z",
+      "deliveryEnd": "2024-10-16T14:00:00Z",
+      "entryPerArea": {
+        "LT": 27.02,
+        "LV": 27.02
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T14:00:00Z",
+      "deliveryEnd": "2024-10-16T15:00:00Z",
+      "entryPerArea": {
+        "LT": 110.19,
+        "LV": 110.19
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T15:00:00Z",
+      "deliveryEnd": "2024-10-16T16:00:00Z",
+      "entryPerArea": {
+        "LT": 300.01,
+        "LV": 300.01
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T16:00:00Z",
+      "deliveryEnd": "2024-10-16T17:00:00Z",
+      "entryPerArea": {
+        "LT": 300.02,
+        "LV": 300.02
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T17:00:00Z",
+      "deliveryEnd": "2024-10-16T18:00:00Z",
+      "entryPerArea": {
+        "LT": 195.43,
+        "LV": 195.43
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T18:00:00Z",
+      "deliveryEnd": "2024-10-16T19:00:00Z",
+      "entryPerArea": {
+        "LT": 103.42,
+        "LV": 103.42
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T19:00:00Z",
+      "deliveryEnd": "2024-10-16T20:00:00Z",
+      "entryPerArea": {
+        "LT": 63.89,
+        "LV": 63.89
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T20:00:00Z",
+      "deliveryEnd": "2024-10-16T21:00:00Z",
+      "entryPerArea": {
+        "LT": 25.03,
+        "LV": 25.03
+      }
+    },
+    {
+      "deliveryStart": "2024-10-16T21:00:00Z",
+      "deliveryEnd": "2024-10-16T22:00:00Z",
+      "entryPerArea": {
+        "LT": 19.09,
+        "LV": 19.09
+      }
+    }
+  ],
+  "blockPriceAggregates": [
+    {
+      "blockName": "Off-peak 1",
+      "deliveryStart": "2024-10-15T22:00:00Z",
+      "deliveryEnd": "2024-10-16T06:00:00Z",
+      "averagePricePerArea": {
+        "LT": {
+          "average": 82.01,
+          "min": 3.61,
+          "max": 300.07
+        },
+        "LV": {
+          "average": 82.01,
+          "min": 3.61,
+          "max": 300.07
+        }
+      }
+    },
+    {
+      "blockName": "Peak",
+      "deliveryStart": "2024-10-16T06:00:00Z",
+      "deliveryEnd": "2024-10-16T18:00:00Z",
+      "averagePricePerArea": {
+        "LT": {
+          "average": 105.01,
+          "min": 4.99,
+          "max": 300.02
+        },
+        "LV": {
+          "average": 105.01,
+          "min": 4.99,
+          "max": 300.02
+        }
+      }
+    },
+    {
+      "blockName": "Off-peak 2",
+      "deliveryStart": "2024-10-16T18:00:00Z",
+      "deliveryEnd": "2024-10-16T22:00:00Z",
+      "averagePricePerArea": {
+        "LT": {
+          "average": 52.86,
+          "min": 19.09,
+          "max": 103.42
+        },
+        "LV": {
+          "average": 52.86,
+          "min": 19.09,
+          "max": 103.42
+        }
+      }
+    }
+  ],
+  "currency": "EUR",
+  "exchangeRate": 1,
+  "areaStates": [
+    {
+      "state": "Final",
+      "areas": [
+        "LT",
+        "LV"
+      ]
+    }
+  ],
+  "areaAverages": [
+    {
+      "areaCode": "LT",
+      "price": 88.65
+    },
+    {
+      "areaCode": "LV",
+      "price": 88.65
+    }
+  ]
+}

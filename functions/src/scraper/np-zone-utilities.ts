@@ -15,13 +15,13 @@ export async function createZonesSetup() {
   return batch.commit();
 }
 
-export async function getNpZones(): Promise<MarketZone[]> {
+export async function getNpZones(): Promise<[string, MarketZone][]> {
   const firestore = getFirestore();
   const snapshot = await firestore
     .collection(ZONES_COLLECTION_NAME)
     .where('enabled', '==', true)
     .get();
-  return snapshot.docs.map((doc) => doc.data() as MarketZone);
+  return snapshot.docs.map((doc) => [doc.id, doc.data() as MarketZone]);
 }
 
 export async function getAllNpZones(): Promise<MarketZone[]> {
@@ -31,7 +31,7 @@ export async function getAllNpZones(): Promise<MarketZone[]> {
 }
 
 export async function getNpZoneByDbName(
-  dbName: string
+  dbName: string,
 ): Promise<MarketZone | undefined> {
   const firestore = getFirestore();
   const snapshot = await firestore
@@ -42,7 +42,7 @@ export async function getNpZoneByDbName(
 }
 
 export async function getNpZone(
-  zoneId: string
+  zoneId: string,
 ): Promise<MarketZone | undefined> {
   const firestore = getFirestore();
   const document = await firestore

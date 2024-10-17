@@ -23,14 +23,16 @@ import {
   ZONES_COLLECTION_NAME,
   createZonesSetup,
 } from './scraper/np-zone-utilities';
-import { scrapeSingleZone } from './scraper/scrape-single-zone';
-import { updateAllNpData } from './scraper/update-all-np-data';
 import { afterUserDeleted } from './user-cleanup';
 import {
   assertIsString,
   checkAdmin,
   checkAuthStatus,
 } from './utils/assertions';
+import {
+  updateNextDayNpData,
+  updateNpDataForDate,
+} from './scraper/update-np-data';
 
 initializeApp();
 
@@ -48,24 +50,7 @@ export const onLaiksUserDeleted = onDocumentDeleted(
     const id = event.data?.id;
     assertIsString(id, 'user id');
     getAuth().deleteUser(id);
-  }
-);
-
-export const scrapeZone = onCall(
-  {
-    region: 'europe-west1',
   },
-  async (request) => {
-    checkAuthStatus(request.auth);
-    await checkAdmin(request.auth.uid);
-
-    const zoneId = request.data['zone'];
-    assertIsString(zoneId, 'zone');
-
-    const forced = request.data['forced'];
-
-    return scrapeSingleZone(zoneId, forced);
-  }
 );
 
 export const scrapeAll = onCall(
@@ -76,9 +61,13 @@ export const scrapeAll = onCall(
     checkAuthStatus(request.auth);
     await checkAdmin(request.auth.uid);
 
-    const forced = request.data['forced'];
-    return updateAllNpData(forced);
-  }
+    const date = request.data['date'];
+    if (date) {
+      return updateNpDataForDate(date);
+    } else {
+      return updateNextDayNpData();
+    }
+  },
 );
 
 exports.deleteInactiveUsers = onCall(
@@ -91,7 +80,7 @@ exports.deleteInactiveUsers = onCall(
 
     const maxInactiveDays = request.data['maxInactiveDays'];
     return deleteInactiveUsers(maxInactiveDays);
-  }
+  },
 );
 
 exports.scheduledScraper = onSchedule(
@@ -99,9 +88,9 @@ exports.scheduledScraper = onSchedule(
     region: 'europe-west1',
     schedule: 'every day 12:35',
   },
-  () => {
-    updateAllNpData(false);
-  }
+  async () => {
+    await updateNextDayNpData();
+  },
 );
 
 exports.scheduledUserMaintenance = onSchedule(
@@ -111,7 +100,7 @@ exports.scheduledUserMaintenance = onSchedule(
   },
   () => {
     deleteInactiveUsers();
-  }
+  },
 );
 
 exports.setDefaultZones = onCall(
@@ -122,7 +111,7 @@ exports.setDefaultZones = onCall(
     checkAuthStatus(request.auth);
     await checkAdmin(request.auth.uid);
     return createZonesSetup();
-  }
+  },
 );
 
 export const moveLaiksDb = onDocumentUpdated(
@@ -137,5 +126,5 @@ export const moveLaiksDb = onDocumentUpdated(
     if (oldZone.dbName !== newZone.dbName) {
       await movePricesCollection(oldZone.dbName, newZone.dbName);
     }
-  }
+  },
 );
