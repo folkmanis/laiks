@@ -18,6 +18,7 @@ import { NpData, NpPrice, NpPriceCollectionData } from './np-price.interface';
 import { ScrapeZoneResult } from './scrape-zone-result';
 import { Firestore, Functions } from '@shared/firebase';
 import { docData, collectionData } from 'rxfire/firestore';
+import { formatISO, isValid } from 'date-fns';
 
 const DB_NAME = 'laiks';
 
@@ -91,22 +92,19 @@ export class NpDataService {
     );
   }
 
-  async scrapeZone(zone: string, forced = false): Promise<ScrapeZoneResult> {
-    const scrape = httpsCallable<
-      { zone: string; forced?: boolean },
-      ScrapeZoneResult
-    >(this.functions, 'scrapeZone');
-    const result = await scrape({ zone, forced });
-    return result.data;
-  }
+  async scrapeAllZones(date?: Date | null): Promise<ScrapeZoneResult[]> {
+    let dateString: string | undefined;
+    if (date && isValid(date)) {
+      dateString = formatISO(date, { representation: 'date' });
+    }
 
-  async scrapeAllZones(forced = false): Promise<ScrapeZoneResult[]> {
-    const scrape = httpsCallable<
-      { forced?: boolean },
-      { errors: Error[]; results: ScrapeZoneResult[] }
-    >(this.functions, 'scrapeAll');
-    const result = await scrape({ forced });
-    return result.data.results;
+    const scrape = httpsCallable<{ date?: string }, ScrapeZoneResult[]>(
+      this.functions,
+      'scrapeAll',
+      {},
+    );
+    const result = await scrape({ date: dateString });
+    return result.data;
   }
 
   private docToNpPrices(doc: DocumentData): NpPrice[] {

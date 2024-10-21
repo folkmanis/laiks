@@ -6,7 +6,7 @@ import { createZonesSetup } from './np-zone-utilities';
 import { pricesCollection, pricesDocument } from './prices-collection-ref';
 import {
   AVERAGE_DAYS,
-  isTodayDataInDb,
+  isNextDayDataInDb,
   writeZonePrices,
 } from './update-np-data';
 
@@ -43,7 +43,7 @@ describe('Np-data DB functions', () => {
   });
 
   it('should not be today data in db', async () => {
-    const result = await isTodayDataInDb(DEFAULT_MARKET_ZONES);
+    const result = await isNextDayDataInDb(DEFAULT_MARKET_ZONES);
     expect(result).toBe(true);
   });
 });

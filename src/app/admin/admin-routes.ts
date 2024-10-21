@@ -1,4 +1,7 @@
 import { Route } from '@angular/router';
+import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
+import { lv } from 'date-fns/locale';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 export default [
   {
@@ -19,6 +22,10 @@ export default [
       import('./special-actions/special-actions.component').then(
         (c) => c.SpecialActionsComponent,
       ),
+    providers: [
+      provideDateFnsAdapter(),
+      { provide: MAT_DATE_LOCALE, useValue: lv },
+    ],
   },
   {
     path: '**',

@@ -25,8 +25,8 @@ export const AVERAGE_DAYS = 5;
 export async function updateNextDayNpData() {
   const zones = await getNpZones();
 
-  if (await isTodayDataInDb(zones)) {
-    return [];
+  if (await isNextDayDataInDb(zones)) {
+    return 'Next day data already in db';
   } else {
     return updateNpDataForDate(addDays(startOfDay(new Date()), 1));
   }
@@ -97,21 +97,25 @@ export async function updateAverages(zoneDbName: string, date?: Date) {
   );
 }
 
-export async function isTodayDataInDb(
+export async function isNextDayDataInDb(
   zones: [string, MarketZone][],
 ): Promise<boolean> {
-  const lastDocUpdates = await PromisePool.for(zones)
+  const nextDay = addDays(new Date(), 1);
+  let latestDataMissingForZone: null | string = null;
+  await PromisePool.for(zones)
     .withConcurrency(MAX_CONCURRENT)
     .process(async ([, zone]) => {
-      const npData = await pricesDocument(zone.dbName).get();
-      return (npData.updateTime || npData.createTime)?.toDate();
+      if (latestDataMissingForZone === null) {
+        const count = await pricesCollection(zone.dbName)
+          .where('startTime', '>=', Timestamp.fromDate(nextDay))
+          .count()
+          .get();
+        latestDataMissingForZone =
+          count.data().count > 0 ? null : zone.description;
+      }
     });
 
-  const today = startOfDay(new Date());
+  logger.info(`Latest data missing for ${latestDataMissingForZone}`);
 
-  logger.info(
-    `Today ${today.toISOString()}, last update ${lastDocUpdates.results}`,
-  );
-
-  return lastDocUpdates.results.some((d) => d && d > today);
+  return latestDataMissingForZone === null;
 }

@@ -1,22 +1,26 @@
 import { JsonPipe } from '@angular/common';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
+  model,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MarketZonesService, NpDataService } from '@shared/np-data';
+import { NpDataService } from '@shared/np-data';
 import { ScrapeZoneResult } from '@shared/np-data/scrape-zone-result';
 import { UsersService } from '@shared/users';
 import { DeleteInactiveUsersResult } from '@shared/users/delete-inactive-result';
+import { addDays, isValid } from 'date-fns';
 
 type Result = ScrapeZoneResult | ScrapeZoneResult[] | DeleteInactiveUsersResult;
 
@@ -28,10 +32,11 @@ type Result = ScrapeZoneResult | ScrapeZoneResult[] | DeleteInactiveUsersResult;
     JsonPipe,
     MatProgressSpinnerModule,
     MatDividerModule,
-    MatCheckboxModule,
     MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
+    MatDatepickerModule,
+    MatIcon,
+    MatInputModule,
+    FormsModule,
   ],
   templateUrl: './special-actions.component.html',
   styleUrl: './special-actions.component.scss',
@@ -44,30 +49,26 @@ export class SpecialActionsComponent {
   private npDataService = inject(NpDataService);
   private usersService = inject(UsersService);
 
-  zones = toSignal(inject(MarketZonesService).getZonesFlow());
+  dateToScrape = model<Date | null>(null);
+  dateToScrapeValid = computed(() => isValid(this.dateToScrape()));
+
+  tomorrow = addDays(new Date(), 1);
 
   result = signal<Result | null>(null);
   busy = signal(false);
   error = signal<Error | null>(null);
 
-  async onScrapeAll(forced: boolean) {
-    this.reset();
-
-    try {
-      const result = await this.npDataService.scrapeAllZones(forced);
-      this.result.set(result);
-    } catch (error) {
-      this.error.set(error as Error);
-      this.result.set(null);
-    }
-    this.busy.set(false);
+  constructor() {
+    afterNextRender({
+      write: () => this.dateToScrape.set(this.tomorrow),
+    });
   }
 
-  async onScrapeZone(zoneId: string, forced: boolean) {
+  async onScrapeAll(date?: Date | null) {
     this.reset();
 
     try {
-      const result = await this.npDataService.scrapeZone(zoneId, forced);
+      const result = await this.npDataService.scrapeAllZones(date);
       this.result.set(result);
     } catch (error) {
       this.error.set(error as Error);

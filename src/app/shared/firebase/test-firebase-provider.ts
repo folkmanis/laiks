@@ -29,7 +29,7 @@ export const testFirebaseProvider: EnvironmentProviders[] = [
     return firestore;
   }),
   provideFunctions(() => {
-    const functions = getFunctions();
+    const functions = getFunctions(undefined, 'europe-west1');
     connectFunctionsEmulator(functions, '127.0.0.1', 5001);
     return functions;
   }),

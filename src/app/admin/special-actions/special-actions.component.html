@@ -1,45 +1,40 @@
 <section>
   <div class="buttons-row">
-    <button
-      mat-button
-      (click)="onScrapeAll(forcedAllCheck.checked)"
-      [disabled]="busy()"
-    >
-      Nolasīt visus datus
+    <button mat-button (click)="onScrapeAll()" [disabled]="busy()">
+      Nolasīt jaunākos datus
     </button>
-    <mat-checkbox #forcedAllCheck [disabled]="busy()"> Piespiedu </mat-checkbox>
   </div>
 </section>
 
 <mat-divider />
 
 <section>
-  <div>
-    <mat-form-field>
-      <mat-label>Tirgus reģions</mat-label>
-      <mat-select #marketZone>
-        @for (zone of zones(); track $index) {
-          <mat-option [value]="zone.id">
-            {{ zone.id }} - {{ zone.description }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div>
   <div class="buttons-row">
+    <mat-form-field>
+      <mat-label>Datuma izvēle</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="dateToScrape"
+        id="dateToScrape"
+        required
+        [max]="tomorrow"
+      />
+      <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      <mat-datepicker #picker />
+    </mat-form-field>
     <button
-      mat-raised-button
-      (click)="onScrapeZone(marketZone.value, forcedZoneCheck.checked)"
-      [disabled]="busy() || marketZone.value === null"
+      mat-button
+      [disabled]="busy() || dateToScrapeValid() === false"
+      (click)="onScrapeAll(dateToScrape())"
     >
-      Nolasīt reģionu
+      Nolasīt vienas dienas datus
     </button>
-    <mat-checkbox #forcedZoneCheck [disabled]="busy()">
-      Piespiedu
-    </mat-checkbox>
   </div>
 </section>
+
 <mat-divider />
+
 <section>
   <div class="buttons-row">
     <button
