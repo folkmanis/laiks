@@ -36,7 +36,7 @@ describe('ConfirmationDialogService', () => {
     service = TestBed.inject(ConfirmationDialogService);
 
     fixture = TestBed.createComponent(ConfirmationDialogServiceTestComponent);
-    fixture.detectChanges();
+    await fixture.whenStable();
     loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
   });
 

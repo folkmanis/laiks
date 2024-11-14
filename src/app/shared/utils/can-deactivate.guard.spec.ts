@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import {
   canDeactivateGuard,
   CanComponentDeactivate,
@@ -40,6 +43,7 @@ describe('canDeactivateGuard', () => {
             canDeactivate: [canDeactivateGuard],
           },
         ]),
+        provideExperimentalZonelessChangeDetection(),
       ],
     });
 

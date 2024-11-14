@@ -35,7 +35,7 @@ describe('CancelEditConfirmation', () => {
 
     fixture = TestBed.createComponent(CancelEditConfirmationTestComponent);
 
-    fixture.detectChanges();
+    await fixture.whenStable();
     loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     dialog = await loader.getHarness(MatDialogHarness);

@@ -8,6 +8,7 @@ import { PermissionsService } from '@shared/permissions';
 import { firstValueFrom } from 'rxjs';
 import { defaultUser } from './laiks-user';
 import { LoginService } from './login.service';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 const NEW_USER = {
   email: 'user2@example.com',
@@ -20,7 +21,11 @@ describe('LoginService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [testFirebaseProvider, PermissionsService],
+      providers: [
+        testFirebaseProvider,
+        PermissionsService,
+        provideExperimentalZonelessChangeDetection(),
+      ],
     });
     service = TestBed.inject(LoginService);
   });

@@ -16,7 +16,6 @@ const TEST_ZONE: MarketZone = {
   description: 'Zone for testing purposes',
   locale: 'tt',
   tax: 0.21,
-  url: 'https://fake_path',
   enabled: true,
 };
 

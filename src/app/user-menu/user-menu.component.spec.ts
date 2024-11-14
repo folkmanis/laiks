@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserMenuComponent } from './user-menu.component';
 import { provideRouter } from '@angular/router';
 import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent;
@@ -14,12 +15,13 @@ describe('UserMenuComponent', () => {
       providers: [
         provideRouter([{ path: '**', component: UserMenuComponent }]),
         testFirebaseProvider,
+        provideExperimentalZonelessChangeDetection(),
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserMenuComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {

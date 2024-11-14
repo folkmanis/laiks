@@ -1,6 +1,11 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatCheckboxHarness } from '@angular/material/checkbox/testing';
@@ -19,6 +24,7 @@ import {
 import { WithId } from '@shared/utils';
 import { BehaviorSubject } from 'rxjs';
 import { AppliancesListComponent } from './appliances-list.component';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 const testData: WithId<PresetPowerAppliance>[] = [dishWasher, washer].map(
   (appliance, idx) => ({
@@ -31,12 +37,14 @@ const testData: WithId<PresetPowerAppliance>[] = [dishWasher, washer].map(
 @Component({
   template: `new-appliance-component`,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class NewApplianceTestComponent {}
 
 @Component({
   template: `appliance-edit-component {{ id }}`,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class ApplianceEditTestComponent {
   @Input() id: string = '';
@@ -45,6 +53,7 @@ class ApplianceEditTestComponent {
 @Component({
   template: `localized-names-component {{ id }}`,
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class LocalizedNamesTestComponent {
   @Input() id: string = '';
@@ -118,6 +127,8 @@ describe('AppliancesListComponent', () => {
           withComponentInputBinding(),
         ),
         { provide: SystemAppliancesService, useValue: mockService },
+        provideExperimentalZonelessChangeDetection(),
+        provideNoopAnimations(),
       ],
     });
     await TestBed.compileComponents();

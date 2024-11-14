@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { UpperCaseDirective } from './upper-case.directive';
 import { FormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -22,15 +25,16 @@ describe('UpperCaseDirective', () => {
   let fixture: ComponentFixture<DirectiveTestComponent>;
   let input: HTMLInputElement;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [DirectiveTestComponent],
+      providers: [provideExperimentalZonelessChangeDetection()],
     });
     fixture = TestBed.createComponent(DirectiveTestComponent);
     input = fixture.nativeElement.querySelector('input');
 
     input.focus();
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {
@@ -40,13 +44,13 @@ describe('UpperCaseDirective', () => {
     expect(directive).toBeTruthy();
   });
 
-  it('should change case', () => {
+  it('should change case', async () => {
     const initial = 'abcd123';
     const expected = 'ABCD123';
 
     input.value = initial;
     input.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(fixture.componentInstance.value).toBe(expected);
   });

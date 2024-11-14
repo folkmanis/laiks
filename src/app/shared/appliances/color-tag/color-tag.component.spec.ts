@@ -24,7 +24,7 @@ describe('ColorTagComponent', () => {
     componentElement = fixture.debugElement.query(
       By.directive(ColorTagComponent),
     );
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {
@@ -43,9 +43,9 @@ describe('ColorTagComponent', () => {
     expect(height).toBe(28);
   });
 
-  it('should update color', () => {
+  it('should update color', async () => {
     fixture.componentInstance.color.set(TEST_COLOR);
-    fixture.detectChanges();
+    await fixture.whenStable();
     expect(
       fixture.debugElement.query(By.directive(ColorTagComponent)).styles[
         'backgroundColor'
@@ -53,9 +53,9 @@ describe('ColorTagComponent', () => {
     ).toBe(TEST_COLOR);
   });
 
-  it('should default to defaults when set to null', () => {
+  it('should default to defaults when set to null', async () => {
     fixture.componentInstance.color.set(null);
-    fixture.detectChanges();
+    await fixture.whenStable();
     expect(componentElement.styles['backgroundColor']).toBe(DEFAULT_COLOR);
   });
 });

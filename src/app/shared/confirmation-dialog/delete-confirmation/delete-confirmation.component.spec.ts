@@ -35,7 +35,7 @@ describe('DeleteConfirmation', () => {
 
     fixture = TestBed.createComponent(DeleteConfirmationTestComponent);
 
-    fixture.detectChanges();
+    await fixture.whenStable();
     loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     dialog = await loader.getHarness(MatDialogHarness);

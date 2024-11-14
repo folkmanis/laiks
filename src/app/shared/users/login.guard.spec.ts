@@ -1,4 +1,5 @@
-import { TestBed, fakeAsync } from '@angular/core/testing';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
   GuardResult,
@@ -10,7 +11,6 @@ import {
 import { Observable, firstValueFrom, from, throwError } from 'rxjs';
 import { loginGuard } from './login.guard';
 import { LoginService } from './login.service';
-import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('loginGuard', async () => {
   let mockLoginService: jasmine.SpyObj<LoginService>;
@@ -44,23 +44,23 @@ describe('loginGuard', async () => {
     });
   });
 
-  it('should return false if user is not logged in', fakeAsync(async () => {
+  it('should return false if user is not logged in', async () => {
     mockIsLoggedInFalse();
     const authenticated = await runLoginGuardWithContext(
       getLoginGuardWithDummyUrl(urlPath),
     );
     expect(authenticated).toBeFalsy();
-  }));
+  });
 
-  it('should return true if user is logged in', fakeAsync(async () => {
+  it('should return true if user is logged in', async () => {
     mockIsLoggedInTrue();
     const authenticated = await runLoginGuardWithContext(
       getLoginGuardWithDummyUrl(urlPath),
     );
     expect(authenticated).toBeTruthy();
-  }));
+  });
 
-  it('should redirect to login with origianl url as parameter when not logged in', fakeAsync(async () => {
+  it('should redirect to login with origianl url as parameter when not logged in', async () => {
     mockIsLoggedInFalse();
     const authenticated = await runLoginGuardWithContext(
       getLoginGuardWithDummyUrl(urlPath),
@@ -69,9 +69,9 @@ describe('loginGuard', async () => {
       queryParams: expectedQueryParams,
     });
     expect(authenticated).toBeFalsy();
-  }));
+  });
 
-  it('should redirect to login with origianl url as parameter if errors', fakeAsync(async () => {
+  it('should redirect to login with origianl url as parameter if errors', async () => {
     mockLoginService.loginObserver.and.returnValue(
       throwError(() => 'Authentication Error!'),
     );
@@ -82,7 +82,7 @@ describe('loginGuard', async () => {
       queryParams: expectedQueryParams,
     });
     expect(authenticated).toBeFalsy();
-  }));
+  });
 
   function getLoginGuardWithDummyUrl(
     urlPath: string,

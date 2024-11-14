@@ -7,14 +7,14 @@ describe('PrivacyPoliticsComponent', () => {
   let component: PrivacyPoliticsComponent;
   let fixture: ComponentFixture<PrivacyPoliticsComponent>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [PrivacyPoliticsComponent],
       providers: [provideExperimentalZonelessChangeDetection()],
     });
     fixture = TestBed.createComponent(PrivacyPoliticsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {

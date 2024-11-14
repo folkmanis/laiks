@@ -17,6 +17,7 @@ import { canDeactivateGuard } from '@shared/utils';
 import { BehaviorSubject, of } from 'rxjs';
 import { TEST_USER } from '../../users.service.spec';
 import { EditUserApplianceComponent } from './edit-user-appliance.component';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 const fakeSystemAppliances = [dishWasher, washer].map((appliance, idx) => ({
   ...appliance,
@@ -63,6 +64,7 @@ describe('EditUserApplianceComponent', () => {
           ],
           withComponentInputBinding(),
         ),
+        provideExperimentalZonelessChangeDetection(),
         { provide: UsersService, useValue: mockUserService },
         {
           provide: SystemAppliancesService,

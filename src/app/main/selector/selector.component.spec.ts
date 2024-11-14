@@ -15,7 +15,7 @@ describe('SelectorComponent', () => {
     fixture = TestBed.createComponent(SelectorComponent);
     component = fixture.componentInstance;
     component.value.set(2);
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {
@@ -46,26 +46,26 @@ describe('SelectorComponent', () => {
     expect(textContent).toContain('+2');
   });
 
-  it('should add value on plus button press', () => {
+  it('should add value on plus button press', async () => {
     const button = fixture.nativeElement.querySelector(
       'button#add',
     ) as HTMLButtonElement;
     button.dispatchEvent(new Event('click'));
-    fixture.detectChanges();
+    await fixture.whenStable();
     const { textContent } = fixture.nativeElement.querySelector(
       'div.number',
     ) as HTMLDivElement;
     expect(textContent).toContain('+3');
   });
 
-  it('should subtract value on minus button press', () => {
+  it('should subtract value on minus button press', async () => {
     const button = fixture.nativeElement.querySelector(
       'button#remove',
     ) as HTMLButtonElement;
     button.dispatchEvent(new Event('click'));
     button.dispatchEvent(new Event('click'));
     button.dispatchEvent(new Event('click'));
-    fixture.detectChanges();
+    await fixture.whenStable();
     const { textContent } = fixture.nativeElement.querySelector(
       'div.number',
     ) as HTMLDivElement;

@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { MainComponent } from './main.component';
 import { SelectorComponent } from './selector/selector.component';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 const TEST_TIME = new Date(2022, 10, 23, 21, 15, 0);
 const TEST_OFFSET = 3;
@@ -34,6 +35,7 @@ describe('MainComponent', () => {
         testFirebaseProvider,
         LocalSettingsService,
         { provide: TimeObserverService, useClass: TestLaiksService },
+        provideExperimentalZonelessChangeDetection(),
       ],
     }).compileComponents();
 
@@ -41,16 +43,16 @@ describe('MainComponent', () => {
 
     component = fixture.componentInstance;
 
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set time with offset', () => {
+  it('should set time with offset', async () => {
     component.onSetOffset(TEST_OFFSET);
-    fixture.detectChanges();
+    await fixture.whenStable();
     expect(+component.timeWithOffset()).toBe(+TEST_TIME_OFFSET);
   });
 });

@@ -39,9 +39,9 @@ describe('SelectorColorDirective', () => {
     expect(sampleText).withContext('by element').toBeTruthy();
   });
 
-  it('should set dark background', () => {
+  it('should set dark background', async () => {
     component.color = '#000000';
-    fixture.detectChanges();
+    await fixture.whenStable();
     const { styles } = fixture.debugElement.query(
       By.directive(SelectorColorDirective),
     );
@@ -51,9 +51,9 @@ describe('SelectorColorDirective', () => {
     expect(styles['color']).withContext('text').toBe('white');
   });
 
-  it('should set light background', () => {
+  it('should set light background', async () => {
     component.color = '#FFFFFF';
-    fixture.detectChanges();
+    await fixture.whenStable();
     const { styles } = fixture.debugElement.query(
       By.directive(SelectorColorDirective),
     );

@@ -1,7 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { navigateRelative } from './navigate-relative';
 import { ActivatedRoute, RouterOutlet, provideRouter } from '@angular/router';
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  inject,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { AsyncPipe } from '@angular/common';
 
@@ -45,6 +49,7 @@ describe('navigateRelative', () => {
           },
           { path: '', component: RootTestComponent },
         ]),
+        provideExperimentalZonelessChangeDetection(),
       ],
     });
 

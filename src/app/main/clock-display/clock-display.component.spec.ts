@@ -31,7 +31,7 @@ describe('ClockDisplayComponent', () => {
     fixture = TestBed.createComponent(ClockDisplayTestComponent);
     component = fixture.componentInstance;
 
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should create', () => {
