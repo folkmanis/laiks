@@ -9,6 +9,10 @@ export interface LaiksUser {
   includeVat: boolean;
   vatAmount: number;
   locale: string;
+  fixedComponentEnabled: boolean;
+  fixedComponentKwh: number;
+  tradeMarkupEnabled: boolean;
+  tradeMarkupKwh: number;
 }
 
 export const defaultUser = (email: string, name: string): LaiksUser => ({
@@ -20,4 +24,8 @@ export const defaultUser = (email: string, name: string): LaiksUser => ({
   includeVat: true,
   vatAmount: 0.21,
   locale: 'lv',
+  fixedComponentEnabled: false,
+  fixedComponentKwh: 0,
+  tradeMarkupEnabled: false,
+  tradeMarkupKwh: 0,
 });

@@ -4,5 +4,5 @@ import { firstValueFrom } from 'rxjs';
 import { LoginService } from './login.service';
 
 export const canActivateAdmin: CanActivateFn = () => {
-  return firstValueFrom(inject(LoginService).adminObserver());
+  return firstValueFrom(inject(LoginService).admin$);
 };

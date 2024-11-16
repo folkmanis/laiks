@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideTestFirebase } from '@shared/firebase/test-firebase-provider';
 import {
   loginAdmin,
   logout,
@@ -22,7 +22,7 @@ describe('LoginService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        testFirebaseProvider,
+        provideTestFirebase(),
         PermissionsService,
         provideExperimentalZonelessChangeDetection(),
       ],
@@ -37,11 +37,9 @@ describe('LoginService', () => {
   it('should log in with email', async () => {
     await loginAdmin();
 
-    await expectAsync(
-      firstValueFrom(service.laiksUserObserver()),
-    ).toBeResolvedTo(jasmine.truthy());
-
-    logout();
+    await expectAsync(firstValueFrom(service.laiksUser$))
+      .toBeResolvedTo(jasmine.truthy())
+      .then(() => logout());
   });
 
   it('should create and delete email user', async () => {
@@ -58,7 +56,7 @@ describe('LoginService', () => {
     await service.deleteLaiksUser(laiksUser.id);
     await service.deleteAccount();
 
-    const isLogin = await firstValueFrom(service.loginObserver());
+    const isLogin = await firstValueFrom(service.login$);
     expect(isLogin).toBeFalse();
   });
 });

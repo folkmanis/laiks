@@ -8,23 +8,27 @@ import {
   RouterStateSnapshot,
   UrlSegment,
 } from '@angular/router';
-import { Observable, firstValueFrom, from, throwError } from 'rxjs';
+import { Observable, firstValueFrom, from, of, throwError } from 'rxjs';
 import { loginGuard } from './login.guard';
 import { LoginService } from './login.service';
 
 describe('loginGuard', async () => {
   let mockLoginService: jasmine.SpyObj<LoginService>;
   let mockRouter: jasmine.SpyObj<Router>;
+  let loginSpy: jasmine.Spy<() => Observable<boolean>>;
 
   const urlPath = '/data';
   const expectedUrl = '/login';
   const expectedQueryParams = { redirect: urlPath };
 
   beforeEach(async () => {
-    mockLoginService = jasmine.createSpyObj<LoginService>(loginGuard.name, [
-      'loginObserver',
-    ]);
-    mockRouter = jasmine.createSpyObj<Router>(loginGuard.name, [
+    mockLoginService = jasmine.createSpyObj<LoginService>('LoginService', [], {
+      login$: of(false),
+    });
+    loginSpy = Object.getOwnPropertyDescriptor(mockLoginService, 'login$')
+      ?.get as jasmine.Spy<() => Observable<boolean>>;
+
+    mockRouter = jasmine.createSpyObj<Router>('Router', [
       'navigate',
       'createUrlTree',
     ]);
@@ -72,9 +76,7 @@ describe('loginGuard', async () => {
   });
 
   it('should redirect to login with origianl url as parameter if errors', async () => {
-    mockLoginService.loginObserver.and.returnValue(
-      throwError(() => 'Authentication Error!'),
-    );
+    loginSpy.and.returnValue(throwError(() => 'Authentication Error!'));
     const authenticated = await runLoginGuardWithContext(
       getLoginGuardWithDummyUrl(urlPath),
     );
@@ -112,10 +114,10 @@ describe('loginGuard', async () => {
   }
 
   const mockIsLoggedInTrue = () => {
-    mockLoginService.loginObserver.and.returnValue(from([true, true, false]));
+    loginSpy.and.returnValue(from([true, true, false]));
   };
   const mockIsLoggedInFalse = () => {
-    mockLoginService.loginObserver.and.returnValue(from([false, false, true]));
+    loginSpy.and.returnValue(from([false, false, true]));
   };
   //
 });

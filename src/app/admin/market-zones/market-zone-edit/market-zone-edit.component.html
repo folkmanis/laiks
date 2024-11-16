@@ -50,11 +50,29 @@
   </section>
 
   <section>
+    <mat-form-field class="full-width">
+      <mat-label> Maksa par elektroenerģijas piegādi (bez PVN) </mat-label>
+      <input matInput type="number" formControlName="fixedComponentKwh" />
+      <span matTextSuffix> EUR/kWh </span>
+    </mat-form-field>
+  </section>
+
+  <section>
+    <mat-form-field class="full-width">
+      <mat-label> Maksa par tirdzniecības pakalpojumu (bez PVN) </mat-label>
+      <input matInput type="number" formControlName="tradeMarkupKwh" />
+      <span matTextSuffix> EUR/kWh </span>
+    </mat-form-field>
+  </section>
+
+  <mat-divider />
+
+  <section>
     <mat-checkbox formControlName="enabled">Iespējots</mat-checkbox>
   </section>
 </div>
 
-<mat-divider></mat-divider>
+<mat-divider />
 
 <section>
   <button

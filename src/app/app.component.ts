@@ -31,7 +31,7 @@ export class AppComponent {
   private router = inject(Router);
   private zonesService = inject(MarketZonesService);
 
-  private marketZone$ = this.loginService.laiksUserObserver().pipe(
+  private marketZone$ = this.loginService.laiksUser$.pipe(
     map((user) => user?.marketZoneId),
     switchMap((id) =>
       id
@@ -44,11 +44,11 @@ export class AppComponent {
 
   marketZone = toSignal(this.marketZone$);
 
-  laiksUser = toSignal(this.loginService.laiksUserObserver(), {
+  laiksUser = toSignal(this.loginService.laiksUser$, {
     initialValue: null,
   });
 
-  user = toSignal(this.loginService.userObserver(), { initialValue: null });
+  user = toSignal(this.loginService.user$, { initialValue: null });
 
   isNpAllowed = isNpAllowed();
 

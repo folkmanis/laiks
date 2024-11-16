@@ -11,7 +11,7 @@ import {
   provideFunctions,
 } from './firebase-providers';
 
-export const productionFirebaseProvider: EnvironmentProviders[] = [
+export const provideFirebase: () => EnvironmentProviders[] = () => [
   provideFirebaseApp(() => initializeApp(environment.firebase)),
   provideAuth(() => getAuth()),
   provideFirestore(() => getFirestore()),

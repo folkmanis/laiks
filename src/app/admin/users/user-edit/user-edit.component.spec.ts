@@ -5,7 +5,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideTestFirebase } from '@shared/firebase/test-firebase-provider';
 import { ConfirmationDialogService } from 'src/app/shared/confirmation-dialog';
 import { UsersService } from '../../../shared/users/users.service';
 import { UserEditComponent } from './user-edit.component';
@@ -38,7 +38,7 @@ describe('UserEditComponent', () => {
           withComponentInputBinding(),
         ),
         ConfirmationDialogService,
-        testFirebaseProvider,
+        provideTestFirebase(),
         provideExperimentalZonelessChangeDetection(),
       ],
     });

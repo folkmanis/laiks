@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideTestFirebase } from '@shared/firebase/test-firebase-provider';
 import { finalize, from, mergeMap, take, tap } from 'rxjs';
 import { MarketZone } from './market-zone';
 import { MarketZonesService } from './market-zones.service';
@@ -17,6 +17,8 @@ const TEST_ZONE: MarketZone = {
   locale: 'tt',
   tax: 0.21,
   enabled: true,
+  fixedComponentKwh: 0.04,
+  tradeMarkupKwh: 0.009,
 };
 
 describe('MarketZonesService', () => {
@@ -25,7 +27,7 @@ describe('MarketZonesService', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
-        testFirebaseProvider,
+        provideTestFirebase(),
         provideExperimentalZonelessChangeDetection(),
       ],
     });

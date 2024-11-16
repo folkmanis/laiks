@@ -3,7 +3,7 @@ import { LoginService } from './login.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 export function isAdmin() {
-  return toSignal(inject(LoginService).adminObserver(), {
+  return toSignal(inject(LoginService).admin$, {
     initialValue: false,
   });
 }

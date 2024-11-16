@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
+  NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -64,12 +64,14 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
   private confirmation = inject(ConfirmationDialogService);
   private navigate = navigateRelative();
 
-  form: MarketZoneGroup = inject(FormBuilder).nonNullable.group({
+  form: MarketZoneGroup = inject(NonNullableFormBuilder).group({
     description: ['', Validators.required],
     locale: ['', Validators.required],
     tax: [0, Validators.required],
     dbName: ['', Validators.required],
     enabled: [false],
+    fixedComponentKwh: [0],
+    tradeMarkupKwh: [0],
   });
 
   id = model<string>();

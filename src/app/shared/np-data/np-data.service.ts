@@ -32,7 +32,8 @@ export class NpDataService {
 
   private marketZonesService = inject(MarketZonesService);
 
-  private readonly vatFn$ = this.loginService.vatFnObserver();
+  private readonly priceExtrasFn$ = this.loginService.priceExtrasFn$;
+  private readonly vatFn$ = this.loginService.vatFn$;
 
   private readonly dbDocName$ = this.loginService
     .userPropertyObserver('marketZoneId')
@@ -58,12 +59,13 @@ export class NpDataService {
   getNpPricesWithVat(days = 2): Observable<NpPrice[]> {
     return combineLatest({
       prices: this.getNpPrices(days),
+      pricesExtrasFn: this.priceExtrasFn$,
       vatFn: this.vatFn$,
     }).pipe(
-      map(({ prices, vatFn }) =>
+      map(({ prices, pricesExtrasFn, vatFn }) =>
         prices.map(({ value, ...price }) => ({
           ...price,
-          value: vatFn(value),
+          value: vatFn(pricesExtrasFn(value)),
         })),
       ),
     );
@@ -83,11 +85,15 @@ export class NpDataService {
   }
 
   getNpDocWithVat(): Observable<WithId<NpData>> {
-    return combineLatest({ data: this.getNpDoc(), vatFn: this.vatFn$ }).pipe(
-      map(({ data: { stDev, average, ...data }, vatFn }) => ({
+    return combineLatest({
+      data: this.getNpDoc(),
+      priceExtrasFn: this.priceExtrasFn$,
+      vatFn: this.vatFn$,
+    }).pipe(
+      map(({ data: { stDev, average, ...data }, priceExtrasFn, vatFn }) => ({
         ...data,
         stDev: vatFn(stDev),
-        average: vatFn(average),
+        average: vatFn(priceExtrasFn(average)),
       })),
     );
   }

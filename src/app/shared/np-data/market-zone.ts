@@ -4,4 +4,6 @@ export interface MarketZone {
   locale: string;
   tax: number;
   enabled: boolean;
+  fixedComponentKwh: number;
+  tradeMarkupKwh: number;
 }

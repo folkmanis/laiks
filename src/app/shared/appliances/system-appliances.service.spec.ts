@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideTestFirebase } from '@shared/firebase/test-firebase-provider';
 import {
   loginAdmin,
   logout,
@@ -15,7 +15,7 @@ describe('SystemAppliancesService', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
-        testFirebaseProvider,
+        provideTestFirebase(),
         provideExperimentalZonelessChangeDetection(),
       ],
     });

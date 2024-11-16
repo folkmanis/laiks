@@ -13,7 +13,7 @@
       }
     ],
     "predeploy": [
-      "ng build"
+      "ng build --configuration development"
     ]
   },
   "emulators": {

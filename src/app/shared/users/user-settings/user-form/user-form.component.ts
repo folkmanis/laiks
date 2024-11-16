@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   input,
 } from '@angular/core';
@@ -25,11 +26,23 @@ import { Locale } from '@shared/locales';
 import { MarketZone } from '@shared/np-data';
 import { isNpAllowed } from '@shared/users/is-np-allowed';
 import { WithId } from '@shared/utils';
-import { LaiksUser } from '../../laiks-user';
+import { defaultUser, LaiksUser } from '../../laiks-user';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { MatTooltip } from '@angular/material/tooltip';
 
 type EditableLaiksUserFields = Pick<
   LaiksUser,
-  'name' | 'includeVat' | 'vatAmount' | 'marketZoneId' | 'locale'
+  | 'name'
+  | 'includeVat'
+  | 'vatAmount'
+  | 'marketZoneId'
+  | 'locale'
+  | 'fixedComponentEnabled'
+  | 'fixedComponentKwh'
+  | 'tradeMarkupEnabled'
+  | 'tradeMarkupKwh'
 >;
 
 type UserSettingForm = FormGroup<{
@@ -38,13 +51,7 @@ type UserSettingForm = FormGroup<{
   >;
 }>;
 
-export const EMPTY_USER: EditableLaiksUserFields = {
-  name: '',
-  includeVat: true,
-  vatAmount: 0,
-  marketZoneId: 'LV',
-  locale: 'lv',
-};
+export const EMPTY_USER: EditableLaiksUserFields = defaultUser('', '');
 
 @Component({
   selector: 'laiks-user-form',
@@ -56,6 +63,9 @@ export const EMPTY_USER: EditableLaiksUserFields = {
     MatSelectModule,
     MatCheckboxModule,
     MatInputModule,
+    MatIcon,
+    MatIconButton,
+    MatTooltip,
   ],
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
@@ -72,6 +82,10 @@ export class UserFormComponent implements ControlValueAccessor, Validator {
     vatAmount: [EMPTY_USER.vatAmount, Validators.required],
     marketZoneId: [EMPTY_USER.marketZoneId, Validators.required],
     locale: [EMPTY_USER.locale, Validators.required],
+    fixedComponentEnabled: [EMPTY_USER.fixedComponentEnabled],
+    fixedComponentKwh: [EMPTY_USER.fixedComponentKwh],
+    tradeMarkupEnabled: [EMPTY_USER.tradeMarkupEnabled],
+    tradeMarkupKwh: [EMPTY_USER.tradeMarkupKwh],
   });
 
   zones = input<WithId<MarketZone>[]>([]);
@@ -79,6 +93,18 @@ export class UserFormComponent implements ControlValueAccessor, Validator {
   locales = input<WithId<Locale>[]>([]);
 
   npAllowed = isNpAllowed();
+
+  formValue = toSignal(this.userForm.valueChanges, {
+    initialValue: this.userForm.value,
+  });
+
+  selectedZone = computed(() => {
+    const id = this.formValue().marketZoneId;
+    return this.zones().find((z) => z.id === id) ?? null;
+  });
+
+  isNumber: (value: unknown) => value is number = (value) =>
+    typeof value === 'number';
 
   writeValue(obj: LaiksUser): void {
     this.userForm.reset(obj, { emitEvent: false });

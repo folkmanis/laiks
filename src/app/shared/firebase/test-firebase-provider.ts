@@ -12,7 +12,7 @@ import {
   provideFunctions,
 } from './firebase-providers';
 
-export const testFirebaseProvider: EnvironmentProviders[] = [
+export const provideTestFirebase: () => EnvironmentProviders[] = () => [
   provideFirebaseApp(() => initializeApp(environment.firebase)),
   provideAuth(() => {
     const auth = getAuth();

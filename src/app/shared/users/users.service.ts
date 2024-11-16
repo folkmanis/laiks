@@ -30,14 +30,15 @@ export class UsersService {
 
   private docRef = (id: string) =>
     doc(this.firestore, USERS_COLL, id) as DocumentReference<WithId<LaiksUser>>;
+  private collRef = collection(
+    this.firestore,
+    USERS_COLL,
+  ) as CollectionReference<WithId<LaiksUser>>;
 
-  getUsersFlow(): Observable<WithId<LaiksUser>[]> {
-    const collRef = collection(
-      this.firestore,
-      USERS_COLL,
-    ) as CollectionReference<WithId<LaiksUser>>;
-    return collectionData(query(collRef, orderBy('email')), { idField: 'id' });
-  }
+  usersFlow$: Observable<WithId<LaiksUser>[]> = collectionData(
+    query(this.collRef, orderBy('email')),
+    { idField: 'id' },
+  );
 
   async getUserById(id: string): Promise<LaiksUser> {
     const snapshot = await getDoc(this.docRef(id));

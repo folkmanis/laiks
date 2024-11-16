@@ -5,10 +5,8 @@ import { LoginService } from '@shared/users';
 import { first, map } from 'rxjs';
 
 export const resolveUserAppliance: ResolveFn<PowerAppliance> = (route) => {
-  return inject(LoginService)
-    .laiksUserObserver()
-    .pipe(
-      first(),
-      map((user) => user!.appliances[+route.paramMap.get('idx')!]),
-    );
+  return inject(LoginService).laiksUser$.pipe(
+    first(),
+    map((user) => user!.appliances[+route.paramMap.get('idx')!]),
+  );
 };

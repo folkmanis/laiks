@@ -11,7 +11,13 @@
       </button>
     </mat-header-cell>
     <mat-cell *matCellDef="let user">
-      <a mat-button [routerLink]="[user.id]">
+      <a
+        mat-button
+        [routerLink]="
+          currentUser()?.uid === user.id ? '/user-settings' : [user.id]
+        "
+        [disabled]="!currentUser()"
+      >
         @if (user.email.length > 0) {
           {{ user.email }}
         } @else {
@@ -24,9 +30,11 @@
   <ng-container matColumnDef="edit">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let user">
-      <a mat-icon-button [routerLink]="[user.id, 'settings']">
-        <mat-icon> manage_accounts </mat-icon>
-      </a>
+      @if (currentUser() && currentUser()?.uid !== user.id) {
+        <a mat-icon-button [routerLink]="[user.id, 'settings']">
+          <mat-icon> manage_accounts </mat-icon>
+        </a>
+      }
     </mat-cell>
   </ng-container>
 

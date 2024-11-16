@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { testFirebaseProvider } from './test-firebase-provider';
+import { provideTestFirebase } from './test-firebase-provider';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { Auth, FirebaseApp, Firestore, Functions } from '@shared/firebase';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
@@ -15,16 +15,16 @@ export async function loginAdmin() {
   await signInWithEmailAndPassword(auth, email, password);
 }
 
-export function logout() {
+export async function logout() {
   const auth = TestBed.inject(Auth);
-  signOut(auth);
+  return signOut(auth);
 }
 
 describe('testFirebaseProvider', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        testFirebaseProvider,
+        provideTestFirebase(),
         provideExperimentalZonelessChangeDetection(),
       ],
     });

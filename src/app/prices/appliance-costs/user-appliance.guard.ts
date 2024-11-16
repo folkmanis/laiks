@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn, RedirectCommand, Router } from '@angular/router';
 import { LoginService } from '@shared/users';
 import { first, map } from 'rxjs';
 
@@ -8,12 +8,10 @@ export const userApplianceGuard: CanActivateFn = (route) => {
   const idx = route.paramMap.get('idx');
   return (
     !!idx &&
-    inject(LoginService)
-      .laiksUserObserver()
-      .pipe(
-        first(),
-        map((user) => user && !!user.appliances[+idx]),
-        map((valid) => valid || redirect),
-      )
+    inject(LoginService).laiksUser$.pipe(
+      first(),
+      map((user) => user && !!user.appliances[+idx]),
+      map((valid) => valid || new RedirectCommand(redirect)),
+    )
   );
 };

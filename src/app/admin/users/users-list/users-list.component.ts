@@ -14,7 +14,6 @@ import { RouterLink } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { LaiksUser, LoginService, UsersService } from '@shared/users';
 import { WithId } from '@shared/utils';
-import { combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'laiks-users-list',
@@ -34,18 +33,10 @@ export class UsersListComponent {
   private readonly confirmation = inject(ConfirmationDialogService);
 
   private readonly usersService = inject(UsersService);
-  private readonly loginService = inject(LoginService);
 
-  private users$ = combineLatest([
-    this.usersService.getUsersFlow(),
-    this.loginService.userObserver(),
-  ]).pipe(
-    map(([laiksUsers, user]) =>
-      laiksUsers.filter((laiksUser) => laiksUser.id !== user?.uid),
-    ),
-  );
+  currentUser = toSignal(inject(LoginService).user$);
 
-  users = toSignal(this.users$, { initialValue: [] });
+  users = toSignal(this.usersService.usersFlow$, { initialValue: [] });
 
   userSelection = new SelectionModel<WithId<LaiksUser>>(true);
 

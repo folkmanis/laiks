@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideTestFirebase } from '@shared/firebase/test-firebase-provider';
 import { SystemPricesComponent } from './system-prices.component';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { PriceCalculatorService } from '@shared/np-data/price-calculator.service';
@@ -14,7 +14,7 @@ describe('SystemPricesComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SystemPricesComponent],
       providers: [
-        testFirebaseProvider,
+        provideTestFirebase(),
         provideExperimentalZonelessChangeDetection(),
         PriceCalculatorService,
         NpDataService,
@@ -25,7 +25,7 @@ describe('SystemPricesComponent', () => {
     component = fixture.componentInstance;
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

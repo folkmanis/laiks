@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserMenuComponent } from './user-menu.component';
 import { provideRouter } from '@angular/router';
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideTestFirebase } from '@shared/firebase/test-firebase-provider';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
 describe('UserMenuComponent', () => {
@@ -14,7 +14,7 @@ describe('UserMenuComponent', () => {
       imports: [UserMenuComponent],
       providers: [
         provideRouter([{ path: '**', component: UserMenuComponent }]),
-        testFirebaseProvider,
+        provideTestFirebase(),
         provideExperimentalZonelessChangeDetection(),
       ],
     }).compileComponents();

@@ -16,27 +16,79 @@
   </mat-form-field>
 
   @if (npAllowed()) {
-    <mat-form-field class="medium-input">
-      <mat-label>Cenu reģions</mat-label>
-      <mat-select
-        formControlName="marketZoneId"
-        required
-        (selectionChange)="onZoneChange($event.value)"
-      >
-        @for (zone of zones(); track zone.id) {
-          <mat-option [value]="zone.id">
-            {{ zone.id }} - {{ zone.description }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <section>
+      <mat-form-field class="medium-input">
+        <mat-label>Cenu reģions</mat-label>
+        <mat-select
+          formControlName="marketZoneId"
+          required
+          (selectionChange)="onZoneChange($event.value)"
+        >
+          @for (zone of zones(); track zone.id) {
+            <mat-option [value]="zone.id">
+              {{ zone.id }} - {{ zone.description }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </section>
 
-    <mat-form-field>
-      <mat-label>PVN apjoms</mat-label>
-      <input matInput formControlName="vatAmount" type="number" />
-    </mat-form-field>
+    <section class="row">
+      <mat-form-field>
+        <mat-label>PVN apjoms</mat-label>
+        <input matInput formControlName="vatAmount" type="number" />
+      </mat-form-field>
 
-    <mat-checkbox formControlName="includeVat"> PVN iekļauts </mat-checkbox>
+      <mat-checkbox formControlName="includeVat"> PVN iekļauts </mat-checkbox>
+    </section>
+
+    <section class="row">
+      <mat-form-field class="medium-input">
+        <mat-label>Maksa par piegādi (bez PVN)</mat-label>
+        <input type="number" matInput formControlName="fixedComponentKwh" />
+        <span matIconSuffix>
+          @let fixComp = selectedZone()?.fixedComponentKwh;
+          <button
+            mat-icon-button
+            (click)="userForm.controls.fixedComponentKwh.setValue(fixComp!)"
+            [disabled]="isNumber(fixComp) === false"
+            [matTooltip]="fixComp?.toLocaleString()"
+            [matTooltipDisabled]="isNumber(fixComp) === false"
+          >
+            <mat-icon> chevron_left </mat-icon>
+          </button>
+        </span>
+        <span matTextSuffix> EUR/kWh </span>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="fixedComponentEnabled">
+        Pielietot
+      </mat-checkbox>
+    </section>
+
+    <section class="row">
+      <mat-form-field class="medium-input">
+        <mat-label> Maksa par tirdzniecību (bez PVN)</mat-label>
+        <input type="number" matInput formControlName="tradeMarkupKwh" />
+        <span matIconSuffix>
+          @let tradeComp = selectedZone()?.tradeMarkupKwh;
+          <button
+            mat-icon-button
+            (click)="userForm.controls.tradeMarkupKwh.setValue(tradeComp!)"
+            [disabled]="isNumber(tradeComp) === false"
+            [matTooltip]="tradeComp?.toLocaleString()"
+            [matTooltipDisabled]="isNumber(tradeComp) === false"
+          >
+            <mat-icon> chevron_left </mat-icon>
+          </button>
+        </span>
+        <span matTextSuffix> EUR/kWh </span>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="tradeMarkupEnabled">
+        Pielietot
+      </mat-checkbox>
+    </section>
   }
 </form>
 

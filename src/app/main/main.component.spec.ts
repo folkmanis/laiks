@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideTestFirebase } from '@shared/firebase/test-firebase-provider';
 import { LocalSettingsService } from '@shared/settings';
 import { NumberSignPipe, TimeObserverService } from '@shared/utils';
 import { Observable, of } from 'rxjs';
@@ -32,7 +32,7 @@ describe('MainComponent', () => {
         ClockDisplayComponent,
       ],
       providers: [
-        testFirebaseProvider,
+        provideTestFirebase(),
         LocalSettingsService,
         { provide: TimeObserverService, useClass: TestLaiksService },
         provideExperimentalZonelessChangeDetection(),

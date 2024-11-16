@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserSettingsComponent } from './user-settings.component';
 import { provideRouter } from '@angular/router';
-import { testFirebaseProvider } from '@shared/firebase/test-firebase-provider';
+import { provideTestFirebase } from '@shared/firebase/test-firebase-provider';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
 
@@ -15,7 +15,7 @@ describe('UserSettingsComponent', () => {
       imports: [UserSettingsComponent, NoopAnimationsModule],
       providers: [
         provideRouter([{ path: '**', component: UserSettingsComponent }]),
-        testFirebaseProvider,
+        provideTestFirebase(),
         provideExperimentalZonelessChangeDetection(),
       ],
     });
