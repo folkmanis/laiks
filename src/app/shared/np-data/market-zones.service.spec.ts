@@ -60,8 +60,7 @@ describe('MarketZonesService', () => {
 
     const valueLogger = jasmine.createSpy('Value');
 
-    service
-      .getZonesFlow()
+    service.zonesFlow$
       .pipe(
         take(2),
         tap(valueLogger),

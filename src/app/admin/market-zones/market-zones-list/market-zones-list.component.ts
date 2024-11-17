@@ -23,7 +23,7 @@ export class MarketZonesListComponent {
   private readonly zonesService = inject(MarketZonesService);
   private confirmation = inject(ConfirmationDialogService);
 
-  zones = toSignal(this.zonesService.getZonesFlow(), { initialValue: [] });
+  zones = toSignal(this.zonesService.zonesFlow$, { initialValue: [] });
 
   busy = signal(false);
 

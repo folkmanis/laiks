@@ -27,12 +27,10 @@ export class MarketZonesService {
   ) as CollectionReference<MarketZone>;
   private docRef = (id: string) => doc(this.collRef, id);
 
-  getZonesFlow(): Observable<WithId<MarketZone>[]> {
-    return collectionData(
-      this.collRef as CollectionReference<WithId<MarketZone>>,
-      { idField: 'id' },
-    ) as Observable<WithId<MarketZone>[]>;
-  }
+  zonesFlow$: Observable<WithId<MarketZone>[]> = collectionData(
+    this.collRef as CollectionReference<WithId<MarketZone>>,
+    { idField: 'id' },
+  );
 
   getZoneFlow(id: string): Observable<MarketZone> {
     return docData(this.docRef(id)).pipe(throwIfNull(id));

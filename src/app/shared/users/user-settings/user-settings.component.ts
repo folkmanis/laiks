@@ -60,7 +60,7 @@ export class UserSettingsComponent implements CanComponentDeactivate {
 
   npAllowed = isNpAllowed();
 
-  zones = toSignal(inject(MarketZonesService).getZonesFlow(), {
+  zones = toSignal(inject(MarketZonesService).zonesFlow$, {
     initialValue: [],
   });
 
