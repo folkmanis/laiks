@@ -5,6 +5,7 @@ import {
   PowerAppliance,
   PowerConsumptionCycle,
 } from '../appliances/power-appliance.interface';
+import { LaiksUser } from '@shared/users/laiks-user';
 
 const msWtoKWh = (msWh: number): number => msWh / 1000 / 1000 / 60 / 60;
 
@@ -121,5 +122,31 @@ export class PriceCalculatorService {
 
   cycleLength(cycles: PowerConsumptionCycle[]): number {
     return cycles.reduce((acc, curr) => acc + curr.length, 0);
+  }
+
+  getExtraCostsFn({
+    fixedComponentEnabled,
+    fixedComponentKwh,
+    tradeMarkupEnabled,
+    tradeMarkupKwh,
+  }: Pick<
+    LaiksUser,
+    | 'fixedComponentEnabled'
+    | 'fixedComponentKwh'
+    | 'tradeMarkupEnabled'
+    | 'tradeMarkupKwh'
+  >): (value: number) => number {
+    const extra =
+      (+!!fixedComponentEnabled * (fixedComponentKwh ?? 0) +
+        +!!tradeMarkupEnabled * (tradeMarkupKwh ?? 0)) *
+      1000;
+    return (value) => value + extra;
+  }
+
+  getVatFn({
+    includeVat,
+    vatAmount,
+  }: Pick<LaiksUser, 'includeVat' | 'vatAmount'>): (value: number) => number {
+    return (value) => value + +!!includeVat * value * (vatAmount ?? 0);
   }
 }

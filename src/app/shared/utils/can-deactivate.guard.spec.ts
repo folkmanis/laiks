@@ -14,6 +14,7 @@ import { RouterTestingHarness } from '@angular/router/testing';
 @Component({
   standalone: true,
   template: `start`,
+  selector: 'laiks-deactivate-testing-component',
 })
 class DeactivateTestingComponent implements CanComponentDeactivate {
   canDeactivate: () => boolean | Observable<boolean> | Promise<boolean> = () =>

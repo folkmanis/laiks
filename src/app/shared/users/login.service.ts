@@ -31,6 +31,7 @@ import {
   switchMap,
 } from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
+import { PriceCalculatorService } from '@shared/np-data';
 
 export enum LoginResponseType {
   CREATED,
@@ -51,6 +52,7 @@ export class LoginService {
   private auth = inject(Auth);
   private firestore = inject(Firestore);
   private permissionsService = inject(PermissionsService);
+  private priceCalculatorService = inject(PriceCalculatorService);
 
   user$: Observable<User | null> = authState(this.auth);
 
@@ -85,14 +87,14 @@ export class LoginService {
     map((blocked) => !blocked),
   );
 
-  priceExtrasFn$: Observable<(val: number) => number> = this.laiksUser$.pipe(
+  extraCostsFn$: Observable<(val: number) => number> = this.laiksUser$.pipe(
     throwIfNull(),
-    map((user) => getExtrasFn(user)),
+    map((user) => this.priceCalculatorService.getExtraCostsFn(user)),
   );
 
   vatFn$: Observable<(val: number) => number> = this.laiksUser$.pipe(
     throwIfNull(),
-    map((user) => getVatFn(user)),
+    map((user) => this.priceCalculatorService.getVatFn(user)),
   );
 
   async loginWithGmail(): Promise<LoginResponse> {
@@ -215,24 +217,4 @@ export class LoginService {
       throw new Error('User not registered');
     }
   }
-}
-
-function getExtrasFn({
-  fixedComponentEnabled,
-  fixedComponentKwh,
-  tradeMarkupEnabled,
-  tradeMarkupKwh,
-}: LaiksUser): (value: number) => number {
-  const extra =
-    (+!!fixedComponentEnabled * fixedComponentKwh +
-      +!!tradeMarkupEnabled * tradeMarkupKwh) *
-    1000;
-  return (value) => value + extra;
-}
-
-function getVatFn({
-  includeVat,
-  vatAmount,
-}: LaiksUser): (value: number) => number {
-  return (value) => value + +!!includeVat * value * vatAmount;
 }

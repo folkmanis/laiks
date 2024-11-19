@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PriceCalculatorService } from './price-calculator.service';
-import { NpPrice } from './np-price.interface';
-import { PowerAppliance } from '../appliances';
-import { addHours, addMinutes } from 'date-fns';
 import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { addHours, addMinutes } from 'date-fns';
+import { PowerAppliance } from '../appliances';
+import { NpPrice } from './np-price.interface';
+import { PriceCalculatorService } from './price-calculator.service';
 
 export const pricesStart = new Date(2022, 0, 1, 12, 0, 0);
 
@@ -142,20 +142,82 @@ describe('PriceCalculatorService', () => {
     expect(offset).toBe(4);
   });
 
-  /*   
+  it('should create vat enabled function', () => {
+    const vatFn = service.getVatFn({
+      includeVat: true,
+      vatAmount: 0.21,
+    });
+    expect(vatFn(100)).toBe(121);
+  });
+
+  it('should create vat disabled function', () => {
+    const vatFn = service.getVatFn({
+      includeVat: false,
+      vatAmount: 0.21,
+    });
+    expect(vatFn(100)).toBe(100);
+  });
+
+  it('should create vat unset function', () => {
+    const vatFn = service.getVatFn({
+      includeVat: true,
+      vatAmount: undefined as unknown as number,
+    });
+    expect(vatFn(100)).toBe(100);
+  });
+
+  it('should create vat not enabled function', () => {
+    const vatFn = service.getVatFn({
+      includeVat: null as unknown as boolean,
+      vatAmount: 0.21,
+    });
+    expect(vatFn(100)).toBe(100);
+  });
+
+  it('should create extra costs enabled function', () => {
+    const extraFn = service.getExtraCostsFn({
+      fixedComponentEnabled: true,
+      fixedComponentKwh: 0.01,
+      tradeMarkupEnabled: true,
+      tradeMarkupKwh: 0.01,
+    });
+    expect(extraFn(100)).toBe(120);
+  });
+
+  it('should create extra costs not enabled function', () => {
+    const extraFn = service.getExtraCostsFn({
+      fixedComponentEnabled: false,
+      fixedComponentKwh: 0.01,
+      tradeMarkupEnabled: false,
+      tradeMarkupKwh: 0.01,
+    });
+    expect(extraFn(100)).toBe(100);
+  });
+
+  it('should create extra costs unset function', () => {
+    const extraFn = service.getExtraCostsFn({
+      fixedComponentEnabled: true,
+      fixedComponentKwh: undefined as unknown as number,
+      tradeMarkupEnabled: true,
+      tradeMarkupKwh: undefined as unknown as number,
+    });
+    expect(extraFn(100)).toBe(100);
+  });
+
+  /*
 
     it('should calculate best offset', () => {
       const testTime = new Date(2 * 60 * 60 * 1000);
       expect(service.bestOffset(testPrices, testTime, washer)?.offset).toEqual(2);
       expect(service.bestOffset(testPrices, testTime, washer)?.price).toBeCloseTo(0.1427, 3);
     });
-  
+
     it('should calculate best offset', () => {
       const testTime = new Date(0);
       expect(service.bestOffset(testPrices, testTime, washer)?.offset).toEqual(4);
       expect(service.bestOffset(testPrices, testTime, washer)?.price).toBeCloseTo(0.1427, 3);
     });
-  
+
     it('should calculate best offset', () => {
       const testTime = new Date(4.1 * 60 * 60 * 1000);
       expect(service.bestOffset(testPrices, testTime, washer)).toBeNull();
