@@ -10,9 +10,8 @@ const TEST_DATE = new Date(2022, 10, 20, 12, 3, 0);
 const TEST_TIME_STR = '12:03';
 
 @Component({
-  standalone: true,
-  template: `<laiks-clock-display [time]="testDate" />`,
-  imports: [ClockDisplayComponent],
+    template: `<laiks-clock-display [time]="testDate" />`,
+    imports: [ClockDisplayComponent]
 })
 class ClockDisplayTestComponent {
   testDate = TEST_DATE;

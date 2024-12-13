@@ -8,14 +8,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 @Component({
-  imports: [UpperCaseDirective, FormsModule],
-  standalone: true,
-  template: `<input
+    imports: [UpperCaseDirective, FormsModule],
+    template: `<input
     [(ngModel)]="value"
     laiksUpperCase
     name="value"
     id="value"
-  />`,
+  />`
 })
 class DirectiveTestComponent {
   value = '';

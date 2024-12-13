@@ -14,15 +14,14 @@ import { LaiksUser } from '@shared/users';
 import { WithId } from '@shared/utils';
 
 @Component({
-  selector: 'laiks-user-edit',
-  templateUrl: './user-edit.component.html',
-  styleUrls: ['./user-edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [MatCheckboxModule, MatButtonModule, RouterLink],
-  host: {
-    class: 'vertical-container',
-  },
+    selector: 'laiks-user-edit',
+    templateUrl: './user-edit.component.html',
+    styleUrls: ['./user-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatCheckboxModule, MatButtonModule, RouterLink],
+    host: {
+        class: 'vertical-container',
+    }
 })
 export class UserEditComponent {
   private permissionsService = inject(PermissionsService);

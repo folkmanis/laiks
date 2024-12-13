@@ -61,10 +61,9 @@ describe('ColorTagComponent', () => {
 });
 
 @Component({
-  imports: [ColorTagComponent],
-  template: `<laiks-color-tag [color]="color()" />`,
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ColorTagComponent],
+    template: `<laiks-color-tag [color]="color()" />`,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 class ColorTagTestComponent {
   color = signal<string | null>(DEFAULT_COLOR);

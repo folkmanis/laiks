@@ -14,12 +14,11 @@ import { WithId } from '@shared/utils';
 import { LaiksUser } from '../shared/users/laiks-user';
 
 @Component({
-  selector: 'laiks-user-menu',
-  templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [MatButtonModule, MatMenuModule, MatIconModule, RouterLink],
+    selector: 'laiks-user-menu',
+    templateUrl: './user-menu.component.html',
+    styleUrls: ['./user-menu.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatButtonModule, MatMenuModule, MatIconModule, RouterLink]
 })
 export class UserMenuComponent {
   user = input<User | null>(null);

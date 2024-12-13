@@ -7,11 +7,10 @@ import {
 } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'laiks-deleted-user-snack',
-  standalone: true,
-  imports: [MatSnackBarModule, MatButtonModule],
-  templateUrl: './deleted-user-snack.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'laiks-deleted-user-snack',
+    imports: [MatSnackBarModule, MatButtonModule],
+    templateUrl: './deleted-user-snack.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeletedUserSnackComponent {
   private snackBarRef = inject(MatSnackBarRef);

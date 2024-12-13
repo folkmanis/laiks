@@ -19,15 +19,14 @@ import { TimeObserverService, eurMwhToCentsKwh } from '@shared/utils';
 import { differenceInHours, isDate } from 'date-fns';
 
 @Component({
-  selector: 'laiks-system-prices',
-  standalone: true,
-  imports: [PricesTableComponent],
-  templateUrl: './system-prices.component.html',
-  styleUrls: ['./system-prices.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'vertical-container',
-  },
+    selector: 'laiks-system-prices',
+    imports: [PricesTableComponent],
+    templateUrl: './system-prices.component.html',
+    styleUrls: ['./system-prices.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        class: 'vertical-container',
+    }
 })
 export class SystemPricesComponent {
   private calculator = inject(PriceCalculatorService);

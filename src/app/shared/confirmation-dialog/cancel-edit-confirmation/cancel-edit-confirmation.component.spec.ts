@@ -88,10 +88,9 @@ describe('CancelEditConfirmation', () => {
 });
 
 @Component({
-  template: '',
-  imports: [CancelEditConfirmationComponent, MatDialogModule],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    template: '',
+    imports: [CancelEditConfirmationComponent, MatDialogModule],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 class CancelEditConfirmationTestComponent {
   dialogRef: MatDialogRef<CancelEditConfirmationComponent>;

@@ -31,21 +31,20 @@ interface LocaleRowData {
 }
 
 @Component({
-  selector: 'laiks-localized-names',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatTableModule,
-    MatDividerModule,
-    MatButtonModule,
-    RouterLink,
-  ],
-  templateUrl: './localized-names.component.html',
-  styleUrls: ['./localized-names.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'vertical-container',
-  },
+    selector: 'laiks-localized-names',
+    imports: [
+        ReactiveFormsModule,
+        MatTableModule,
+        MatDividerModule,
+        MatButtonModule,
+        RouterLink,
+    ],
+    templateUrl: './localized-names.component.html',
+    styleUrls: ['./localized-names.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        class: 'vertical-container',
+    }
 })
 export class LocalizedNamesComponent implements CanComponentDeactivate {
   private navigate = navigateRelative();

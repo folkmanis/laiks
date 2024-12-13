@@ -39,25 +39,24 @@ type MarketZoneGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'laiks-market-zone-edit',
-  standalone: true,
-  templateUrl: './market-zone-edit.component.html',
-  styleUrls: ['./market-zone-edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatOptionModule,
-    RouterLink,
-    MatDividerModule,
-    UpperCaseDirective,
-    MatCheckboxModule,
-    MatDialogModule,
-  ],
+    selector: 'laiks-market-zone-edit',
+    templateUrl: './market-zone-edit.component.html',
+    styleUrls: ['./market-zone-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatOptionModule,
+        RouterLink,
+        MatDividerModule,
+        UpperCaseDirective,
+        MatCheckboxModule,
+        MatDialogModule,
+    ]
 })
 export class MarketZoneEditComponent implements CanComponentDeactivate {
   private marketZoneService = inject(MarketZonesService);

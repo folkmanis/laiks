@@ -21,24 +21,23 @@ import { PriceRowDirective } from './price-row.directive';
 import { TimeIntervalComponent } from './time-interval/time-interval.component';
 
 @Component({
-  selector: 'laiks-prices-table',
-  templateUrl: './prices-table.component.html',
-  styleUrls: ['./prices-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    PriceRowDirective,
-    MatListModule,
-    DecimalPipe,
-    DatePipe,
-    NumberSignPipe,
-    TimeIntervalComponent,
-    AppliancesCostsComponent,
-    PriceColoredComponent,
-  ],
+    selector: 'laiks-prices-table',
+    templateUrl: './prices-table.component.html',
+    styleUrls: ['./prices-table.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        PriceRowDirective,
+        MatListModule,
+        DecimalPipe,
+        DatePipe,
+        NumberSignPipe,
+        TimeIntervalComponent,
+        AppliancesCostsComponent,
+        PriceColoredComponent,
+    ]
 })
 export class PricesTableComponent implements AfterViewInit {
   private priceRows = viewChildren(PriceRowDirective);

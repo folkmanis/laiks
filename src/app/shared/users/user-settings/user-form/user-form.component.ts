@@ -54,26 +54,25 @@ type UserSettingForm = FormGroup<{
 export const EMPTY_USER: EditableLaiksUserFields = defaultUser('', '');
 
 @Component({
-  selector: 'laiks-user-form',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatInputModule,
-    MatIcon,
-    MatIconButton,
-    MatTooltip,
-  ],
-  templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: UserFormComponent, multi: true },
-    { provide: NG_VALIDATORS, useExisting: UserFormComponent, multi: true },
-  ],
+    selector: 'laiks-user-form',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatIcon,
+        MatIconButton,
+        MatTooltip,
+    ],
+    templateUrl: './user-form.component.html',
+    styleUrls: ['./user-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        { provide: NG_VALUE_ACCESSOR, useExisting: UserFormComponent, multi: true },
+        { provide: NG_VALIDATORS, useExisting: UserFormComponent, multi: true },
+    ]
 })
 export class UserFormComponent implements ControlValueAccessor, Validator {
   userForm: UserSettingForm = inject(NonNullableFormBuilder).group({

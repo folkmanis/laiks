@@ -9,12 +9,11 @@ import { NpPriceWithOffset } from '@shared/np-data';
 import { ApplianceTagComponent } from './appliance-tag/appliance-tag.component';
 
 @Component({
-  selector: 'laiks-appliances-costs',
-  standalone: true,
-  imports: [ApplianceTagComponent],
-  templateUrl: './appliances-costs.component.html',
-  styleUrls: ['./appliances-costs.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'laiks-appliances-costs',
+    imports: [ApplianceTagComponent],
+    templateUrl: './appliances-costs.component.html',
+    styleUrls: ['./appliances-costs.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppliancesCostsComponent {
   appliances = input<PowerApplianceWithHourlyCosts[]>([]);

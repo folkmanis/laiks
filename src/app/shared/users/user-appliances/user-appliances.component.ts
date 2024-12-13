@@ -30,24 +30,23 @@ import { LaiksUser } from '../laiks-user';
 import { UsersService } from '../users.service';
 
 @Component({
-  selector: 'laiks-user-appliances',
-  standalone: true,
-  templateUrl: './user-appliances.component.html',
-  styleUrls: ['./user-appliances.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule,
-    CdkDropList,
-    CdkDrag,
-    CdkDragHandle,
-    RouterLink,
-    ColorTagComponent,
-  ],
-  host: {
-    class: 'vertical-container',
-  },
+    selector: 'laiks-user-appliances',
+    templateUrl: './user-appliances.component.html',
+    styleUrls: ['./user-appliances.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        MatDialogModule,
+        CdkDropList,
+        CdkDrag,
+        CdkDragHandle,
+        RouterLink,
+        ColorTagComponent,
+    ],
+    host: {
+        class: 'vertical-container',
+    }
 })
 export class UserAppliancesComponent {
   private usersService = inject(UsersService);

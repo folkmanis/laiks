@@ -8,16 +8,15 @@ import {
 import { colorDensity } from '@shared/utils';
 
 @Component({
-  selector: 'laiks-appliance-tag',
-  standalone: true,
-  templateUrl: './appliance-tag.component.html',
-  styleUrls: ['./appliance-tag.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DecimalPipe],
-  host: {
-    '[style.background-color]': 'background()',
-    '[style.color]': 'textColor()',
-  },
+    selector: 'laiks-appliance-tag',
+    templateUrl: './appliance-tag.component.html',
+    styleUrls: ['./appliance-tag.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [DecimalPipe],
+    host: {
+        '[style.background-color]': 'background()',
+        '[style.color]': 'textColor()',
+    }
 })
 export class ApplianceTagComponent {
   name = input.required<string>();

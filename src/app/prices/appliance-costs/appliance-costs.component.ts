@@ -26,15 +26,14 @@ import { map, switchMap } from 'rxjs';
 import { ApplianceNameComponent } from './appliance-name/appliance-name.component';
 
 @Component({
-  selector: 'laiks-appliance-costs',
-  standalone: true,
-  imports: [PricesTableComponent, ApplianceNameComponent],
-  templateUrl: './appliance-costs.component.html',
-  styleUrls: ['./appliance-costs.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'vertical-container',
-  },
+    selector: 'laiks-appliance-costs',
+    imports: [PricesTableComponent, ApplianceNameComponent],
+    templateUrl: './appliance-costs.component.html',
+    styleUrls: ['./appliance-costs.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        class: 'vertical-container',
+    }
 })
 export class ApplianceCostsComponent {
   private npDataService = inject(NpDataService);

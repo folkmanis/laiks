@@ -21,19 +21,18 @@ export interface ApplianceDialogData {
 }
 
 @Component({
-  selector: 'laiks-add-appliance-dialog',
-  standalone: true,
-  templateUrl: './add-appliance-dialog.component.html',
-  styleUrls: ['./add-appliance-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatDialogModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatListModule,
-    SelectApplianceDirective,
-    LocalizedApplianceNamePipe,
-  ],
+    selector: 'laiks-add-appliance-dialog',
+    templateUrl: './add-appliance-dialog.component.html',
+    styleUrls: ['./add-appliance-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatDialogModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatListModule,
+        SelectApplianceDirective,
+        LocalizedApplianceNamePipe,
+    ]
 })
 export class AddApplianceDialogComponent {
   private readonly dialogData = inject<ApplianceDialogData>(MAT_DIALOG_DATA);

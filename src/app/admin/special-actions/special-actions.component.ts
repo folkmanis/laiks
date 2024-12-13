@@ -25,25 +25,24 @@ import { addDays, isValid } from 'date-fns';
 type Result = ScrapeZoneResult | ScrapeZoneResult[] | DeleteInactiveUsersResult;
 
 @Component({
-  selector: 'laiks-special-actions',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    JsonPipe,
-    MatProgressSpinnerModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatIcon,
-    MatInputModule,
-    FormsModule,
-  ],
-  templateUrl: './special-actions.component.html',
-  styleUrl: './special-actions.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'vertical-container',
-  },
+    selector: 'laiks-special-actions',
+    imports: [
+        MatButtonModule,
+        JsonPipe,
+        MatProgressSpinnerModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        MatIcon,
+        MatInputModule,
+        FormsModule,
+    ],
+    templateUrl: './special-actions.component.html',
+    styleUrl: './special-actions.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        class: 'vertical-container',
+    }
 })
 export class SpecialActionsComponent {
   private npDataService = inject(NpDataService);

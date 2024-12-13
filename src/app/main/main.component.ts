@@ -15,16 +15,15 @@ import { ClockDisplayComponent } from './clock-display/clock-display.component';
 import { SelectorComponent } from './selector/selector.component';
 
 @Component({
-  selector: 'laiks-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    SelectorComponent,
-    ClockDisplayComponent,
-    AppliancesSelectorComponent,
-  ],
+    selector: 'laiks-main',
+    templateUrl: './main.component.html',
+    styleUrls: ['./main.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        SelectorComponent,
+        ClockDisplayComponent,
+        AppliancesSelectorComponent,
+    ]
 })
 export class MainComponent {
   private settingsService = inject(LocalSettingsService);

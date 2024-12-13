@@ -53,34 +53,33 @@ export const APPLIANCES_BY_NAME = new InjectionToken<AppliancesByNameFn>(
 );
 
 @Component({
-  selector: 'laiks-appliance-form',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    PowerCyclesComponent,
-    MatDividerModule,
-    MatButtonModule,
-  ],
-  templateUrl: './appliance-form.component.html',
-  styleUrls: ['./appliance-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: ApplianceFormComponent,
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: ApplianceFormComponent,
-      multi: true,
-    },
-  ],
+    selector: 'laiks-appliance-form',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatRadioModule,
+        MatCheckboxModule,
+        PowerCyclesComponent,
+        MatDividerModule,
+        MatButtonModule,
+    ],
+    templateUrl: './appliance-form.component.html',
+    styleUrls: ['./appliance-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: ApplianceFormComponent,
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: ApplianceFormComponent,
+            multi: true,
+        },
+    ]
 })
 export class ApplianceFormComponent implements ControlValueAccessor, Validator {
   private initialValue = INITIAL_APPLIANCE;

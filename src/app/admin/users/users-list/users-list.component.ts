@@ -16,18 +16,17 @@ import { LaiksUser, LoginService, UsersService } from '@shared/users';
 import { WithId } from '@shared/utils';
 
 @Component({
-  selector: 'laiks-users-list',
-  templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    RouterLink,
-    MatIconModule,
-    MatCheckboxModule,
-  ],
+    selector: 'laiks-users-list',
+    templateUrl: './users-list.component.html',
+    styleUrls: ['./users-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatTableModule,
+        MatButtonModule,
+        RouterLink,
+        MatIconModule,
+        MatCheckboxModule,
+    ]
 })
 export class UsersListComponent {
   private readonly confirmation = inject(ConfirmationDialogService);

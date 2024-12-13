@@ -39,21 +39,20 @@ const passwordsMatchValidator: ValidatorFn = (
 };
 
 @Component({
-  selector: 'laiks-create-user',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    A11yModule,
-  ],
-  templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'vertical-container',
-  },
+    selector: 'laiks-create-user',
+    imports: [
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        A11yModule,
+    ],
+    templateUrl: './create-user.component.html',
+    styleUrls: ['./create-user.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        class: 'vertical-container',
+    }
 })
 export class CreateUserComponent {
   private nnfb = inject(NonNullableFormBuilder);

@@ -7,9 +7,8 @@ import { By } from '@angular/platform-browser';
 import { SelectorColorDirective } from './selector-color.directive';
 
 @Component({
-  standalone: true,
-  imports: [SelectorColorDirective],
-  template: `<div [laiksSelectorColor]="color">Sample text</div>`,
+    imports: [SelectorColorDirective],
+    template: `<div [laiksSelectorColor]="color">Sample text</div>`
 })
 class SelectorColorTestComponent {
   color = '';

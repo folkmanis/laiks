@@ -8,15 +8,14 @@ import { By } from '@angular/platform-browser';
 import { NullToZeroDirective } from './null-to-zero.directive';
 
 @Component({
-  standalone: true,
-  template: `<input
+    template: `<input
     [(ngModel)]="value"
     laiksNullToZero
     id="value"
     name="value"
     type="number"
   />`,
-  imports: [FormsModule, NullToZeroDirective],
+    imports: [FormsModule, NullToZeroDirective]
 })
 class DirectiveTestComponent {
   value = null as null | number;

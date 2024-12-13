@@ -12,12 +12,11 @@ import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { MarketZonesService } from '@shared/np-data';
 
 @Component({
-  selector: 'laiks-market-zones-list',
-  standalone: true,
-  templateUrl: './market-zones-list.component.html',
-  styleUrls: ['./market-zones-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, MatButtonModule, MatIconModule],
+    selector: 'laiks-market-zones-list',
+    templateUrl: './market-zones-list.component.html',
+    styleUrls: ['./market-zones-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterLink, MatButtonModule, MatIconModule]
 })
 export class MarketZonesListComponent {
   private readonly zonesService = inject(MarketZonesService);

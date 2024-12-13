@@ -10,13 +10,12 @@ import { colorDensity } from '@shared/utils';
 const BACKGROUND = '#424242';
 
 @Component({
-  selector: 'laiks-price-colored',
-  standalone: true,
-  imports: [DecimalPipe],
-  templateUrl: './price-colored.component.html',
-  styleUrls: ['./price-colored.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '[style.color]': 'color()' },
+    selector: 'laiks-price-colored',
+    imports: [DecimalPipe],
+    templateUrl: './price-colored.component.html',
+    styleUrls: ['./price-colored.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { '[style.color]': 'color()' }
 })
 export class PriceColoredComponent {
   value = input.required<number>();

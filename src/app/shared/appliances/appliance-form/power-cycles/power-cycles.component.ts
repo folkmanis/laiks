@@ -39,35 +39,34 @@ const DEFAULT_VALUE: PowerConsumptionCycle = {
 };
 
 @Component({
-  selector: 'laiks-power-cycles',
-  templateUrl: './power-cycles.component.html',
-  styleUrls: ['./power-cycles.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: PowerCyclesComponent,
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: PowerCyclesComponent,
-      multi: true,
-    },
-  ],
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatIconModule,
-    MatInputModule,
-    FormsModule,
-    NullToZeroDirective,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatMenuModule,
-    DecimalPipe,
-    MinutesToHoursPipe,
-  ],
+    selector: 'laiks-power-cycles',
+    templateUrl: './power-cycles.component.html',
+    styleUrls: ['./power-cycles.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: PowerCyclesComponent,
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: PowerCyclesComponent,
+            multi: true,
+        },
+    ],
+    imports: [
+        MatTableModule,
+        MatIconModule,
+        MatInputModule,
+        FormsModule,
+        NullToZeroDirective,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatMenuModule,
+        DecimalPipe,
+        MinutesToHoursPipe,
+    ]
 })
 export class PowerCyclesComponent implements ControlValueAccessor, Validator {
   private isLarge$ = inject(BreakpointObserver)

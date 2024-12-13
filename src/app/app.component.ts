@@ -11,20 +11,19 @@ import { map, of, switchMap } from 'rxjs';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
 @Component({
-  selector: 'laiks-root',
-  standalone: true,
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterOutlet,
-    MatIconModule,
-    MatToolbarModule,
-    MatButtonModule,
-    UserMenuComponent,
-    RouterLink,
-    CdkScrollableModule,
-  ],
+    selector: 'laiks-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        RouterOutlet,
+        MatIconModule,
+        MatToolbarModule,
+        MatButtonModule,
+        UserMenuComponent,
+        RouterLink,
+        CdkScrollableModule,
+    ]
 })
 export class AppComponent {
   private loginService = inject(LoginService);

@@ -17,21 +17,20 @@ import { Router, RouterLink } from '@angular/router';
 import { LoginResponseType, LoginService } from '@shared/users';
 
 @Component({
-  selector: 'laiks-login',
-  standalone: true,
-  imports: [
-    MatSnackBarModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatDividerModule,
-    MatInputModule,
-    RouterLink,
-    A11yModule,
-  ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'laiks-login',
+    imports: [
+        MatSnackBarModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatDividerModule,
+        MatInputModule,
+        RouterLink,
+        A11yModule,
+    ],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
   private snack = inject(MatSnackBar);

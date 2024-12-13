@@ -88,10 +88,9 @@ describe('DeleteConfirmation', () => {
 });
 
 @Component({
-  template: '',
-  imports: [DeleteConfirmationComponent, MatDialogModule],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    template: '',
+    imports: [DeleteConfirmationComponent, MatDialogModule],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 class DeleteConfirmationTestComponent {
   dialogRef: MatDialogRef<DeleteConfirmationComponent>;

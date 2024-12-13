@@ -97,7 +97,7 @@ describe('ConfirmationDialogService', () => {
 class ConfirmationDialogServiceTestComponent {}
 
 @Component({
-  template: `
+    template: `
     <button mat-button mat-dialog-close id="cancel-button">Nē</button>
     <button
       mat-raised-button
@@ -108,8 +108,7 @@ class ConfirmationDialogServiceTestComponent {}
       Jā
     </button>
   `,
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatDialogModule, MatButtonModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatDialogModule, MatButtonModule]
 })
 class CustomConfirmationComponent {}

@@ -18,19 +18,18 @@ import { ConfirmationDialogService } from '@shared/confirmation-dialog';
 import { ApplianceDeletedSnackComponent } from 'src/app/shared/appliances';
 
 @Component({
-  selector: 'laiks-appliances-list',
-  templateUrl: './appliances-list.component.html',
-  styleUrls: ['./appliances-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    RouterLink,
-    MatCheckboxModule,
-    MatIconModule,
-    ColorTagComponent,
-  ],
+    selector: 'laiks-appliances-list',
+    templateUrl: './appliances-list.component.html',
+    styleUrls: ['./appliances-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatTableModule,
+        MatButtonModule,
+        RouterLink,
+        MatCheckboxModule,
+        MatIconModule,
+        ColorTagComponent,
+    ]
 })
 export class AppliancesListComponent {
   displayColumns = ['color', 'name', 'buttons'];

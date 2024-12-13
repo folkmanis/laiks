@@ -15,15 +15,14 @@ import { UsersService } from '../users.service';
 import { DeletedUserSnackComponent } from './deleted-user-snack/deleted-user-snack.component';
 
 @Component({
-  selector: 'laiks-delete-user',
-  standalone: true,
-  imports: [MatButtonModule, RouterLink],
-  templateUrl: './delete-user.component.html',
-  styleUrls: ['./delete-user.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'vertical-container',
-  },
+    selector: 'laiks-delete-user',
+    imports: [MatButtonModule, RouterLink],
+    templateUrl: './delete-user.component.html',
+    styleUrls: ['./delete-user.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        class: 'vertical-container',
+    }
 })
 export class DeleteUserComponent {
   private usersService = inject(UsersService);

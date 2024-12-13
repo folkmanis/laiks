@@ -10,12 +10,11 @@ import { PowerAppliance } from '@shared/appliances';
 import { SelectorColorDirective } from './selector-color.directive';
 
 @Component({
-  selector: 'laiks-appliances-selector',
-  standalone: true,
-  imports: [RouterLink, MatButtonModule, SelectorColorDirective],
-  templateUrl: './appliances-selector.component.html',
-  styleUrls: ['./appliances-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'laiks-appliances-selector',
+    imports: [RouterLink, MatButtonModule, SelectorColorDirective],
+    templateUrl: './appliances-selector.component.html',
+    styleUrls: ['./appliances-selector.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppliancesSelectorComponent {
   appliances = input<PowerAppliance[]>([]);

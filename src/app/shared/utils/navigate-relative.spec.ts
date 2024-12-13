@@ -10,9 +10,8 @@ import { RouterTestingHarness } from '@angular/router/testing';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-  template: `start-component`,
-  standalone: true,
-  imports: [RouterOutlet],
+    template: `start-component`,
+    imports: [RouterOutlet]
 })
 class StartTestComponent {}
 
@@ -23,9 +22,8 @@ class StartTestComponent {}
 class RootTestComponent {}
 
 @Component({
-  template: `child-component {{ (route.queryParams | async)?.test }}`,
-  standalone: true,
-  imports: [AsyncPipe],
+    template: `child-component {{ (route.queryParams | async)?.test }}`,
+    imports: [AsyncPipe]
 })
 class ChildTestComponent {
   route = inject(ActivatedRoute);
