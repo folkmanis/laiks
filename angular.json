@@ -87,10 +87,7 @@
               "buildTarget": "laiks:build:development,emulators"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "host": "0.0.0.0"
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

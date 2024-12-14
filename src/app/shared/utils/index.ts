@@ -12,3 +12,4 @@ export * from './color-density';
 export * from './average';
 export * from './st-dev';
 export * from './assert-not-null';
+export * from './data-or-throw';

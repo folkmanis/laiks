@@ -1,4 +1,6 @@
 import { inject, Injectable } from '@angular/core';
+import { collectionData, Firestore } from '@shared/firebase';
+import { dataOrThrow, WithId } from '@shared/utils';
 import {
   addDoc,
   collection,
@@ -13,12 +15,8 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { collectionData } from 'rxfire/firestore';
-import { WithId } from '@shared/utils';
-import { dataOrThrow } from '@shared/utils/data-or-throw';
 import { Observable } from 'rxjs';
 import { PresetPowerAppliance } from './power-appliance.interface';
-import { Firestore } from '@shared/firebase';
 
 const APPLIANCES_COLL = 'powerAppliances';
 @Injectable({

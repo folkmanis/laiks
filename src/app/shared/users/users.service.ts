@@ -1,5 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import {
+  Firestore,
+  Functions,
+  collectionData,
+  docData,
+} from '@shared/firebase';
+import { LaiksUser } from '@shared/users';
+import { WithId, assertNotNull, throwIfNull } from '@shared/utils';
+import {
   CollectionReference,
   DocumentReference,
   collection,
@@ -12,12 +20,8 @@ import {
   writeBatch,
 } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
-import { LaiksUser } from '@shared/users';
-import { WithId, assertNotNull, throwIfNull } from '@shared/utils';
 import { Observable } from 'rxjs';
 import { DeleteInactiveUsersResult } from './delete-inactive-result';
-import { Functions, Firestore } from '@shared/firebase';
-import { docData, collectionData } from 'rxfire/firestore';
 
 const USERS_COLL = 'users';
 

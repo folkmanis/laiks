@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, Firestore } from '@shared/firebase';
+import { Auth, authState, docData, Firestore } from '@shared/firebase';
+import { PriceCalculatorService } from '@shared/np-data';
 import { PermissionsService } from '@shared/permissions';
 import { assertNotNull, throwIfNull, WithId } from '@shared/utils';
 import {
@@ -20,8 +21,6 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import { authState } from 'rxfire/auth';
-import { docData } from 'rxfire/firestore';
 import {
   firstValueFrom,
   map,
@@ -31,7 +30,6 @@ import {
   switchMap,
 } from 'rxjs';
 import { defaultUser, LaiksUser } from './laiks-user';
-import { PriceCalculatorService } from '@shared/np-data';
 
 export enum LoginResponseType {
   CREATED,

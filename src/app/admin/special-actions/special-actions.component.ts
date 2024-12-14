@@ -13,7 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NpDataService } from '@shared/np-data';
@@ -25,24 +24,23 @@ import { addDays, isValid } from 'date-fns';
 type Result = ScrapeZoneResult | ScrapeZoneResult[] | DeleteInactiveUsersResult;
 
 @Component({
-    selector: 'laiks-special-actions',
-    imports: [
-        MatButtonModule,
-        JsonPipe,
-        MatProgressSpinnerModule,
-        MatDividerModule,
-        MatFormFieldModule,
-        MatDatepickerModule,
-        MatIcon,
-        MatInputModule,
-        FormsModule,
-    ],
-    templateUrl: './special-actions.component.html',
-    styleUrl: './special-actions.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        class: 'vertical-container',
-    }
+  selector: 'laiks-special-actions',
+  imports: [
+    MatButtonModule,
+    JsonPipe,
+    MatProgressSpinnerModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    FormsModule,
+  ],
+  templateUrl: './special-actions.component.html',
+  styleUrl: './special-actions.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'vertical-container',
+  },
 })
 export class SpecialActionsComponent {
   private npDataService = inject(NpDataService);

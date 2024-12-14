@@ -13,7 +13,7 @@ import { dataOrThrow } from '@shared/utils/data-or-throw';
 import { Observable } from 'rxjs';
 import { MarketZone } from './market-zone';
 import { Firestore } from '@shared/firebase';
-import { collectionData, docData } from 'rxfire/firestore';
+import { collectionData, docData } from '@shared/firebase';
 
 const ZONES = 'zones';
 
