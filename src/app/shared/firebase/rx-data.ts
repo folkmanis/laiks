@@ -1,4 +1,4 @@
-import { assertNotNull } from '@shared/utils';
+import { throwIfNull } from '@shared/utils';
 import {
   DocumentData,
   DocumentReference,
@@ -7,7 +7,7 @@ import {
   Query,
   QuerySnapshot,
 } from 'firebase/firestore';
-import { map, Observable } from 'rxjs';
+import { from, map, mergeMap, Observable, toArray } from 'rxjs';
 
 export function collectionData<
   T extends DocumentData,
@@ -19,8 +19,13 @@ export function collectionData<
   return new Observable<QuerySnapshot<T>>((subscriber) =>
     onSnapshot(query, { includeMetadataChanges: true }, subscriber),
   ).pipe(
-    map((snapshot: QuerySnapshot<T>) =>
-      snapshot.docs.map((doc) => snapshotToData(doc, options)),
+    map((snapshot: QuerySnapshot<T>) => snapshot.docs),
+    mergeMap((docs) =>
+      from(docs).pipe(
+        map((snapshot) => snapshotToData(snapshot, options)),
+        throwIfNull(),
+        toArray(),
+      ),
     ),
   );
 }
@@ -30,7 +35,7 @@ export function docData<T extends DocumentData, R extends T = T>(
   options: {
     idField?: keyof R;
   } = {},
-): Observable<T | R> {
+): Observable<T | R | undefined> {
   return new Observable<DocumentSnapshot<T>>((subscriber) =>
     onSnapshot(ref, subscriber),
   ).pipe(map((snapshot) => snapshotToData(snapshot, options)));
@@ -39,10 +44,15 @@ export function docData<T extends DocumentData, R extends T = T>(
 function snapshotToData<T extends DocumentData, R extends T = T>(
   snapshot: DocumentSnapshot<T>,
   options: { idField?: keyof R } = {},
-): T | R {
+): T | R | undefined {
   const data = snapshot.data();
-  assertNotNull(data);
-  if (snapshot.exists() && options.idField && typeof data === 'object') {
+
+  if (
+    snapshot.exists() &&
+    options.idField &&
+    typeof data === 'object' &&
+    data !== null
+  ) {
     return {
       ...data,
       [options.idField]: snapshot.id,
