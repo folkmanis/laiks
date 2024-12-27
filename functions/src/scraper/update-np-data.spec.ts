@@ -7,6 +7,7 @@ import { pricesCollection, pricesDocument } from './prices-collection-ref';
 import {
   AVERAGE_DAYS,
   isNextDayDataInDb,
+  updateAverages,
   writeZonePrices,
 } from './update-np-data';
 
@@ -23,6 +24,7 @@ describe('Np-data DB functions', () => {
     testNpData = [...TEST_OBJ];
     await createZonesSetup();
     await writeZonePrices(TEST_ZONE.dbName, testNpData);
+    await updateAverages(TEST_ZONE.dbName, testNpData[0].startTime);
   });
 
   afterEach(async () => {
@@ -44,7 +46,7 @@ describe('Np-data DB functions', () => {
 
   it('should not be today data in db', async () => {
     const result = await isNextDayDataInDb(DEFAULT_MARKET_ZONES);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
   });
 });
 

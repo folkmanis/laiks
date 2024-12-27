@@ -11,8 +11,8 @@ export const TEST_STDEV = 100.1632088;
 
 export const TEST_OBJ: NpPrice[] = [
   {
-    startTime: new Date(new Date('2024-10-15T22:00:00Z')),
-    endTime: new Date(new Date('2024-10-15T23:00:00Z')),
+    startTime: new Date('2024-10-15T22:00:00Z'),
+    endTime: new Date('2024-10-15T23:00:00Z'),
     value: 30.48,
   },
   {

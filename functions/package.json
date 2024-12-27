@@ -9,7 +9,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "jest --env=node --colors --watch --testTimeout=50000",
+    "test": "jest -i --env=node --colors --watch --testTimeout=50000",
     "firebase:test": "firebase emulators:exec 'npm run test'"
   },
   "engines": {
@@ -20,7 +20,7 @@
     "@supercharge/promise-pool": "^3.2.0",
     "date-fns": "^4.1.0",
     "firebase-admin": "^12.7.0",
-    "firebase-functions": "^6.0.1"
+    "firebase-functions": "^6.1.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

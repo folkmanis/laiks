@@ -12,7 +12,8 @@ export async function createZonesSetup() {
     batch.set(zonesCollection.doc(docName), zone, { merge: true });
   }
 
-  return batch.commit();
+  const result = await batch.commit();
+  return result;
 }
 
 export async function getNpZones(): Promise<[string, MarketZone][]> {
