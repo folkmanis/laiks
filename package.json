@@ -6,8 +6,8 @@
     "start:emulators": "ng serve --configuration emulators",
     "build": "ng build",
     "test": "ng test",
-    "emulators:start": "firebase emulators:start --import=testdata --export-on-exit",
-    "test:emulators": "firebase emulators:exec 'ng test' --import=testdata --only auth,firestore",
+    "test:emulators": "firebase emulators:exec 'ng test' --import=testdata --only auth,firestore,functions",
+    "emulators": "firebase emulators:start --import=testdata --export-on-exit --project laiks-test",
     "lint": "ng lint"
   },
   "private": true,
