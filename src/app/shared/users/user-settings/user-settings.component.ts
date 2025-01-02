@@ -24,17 +24,17 @@ import { UsersService } from '../users.service';
 import { EMPTY_USER, UserFormComponent } from './user-form/user-form.component';
 
 @Component({
-    selector: 'laiks-user-settings',
-    imports: [
-        MatButtonModule,
-        RouterLink,
-        FormsModule,
-        ReactiveFormsModule,
-        UserFormComponent,
-    ],
-    templateUrl: './user-settings.component.html',
-    styleUrls: ['./user-settings.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'laiks-user-settings',
+  imports: [
+    MatButtonModule,
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    UserFormComponent,
+  ],
+  templateUrl: './user-settings.component.html',
+  styleUrls: ['./user-settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserSettingsComponent implements CanComponentDeactivate {
   private navigate = navigateRelative();
@@ -68,12 +68,9 @@ export class UserSettingsComponent implements CanComponentDeactivate {
   });
 
   constructor() {
-    effect(
-      () => {
-        this.userControl.reset(this.user());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.userControl.reset(this.user());
+    });
   }
 
   async onSave() {

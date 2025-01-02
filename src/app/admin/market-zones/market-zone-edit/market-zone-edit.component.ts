@@ -39,24 +39,24 @@ type MarketZoneGroup = FormGroup<{
 }>;
 
 @Component({
-    selector: 'laiks-market-zone-edit',
-    templateUrl: './market-zone-edit.component.html',
-    styleUrls: ['./market-zone-edit.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatSelectModule,
-        MatOptionModule,
-        RouterLink,
-        MatDividerModule,
-        UpperCaseDirective,
-        MatCheckboxModule,
-        MatDialogModule,
-    ]
+  selector: 'laiks-market-zone-edit',
+  templateUrl: './market-zone-edit.component.html',
+  styleUrls: ['./market-zone-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatOptionModule,
+    RouterLink,
+    MatDividerModule,
+    UpperCaseDirective,
+    MatCheckboxModule,
+    MatDialogModule,
+  ],
 })
 export class MarketZoneEditComponent implements CanComponentDeactivate {
   private marketZoneService = inject(MarketZonesService);
@@ -84,12 +84,9 @@ export class MarketZoneEditComponent implements CanComponentDeactivate {
   busy = signal(false);
 
   constructor() {
-    effect(
-      () => {
-        this.form.reset(this.initialValue());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.form.reset(this.initialValue());
+    });
   }
 
   canDeactivate = () => this.form.pristine || this.confirmation.cancelEdit();

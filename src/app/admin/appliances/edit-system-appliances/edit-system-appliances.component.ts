@@ -21,20 +21,20 @@ import { CanComponentDeactivate } from '@shared/utils';
 import { navigateRelative } from '@shared/utils/navigate-relative';
 
 @Component({
-    selector: 'laiks-edit-system-appliances',
-    imports: [
-        ApplianceFormComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        RouterLink,
-    ],
-    templateUrl: './edit-system-appliances.component.html',
-    styleUrls: ['./edit-system-appliances.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        class: 'vertical-container',
-    }
+  selector: 'laiks-edit-system-appliances',
+  imports: [
+    ApplianceFormComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    RouterLink,
+  ],
+  templateUrl: './edit-system-appliances.component.html',
+  styleUrls: ['./edit-system-appliances.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'vertical-container',
+  },
 })
 export class EditSystemAppliancesComponent implements CanComponentDeactivate {
   private appliancesService = inject(SystemAppliancesService);
@@ -56,12 +56,9 @@ export class EditSystemAppliancesComponent implements CanComponentDeactivate {
   });
 
   constructor() {
-    effect(
-      () => {
-        this.applianceForm.reset(this.initialValue());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.applianceForm.reset(this.initialValue());
+    });
   }
 
   canDeactivate = () =>

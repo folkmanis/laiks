@@ -17,15 +17,17 @@ export const provideTestFirebase: () => EnvironmentProviders[] = () => [
   provideAuth(() => {
     const auth = getAuth();
     console.log(auth.config);
-    !(auth.config as any).emulator &&
-      connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+    connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+    // !(auth.config as any).emulator &&
     return auth;
   }),
   provideFirestore(() => {
     const firestore = getFirestore();
     console.log(firestore.toJSON() as any);
-    (firestore.toJSON() as any).settings.host !== '127.0.0.1:8080' &&
+    if ((firestore.toJSON() as any).settings.host !== '127.0.0.1:8080') {
+      console.log('connectFirestoreEmulator');
       connectFirestoreEmulator(firestore, '127.0.0.1', 8080);
+    }
     return firestore;
   }),
   provideFunctions(() => {

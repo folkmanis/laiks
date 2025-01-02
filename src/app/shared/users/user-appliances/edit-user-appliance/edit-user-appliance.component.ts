@@ -34,19 +34,19 @@ import {
 } from '../add-appliance-dialog/add-appliance-dialog.component';
 
 @Component({
-    selector: 'laiks-edit-user-appliance',
-    templateUrl: './edit-user-appliance.component.html',
-    styleUrls: ['./edit-user-appliance.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ReactiveFormsModule,
-        RouterLink,
-        MatButtonModule,
-        ApplianceFormComponent,
-    ],
-    host: {
-        class: 'vertical-container',
-    }
+  selector: 'laiks-edit-user-appliance',
+  templateUrl: './edit-user-appliance.component.html',
+  styleUrls: ['./edit-user-appliance.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    MatButtonModule,
+    ApplianceFormComponent,
+  ],
+  host: {
+    class: 'vertical-container',
+  },
 })
 export class EditUserApplianceComponent implements CanComponentDeactivate {
   private dialog = inject(MatDialog);
@@ -96,9 +96,7 @@ export class EditUserApplianceComponent implements CanComponentDeactivate {
   busy = signal(false);
 
   constructor() {
-    effect(() => this.applianceForm.reset(this.initialValue()), {
-      allowSignalWrites: true,
-    });
+    effect(() => this.applianceForm.reset(this.initialValue()));
   }
 
   canDeactivate = () =>
