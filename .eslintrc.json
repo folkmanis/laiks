@@ -33,7 +33,8 @@
           {
             "allowStatic": false
           }
-        ]
+        ],
+        "@angular-eslint/no-input-rename": "off"
       }
     },
     {
